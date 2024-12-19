@@ -1,6 +1,6 @@
 package com.teama.skyteam.drop.szenario;
 
 public enum HoeheSzenarioTypes {
-    RED,
-    GREEN
+    RED_BLACK,
+    GREEN_ORANGE;
 }

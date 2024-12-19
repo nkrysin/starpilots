@@ -74,9 +74,10 @@ public class Szenario {
 
         setSzenarioName(route.getRouteName());
         //TODO внимательно собрабоать маршрут, где лежит сценарий
-        setCurrentRoute(readRoute(route, "src/main/resources/assets/scenario/routes.txt"));
+        //Вроде так должно быть
+        setCurrentRoute(readRoute(route, "routes.txt"));
 
-        String hoeheSzenarioType = readHoeheSzenario(route, "src/main/resources/assets/scenario/routes.txt");
+        String hoeheSzenarioType = readHoeheSzenario(route, "routes.txt");
         setHoeheSzenarioType(hoeheSzenarioType);
         setHoeheSzenario(Flughoehe.createHoeheSzenario(hoeheSzenarioType));
 
