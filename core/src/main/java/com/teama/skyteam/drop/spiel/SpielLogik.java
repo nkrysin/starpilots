@@ -167,6 +167,8 @@ public class SpielLogik {
 
             //"Bewegen um " + steps + " steps"
             vorwaertsBewegen(steps);
+            spiel.setCurrentSpeed(steps);
+
             return true;
         }
         return false;

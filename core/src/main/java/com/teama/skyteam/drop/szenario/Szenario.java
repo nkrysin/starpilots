@@ -1,5 +1,7 @@
 package com.teama.skyteam.drop.szenario;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.teama.skyteam.drop.szenario.flughoehe.Flughoehe;
 
 import java.io.*;
@@ -73,18 +75,22 @@ public class Szenario {
         }
 
         setSzenarioName(route.getRouteName());
-        //TODO внимательно собрабоать маршрут, где лежит сценарий
-        //Вроде так должно быть
-        setCurrentRoute(readRoute(route, "routes.txt"));
 
-        String hoeheSzenarioType = readHoeheSzenario(route, "routes.txt");
+        FileHandle routesFile = Gdx.files.internal("routes.txt");
+
+        if (!routesFile.exists()) {
+            throw new IOException("Die Datei routes.txt konnte nicht gefunden werden.");
+        }
+
+        setCurrentRoute(readRoute(route, routesFile.readString()));
+
+        String hoeheSzenarioType = readHoeheSzenario(route, routesFile.readString());
         setHoeheSzenarioType(hoeheSzenarioType);
         setHoeheSzenario(Flughoehe.createHoeheSzenario(hoeheSzenarioType));
-
     }
 
-    private static TreeMap<Integer, ReiseFeld> readRoute(Route route, String filename) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(filename));
+    private static TreeMap<Integer, ReiseFeld> readRoute(Route route, String fileContent) throws IOException {
+        BufferedReader reader = new BufferedReader(new StringReader(fileContent));
         String line;
         int routeLength = 0;
 
@@ -120,8 +126,8 @@ public class Szenario {
         return treeMap;
     }
 
-    private static String readHoeheSzenario(Route route, String filename) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(filename));
+    private static String readHoeheSzenario(Route route, String fileContent) throws IOException {
+        BufferedReader reader = new BufferedReader(new StringReader(fileContent));
         String line;
 
         String routeName = route.getRouteName();

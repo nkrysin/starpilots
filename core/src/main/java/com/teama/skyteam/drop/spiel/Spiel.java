@@ -34,6 +34,8 @@ public class Spiel {
     private ArrayList<KaffeToken> kaffeTokens = new ArrayList<KaffeToken>();
     private ArrayList<NeuWurfToken> neuWurfToken = new ArrayList<NeuWurfToken>();
 
+    private int currentSpeed;
+
 
     boolean isKollision() {
         return kollision;
@@ -241,4 +243,12 @@ public class Spiel {
         this.endBedingung = endBedingung;
     }
 
+
+    public int getCurrentSpeed() {
+        return currentSpeed;
+    }
+
+    void setCurrentSpeed(int currentSpeed) {
+        this.currentSpeed = currentSpeed;
+    }
 }

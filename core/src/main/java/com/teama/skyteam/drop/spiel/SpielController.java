@@ -1,9 +1,12 @@
 package com.teama.skyteam.drop.spiel;
 
+import com.teama.skyteam.drop.gui.GameUIManager;
 import com.teama.skyteam.drop.spieler.Feld;
 import com.teama.skyteam.drop.spieler.Spieler;
 
 import java.util.ArrayList;
+
+
 
 public class SpielController {
 
@@ -11,12 +14,14 @@ public class SpielController {
     private final SpielLogik spielLogik;
     //TODO изменить наормальный GUI
     private final SpielTextGUI spielTextGUI;
+    private final GameUIManager gameUIManager;
 
-    public SpielController(Spiel spiel) {
+    public SpielController(Spiel spiel, GameUIManager gameUIManager) {
         this.spiel = spiel;
         this.spielLogik = new SpielLogik(spiel);
         //TODO изменить наормальный GUI
         this.spielTextGUI = new SpielTextGUI(spiel);
+        this.gameUIManager = gameUIManager;
     }
 
     //Die Methode entscheidet je nach Runde, welcher Spieler zuerst am Zug ist.
