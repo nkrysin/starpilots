@@ -6,15 +6,19 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.teama.skyteam.drop.gui.DragProcessor;
 import com.teama.skyteam.drop.gui.GameUIManager;
+
+import com.teama.skyteam.drop.gui.HoeheGUI;
 import com.teama.skyteam.drop.gui.SzenarioGUI;
 import com.teama.skyteam.drop.spiel.Spiel;
-import com.teama.skyteam.drop.spiel.SpielController;
+
+
+import com.teama.skyteam.drop.spiel.SpielControllerGUI;
 import com.teama.skyteam.drop.spiel.SpielFactory;
+import com.teama.skyteam.drop.spiel.SpielLogik;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class MainВк extends ApplicationAdapter {
@@ -24,8 +28,10 @@ public class MainВк extends ApplicationAdapter {
     private OrthographicCamera camera;
     private Viewport viewport;
     private SzenarioGUI szenarioGUI;
+    private HoeheGUI hoeheGUI;
     private GameUIManager gameUIManager;
-    private SpielController spielController;
+    private SpielControllerGUI spielControllerGUI;
+    private SpielLogik spielLogik;
 
 
     private final float windowHeight = 1080;
@@ -36,8 +42,9 @@ public class MainВк extends ApplicationAdapter {
     @Override
     public void create() {
         Spiel spiel = SpielFactory.createSpiel();
+        spielLogik = new SpielLogik(spiel);
         gameUIManager = new GameUIManager();
-        spielController = new SpielController(spiel, gameUIManager);
+
 
         batch = new SpriteBatch();
         tableTexture  = new Texture("images/spiel/main/table.png");
@@ -51,11 +58,11 @@ public class MainВк extends ApplicationAdapter {
 
         gameUIManager = new GameUIManager();
         szenarioGUI = new SzenarioGUI();
+        hoeheGUI = new HoeheGUI();
 
         Gdx.input.setInputProcessor(new DragProcessor(camera, tableHeight));
 
-        //TODO надо пофиксить как-то, чтобы работало
-        //spielController.spielen();
+        spielControllerGUI = new SpielControllerGUI(spiel, spielLogik, gameUIManager);
     }
 
     @Override
@@ -70,6 +77,7 @@ public class MainВк extends ApplicationAdapter {
 
         //Здесь сценарии и высоты
         szenarioGUI.render(batch);
+        hoeheGUI.render(batch);
 
 
         batch.draw(boardTexture, 656, 115);
@@ -77,8 +85,8 @@ public class MainВк extends ApplicationAdapter {
 
         //Здесь отрисовываем кубики и прочее
 
+        spielControllerGUI.spielenSchritt();
 
-        spielController.spielen();
         batch.end();
     }
 
@@ -93,6 +101,7 @@ public class MainВк extends ApplicationAdapter {
     public void dispose() {
         batch.dispose();
         szenarioGUI.dispose();
+        hoeheGUI.dispose();
         boardTexture.dispose();
         tableTexture.dispose();
     }

@@ -10,7 +10,7 @@ public class SzenarioGUI {
 
     public SzenarioGUI() {
 
-
+        //TODO реализовать установку карточки в зависимости от сценария
         szenarioTexture = new Texture("images/szenario/Haneda.png");
 
         cardX = 758;
