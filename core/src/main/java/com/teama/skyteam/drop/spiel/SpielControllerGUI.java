@@ -74,6 +74,12 @@ public class SpielControllerGUI {
 
             case PLAY_TURN_FIRST:
                 if (ersterSpieler.getAnzahlWuerfels() > 0 && !spielLogik.checkAusfallBedingung()) {
+                    //TODO for test only
+                    spielGUI.addWuerfelListenersForSpieler(ersterSpieler);
+                    spielGUI.addFieldListenersForPlacement(ersterSpieler);
+
+
+
                     einenZugMachen(ersterSpieler);
                 }
                 state = State.CHECK_NEIGUNG;
@@ -163,8 +169,8 @@ public class SpielControllerGUI {
 
 
 
-        spielGUI.createDiceForSpieler(ersterSpieler);
-        spielGUI.createDiceForSpieler(zweiterSpieler);
+        spielGUI.createWuerfelForSpieler(ersterSpieler);
+        spielGUI.createWuerfelForSpieler(zweiterSpieler);
     }
 
     private void finishRound() {

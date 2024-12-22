@@ -2,6 +2,7 @@ package com.teama.skyteam.drop;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,6 +15,7 @@ import com.teama.skyteam.drop.gui.GameUIManager;
 
 import com.teama.skyteam.drop.gui.szenario.HoeheGUI;
 import com.teama.skyteam.drop.gui.szenario.SzenarioGUI;
+import com.teama.skyteam.drop.gui.utilities.TextureCache;
 import com.teama.skyteam.drop.spiel.Spiel;
 
 
@@ -66,7 +68,10 @@ public class MainВк extends ApplicationAdapter {
         Stage stage = new Stage(viewport, batch);
         spielControllerGUI = new SpielControllerGUI(spiel, gameUIManager, stage);
 
-        Gdx.input.setInputProcessor(new DragProcessor(camera, tableHeight));
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(new DragProcessor(camera, tableHeight));
+        Gdx.input.setInputProcessor(multiplexer);
     }
 
     @Override
@@ -112,5 +117,6 @@ public class MainВк extends ApplicationAdapter {
         boardTexture.dispose();
         tableTexture.dispose();
         spielControllerGUI.dispose();
+        TextureCache.dispose();
     }
 }

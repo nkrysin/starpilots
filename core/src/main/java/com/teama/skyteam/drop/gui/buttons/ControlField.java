@@ -1,13 +1,13 @@
 package com.teama.skyteam.drop.gui.buttons;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 
 public class ControlField {
     private String name;
-    private Button button;
+    private ImageButton button;
     private boolean occupied;
 
-    public ControlField(String name, Button button) {
+    public ControlField(String name, ImageButton button) {
         this.name = name;
         this.button = button;
         this.occupied = false;
@@ -17,7 +17,7 @@ public class ControlField {
         return name;
     }
 
-    public Button getButton() {
+    public ImageButton getButton() {
         return button;
     }
 
