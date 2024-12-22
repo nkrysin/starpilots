@@ -1,4 +1,4 @@
-package com.teama.skyteam.drop.gui;
+package com.teama.skyteam.drop.gui.utilities;
 
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;

@@ -1,6 +1,9 @@
 package com.teama.skyteam.drop.spiel;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.teama.skyteam.drop.gui.GameUIManager;
+import com.teama.skyteam.drop.gui.SpielGUI;
 import com.teama.skyteam.drop.spieler.Feld;
 import com.teama.skyteam.drop.spieler.Spieler;
 
@@ -25,6 +28,7 @@ public class SpielControllerGUI {
     private final Spiel spiel;
     private final SpielLogik spielLogik;
     private final GameUIManager gameUIManager;
+    private final SpielGUI spielGUI;
 
     private State state = State.CHECK_END;
 
@@ -35,9 +39,10 @@ public class SpielControllerGUI {
     private boolean letzteRunde = false;
     private boolean spielEnde = false;
 
-    public SpielControllerGUI(Spiel spiel, SpielLogik spielLogik, GameUIManager gameUIManager) {
+    public SpielControllerGUI(Spiel spiel, GameUIManager gameUIManager, Stage stage) {
         this.spiel = spiel;
-        this.spielLogik = spielLogik;
+        this.spielLogik = new SpielLogik(spiel);
+        this.spielGUI = new SpielGUI(spiel, stage);
         this.gameUIManager = gameUIManager;
     }
 
@@ -48,7 +53,7 @@ public class SpielControllerGUI {
 
         switch (state) {
             case CHECK_END:
-                if (spielLogik.checkEndBedingung()) {
+                if (spielLogik.checkAusfallBedingung()) { //fixed here
                     spielEnde = true;
                     state = State.END;
                 } else {
@@ -62,6 +67,9 @@ public class SpielControllerGUI {
             case PREPARE_ROUND:
                 prepareRound();
                 state = State.PLAY_TURN_FIRST;
+
+
+
                 break;
 
             case PLAY_TURN_FIRST:
@@ -152,6 +160,11 @@ public class SpielControllerGUI {
 
         spielLogik.setNeuWuerfels(ersterSpieler);
         spielLogik.setNeuWuerfels(zweiterSpieler);
+
+
+
+        spielGUI.createDiceForSpieler(ersterSpieler);
+        spielGUI.createDiceForSpieler(zweiterSpieler);
     }
 
     private void finishRound() {
@@ -191,4 +204,19 @@ public class SpielControllerGUI {
     public boolean isSpielEnde() {
         return spielEnde;
     }
+
+    public void render() {
+        spielGUI.stage.act(Gdx.graphics.getDeltaTime());
+        spielGUI.stage.draw();
+    }
+
+    public void resize(int width, int height) {
+        spielGUI.stage.getViewport().update(width, height, true);
+    }
+
+    public void dispose() {
+        spielGUI.stage.dispose();
+    }
+
+
 }

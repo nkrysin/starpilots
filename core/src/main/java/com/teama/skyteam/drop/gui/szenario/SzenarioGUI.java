@@ -1,4 +1,4 @@
-package com.teama.skyteam.drop.gui;
+package com.teama.skyteam.drop.gui.szenario;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

@@ -37,6 +37,7 @@ public class SpielFactory {
             /*
              * Loading von assets durch getHoeheSzenarioType + etwas wie getSzenarioName
              */
+            //TODO change this
             Route route1 = Route.MONTREAL_TRUDEAU;
             spiel.setSzenario(route1);
 
