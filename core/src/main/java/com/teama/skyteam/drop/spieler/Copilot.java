@@ -38,20 +38,13 @@ public class Copilot extends Spieler {
     }
 
     @Override
-    public void kaffeeWaehlen(Wuerfel wuerfel, int  indexWuerfel) {
-
+    public void kaffeeWaehlen(Wuerfel wuerfel, int  indexWuerfel, String kaffee) {
 
         if (spiel.getKaffeTokenCount() >= 3) {
             throw new IllegalArgumentException("Sie können nicht mehr als 3 KaffeTokens haben!");
         }
 
-        String[] kaffeFelder = {"kaffeFeld1", "kaffeFeld2", "kaffeFeld3"};
-
-        for (String feldName : kaffeFelder) {
-             if (kaffeeAufFeldPruefenUndPlatzieren(feldName, wuerfel, indexWuerfel)){
-                 break;
-             }
-        }
+        kaffeeAufFeldPruefenUndPlatzieren(kaffee, wuerfel, indexWuerfel);
 
     }
 

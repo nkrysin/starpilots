@@ -85,9 +85,9 @@ public class Spiel {
         pilotFelds.put("bremsenFeld2", new Feld());
         pilotFelds.put("bremsenFeld4", new Feld());
         pilotFelds.put("bremsenFeld6", new Feld());
-        pilotFelds.put("kaffeFeld1", new Feld());
-        pilotFelds.put("kaffeFeld2", new Feld());
-        pilotFelds.put("kaffeFeld3", new Feld());
+        pilotFelds.put("Kaffee1", new Feld());
+        pilotFelds.put("Kaffee2", new Feld());
+        pilotFelds.put("Kaffee3", new Feld());
         this.pilotFelds = pilotFelds;
 
     }
@@ -102,9 +102,9 @@ public class Spiel {
         copilotFelds.put("klappenFeld2_3", new Feld());
         copilotFelds.put("klappenFeld4_5", new Feld());
         copilotFelds.put("klappenFeld5_6", new Feld());
-        copilotFelds.put("kaffeFeld1", new Feld());
-        copilotFelds.put("kaffeFeld2", new Feld());
-        copilotFelds.put("kaffeFeld3", new Feld());
+        copilotFelds.put("Kaffee1", new Feld());
+        copilotFelds.put("Kaffee2", new Feld());
+        copilotFelds.put("Kaffee3", new Feld());
         this.copilotFelds = copilotFelds;
     }
 

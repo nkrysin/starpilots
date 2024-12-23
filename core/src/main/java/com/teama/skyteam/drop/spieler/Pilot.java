@@ -42,18 +42,13 @@ public class Pilot extends Spieler{
     }
 
     @Override
-    public void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel) {
+    public void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel, String kaffeeFeld) {
         if (spiel.getKaffeTokenCount() >= 3) {
             throw new IllegalArgumentException("Sie können nicht mehr als 3 KaffeTokens haben!");
         }
 
-        String[] kaffeFelder = {"kaffeFeld1", "kaffeFeld2", "kaffeFeld3"};
+        kaffeeAufFeldPruefenUndPlatzieren(kaffeeFeld, wuerfel, indexWuerfel);
 
-        for (String feldName : kaffeFelder) {
-            if (kaffeeAufFeldPruefenUndPlatzieren(feldName, wuerfel, indexWuerfel)){
-                break;
-            }
-        }
     }
 
 

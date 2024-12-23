@@ -9,12 +9,14 @@ import java.util.ArrayList;
 
 
 public class SpielController {
+ /*
 
     private final Spiel spiel;
     private final SpielLogik spielLogik;
     //TODO изменить наормальный GUI
     private final SpielTextGUI spielTextGUI;
     private final GameUIManager gameUIManager;
+
 
     public SpielController(Spiel spiel, GameUIManager gameUIManager) {
         this.spiel = spiel;
@@ -141,5 +143,7 @@ public class SpielController {
                 break;
         }
     }
+
+     */
 
 }

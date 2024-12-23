@@ -2,6 +2,8 @@ package com.teama.skyteam.drop.spiel;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.teama.skyteam.drop.gui.ErrorDialog;
 import com.teama.skyteam.drop.gui.GameUIManager;
 import com.teama.skyteam.drop.gui.SpielGUI;
 import com.teama.skyteam.drop.spieler.Feld;
@@ -29,6 +31,7 @@ public class SpielControllerGUI {
     private final SpielLogik spielLogik;
     private final GameUIManager gameUIManager;
     private final SpielGUI spielGUI;
+    private ErrorDialog errorDialog;
 
     private State state = State.CHECK_END;
 
@@ -39,10 +42,11 @@ public class SpielControllerGUI {
     private boolean letzteRunde = false;
     private boolean spielEnde = false;
 
-    public SpielControllerGUI(Spiel spiel, GameUIManager gameUIManager, Stage stage) {
+    public SpielControllerGUI(Spiel spiel, GameUIManager gameUIManager, Stage stage, ErrorDialog errorDialog) {
         this.spiel = spiel;
-        this.spielLogik = new SpielLogik(spiel);
-        this.spielGUI = new SpielGUI(spiel, stage);
+        this.errorDialog = errorDialog;
+        this.spielLogik = new SpielLogik(spiel, errorDialog);
+        this.spielGUI = new SpielGUI(spiel, stage, errorDialog);
         this.gameUIManager = gameUIManager;
     }
 
@@ -67,21 +71,21 @@ public class SpielControllerGUI {
             case PREPARE_ROUND:
                 prepareRound();
                 state = State.PLAY_TURN_FIRST;
-
-
-
                 break;
 
             case PLAY_TURN_FIRST:
                 if (ersterSpieler.getAnzahlWuerfels() > 0 && !spielLogik.checkAusfallBedingung()) {
-                    //TODO for test only
+                    //TODO сделать норм последовательность, кто кладет кубик
+
                     spielGUI.addWuerfelListenersForSpieler(ersterSpieler);
                     spielGUI.addFieldListenersForPlacement(ersterSpieler);
-
-
+                    spielGUI.checkFeldSituation(ersterSpieler);
 
                     einenZugMachen(ersterSpieler);
+
+
                 }
+
                 state = State.CHECK_NEIGUNG;
                 break;
 
@@ -101,7 +105,12 @@ public class SpielControllerGUI {
 
             case PLAY_TURN_SECOND:
                 if (zweiterSpieler.getAnzahlWuerfels() > 0 && !spielLogik.checkAusfallBedingung()) {
+
+                    spielGUI.addWuerfelListenersForSpieler(zweiterSpieler);
+                    spielGUI.addFieldListenersForPlacement(zweiterSpieler);
+
                     einenZugMachen(zweiterSpieler);
+
                 }
                 state = State.CHECK_NEIGUNG_AGAIN;
                 break;
@@ -223,6 +232,5 @@ public class SpielControllerGUI {
     public void dispose() {
         spielGUI.stage.dispose();
     }
-
 
 }

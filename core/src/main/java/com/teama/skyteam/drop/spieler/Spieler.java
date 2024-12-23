@@ -66,7 +66,7 @@ public abstract class Spieler {
         //danach im spiel sollte einen KaffeeToken aus dem ArrayList gelöscht werden
     }
 
-    protected abstract void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel);
+    protected abstract void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel, String kaffeeFeld);
     protected abstract void radioWaehlen(Wuerfel wuerfel, int indexWuerfel);
     protected abstract void speedWaehlen(Wuerfel wuerfel, int indexWuerfel);
     protected abstract void  neigenWaehlen(Wuerfel wuerfel, int indexWuerfel);

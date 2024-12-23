@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class SpielTextGUI {
+
+    /*
     private final Spiel spiel;
     private final SpielLogik spielLogik;
 
@@ -100,9 +102,9 @@ public class SpielTextGUI {
                 Wuerfel gewaehlterWuerfel = pilot.getWuerfels().get(indexWuerfel);
                 scanner.nextLine();
 
-                if(!spielLogik.pilotSchritt(spiel.getPilot(), auswahl, gewaehlterWuerfel, indexWuerfel)){
-                    pilotAufFeldSetzen();
-                }
+                //if(!spielLogik.pilotSchritt(spiel.getPilot(), auswahl, gewaehlterWuerfel, indexWuerfel)){
+                    //pilotAufFeldSetzen();
+                //}
                 break;
 
             } catch (IllegalArgumentException e) {
@@ -321,4 +323,8 @@ public class SpielTextGUI {
         System.out.println("\n");
     }
 
+
+     */
+
 }
+

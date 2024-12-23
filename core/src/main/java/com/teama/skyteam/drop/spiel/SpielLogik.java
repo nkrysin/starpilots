@@ -1,6 +1,7 @@
 package com.teama.skyteam.drop.spiel;
 
 import com.teama.skyteam.drop.flugzeug.Klappen;
+import com.teama.skyteam.drop.gui.ErrorDialog;
 import com.teama.skyteam.drop.spieler.*;
 import com.teama.skyteam.drop.szenario.ReiseFeld;
 import com.teama.skyteam.drop.szenario.flughoehe.Flughoehe;
@@ -12,10 +13,13 @@ import java.util.*;
 
 public class SpielLogik {
     private final Spiel spiel;
+    ErrorDialog errorDialog;
 
-    public SpielLogik(Spiel spiel) {
+    public SpielLogik(Spiel spiel, ErrorDialog errorDialog) {
         this.spiel = spiel;
+        this.errorDialog = errorDialog;
     }
+
     //Nur die Beschreibung von internen Methoden
 
     boolean checkAusfallBedingung() {
@@ -56,86 +60,191 @@ public class SpielLogik {
         return checkAusfallBedingung() || checkFinalRound();
     }
 
-
-    boolean pilotSchritt(Pilot pilot, int auswahl, Wuerfel gewaehlterWuerfel, int indexWuerfel) {
+    public boolean pilotSchritt(Spieler spieler, String auswahl, Wuerfel gewaehlterWuerfel, int indexWuerfel) {
+        Pilot pilot = (Pilot) spieler;
         switch (auswahl) {
-            case 1: // Radio wählen
+
+            case "PRadio": // Radio wählen
                 if(!spiel.getFeldPilot("radioFeld").isBelegt()){
                     radio(gewaehlterWuerfel);
                     pilot.radioWaehlen(gewaehlterWuerfel, indexWuerfel);
                 }
-                //"Radio gut."
+                System.out.println("radio gut!");
                 return true;
-            case 2: // Geschwindigkeit wählen
+
+            case "PSpeed": // Geschwindigkeit wählen
                 pilot.speedWaehlen(gewaehlterWuerfel, indexWuerfel);
-                //"Geschwindigkeit wurde erfolgreich gewählt."
+                System.out.println("Geschwindigkeit wurde erfolgreich gewählt.");
                 return true;
-            case 3: // Neigen wählen
+
+            case "PNeigung": // Neigen wählen
                 pilot.neigenWaehlen(gewaehlterWuerfel, indexWuerfel);
-                //"Neigen wurde erfolgreich gewählt"
+                System.out.println("Neigen wurde erfolgreich gewählt");
                 return true;
-            case 4: // Bremsen wählen
+
+            case "PBremsen2": // Bremsen wählen
                 if (spiel.getFlugzeug().bremsen(gewaehlterWuerfel)){
                     pilot.bremsenWaehlen(gewaehlterWuerfel, indexWuerfel);
-                    //"Bremsen wurde erfolgreich gewählt."
                     return true;
                 }
-                else {
-                    //"Fehler beim Bremsen"
+                else{
+                    errorDialog.print("Fehler","Fehler beim Bremsen! Versuchen Sie mit anderer Aktion!");
                     return false;
                 }
-            case 5: // Fahrgestell wählen
-                if (spiel.getFlugzeug().fahrgestellAusfahren(gewaehlterWuerfel)){
-                    pilot.fahrgestellWaehlen(gewaehlterWuerfel, indexWuerfel);
-                    //"Fahrgestell wurde erfolgreich gewählt"
-                    return true;
+
+            case "PBremsen4":
+                if (gewaehlterWuerfel.getWert()==4){
+                    if (spiel.getFlugzeug().bremsen(gewaehlterWuerfel)){
+                        pilot.bremsenWaehlen(gewaehlterWuerfel, indexWuerfel);
+                        return true;
+                    }
                 }
-                else {
-                    //TODO Окно Dialog, которое выводит "Fehler beim Fahrgestellen."
+                else{
+                    errorDialog.print("Fehler","Fehler beim Bremsen! Versuchen Sie mit anderer Aktion!");
                     return false;
                 }
-            case 6: // Kaffee wählen
-                pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel);
-                //"Kaffee wurde erfolgreich gewählt."
+
+            case "PBremsen6": // Bremsen wählen
+                if (gewaehlterWuerfel.getWert()==6){
+                    if (spiel.getFlugzeug().bremsen(gewaehlterWuerfel)){
+                        pilot.bremsenWaehlen(gewaehlterWuerfel, indexWuerfel);
+                        return true;
+                    }
+                }
+                else{
+                    errorDialog.print("Fehler","Fehler beim Bremsen! Versuchen Sie mit anderer Aktion!");
+                    return false;
+                }
+
+            case "PFahrgestell12":
+                if (gewaehlterWuerfel.getWert() == 1 || gewaehlterWuerfel.getWert() == 2){
+                    if (spiel.getFlugzeug().fahrgestellAusfahren(gewaehlterWuerfel)){
+                        pilot.fahrgestellWaehlen(gewaehlterWuerfel, indexWuerfel);
+                        System.out.println("Fahrgestell wurde erfolgreich gewählt");
+                        return true;
+                    }
+                }
+                else {
+                    errorDialog.print("Fehler","Fehler beim Fahrgestell! Versuchen Sie mit anderer Aktion!");
+                    return false;
+                }
+
+            case "PFahrgestell34":// Fahrgestell wählen
+                if (gewaehlterWuerfel.getWert() == 3 || gewaehlterWuerfel.getWert() == 4){
+                    if (spiel.getFlugzeug().fahrgestellAusfahren(gewaehlterWuerfel)){
+                        pilot.fahrgestellWaehlen(gewaehlterWuerfel, indexWuerfel);
+                        System.out.println("Fahrgestell wurde erfolgreich gewählt");
+                        return true;
+                    }
+                }
+                else {
+                    errorDialog.print("Fehler","Fehler beim Fahrgestell! Versuchen Sie mit anderer Aktion!");
+                    return false;
+                }
+
+            case "PFahrgestell56": // Fahrgestell wählen
+                if (gewaehlterWuerfel.getWert() == 5 || gewaehlterWuerfel.getWert() == 6){
+                    if (spiel.getFlugzeug().fahrgestellAusfahren(gewaehlterWuerfel)){
+                        pilot.fahrgestellWaehlen(gewaehlterWuerfel, indexWuerfel);
+                        System.out.println("Fahrgestell wurde erfolgreich gewählt");
+                        return true;
+                    }
+                }
+                else {
+                    errorDialog.print("Fehler","Fehler beim Fahrgestell! Versuchen Sie mit anderer Aktion!");
+                    return false;
+                }
+
+            case "Kaffee1", "Kaffee2", "Kaffee3":
+                pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, auswahl);
                 return true;
+
             default:
-                //TODO Окно Dialog, которое выводит "Ungültige Auswahl. Bitte versuchen Sie es erneut."
+                errorDialog.print("Fehler","Falsche Auswahl! Versuchen Sie mit anderer Aktion!");
         }
         return false;
     }
 
-    boolean copilotSchritt(Copilot copilot, int auswahl, Wuerfel gewaehlterWuerfel, int indexWuerfel) {
+
+    public boolean copilotSchritt(Spieler spieler, String auswahl, Wuerfel gewaehlterWuerfel, int indexWuerfel) {
+
+        Copilot copilot = (Copilot) spieler;
+
         switch (auswahl) {
-            case 1: // Radio wählen
-                if(!spiel.getFeldCopilot("radioFeld1").isBelegt() || !spiel.getFeldCopilot("radioFeld2").isBelegt()){
+            case "CRadio1": // Radio wählen
+                if(!spiel.getFeldCopilot("radioFeld1").isBelegt()){
                     radio(gewaehlterWuerfel);
                     copilot.radioWaehlen(gewaehlterWuerfel, indexWuerfel);
                 }
                 //"Radio gut."
                 return true;
-            case 2: // Geschwindigkeit wählen
+
+            case "CRadio2":
+                if(!spiel.getFeldCopilot("radioFeld2").isBelegt()){
+                    radio(gewaehlterWuerfel);
+                    copilot.radioWaehlen(gewaehlterWuerfel, indexWuerfel);
+                }
+                return true;
+
+            case "CSpeed": // Geschwindigkeit wählen
                 copilot.speedWaehlen(gewaehlterWuerfel, indexWuerfel);
                 //"Geschwindigkeit wurde erfolgreich gewählt."
                 return true;
-            case 3: // Neigen wählen
+
+            case "CNeigung": // Neigen wählen
                 copilot.neigenWaehlen(gewaehlterWuerfel, indexWuerfel);
                 //"Neigen wurde erfolgreich gewählt."
                 return true;
-            case 4:// Klappen wählen
+
+            case "CKlappen12":// Klappen wählen
                 if (spiel.getFlugzeug().klappenOeffnen(gewaehlterWuerfel)) {
                     copilot.klappenWaehlen(gewaehlterWuerfel, indexWuerfel);
                     //"Klappen wurde erfolgreich gewählt."
                     return true;
                 }
                 else {
-                    //TODO Окно Dialog, которое выводит "Fehler beim Klappen."
+                    errorDialog.print("Fehler","Fehler beim Klappen! Versuchen Sie mit anderer Aktion!");
                     return false;
                 }
-            case 5: // Kaffee wählen
-                copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel);
+
+            case "CKlappen23":// Klappen wählen
+                if (spiel.getFlugzeug().klappenOeffnen(gewaehlterWuerfel)) {
+                    copilot.klappenWaehlen(gewaehlterWuerfel, indexWuerfel);
+                    //"Klappen wurde erfolgreich gewählt."
+                    return true;
+                }
+                else {
+                    errorDialog.print("Fehler","Fehler beim Klappen! Versuchen Sie mit anderer Aktion!");
+                    return false;
+                }
+
+            case "CKlappen45":// Klappen wählen
+                if (spiel.getFlugzeug().klappenOeffnen(gewaehlterWuerfel)) {
+                    copilot.klappenWaehlen(gewaehlterWuerfel, indexWuerfel);
+                    //"Klappen wurde erfolgreich gewählt."
+                    return true;
+                }
+                else {
+                    errorDialog.print("Fehler","Fehler beim Klappen! Versuchen Sie mit anderer Aktion!");
+                    return false;
+                }
+
+            case "CKlappen56":// Klappen wählen
+                if (spiel.getFlugzeug().klappenOeffnen(gewaehlterWuerfel)) {
+                    copilot.klappenWaehlen(gewaehlterWuerfel, indexWuerfel);
+                    //"Klappen wurde erfolgreich gewählt."
+                    return true;
+                }
+                else {
+                    errorDialog.print("Fehler","Fehler beim Klappen! Versuchen Sie mit anderer Aktion!");
+                    return false;
+                }
+
+            case "Kaffee1", "Kaffee2", "Kaffee3":
+                copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, auswahl);
                 return true;
             default:
-                //TODO Окно Dialog, которое выводит "Ungültige Auswahl. Bitte versuchen Sie es erneut."
+                errorDialog.print("Fehler","Falsche Auswahl! Versuchen Sie mit anderer Aktion!");
         }
         return false;
     }
@@ -345,19 +454,19 @@ public class SpielLogik {
     }
 
     void clearKaffeFeld(){
-        if (!spiel.getFeldPilot("kaffeFeld1").isBelegt()&&!spiel.getFeldCopilot("kaffeFeld1").isBelegt()){
-            if (!spiel.getFeldPilot("kaffeFeld2").isBelegt()&&!spiel.getFeldCopilot("kaffeFeld2").isBelegt()){
-                spiel.getFeldPilot("kaffeFeld3").setWuerfel(null);
-                spiel.getFeldCopilot("kaffeFeld3").setWuerfel(null);
+        if (!spiel.getFeldPilot("Kaffee1").isBelegt()&&!spiel.getFeldCopilot("Kaffee1").isBelegt()){
+            if (!spiel.getFeldPilot("Kaffee2").isBelegt()&&!spiel.getFeldCopilot("Kaffee2").isBelegt()){
+                spiel.getFeldPilot("Kaffee3").setWuerfel(null);
+                spiel.getFeldCopilot("Kaffee3").setWuerfel(null);
             }
             else {
-                spiel.getFeldPilot("kaffeFeld2").setWuerfel(null);
-                spiel.getFeldCopilot("kaffeFeld2").setWuerfel(null);
+                spiel.getFeldPilot("Kaffee2").setWuerfel(null);
+                spiel.getFeldCopilot("Kaffee2").setWuerfel(null);
             }
         }
         else {
-            spiel.getFeldPilot("kaffeFeld1").setWuerfel(null);
-            spiel.getFeldCopilot("kaffeFeld1").setWuerfel(null);
+            spiel.getFeldPilot("Kaffee1").setWuerfel(null);
+            spiel.getFeldCopilot("Kaffee1").setWuerfel(null);
         }
     }
 
