@@ -1,9 +1,10 @@
 package com.teama.skyteam.drop.spiel;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.teama.skyteam.drop.gui.ErrorDialog;
 import com.teama.skyteam.drop.gui.GameUIManager;
 import com.teama.skyteam.drop.gui.SpielGUI;
 import com.teama.skyteam.drop.spieler.Feld;
@@ -31,7 +32,6 @@ public class SpielControllerGUI {
     private final SpielLogik spielLogik;
     private final GameUIManager gameUIManager;
     private final SpielGUI spielGUI;
-    private ErrorDialog errorDialog;
 
     private State state = State.CHECK_END;
 
@@ -42,11 +42,10 @@ public class SpielControllerGUI {
     private boolean letzteRunde = false;
     private boolean spielEnde = false;
 
-    public SpielControllerGUI(Spiel spiel, GameUIManager gameUIManager, Stage stage, ErrorDialog errorDialog) {
+    public SpielControllerGUI(Spiel spiel, GameUIManager gameUIManager, Stage stage, Skin skin) {
         this.spiel = spiel;
-        this.errorDialog = errorDialog;
-        this.spielLogik = new SpielLogik(spiel, errorDialog);
-        this.spielGUI = new SpielGUI(spiel, stage, errorDialog);
+        this.spielGUI = new SpielGUI(spiel, stage, skin);
+        this.spielLogik = new SpielLogik(spiel, stage, skin, spielGUI.getSchalterGUI());
         this.gameUIManager = gameUIManager;
     }
 
@@ -80,11 +79,9 @@ public class SpielControllerGUI {
                     spielGUI.addWuerfelListenersForSpieler(ersterSpieler);
                     spielGUI.addFieldListenersForPlacement(ersterSpieler);
                     spielGUI.checkFeldSituation(ersterSpieler);
-
                     einenZugMachen(ersterSpieler);
-
-
                 }
+
 
                 state = State.CHECK_NEIGUNG;
                 break;
@@ -223,8 +220,14 @@ public class SpielControllerGUI {
     public void render() {
         spielGUI.stage.act(Gdx.graphics.getDeltaTime());
         spielGUI.stage.draw();
+        spielGUI.stage.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("Координаты клика: X = " + x + ", Y = " + y);
+                return true;
+            }
+        });
     }
-
     public void resize(int width, int height) {
         spielGUI.stage.getViewport().update(width, height, true);
     }
@@ -232,5 +235,6 @@ public class SpielControllerGUI {
     public void dispose() {
         spielGUI.stage.dispose();
     }
+
 
 }

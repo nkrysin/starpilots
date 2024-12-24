@@ -1,7 +1,15 @@
 package com.teama.skyteam.drop.spiel;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.teama.skyteam.drop.flugzeug.Klappen;
-import com.teama.skyteam.drop.gui.ErrorDialog;
+import com.teama.skyteam.drop.gui.SchalterGUI;
 import com.teama.skyteam.drop.spieler.*;
 import com.teama.skyteam.drop.szenario.ReiseFeld;
 import com.teama.skyteam.drop.szenario.flughoehe.Flughoehe;
@@ -13,11 +21,16 @@ import java.util.*;
 
 public class SpielLogik {
     private final Spiel spiel;
-    ErrorDialog errorDialog;
+    private Window window;
+    private final Skin skin;
+    private final Stage stage;
+    private SchalterGUI schalterGUI;
 
-    public SpielLogik(Spiel spiel, ErrorDialog errorDialog) {
+    public SpielLogik(Spiel spiel, Stage stage, Skin skin, SchalterGUI schalterGUI) {
         this.spiel = spiel;
-        this.errorDialog = errorDialog;
+        this.stage = stage;
+        this.skin = skin;
+        this.schalterGUI = schalterGUI;
     }
 
     //Nur die Beschreibung von internen Methoden
@@ -85,10 +98,11 @@ public class SpielLogik {
             case "PBremsen2": // Bremsen wählen
                 if (spiel.getFlugzeug().bremsen(gewaehlterWuerfel)){
                     pilot.bremsenWaehlen(gewaehlterWuerfel, indexWuerfel);
+                    schalterGUI.activateBremsenSchalter(0);
                     return true;
                 }
                 else{
-                    errorDialog.print("Fehler","Fehler beim Bremsen! Versuchen Sie mit anderer Aktion!");
+                    createMessage("Fehler", "Fehler beim Bremsen! Haben Sie richtigen Wuerfel gewaehlt?");
                     return false;
                 }
 
@@ -96,11 +110,12 @@ public class SpielLogik {
                 if (gewaehlterWuerfel.getWert()==4){
                     if (spiel.getFlugzeug().bremsen(gewaehlterWuerfel)){
                         pilot.bremsenWaehlen(gewaehlterWuerfel, indexWuerfel);
+                        schalterGUI.activateBremsenSchalter(1);
                         return true;
                     }
                 }
                 else{
-                    errorDialog.print("Fehler","Fehler beim Bremsen! Versuchen Sie mit anderer Aktion!");
+                    createMessage("Fehler", "Fehler beim Bremsen! Haben Sie richtigen Wuerfel gewaehlt?");
                     return false;
                 }
 
@@ -108,11 +123,12 @@ public class SpielLogik {
                 if (gewaehlterWuerfel.getWert()==6){
                     if (spiel.getFlugzeug().bremsen(gewaehlterWuerfel)){
                         pilot.bremsenWaehlen(gewaehlterWuerfel, indexWuerfel);
+                        schalterGUI.activateBremsenSchalter(2);
                         return true;
                     }
                 }
                 else{
-                    errorDialog.print("Fehler","Fehler beim Bremsen! Versuchen Sie mit anderer Aktion!");
+                    createMessage("Fehler", "Fehler beim Bremsen! Haben Sie richtigen Wuerfel gewaehlt?");
                     return false;
                 }
 
@@ -120,12 +136,13 @@ public class SpielLogik {
                 if (gewaehlterWuerfel.getWert() == 1 || gewaehlterWuerfel.getWert() == 2){
                     if (spiel.getFlugzeug().fahrgestellAusfahren(gewaehlterWuerfel)){
                         pilot.fahrgestellWaehlen(gewaehlterWuerfel, indexWuerfel);
+                        schalterGUI.activateFahrgestellSchalter(0);
                         System.out.println("Fahrgestell wurde erfolgreich gewählt");
                         return true;
                     }
                 }
                 else {
-                    errorDialog.print("Fehler","Fehler beim Fahrgestell! Versuchen Sie mit anderer Aktion!");
+                    createMessage("Fehler", "Fehler beim Fahrgestell! Haben Sie richtigen Wuerfel gewaehlt?");
                     return false;
                 }
 
@@ -133,12 +150,13 @@ public class SpielLogik {
                 if (gewaehlterWuerfel.getWert() == 3 || gewaehlterWuerfel.getWert() == 4){
                     if (spiel.getFlugzeug().fahrgestellAusfahren(gewaehlterWuerfel)){
                         pilot.fahrgestellWaehlen(gewaehlterWuerfel, indexWuerfel);
+                        schalterGUI.activateFahrgestellSchalter(1);
                         System.out.println("Fahrgestell wurde erfolgreich gewählt");
                         return true;
                     }
                 }
                 else {
-                    errorDialog.print("Fehler","Fehler beim Fahrgestell! Versuchen Sie mit anderer Aktion!");
+                    createMessage("Fehler", "Fehler beim Fahrgestell! Haben Sie richtigen Wuerfel gewaehlt?");
                     return false;
                 }
 
@@ -146,12 +164,13 @@ public class SpielLogik {
                 if (gewaehlterWuerfel.getWert() == 5 || gewaehlterWuerfel.getWert() == 6){
                     if (spiel.getFlugzeug().fahrgestellAusfahren(gewaehlterWuerfel)){
                         pilot.fahrgestellWaehlen(gewaehlterWuerfel, indexWuerfel);
+                        schalterGUI.activateFahrgestellSchalter(2);
                         System.out.println("Fahrgestell wurde erfolgreich gewählt");
                         return true;
                     }
                 }
                 else {
-                    errorDialog.print("Fehler","Fehler beim Fahrgestell! Versuchen Sie mit anderer Aktion!");
+                    createMessage("Fehler", "Fehler beim Fahrgestell! Haben Sie richtigen Wuerfel gewaehlt?");
                     return false;
                 }
 
@@ -160,7 +179,7 @@ public class SpielLogik {
                 return true;
 
             default:
-                errorDialog.print("Fehler","Falsche Auswahl! Versuchen Sie mit anderer Aktion!");
+                createMessage("Fehler", "Falsche Auswahl! Versuchen Sie mit anderer Aktion!");
         }
         return false;
     }
@@ -199,44 +218,48 @@ public class SpielLogik {
             case "CKlappen12":// Klappen wählen
                 if (spiel.getFlugzeug().klappenOeffnen(gewaehlterWuerfel)) {
                     copilot.klappenWaehlen(gewaehlterWuerfel, indexWuerfel);
+                    schalterGUI.activateKlappenSchalter(0);
                     //"Klappen wurde erfolgreich gewählt."
                     return true;
                 }
                 else {
-                    errorDialog.print("Fehler","Fehler beim Klappen! Versuchen Sie mit anderer Aktion!");
+                    createMessage("Fehler", "Fehler beim Klappen! Haben Sie richtigen Wuerfel gewaehlt?");
                     return false;
                 }
 
             case "CKlappen23":// Klappen wählen
                 if (spiel.getFlugzeug().klappenOeffnen(gewaehlterWuerfel)) {
                     copilot.klappenWaehlen(gewaehlterWuerfel, indexWuerfel);
+                    schalterGUI.activateKlappenSchalter(1);
                     //"Klappen wurde erfolgreich gewählt."
                     return true;
                 }
                 else {
-                    errorDialog.print("Fehler","Fehler beim Klappen! Versuchen Sie mit anderer Aktion!");
+                    createMessage("Fehler", "Fehler beim Klappen! Haben Sie richtigen Wuerfel gewaehlt?");
                     return false;
                 }
 
             case "CKlappen45":// Klappen wählen
                 if (spiel.getFlugzeug().klappenOeffnen(gewaehlterWuerfel)) {
                     copilot.klappenWaehlen(gewaehlterWuerfel, indexWuerfel);
+                    schalterGUI.activateKlappenSchalter(2);
                     //"Klappen wurde erfolgreich gewählt."
                     return true;
                 }
                 else {
-                    errorDialog.print("Fehler","Fehler beim Klappen! Versuchen Sie mit anderer Aktion!");
+                    createMessage("Fehler", "Fehler beim Klappen! Haben Sie richtigen Wuerfel gewaehlt?");
                     return false;
                 }
 
             case "CKlappen56":// Klappen wählen
                 if (spiel.getFlugzeug().klappenOeffnen(gewaehlterWuerfel)) {
                     copilot.klappenWaehlen(gewaehlterWuerfel, indexWuerfel);
+                    schalterGUI.activateKlappenSchalter(3);
                     //"Klappen wurde erfolgreich gewählt."
                     return true;
                 }
                 else {
-                    errorDialog.print("Fehler","Fehler beim Klappen! Versuchen Sie mit anderer Aktion!");
+                    createMessage("Fehler", "Fehler beim Klappen! Haben Sie richtigen Wuerfel gewaehlt?");
                     return false;
                 }
 
@@ -244,7 +267,7 @@ public class SpielLogik {
                 copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, auswahl);
                 return true;
             default:
-                errorDialog.print("Fehler","Falsche Auswahl! Versuchen Sie mit anderer Aktion!");
+                createMessage("Fehler", "Falsche Auswahl! Versuchen Sie mit anderer Aktion!");
         }
         return false;
     }
@@ -334,12 +357,16 @@ public class SpielLogik {
             spiel.getFlugzeug().neigen(spiel.getFlugzeug().getNeigung(), new Wuerfel[]{w1,w2});
 
             if(spiel.getFlugzeug().getNeigung() == 0){
-                //"Flugzeug ist waagerecht!"
+               createMessage("Achtung!", "Flugzeug ist waagerecht!");
             }
-            else if(spiel.getFlugzeug().getNeigung() > 0){ // PILOT
+            else if(spiel.getFlugzeug().getNeigung() > 0){// PILOT
+                String message = "Flugzeug hat sich in Pilots Richtung um " + spiel.getFlugzeug().getNeigung() + " Schritt(e) gedreht!";
+                createMessage("Achtung!", message);
                 //"Flugzeug hat sich in Pilots Richtung um " + spiel.getFlugzeug().getNeigung() + " Schritt(e) gedreht!"
             }
             else { //COPILOT
+                String message = "Flugzeug hat sich in Copilots Richtung um " + -spiel.getFlugzeug().getNeigung() + " Schritt(e) gedreht!";
+                createMessage("Achtung!", message);
                 //"Flugzeug hat sich in Copilots Richtung um " + -spiel.getFlugzeug().getNeigung() + " Schritt(e) gedreht!"
             }
 
@@ -469,5 +496,35 @@ public class SpielLogik {
             spiel.getFeldCopilot("Kaffee1").setWuerfel(null);
         }
     }
+
+    public void createMessage(String title, String text) {
+        if (window == null) {
+            window = new Window(title, skin);
+            window.setModal(true);
+            window.add(text).pad(20).row();
+            window.add().row();
+
+            TextButton closeButton = new TextButton("OK", skin);
+            closeButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    window.remove();
+                    window = null;
+                }
+            });
+
+            window.getTitleLabel().setAlignment(Align.center);
+            window.add(closeButton).padTop(10).row();
+            window.setSize(400, 250);
+            window.setPosition(
+                (Gdx.graphics.getWidth() - window.getWidth()) / 2,
+                (Gdx.graphics.getHeight() - window.getHeight()) / 2
+            );
+
+            stage.addActor(window);
+        }
+    }
+
+
 
 }

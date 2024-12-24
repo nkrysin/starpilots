@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.teama.skyteam.drop.gui.buttons.ControlField;
@@ -39,17 +39,17 @@ public class SpielGUI {
     private SelectedWuerfelData selectedWuerfelData = null;
     private  SpielLogik spielLogik;
     private Skin skin;
-    private ErrorDialog errorDialog;
+    private SchalterGUI schalterGUI;
 
-    public SpielGUI(Spiel spiel, Stage stage, ErrorDialog errorDialog ) {
+    public SpielGUI(Spiel spiel, Stage stage, Skin skin) {
         //конструктор должен вызываться один раз, потом при обнолвении кубиков/действий должны вызываться методы отсюда
         this.spiel = spiel;
         this.stage = stage; //это типа сцена, где размещаются актеры, которых мы позже добавим
-        this.errorDialog = errorDialog;
+        this.skin = skin;
         this.guiConstructionMethods = new GUIConstructionMethods();
-        spielLogik = new SpielLogik(spiel, errorDialog);
-
-
+        schalterGUI = new SchalterGUI(stage);
+        schalterGUI.addToStage();
+        spielLogik = new SpielLogik(spiel, stage, skin, schalterGUI);
         createFieldActors();
     }
 
@@ -177,6 +177,16 @@ public class SpielGUI {
         }
     }
 
+    public void disableFields(ControlGroup group, ControlGroup pflicht){
+        List<ControlField> pflichtFields = pflicht.getAvailableFields();
+
+        for (ControlField field : group.getAvailableFields()) {
+            if (!pflichtFields.contains(field)) {
+                field.getButton().setTouchable(Touchable.disabled);
+            }
+        }
+    }
+
 
     public void addFieldListenersForPlacement(Spieler spieler) {
         final boolean isPilot = (spieler instanceof Pilot);
@@ -301,36 +311,43 @@ public class SpielGUI {
         ControlField neigungField;
         ControlField speedField;
         ControlGroup verplichteteGroup;
+        ControlGroup allFields;
         if (spieler instanceof Pilot) {
             feldNeigung = spiel.getFeldPilot("neigenFeld");
             feldSpeed = spiel.getFeldPilot("speedFeld");
             neigungField = getControlGroupByName("Pilot Controls").getFieldByName("PNeigung");
             speedField = getControlGroupByName("Pilot Controls").getFieldByName("PSpeed");
+            allFields = getControlGroupByName("Pilot Controls");
             spieler = spiel.getPilot();
         } else {
             feldNeigung = spiel.getFeldCopilot("neigenFeld");
             feldSpeed = spiel.getFeldCopilot("speedFeld");
             neigungField = getControlGroupByName("Copilot Controls").getFieldByName("CNeigung");
             speedField = getControlGroupByName("Copilot Controls").getFieldByName("CSpeed");
+            allFields = getControlGroupByName("Copilot Controls");
             spieler = spiel.getCopilot();
         }
         if (!(feldSpeed.isBelegt()) && !(feldNeigung.isBelegt())) {
-            //errorDialog.print("Achtung!", "Bitte setzen Sie die Würfel auf die Pflichtfelder");
+            //spielLogik.createMessage("Achtung!","Bitte setzen Sie die Würfel auf die Pflichtfelder" );
             verplichteteGroup = new ControlGroup("Verplichtete", List.of(neigungField, speedField));
             removeHighlight(getControlGroupByName("Pilot Controls"));
+            disableFields(allFields, verplichteteGroup);
             addListenersToGroupFields(verplichteteGroup, spieler);
 
         } else if (!(feldSpeed.isBelegt())){
-            //errorDialog.print("Achtung!", "Bitte setzen Sie die Würfel auf die Pflichtfelde\n Sie können nur Geschwindigkeit wählen ");
+            //spielLogik.createMessage("Achtung!","Bitte setzen Sie die Würfel auf die Pflichtfelde\n Sie können nur Geschwindigkeit wählen ");
             verplichteteGroup = new ControlGroup("Verplichtete", List.of(speedField));
             removeHighlight(getControlGroupByName("Pilot Controls"));
             addListenersToGroupFields(verplichteteGroup, spieler);
         } else {
-            //errorDialog.print("Achtung!", "Bitte setzen Sie die Würfel auf die Pflichtfelde\n Sie können nur Neigen wählen ");
+            //spielLogik.createMessage("Achtung!","Bitte setzen Sie die Würfel auf die Pflichtfelde\n Sie können nur Neigen wählen ");
             verplichteteGroup = new ControlGroup("Verplichtete", List.of(neigungField));
             removeHighlight(getControlGroupByName("Pilot Controls"));
             addListenersToGroupFields(verplichteteGroup, spieler);
         }
     }
 
+    public SchalterGUI getSchalterGUI(){
+        return schalterGUI;
+    }
 }

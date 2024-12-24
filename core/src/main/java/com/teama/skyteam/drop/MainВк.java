@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.teama.skyteam.drop.gui.ErrorDialog;
 import com.teama.skyteam.drop.gui.utilities.DragProcessor;
 import com.teama.skyteam.drop.gui.GameUIManager;
 
@@ -43,7 +42,6 @@ public class MainВк extends ApplicationAdapter {
     private final float tableWidth = 1920;
     private final float tableHeight = 1700;
     private Skin skin;
-    private ErrorDialog errorDialog;
 
     @Override
     public void create() {
@@ -71,8 +69,7 @@ public class MainВк extends ApplicationAdapter {
         //контроллер GUI для игрового процесса
         Stage stage = new Stage(viewport, batch);
         skin = new Skin(Gdx.files.internal("assets/skin/flat-earth-ui.json"));
-        errorDialog = new ErrorDialog(stage,skin);
-        spielControllerGUI = new SpielControllerGUI(spiel, gameUIManager, stage, errorDialog);
+        spielControllerGUI = new SpielControllerGUI(spiel, gameUIManager, stage, skin);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(stage);
@@ -125,7 +122,6 @@ public class MainВк extends ApplicationAdapter {
         tableTexture.dispose();
         spielControllerGUI.dispose();
         TextureCache.dispose();
-        skin.dispose();
     }
 
 }
