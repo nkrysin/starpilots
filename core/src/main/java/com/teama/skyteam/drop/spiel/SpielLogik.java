@@ -1,8 +1,11 @@
 package com.teama.skyteam.drop.spiel;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
@@ -25,12 +28,14 @@ public class SpielLogik {
     private final Skin skin;
     private final Stage stage;
     private SchalterGUI schalterGUI;
+    private Image ruder;
 
-    public SpielLogik(Spiel spiel, Stage stage, Skin skin, SchalterGUI schalterGUI) {
+    public SpielLogik(Spiel spiel, Stage stage, Skin skin, SchalterGUI schalterGUI, Image ruder) {
         this.spiel = spiel;
         this.stage = stage;
         this.skin = skin;
         this.schalterGUI = schalterGUI;
+        this.ruder = ruder;
     }
 
     //Nur die Beschreibung von internen Methoden
@@ -347,7 +352,7 @@ public class SpielLogik {
     // wir subtrahieren den Wert des Würfels des Kopiloten vom Wert des Würfels des Piloten.
     // abhängig vom Vorzeichen der erhaltenen Differenz wird die Neigung des Flugzeugs bestimmt
     boolean neigenSetzen() {
-
+        float angle = 25f;
         boolean neigenFeldPilotBelegt = spiel.getFeldPilot("neigenFeld").isBelegt();
         boolean neigenFeldCopilotBelegt = spiel.getFeldCopilot("neigenFeld").isBelegt();
 
@@ -356,25 +361,28 @@ public class SpielLogik {
             Wuerfel w2 = spiel.getFeldCopilot("neigenFeld").getWuerfel();
             spiel.getFlugzeug().neigen(spiel.getFlugzeug().getNeigung(), new Wuerfel[]{w1,w2});
 
+            float targetRotation = 0;
+
             if(spiel.getFlugzeug().getNeigung() == 0){
-               createMessage("Achtung!", "Flugzeug ist waagerecht!");
+               targetRotation = 0;
             }
             else if(spiel.getFlugzeug().getNeigung() > 0){// PILOT
-                String message = "Flugzeug hat sich in Pilots Richtung um " + spiel.getFlugzeug().getNeigung() + " Schritt(e) gedreht!";
-                createMessage("Achtung!", message);
+                targetRotation = angle * spiel.getFlugzeug().getNeigung();                //String message = "Flugzeug hat sich in Pilots Richtung um " + spiel.getFlugzeug().getNeigung() + " Schritt(e) gedreht!";
+                //createMessage("Achtung!", message);
                 //"Flugzeug hat sich in Pilots Richtung um " + spiel.getFlugzeug().getNeigung() + " Schritt(e) gedreht!"
             }
             else { //COPILOT
-                String message = "Flugzeug hat sich in Copilots Richtung um " + -spiel.getFlugzeug().getNeigung() + " Schritt(e) gedreht!";
-                createMessage("Achtung!", message);
+                targetRotation = angle * spiel.getFlugzeug().getNeigung();                //String message = "Flugzeug hat sich in Pilots Richtung um " + spiel.getFlugzeug().getNeigung() + " Schritt(e) gedreht!";
+                //String message = "Flugzeug hat sich in Copilots Richtung um " + -spiel.getFlugzeug().getNeigung() + " Schritt(e) gedreht!";
+                //createMessage("Achtung!", message);
                 //"Flugzeug hat sich in Copilots Richtung um " + -spiel.getFlugzeug().getNeigung() + " Schritt(e) gedreht!"
             }
 
+            ruder.addAction(Actions.rotateTo(targetRotation, 1f));
+
             return true;
         }
-
         return false;
-
     }
 
     void vorwaertsBewegen(int steps) {

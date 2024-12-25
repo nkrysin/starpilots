@@ -45,7 +45,7 @@ public class SpielControllerGUI {
     public SpielControllerGUI(Spiel spiel, GameUIManager gameUIManager, Stage stage, Skin skin) {
         this.spiel = spiel;
         this.spielGUI = new SpielGUI(spiel, stage, skin);
-        this.spielLogik = new SpielLogik(spiel, stage, skin, spielGUI.getSchalterGUI());
+        this.spielLogik = new SpielLogik(spiel, stage, skin, spielGUI.getSchalterGUI(), spielGUI.getRuder());
         this.gameUIManager = gameUIManager;
     }
 
