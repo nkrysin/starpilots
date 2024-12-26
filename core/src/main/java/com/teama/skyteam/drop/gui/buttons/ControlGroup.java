@@ -35,6 +35,9 @@ public class ControlGroup {
         return availableFields;
     }
 
+    public int size() {
+        return fields.size();
+    }
 
 
 

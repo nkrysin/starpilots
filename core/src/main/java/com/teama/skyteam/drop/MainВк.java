@@ -100,9 +100,6 @@ public class MainВк extends ApplicationAdapter {
 
         //элементы гуи на сцене
         spielControllerGUI.render();
-
-        //шаг в игре
-        spielControllerGUI.spielenSchritt();
     }
 
 

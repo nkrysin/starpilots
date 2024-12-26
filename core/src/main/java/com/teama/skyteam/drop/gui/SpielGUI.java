@@ -5,11 +5,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.teama.skyteam.drop.gui.buttons.ControlField;
 import com.teama.skyteam.drop.gui.buttons.ControlGroup;
+import com.teama.skyteam.drop.gui.utilities.PlayerActionCallback;
 import com.teama.skyteam.drop.gui.utilities.SelectedWuerfelData;
 import com.teama.skyteam.drop.gui.utilities.TextureCache;
 import com.teama.skyteam.drop.spiel.Spiel;
@@ -33,14 +36,16 @@ public class SpielGUI {
     private ArrayList<ImageButton> pilotWuerfelActors = new ArrayList<>();
     private ArrayList<ImageButton> copilotWuerfelActors = new ArrayList<>();
     private ArrayList<ControlGroup> controlGroups = new ArrayList<ControlGroup>();
-    private ArrayList<ControlGroup> useKoffeeControlGroup = new ArrayList<ControlGroup>();
+    private ControlGroup useKoffeeControlGroup;
     //пилот: 411, 553 (55х55); 491, 553 (55х55); 411, 473 (55х55); 491,473 (55х55);
     //сопилот:  1367, 553 (55х55); 1448, 553 (55х55); 1367, 473 (55х55); 1367, 473 (55х55);
     private SelectedWuerfelData selectedWuerfelData = null;
-    private  SpielLogik spielLogik;
+    private SpielLogik spielLogik;
     private Skin skin;
     private SchalterGUI schalterGUI;
     private Image ruder = new Image(new Texture("images/spiel/main/axis 2.png"));
+    private PlayerActionCallback callback;
+
     public SpielGUI(Spiel spiel, Stage stage, Skin skin) {
         //конструктор должен вызываться один раз, потом при обнолвении кубиков/действий должны вызываться методы отсюда
         this.spiel = spiel;
@@ -54,13 +59,13 @@ public class SpielGUI {
         createFieldActors();
     }
 
-    private void setRuder(){
+    private void setRuder() {
         ruder.setPosition(868, 630);
-        ruder.setOrigin(ruder.getWidth()/2, ruder.getHeight()/2-5);
+        ruder.setOrigin(ruder.getWidth() / 2, ruder.getHeight() / 2 - 5);
         this.stage.addActor(ruder);
     }
 
-    public Image getRuder(){
+    public Image getRuder() {
         return ruder;
     }
 
@@ -85,7 +90,7 @@ public class SpielGUI {
                 y = copilotWuerfelsCoordinates[i][1];
             }
 
-            ImageButton wuerfelButton = guiConstructionMethods.createButton(textureName, x, y);
+            ImageButton wuerfelButton = guiConstructionMethods.createButton(textureName, x, y, 55, 55);
             wuerfelActors.add(wuerfelButton);
             stage.addActor(wuerfelButton);
         }
@@ -156,21 +161,21 @@ public class SpielGUI {
             "PRadio", "PNeigung", "PSpeed", "PFahrgestell12", "PFahrgestell34", "PFahrgestell56", "PBremsen2", "PBremsen4", "PBremsen6"
         }, new int[][]{
             {679, 791}, {773, 777}, {838, 475}, {679, 598}, {679, 464}, {679, 327}, {842, 293}, {933, 293}, {1025, 293}
-        }, stage));
+        }, stage, 55, 55));
 
         controlGroups.add(guiConstructionMethods.createControlGroup("Copilot Controls", new String[]{
             "CNeigung", "CSpeed", "CRadio1", "CRadio2", "CKlappen12", "CKlappen23", "CKlappen45", "CKlappen56"
         }, new int[][]{
             {1091, 777}, {1027, 475}, {1185, 791}, {1185, 883}, {1185, 598}, {1185, 464}, {1185, 327}, {1185, 191}
-        }, stage));
+        }, stage, 55, 55));
 
         controlGroups.add(guiConstructionMethods.createControlGroup("Koffe Controls", new String[]{
             "Kaffee1", "Kaffee2", "Kaffee3"
         }, new int[][]{
             {842, 142}, {933, 142}, {1025, 142}
-        }, stage));
+        }, stage, 55, 55));
 
-        useKoffeeControlGroup.add(guiConstructionMethods.createKoffeeButtons("useKoffeeControlGroup", stage));
+
     }
 
 
@@ -181,14 +186,14 @@ public class SpielGUI {
         }
     }
 
-    public void removeHighlight(ControlGroup group){
+    public void removeHighlight(ControlGroup group) {
         for (ControlField field : group.getAvailableFields()) {
             ImageButton button = field.getButton();
             switchTexture(button, "images/spiel/main/empty.png");
         }
     }
 
-    public void disableFields(ControlGroup group, ControlGroup pflicht){
+    public void disableFields(ControlGroup group, ControlGroup pflicht) {
         List<ControlField> pflichtFields = pflicht.getAvailableFields();
 
         for (ControlField field : group.getAvailableFields()) {
@@ -237,34 +242,35 @@ public class SpielGUI {
 
                     final String textureName;
                     final boolean isPilot = (spieler instanceof Pilot);
-                    Wuerfel w  = selectedWuerfelData.getWuerfel();
+                    Wuerfel w = selectedWuerfelData.getWuerfel();
                     int index = selectedWuerfelData.getWuerfelIndex();
 
-                    if (isPilot){
-                        if (spielLogik.pilotSchritt(spieler, field.getName(), w,index)){
-                            removeWuerfelButtonFromHand(selectedWuerfelData);
-                            textureName = "images/spiel/dices/blue/blue_" + selectedWuerfelData.getWuerfel().getWert() + ".png";
-                            switchTexture(field.getButton(), textureName);
-
-                            field.setOccupied(true);
-                            selectedWuerfelData = null;
+                    boolean stepSuccessful = false;
+                    if (isPilot) {
+                        stepSuccessful = spielLogik.pilotSchritt(spieler, field.getName(), w, index);
+                        if (stepSuccessful) {
+                            textureName = "images/spiel/dices/blue/blue_" + w.getWert() + ".png";
+                        } else {
+                            return;
                         }
-                       else{
-                           return;
-                       }
+                    } else {
+                        stepSuccessful = spielLogik.copilotSchritt(spieler, field.getName(), w, index);
+                        if (stepSuccessful) {
+                            textureName = "images/spiel/dices/orange/orange_" + w.getWert() + ".png";
+                        } else {
+                            return;
+                        }
                     }
 
-                    else{
-                        if(spielLogik.copilotSchritt(spieler, field.getName(), w,index)){
-                            removeWuerfelButtonFromHand(selectedWuerfelData);
-                            textureName = "images/spiel/dices/orange/orange_" + selectedWuerfelData.getWuerfel().getWert() + ".png";
-                            switchTexture(field.getButton(), textureName);
+                    if (stepSuccessful) {
+                        removeWuerfelButtonFromHand(selectedWuerfelData);
+                        switchTexture(field.getButton(), textureName);
+                        field.setOccupied(true);
+                        selectedWuerfelData = null;
 
-                            field.setOccupied(true);
-                            selectedWuerfelData = null;
-                        }
-                        else {
-                            return;
+                        // уведомляем контроллер о завершении действия
+                        if (callback != null) {
+                            callback.onPlayerActionCompleted(spieler);
                         }
                     }
 
@@ -289,7 +295,7 @@ public class SpielGUI {
         wuerfelActors.remove(wuerfelIndex);
     }
 
-    public void checkFeldSituation(Spieler spieler){
+    public void checkFeldSituation(Spieler spieler) {
         Feld feldNeigung;
         Feld feldSpeed;
         int anzahlWuerfels;
@@ -304,13 +310,11 @@ public class SpielGUI {
             anzahlWuerfels = spiel.getCopilot().getAnzahlWuerfels();
             spieler = spiel.getCopilot();
         }
-        if(!feldNeigung.isBelegt() && !feldSpeed.isBelegt() && anzahlWuerfels == 2){
+        if (!feldNeigung.isBelegt() && !feldSpeed.isBelegt() && anzahlWuerfels == 2) {
             verpflicteteAktion(spieler);
-        }
-        else if(!feldNeigung.isBelegt() && anzahlWuerfels == 1) {
+        } else if (!feldNeigung.isBelegt() && anzahlWuerfels == 1) {
             verpflicteteAktion(spieler);
-        }
-        else if(!feldSpeed.isBelegt() && anzahlWuerfels == 1) {
+        } else if (!feldSpeed.isBelegt() && anzahlWuerfels == 1) {
             verpflicteteAktion(spieler);
         }
 
@@ -345,7 +349,7 @@ public class SpielGUI {
             disableFields(allFields, verplichteteGroup);
             addListenersToGroupFields(verplichteteGroup, spieler);
 
-        } else if (!(feldSpeed.isBelegt())){
+        } else if (!(feldSpeed.isBelegt())) {
             //spielLogik.createMessage("Achtung!","Bitte setzen Sie die Würfel auf die Pflichtfelde\n Sie können nur Geschwindigkeit wählen ");
             verplichteteGroup = new ControlGroup("Verplichtete", List.of(speedField));
             removeHighlight(getControlGroupByName("Pilot Controls"));
@@ -358,7 +362,87 @@ public class SpielGUI {
         }
     }
 
-    public SchalterGUI getSchalterGUI(){
+    public SchalterGUI getSchalterGUI() {
         return schalterGUI;
     }
+
+    public void setPlayerActionCallback(PlayerActionCallback callback) {
+        this.callback = callback;
+    }
+
+    public void clearPlayerListeners(Spieler spieler) {
+        ArrayList<ImageButton> wuerfelActors;
+        if (spieler instanceof Pilot) {
+            wuerfelActors = pilotWuerfelActors;
+        } else {
+            wuerfelActors = copilotWuerfelActors;
+        }
+
+        for (ImageButton button : wuerfelActors) {
+            button.clearListeners();
+        }
+
+        ControlGroup group;
+        if (spieler instanceof Pilot) {
+            group = getControlGroupByName("Pilot Controls");
+        } else {
+            group = getControlGroupByName("Copilot Controls");
+        }
+
+        for (ControlField field : group.getAvailableFields()) {
+            field.getButton().clearListeners();
+            switchTexture(field.getButton(), "images/spiel/main/empty.png");
+        }
+
+        List<ControlField> coffeeGroup = getControlGroupByName("Koffe Controls").getAvailableFields();
+        if (!coffeeGroup.isEmpty()) {
+            for (ControlField field : coffeeGroup) {
+                field.getButton().clearListeners();
+                switchTexture(field.getButton(), "images/spiel/main/empty.png");
+            }
+        }
+
+        //TODO сюда же надо вписать кнопки потом использования всяких токенов и прочего, после хода игрока, они должны чиститься
+    }
+
+    public void clearManyUseFields() {
+        ControlGroup pilotGroup = getControlGroupByName("Pilot Controls");
+        ControlGroup copilotGroup = getControlGroupByName("Copilot Controls");
+        String[] pilotManyUseFields = {"PRadio", "PNeigung", "PSpeed"};
+        for (String s : pilotManyUseFields) {
+            ImageButton button = pilotGroup.getFieldByName(s).getButton();
+            switchTexture(button, "images/spiel/main/empty.png");
+            pilotGroup.getFieldByName(s).setOccupied(false);
+        }
+
+        String[] copilotManyUseFields = {"CNeigung", "CSpeed", "CRadio1", "CRadio2"};
+        for (String s : copilotManyUseFields) {
+            ImageButton button = copilotGroup.getFieldByName(s).getButton();
+            switchTexture(button, "images/spiel/main/empty.png");
+            copilotGroup.getFieldByName(s).setOccupied(false);
+        }
+    }
+
+    public void showCoffee() {
+        List<ControlField> coffeeGroup = getControlGroupByName("Koffe Controls").getAvailableFields();
+
+        int coffeesToShow = 3 - coffeeGroup.size();
+
+        useKoffeeControlGroup = guiConstructionMethods.createUseKoffeeButtons("useKoffeeControlGroup", stage, coffeesToShow);
+
+        for (int i = 1; i <= coffeesToShow; i++) {
+            ControlField field = useKoffeeControlGroup.getFieldByName("UseKoffe" + i);
+            if (field != null) {
+                switchTexture(field.getButton(), "images/spiel/tokens/kaffee.png");
+            }
+        }
+    }
+
+    public void useCoffee(){
+
+    }
+
+
 }
+
+

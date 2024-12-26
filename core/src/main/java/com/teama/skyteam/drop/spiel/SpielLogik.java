@@ -334,7 +334,9 @@ public class SpielLogik {
 
 
         if (!routeSzenario.containsKey(targetField)) {
-            throw new IllegalArgumentException("Die Zielposition liegt außerhalb des Szenarios.");
+            //TODO ОБРАБОТАТЬ ЭТО!!!!!!!!!!!!!!!
+            createMessage("Fehler", "Die Zielposition liegt außerhalb des Szenarios.");
+            //throw new IllegalArgumentException("Die Zielposition liegt außerhalb des Szenarios.");
         } else {
             ReiseFeld zielFeld = routeSzenario.get(targetField);
             if (zielFeld.getAnzahlFlugzeug() == 0) {
