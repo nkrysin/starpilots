@@ -23,7 +23,6 @@ public class Spiel {
     private ReiseFeld currentField;
     private int position = 0;
     //TODO ОБЯЗАТЕЛЬНО присвоить сюда значение, чтобы потом отрисовывать его
-    private HoeheSzenarioTypes hoeheSzenarioType;
     private Flughoehe currentHoehe;
     private List<Flughoehe> hoeheSzenario;
     private TreeMap<Integer, ReiseFeld> routeSzenario;
@@ -70,8 +69,6 @@ public class Spiel {
     void neuWurfTokenAnzahlErhoehen() {
         neuWurfToken.add(new NeuWurfToken());
     }
-
-
 
 
     void setPilotFelds(){

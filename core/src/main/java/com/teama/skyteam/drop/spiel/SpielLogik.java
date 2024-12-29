@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.teama.skyteam.drop.flugzeug.Klappen;
+import com.teama.skyteam.drop.gui.GameUIManager;
 import com.teama.skyteam.drop.gui.SchalterGUI;
 import com.teama.skyteam.drop.spieler.*;
 import com.teama.skyteam.drop.szenario.ReiseFeld;
@@ -28,13 +29,16 @@ public class SpielLogik {
     private final Stage stage;
     private SchalterGUI schalterGUI;
     private Image ruder;
+    private GameUIManager gameUIManager;
 
-    public SpielLogik(Spiel spiel, Stage stage, Skin skin, SchalterGUI schalterGUI, Image ruder) {
+
+    public SpielLogik(Spiel spiel, Stage stage, Skin skin, SchalterGUI schalterGUI, Image ruder, GameUIManager gameUIManager) {
         this.spiel = spiel;
         this.stage = stage;
         this.skin = skin;
         this.schalterGUI = schalterGUI;
         this.ruder = ruder;
+        this.gameUIManager = gameUIManager;
     }
 
     //Nur die Beschreibung von internen Methoden
@@ -405,6 +409,7 @@ public class SpielLogik {
             }
             spiel.setPosition(newPosition);
             spiel.updateCurrentField();
+            gameUIManager.updateScenario(steps);
         }
     }
 

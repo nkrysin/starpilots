@@ -45,8 +45,9 @@ public class SpielGUI {
     private SchalterGUI schalterGUI;
     private Image ruder = new Image(new Texture("images/spiel/main/axis 2.png"));
     private PlayerActionCallback callback;
+    private GameUIManager gameUIManager;
 
-    public SpielGUI(Spiel spiel, Stage stage, Skin skin) {
+    public SpielGUI(Spiel spiel, Stage stage, Skin skin, GameUIManager gameUIManager) {
         //конструктор должен вызываться один раз, потом при обнолвении кубиков/действий должны вызываться методы отсюда
         this.spiel = spiel;
         this.stage = stage; //это типа сцена, где размещаются актеры, которых мы позже добавим
@@ -55,7 +56,8 @@ public class SpielGUI {
         this.guiConstructionMethods = new GUIConstructionMethods();
         schalterGUI = new SchalterGUI(stage);
         schalterGUI.addToStage();
-        spielLogik = new SpielLogik(spiel, stage, skin, schalterGUI, ruder);
+        this.gameUIManager = gameUIManager;
+        spielLogik = new SpielLogik(spiel, stage, skin, schalterGUI, ruder, gameUIManager);
         createFieldActors();
     }
 

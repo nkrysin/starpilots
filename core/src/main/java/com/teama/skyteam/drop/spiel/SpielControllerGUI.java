@@ -45,9 +45,10 @@ public class SpielControllerGUI {
 
     public SpielControllerGUI(Spiel spiel, GameUIManager gameUIManager, Stage stage, Skin skin) {
         this.spiel = spiel;
-        this.spielGUI = new SpielGUI(spiel, stage, skin);
-        this.spielLogik = new SpielLogik(spiel, stage, skin, spielGUI.getSchalterGUI(), spielGUI.getRuder());
+        this.spielGUI = new SpielGUI(spiel, stage, skin, gameUIManager);
         this.gameUIManager = gameUIManager;
+        this.spielLogik = new SpielLogik(spiel, stage, skin, spielGUI.getSchalterGUI(), spielGUI.getRuder(), gameUIManager);
+
 
         this.spielGUI.setPlayerActionCallback(new PlayerActionCallback() {
             @Override
@@ -260,6 +261,7 @@ public class SpielControllerGUI {
         spielLogik.clearManyUseFelds();
 
         spielGUI.clearManyUseFields();
+        gameUIManager.updateHoehe();
 
         spiel.setRunde(spiel.getRunde() + 1);
         spielLogik.hoeheReduzieren();
