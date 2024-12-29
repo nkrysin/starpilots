@@ -1,3 +1,4 @@
+
 package com.teama.skyteam.drop.szenario;
 
 import com.badlogic.gdx.Gdx;
@@ -32,8 +33,9 @@ public class Szenario {
         this.szenarioName = szenarioName;
     }
 
-
-
+    public String getSzenarioName() {
+        return szenarioName;
+    }
 
     public TreeMap<Integer, ReiseFeld> getCurrentRoute() {
         return currentRoute;
@@ -73,7 +75,6 @@ public class Szenario {
         if (route == null) {
             throw new IOException("Ungültige Route. Route kann nicht null sein.");
         }
-
         setSzenarioName(route.getRouteName());
 
         FileHandle routesFile = Gdx.files.internal("routes.txt");

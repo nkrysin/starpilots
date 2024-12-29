@@ -4,18 +4,17 @@ package com.teama.skyteam.drop.gui;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.teama.skyteam.drop.gui.szenario.HoeheGUI;
 import com.teama.skyteam.drop.gui.szenario.SzenarioGUI;
-
-import java.util.logging.Handler;
+import com.teama.skyteam.drop.spiel.Spiel;
 
 public class GameUIManager {
     private SzenarioGUI szenarioGUI;
     private HoeheGUI hoeheGUI;
 
-    public GameUIManager() {
+    public GameUIManager(Spiel spiel) {
         //TODO изменить конструктор
         //этот класс по идее должен отвечать за высоты и прочее с ним связанноее, надо его внимательно делать
         //но я честно забыл почему он зовется GameUIManager лол
-        this.szenarioGUI = new SzenarioGUI();
+        this.szenarioGUI = new SzenarioGUI(spiel);
         this.hoeheGUI = new HoeheGUI();
     }
 

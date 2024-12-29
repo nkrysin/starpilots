@@ -175,7 +175,7 @@ public class Spiel {
     void setRouteSzenario(){
         this.routeSzenario = getRouteSzenario();
     }
-    TreeMap<Integer, ReiseFeld> getRouteSzenario() {
+    public TreeMap<Integer, ReiseFeld> getRouteSzenario() {
         return szenario.getCurrentRoute();
     }
 

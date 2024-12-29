@@ -11,11 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.teama.skyteam.drop.gui.utilities.DragProcessor;
+import com.teama.skyteam.drop.gui.utilities.CameraKeyboardController;
 import com.teama.skyteam.drop.gui.GameUIManager;
 
-import com.teama.skyteam.drop.gui.szenario.HoeheGUI;
-import com.teama.skyteam.drop.gui.szenario.SzenarioGUI;
 import com.teama.skyteam.drop.gui.utilities.TextureCache;
 import com.teama.skyteam.drop.spiel.Spiel;
 
@@ -30,14 +28,10 @@ public class MainВк extends ApplicationAdapter {
     private Texture boardTexture;
     private OrthographicCamera camera;
     private Viewport viewport;
-    private SzenarioGUI szenarioGUI;
-    private HoeheGUI hoeheGUI;
     private GameUIManager gameUIManager;
     private SpielControllerGUI spielControllerGUI;
-
-
-
-    private final float windowHeight = 1080;
+    private Stage stage;
+    private CameraKeyboardController cameraController;
 
     private final float tableWidth = 1920;
     private final float tableHeight = 1700;
@@ -50,31 +44,21 @@ public class MainВк extends ApplicationAdapter {
 
         //базовые объекты
         batch = new SpriteBatch();
-        tableTexture = new Texture("images/spiel/main/table.png");
+        tableTexture = new Texture("images/spiel/main/table_w_arrows.png");
         boardTexture = new Texture("images/spiel/main/board.png");
 
-        //камера
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(tableWidth, windowHeight, camera);
-        viewport.apply();
-        camera.position.set(tableWidth / 2f, windowHeight / 2f, 0);
-        camera.update();
-
         //GUI
-        gameUIManager = new GameUIManager();
-        szenarioGUI = new SzenarioGUI();
-        hoeheGUI = new HoeheGUI();
-
+        gameUIManager = new GameUIManager(spiel);
 
         //контроллер GUI для игрового процесса
-        Stage stage = new Stage(viewport, batch);
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(1920, 1080, camera);
+        stage = new Stage(viewport, batch);
+        cameraController = new CameraKeyboardController(camera, tableHeight, stage);
+        Gdx.input.setInputProcessor(stage);
+
         skin = new Skin(Gdx.files.internal("assets/skin/flat-earth-ui.json"));
         spielControllerGUI = new SpielControllerGUI(spiel, gameUIManager, stage, skin);
-
-        InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(stage);
-        multiplexer.addProcessor(new DragProcessor(camera, tableHeight));
-        Gdx.input.setInputProcessor(multiplexer);
 
     }
 
@@ -83,6 +67,7 @@ public class MainВк extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        camera.update();
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
@@ -90,8 +75,7 @@ public class MainВк extends ApplicationAdapter {
         batch.draw(tableTexture, 0, 0, tableWidth, tableHeight);
 
         //Здесь сценарии и высота
-        szenarioGUI.render(batch);
-        hoeheGUI.render(batch);
+        gameUIManager.render(batch);
 
         //игровая доска
         batch.draw(boardTexture, 656, 115);
@@ -100,6 +84,7 @@ public class MainВк extends ApplicationAdapter {
 
         //элементы гуи на сцене
         spielControllerGUI.render();
+        cameraController.updateAndRender(Gdx.graphics.getDeltaTime());
     }
 
 
@@ -113,8 +98,7 @@ public class MainВк extends ApplicationAdapter {
     @Override
     public void dispose() {
         batch.dispose();
-        szenarioGUI.dispose();
-        hoeheGUI.dispose();
+        gameUIManager.dispose();
         boardTexture.dispose();
         tableTexture.dispose();
         spielControllerGUI.dispose();
