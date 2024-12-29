@@ -46,6 +46,7 @@ public class SpielGUI {
     private Image ruder = new Image(new Texture("images/spiel/main/axis 2.png"));
     private PlayerActionCallback callback;
     private GameUIManager gameUIManager;
+    private ControlField neuWurf;
 
     public SpielGUI(Spiel spiel, Stage stage, Skin skin, GameUIManager gameUIManager) {
         //конструктор должен вызываться один раз, потом при обнолвении кубиков/действий должны вызываться методы отсюда
@@ -177,7 +178,7 @@ public class SpielGUI {
             {842, 142}, {933, 142}, {1025, 142}
         }, stage, 55, 55));
 
-
+        this.neuWurf = guiConstructionMethods.createNeuWurfButton(stage);
     }
 
 
@@ -215,6 +216,7 @@ public class SpielGUI {
             group = getControlGroupByName("Copilot Controls");
         }
         addListenersToGroupFields(getControlGroupByName("Koffe Controls"), spieler);
+        //TODO NeuWurf
         addListenersToGroupFields(group, spieler);
     }
 
@@ -403,6 +405,7 @@ public class SpielGUI {
                 switchTexture(field.getButton(), "images/spiel/main/empty.png");
             }
         }
+        //TODO NeuWurf
 
         //TODO сюда же надо вписать кнопки потом использования всяких токенов и прочего, после хода игрока, они должны чиститься
     }
@@ -423,9 +426,11 @@ public class SpielGUI {
             switchTexture(button, "images/spiel/main/empty.png");
             copilotGroup.getFieldByName(s).setOccupied(false);
         }
+        showNeuWurf(false);
+        showCoffee(false);
     }
 
-    public void showCoffee() {
+    public void showCoffee(Boolean available) {
         List<ControlField> coffeeGroup = getControlGroupByName("Koffe Controls").getAvailableFields();
 
         int coffeesToShow = 3 - coffeeGroup.size();
@@ -435,14 +440,39 @@ public class SpielGUI {
         for (int i = 1; i <= coffeesToShow; i++) {
             ControlField field = useKoffeeControlGroup.getFieldByName("UseKoffe" + i);
             if (field != null) {
-                switchTexture(field.getButton(), "images/spiel/tokens/kaffee.png");
+                if(available){
+                    switchTexture(field.getButton(), "images/spiel/tokens/kaffee_available.png");
+                } else {
+                    switchTexture(field.getButton(), "images/spiel/tokens/kaffee.png");
+                }
+
             }
         }
     }
 
+
+
     public void useCoffee(){
 
     }
+
+
+    public void showNeuWurf(Boolean available){
+        int anzahlTokens = spiel.getNeuWurfTokenCount();
+        ImageButton button = neuWurf.getButton();
+        if (anzahlTokens == 0){
+            switchTexture(button, "images/spiel/main/empty.png");
+        } else {
+            if(available){
+                switchTexture(button, "images/spiel/tokens/neuwurf_available.png");
+            }
+            else{
+                switchTexture(button, "images/spiel/tokens/neuwurf.png");
+            }
+
+        }
+    }
+
 
 
 }

@@ -108,11 +108,11 @@ public class SpielControllerGUI {
                     printState(state);
                     //System.out.println("PLAY_TURN_FIRST");
                     if (ersterSpieler.getAnzahlWuerfels() > 0 && !spielLogik.checkAusfallBedingung() && nowMustBeFirst) {
-                        // TODO: реализовать нормальную последовательность, кто кладет кубик
                         spielGUI.addWuerfelListenersForSpieler(ersterSpieler);
                         spielGUI.addFieldListenersForPlacement(ersterSpieler);
                         spielGUI.checkFeldSituation(ersterSpieler);
-                        spielGUI.showCoffee();
+                        spielGUI.showCoffee(true);
+                        spielGUI.showNeuWurf(true);
                         einenZugMachen(ersterSpieler);
                         nowMustBeFirst = false;
                         nowMustBeSecond = true;
@@ -151,7 +151,8 @@ public class SpielControllerGUI {
                         spielGUI.addWuerfelListenersForSpieler(zweiterSpieler);
                         spielGUI.addFieldListenersForPlacement(zweiterSpieler);
                         spielGUI.checkFeldSituation(zweiterSpieler);
-                        spielGUI.showCoffee();
+                        spielGUI.showCoffee(true);
+                        spielGUI.showNeuWurf(true);
                         einenZugMachen(zweiterSpieler);
                         nowMustBeFirst = true;
                         nowMustBeSecond = false;

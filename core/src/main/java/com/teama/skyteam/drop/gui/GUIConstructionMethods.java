@@ -78,4 +78,11 @@ public class GUIConstructionMethods {
                 throw new IllegalStateException("Unexpected value: " + buttonCount);
         }
     }
+
+    ControlField createNeuWurfButton(Stage stage){
+        ImageButton button = createButton("images/spiel/main/empty.png", 681, 873, 60, 60);
+        ControlField field = new ControlField("neuWurf", button);
+        stage.addActor(button);
+        return field;
+    }
 }
