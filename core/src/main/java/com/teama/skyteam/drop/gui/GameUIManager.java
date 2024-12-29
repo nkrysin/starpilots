@@ -15,7 +15,7 @@ public class GameUIManager {
         //этот класс по идее должен отвечать за высоты и прочее с ним связанноее, надо его внимательно делать
         //но я честно забыл почему он зовется GameUIManager лол
         this.szenarioGUI = new SzenarioGUI(spiel);
-        this.hoeheGUI = new HoeheGUI();
+        this.hoeheGUI = new HoeheGUI(spiel);
     }
 
     public void updateScenario(int currentSpeed) {
