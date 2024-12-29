@@ -1,6 +1,6 @@
 package com.teama.skyteam.drop.spiel;
 
-import com.teama.skyteam.drop.flugzeug.*;
+import com.teama.skyteam.drop.flugzeug.Flugzeug;
 import com.teama.skyteam.drop.spieler.Copilot;
 import com.teama.skyteam.drop.spieler.Pilot;
 import com.teama.skyteam.drop.szenario.Route;
@@ -10,19 +10,16 @@ import com.teama.skyteam.drop.szenario.Route;
 public class SpielSingletonConstructor {
     private static Spiel spiel; //Nur ein Objekt ist möglich
 
-    private SpielSingletonConstructor() { //Keine weitere Spiele können erzeugt werden
+    private SpielSingletonConstructor() {
     }
 
-
-    public static Spiel createSpiel() {
+    public static Spiel createSpiel(Route route) {
         if (spiel == null) {
             spiel = new Spiel();
             spiel.setFlugzeug(new Flugzeug());
 
-
             Pilot pilot = new Pilot(spiel);
             spiel.setPilot(pilot);
-
 
             Copilot copilot = new Copilot(spiel);
             spiel.setCopilot(copilot);
@@ -30,25 +27,13 @@ public class SpielSingletonConstructor {
             spiel.setPilotFelds();
             spiel.setCopilotFelds();
 
+            spiel.setSzenario(route);
 
-            /*
-             * Logik wie man kann eine andere Szenario auswählen
-             * */
-            /*
-             * Loading von assets durch getHoeheSzenarioType + etwas wie getSzenarioName
-             */
-            //TODO change this
-            Route route1 = Route.MONTREAL_TRUDEAU;
-            spiel.setSzenario(route1);
+            spiel.updateCurrentField();
+            spiel.updateCurrentHoehe();
 
-            spiel.updateCurrentField(); //Erster Feld von Szenario
-            spiel.updateCurrentHoehe(); //Erseter Feld no Hoehe
-
-            spiel.setRouteSzenario(); //Feldern von Szenario
-            spiel.setHoeheSzenario(); //Felder von Hoehe
-
-
-
+            spiel.setRouteSzenario();
+            spiel.setHoeheSzenario();
         }
         return spiel;
     }

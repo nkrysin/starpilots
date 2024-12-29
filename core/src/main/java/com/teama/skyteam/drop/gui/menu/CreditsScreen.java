@@ -1,0 +1,93 @@
+package com.teama.skyteam.drop.gui.menu;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.teama.skyteam.drop.MainВк;
+
+class CreditsScreen implements Screen {
+    private final MainВк main;
+    private Stage stage;
+    private Skin skin;
+    private SpriteBatch batch;
+    private Texture credits;
+
+    public CreditsScreen(MainВк main) {
+        this.main = main;
+    }
+
+    @Override
+    public void show() {
+        if (!main.menuMusic.isPlaying()) {
+            main.menuMusic.play();
+        }
+        stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
+
+        skin = new Skin(Gdx.files.internal("assets/skin/flat-earth-ui.json"));
+        batch = new SpriteBatch();
+        credits = new Texture("images/spiel/menu/credits.png");
+        Table table = new Table();
+        table.setFillParent(true);
+        table.bottom().padBottom(350);
+        stage.addActor(table);
+
+        TextButton.TextButtonStyle blueButtonStyle = ButtonStyle.style();
+        TextButton goBackButton = new TextButton("Go back", blueButtonStyle);
+        goBackButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                main.setScreen(new MainMenuScreen(main));
+            }
+        });
+
+        float buttonWidth = 350f;
+
+        table.row();
+        table.add(goBackButton).width(buttonWidth);
+
+    }
+
+    @Override
+    public void render(float delta) {
+        batch.begin();
+        batch.draw(credits, 0, 0, 1920, 1080);
+        batch.end();
+
+        stage.act(delta);
+        stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
+    }
+
+    @Override
+    public void hide() {
+        dispose();
+    }
+
+    @Override
+    public void dispose() {
+        skin.dispose();
+    }
+}
+
