@@ -18,7 +18,7 @@ import com.teama.skyteam.drop.spiel.Spiel;
 
 
 import com.teama.skyteam.drop.spiel.SpielControllerGUI;
-import com.teama.skyteam.drop.spiel.SpielFactory;
+import com.teama.skyteam.drop.spiel.SpielSingletonConstructor;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class MainВк extends ApplicationAdapter {
@@ -39,7 +39,7 @@ public class MainВк extends ApplicationAdapter {
     @Override
     public void create() {
         //создание Spiel через фабрику
-        Spiel spiel = SpielFactory.createSpiel();
+        Spiel spiel = SpielSingletonConstructor.createSpiel();
 
         //базовые объекты
         batch = new SpriteBatch();
@@ -97,6 +97,7 @@ public class MainВк extends ApplicationAdapter {
     @Override
     public void dispose() {
         batch.dispose();
+        gameUIManager.dispose();
         boardTexture.dispose();
         tableTexture.dispose();
         spielControllerGUI.dispose();

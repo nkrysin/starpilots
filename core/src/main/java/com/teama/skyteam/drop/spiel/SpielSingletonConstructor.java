@@ -7,10 +7,10 @@ import com.teama.skyteam.drop.szenario.Route;
 
 
 //Erzeugt Spiel-Objekt
-public class SpielFactory {
+public class SpielSingletonConstructor {
     private static Spiel spiel; //Nur ein Objekt ist möglich
 
-    private SpielFactory() { //Keine weitere Spiele können erzeugt werden
+    private SpielSingletonConstructor() { //Keine weitere Spiele können erzeugt werden
     }
 
 
