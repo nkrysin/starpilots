@@ -39,6 +39,9 @@ public class ControlGroup {
         return fields.size();
     }
 
+    public List<ControlField> getAllFields() {
+        return new ArrayList<>(fields.values());
+    }
 
 
 
