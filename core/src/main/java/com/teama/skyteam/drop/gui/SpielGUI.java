@@ -23,8 +23,9 @@ import com.teama.skyteam.drop.spieler.Spieler;
 import com.teama.skyteam.drop.tokens.Wuerfel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 public class SpielGUI {
 
@@ -35,10 +36,11 @@ public class SpielGUI {
     private final GUIConstructionMethods guiConstructionMethods;
     private ArrayList<ImageButton> pilotWuerfelActors = new ArrayList<>();
     private ArrayList<ImageButton> copilotWuerfelActors = new ArrayList<>();
-    private ArrayList<ControlGroup> controlGroups = new ArrayList<ControlGroup>();
-    private ControlGroup useKoffeeControlGroup;
-    //пилот: 411, 553 (55х55); 491, 553 (55х55); 411, 473 (55х55); 491,473 (55х55);
-    //сопилот:  1367, 553 (55х55); 1448, 553 (55х55); 1367, 473 (55х55); 1367, 473 (55х55);
+    private ArrayList<ControlGroup> controlGroups = new ArrayList<>();
+    private ControlGroup pilotKoffeeControlGroup;
+    private ControlGroup copilotKoffeeControlGroup;
+    private ControlGroup pilotUseKoffeeControlGroup;
+    private ControlGroup copilotUseKoffeeControlGroup;
     private SelectedWuerfelData selectedWuerfelData = null;
     private SpielLogik spielLogik;
     private Skin skin;
@@ -49,9 +51,8 @@ public class SpielGUI {
     private ControlField neuWurf;
 
     public SpielGUI(Spiel spiel, Stage stage, Skin skin, GameUIManager gameUIManager) {
-        //конструктор должен вызываться один раз, потом при обнолвении кубиков/действий должны вызываться методы отсюда
         this.spiel = spiel;
-        this.stage = stage; //это типа сцена, где размещаются актеры, которых мы позже добавим
+        this.stage = stage;
         this.skin = skin;
         setRuder();
         this.guiConstructionMethods = new GUIConstructionMethods();
@@ -73,16 +74,26 @@ public class SpielGUI {
     }
 
     public void createWuerfelForSpieler(Spieler spieler) {
+        if (spieler instanceof Pilot) {
+            for (ImageButton oldButton : pilotWuerfelActors) {
+                oldButton.remove();
+            }
+            pilotWuerfelActors.clear();
+        } else {
+            for (ImageButton oldButton : copilotWuerfelActors) {
+                oldButton.remove();
+            }
+            copilotWuerfelActors.clear();
+        }
+
         ArrayList<Wuerfel> wuerfels = spieler.getWuerfels();
         ArrayList<ImageButton> wuerfelActors = new ArrayList<>();
 
         for (int i = 0; i < wuerfels.size(); i++) {
             Wuerfel w = wuerfels.get(i);
             int wert = w.getWert();
-
             String textureName;
             int x, y;
-
             if (spieler instanceof Pilot) {
                 textureName = "images/spiel/dices/blue/blue_" + wert + ".png";
                 x = pilotWuerfelsCoordinates[i][0];
@@ -92,7 +103,6 @@ public class SpielGUI {
                 x = copilotWuerfelsCoordinates[i][0];
                 y = copilotWuerfelsCoordinates[i][1];
             }
-
             ImageButton wuerfelButton = guiConstructionMethods.createButton(textureName, x, y, 55, 55);
             wuerfelActors.add(wuerfelButton);
             stage.addActor(wuerfelButton);
@@ -106,14 +116,8 @@ public class SpielGUI {
     }
 
     public void addWuerfelListenersForSpieler(Spieler spieler) {
-        ArrayList<ImageButton> wuerfelActors;
-        if (spieler instanceof Pilot) {
-            wuerfelActors = pilotWuerfelActors;
-        } else {
-            wuerfelActors = copilotWuerfelActors;
-        }
+        ArrayList<ImageButton> wuerfelActors = (spieler instanceof Pilot) ? pilotWuerfelActors : copilotWuerfelActors;
         ArrayList<Wuerfel> wuerfels = spieler.getWuerfels();
-
         final ImageButton[] prevSelectedButton = {null};
         final String[] prevNormalTextureName = {null};
 
@@ -121,11 +125,9 @@ public class SpielGUI {
             final ImageButton wuerfelButton = wuerfelActors.get(i);
             final Wuerfel w = wuerfels.get(i);
             final int wert = w.getWert();
-
             final boolean isPilot = (spieler instanceof Pilot);
             final String normalTextureName;
             final String selectedTextureName;
-
             if (isPilot) {
                 normalTextureName = "images/spiel/dices/blue/blue_" + wert + ".png";
                 selectedTextureName = "images/spiel/dices/blue/blue_" + wert + "_selected.png";
@@ -147,7 +149,6 @@ public class SpielGUI {
                     prevSelectedButton[0] = wuerfelButton;
                     prevNormalTextureName[0] = normalTextureName;
                     selectedWuerfelData = new SelectedWuerfelData(spieler, wuerfelIndex, w);
-
                 }
             });
         }
@@ -172,15 +173,71 @@ public class SpielGUI {
             {1091, 777}, {1027, 475}, {1185, 791}, {1185, 883}, {1185, 598}, {1185, 464}, {1185, 327}, {1185, 191}
         }, stage, 55, 55));
 
-        controlGroups.add(guiConstructionMethods.createControlGroup("Koffe Controls", new String[]{
-            "Kaffee1", "Kaffee2", "Kaffee3"
-        }, new int[][]{
-            {842, 142}, {933, 142}, {1025, 142}
-        }, stage, 55, 55));
+        pilotKoffeeControlGroup = guiConstructionMethods.createControlGroup(
+            "Pilot Koffe Controls",
+            new String[]{"PilotKaffee1", "PilotKaffee2", "PilotKaffee3"},
+            new int[][]{
+                {842, 142},
+                {933, 142},
+                {1025, 142}
+            },
+            stage,
+            55,
+            55
+        );
+        copilotKoffeeControlGroup = guiConstructionMethods.createControlGroup(
+            "Copilot Koffe Controls",
+            new String[]{"CopilotKaffee1", "CopilotKaffee2", "CopilotKaffee3"},
+            new int[][]{
+                {842, 142},
+                {933, 142},
+                {1025, 142}
+            },
+            stage,
+            55,
+            55
+        );
+
+        controlGroups.add(pilotKoffeeControlGroup);
+        controlGroups.add(copilotKoffeeControlGroup);
+
+        pilotUseKoffeeControlGroup = guiConstructionMethods.createUseKoffeeButtons(
+            "Pilot UseKoffeeControlGroup",
+            new int[][]{{711, 201}, {711, 143}, {772, 143}},
+            stage
+        );
+        copilotUseKoffeeControlGroup = guiConstructionMethods.createUseKoffeeButtons(
+            "Copilot UseKoffeeControlGroup",
+            new int[][]{{711, 201}, {711, 143}, {772, 143}},
+            stage
+        );
+
+        controlGroups.add(pilotUseKoffeeControlGroup);
+        controlGroups.add(copilotUseKoffeeControlGroup);
+
+
 
         this.neuWurf = guiConstructionMethods.createNeuWurfButton(stage);
+
+
+        initMirrors();
     }
 
+    public void setKoffeeGroupsActive(Spieler current) {
+        boolean isPilot = current instanceof Pilot;
+        for (ControlField cf : pilotKoffeeControlGroup.getAllFields()) {
+            cf.getButton().setTouchable(isPilot ? Touchable.enabled : Touchable.disabled);
+        }
+        for (ControlField cf : pilotUseKoffeeControlGroup.getAllFields()) {
+            cf.getButton().setTouchable(isPilot ? Touchable.enabled : Touchable.disabled);
+        }
+        for (ControlField cf : copilotKoffeeControlGroup.getAllFields()) {
+            cf.getButton().setTouchable(isPilot ? Touchable.disabled : Touchable.enabled);
+        }
+        for (ControlField cf : copilotUseKoffeeControlGroup.getAllFields()) {
+            cf.getButton().setTouchable(isPilot ? Touchable.disabled : Touchable.enabled);
+        }
+    }
 
     public void highlightAvailableFields(ControlGroup group) {
         for (ControlField field : group.getAvailableFields()) {
@@ -198,7 +255,6 @@ public class SpielGUI {
 
     public void disableFields(ControlGroup group, ControlGroup pflicht) {
         List<ControlField> pflichtFields = pflicht.getAvailableFields();
-
         for (ControlField field : group.getAvailableFields()) {
             if (!pflichtFields.contains(field)) {
                 field.getButton().setTouchable(Touchable.disabled);
@@ -206,29 +262,123 @@ public class SpielGUI {
         }
     }
 
-
-    public void addFieldListenersForPlacement(Spieler spieler) {
-        final boolean isPilot = (spieler instanceof Pilot);
-        ControlGroup group;
-        if (isPilot) {
-            group = getControlGroupByName("Pilot Controls");
-        } else {
-            group = getControlGroupByName("Copilot Controls");
-        }
-        addListenersToGroupFields(getControlGroupByName("Koffe Controls"), spieler);
-        //TODO NeuWurf
-        addListenersToGroupFields(group, spieler);
+    private ControlGroup getMainControlGroup(Spieler spieler) {
+        return (spieler instanceof Pilot)
+            ? getControlGroupByName("Pilot Controls")
+            : getControlGroupByName("Copilot Controls");
     }
 
+    private ControlGroup getPilotKoffeeControlGroup() {
+        return pilotKoffeeControlGroup;
+    }
+
+    private ControlGroup getCopilotKoffeeControlGroup() {
+        return copilotKoffeeControlGroup;
+    }
+
+    private ControlGroup getPilotUseKoffeeControlGroup() {
+        return pilotUseKoffeeControlGroup;
+    }
+
+    private ControlGroup getCopilotUseKoffeeControlGroup() {
+        return copilotUseKoffeeControlGroup;
+    }
+
+    private ControlGroup getCoffeeControlGroup(Spieler spieler) {
+        return (spieler instanceof Pilot) ? getPilotKoffeeControlGroup() : getCopilotKoffeeControlGroup();
+    }
+
+    private ControlGroup getUseCoffeeControlGroup(Spieler spieler) {
+        return (spieler instanceof Pilot) ? getPilotUseKoffeeControlGroup() : getCopilotUseKoffeeControlGroup();
+    }
 
     private ControlGroup getControlGroupByName(String name) {
-        for (ControlGroup group : controlGroups) {
-            if (group.getName().equals(name)) {
-                return group;
+        for (ControlGroup cg : controlGroups) {
+            if (cg.getName().equals(name)) {
+                return cg;
             }
         }
         return null;
     }
+
+    public void addFieldListenersForPlacement(Spieler spieler) {
+        ControlGroup mainGroup = getMainControlGroup(spieler);
+        addListenersToGroupFields(mainGroup, spieler);
+        addCoffeeListeners(spieler);
+    }
+
+    private void addCoffeeListeners(Spieler spieler) {
+        ControlGroup koffeeGroup = getCoffeeControlGroup(spieler);
+        highlightAvailableFields(koffeeGroup);
+        for (ControlField field : koffeeGroup.getAvailableFields()) {
+            field.getButton().addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    handleCoffeeFieldClick(field, spieler);
+                }
+            });
+        }
+    }
+
+    private Map<ControlField, ControlField> mirroredFields = new HashMap<>();
+
+    public void initMirrors() {
+        ControlField pilotK1 = pilotKoffeeControlGroup.getFieldByName("PilotKaffee1");
+        ControlField copilotK1 = copilotKoffeeControlGroup.getFieldByName("CopilotKaffee1");
+
+        mirroredFields.put(pilotK1, copilotK1);
+        mirroredFields.put(copilotK1, pilotK1);
+
+        ControlField pilotK2 = pilotKoffeeControlGroup.getFieldByName("PilotKaffee2");
+        ControlField copilotK2 = copilotKoffeeControlGroup.getFieldByName("CopilotKaffee2");
+
+        mirroredFields.put(pilotK2, copilotK2);
+        mirroredFields.put(copilotK2, pilotK2);
+
+        ControlField pilotK3 = pilotKoffeeControlGroup.getFieldByName("PilotKaffee3");
+        ControlField copilotK3 = copilotKoffeeControlGroup.getFieldByName("CopilotKaffee3");
+
+        mirroredFields.put(pilotK3, copilotK3);
+        mirroredFields.put(copilotK3, pilotK3);
+    }
+
+
+
+    private void handleCoffeeFieldClick(ControlField field, Spieler spieler) {
+        if (selectedWuerfelData == null || field.isOccupied()) {
+            return;
+        }
+
+        boolean isPilot = (spieler instanceof Pilot);
+        Wuerfel w = selectedWuerfelData.getWuerfel();
+        int index = selectedWuerfelData.getWuerfelIndex();
+
+        boolean stepSuccessful = isPilot
+            ? spielLogik.pilotSchritt(spieler, field.getName(), w, index)
+            : spielLogik.copilotSchritt(spieler, field.getName(), w, index);
+
+        if (!stepSuccessful) {
+            return;
+        }
+
+        SelectedWuerfelData data = selectedWuerfelData;
+
+        ControlField mirroredField = mirroredFields.get(field);
+        blockFieldForBoth(field, mirroredField, data);
+        removeWuerfelButtonFromHand(data);
+
+        field.setOccupied(true);
+        if (mirroredField != null) {
+            mirroredField.setOccupied(true);
+        }
+        selectedWuerfelData = null;
+        if (callback != null){
+            callback.onPlayerActionCompleted(spieler);
+        }
+
+    }
+
+
 
     private void addListenersToGroupFields(ControlGroup group, Spieler spieler) {
         highlightAvailableFields(group);
@@ -236,67 +386,58 @@ public class SpielGUI {
             field.getButton().addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    if (selectedWuerfelData == null) {
-                        return;
-                    }
-                    if (field.isOccupied()) {
-                        return;
-                    }
-
-
-                    final String textureName;
-                    final boolean isPilot = (spieler instanceof Pilot);
-                    Wuerfel w = selectedWuerfelData.getWuerfel();
-                    int index = selectedWuerfelData.getWuerfelIndex();
-
-                    boolean stepSuccessful = false;
-                    if (isPilot) {
-                        stepSuccessful = spielLogik.pilotSchritt(spieler, field.getName(), w, index);
-                        if (stepSuccessful) {
-                            textureName = "images/spiel/dices/blue/blue_" + w.getWert() + ".png";
-                        } else {
-                            return;
-                        }
-                    } else {
-                        stepSuccessful = spielLogik.copilotSchritt(spieler, field.getName(), w, index);
-                        if (stepSuccessful) {
-                            textureName = "images/spiel/dices/orange/orange_" + w.getWert() + ".png";
-                        } else {
-                            return;
-                        }
-                    }
-
-                    if (stepSuccessful) {
-                        removeWuerfelButtonFromHand(selectedWuerfelData);
-                        switchTexture(field.getButton(), textureName);
-                        field.setOccupied(true);
-                        selectedWuerfelData = null;
-
-                        // уведомляем контроллер о завершении действия
-                        if (callback != null) {
-                            callback.onPlayerActionCompleted(spieler);
-                        }
-                    }
-
+                    handleMainFieldClick(field, spieler);
                 }
             });
+        }
+    }
+
+    private void blockFieldForBoth(ControlField fieldPilot, ControlField fieldCopilot, SelectedWuerfelData data) {
+        String texture = data.getDiceTexturePath();
+
+        switchTexture(fieldPilot.getButton(), texture);
+        fieldPilot.setOccupied(true);
+        fieldPilot.getButton().setTouchable(Touchable.disabled);
+
+        switchTexture(fieldCopilot.getButton(), texture);
+        fieldCopilot.setOccupied(true);
+        fieldCopilot.getButton().setTouchable(Touchable.disabled);
+    }
+
+    private void handleMainFieldClick(ControlField field, Spieler spieler) {
+        if (selectedWuerfelData == null || field.isOccupied()) {
+            return;
+        }
+        boolean isPilot = spieler instanceof Pilot;
+        Wuerfel w = selectedWuerfelData.getWuerfel();
+        int index = selectedWuerfelData.getWuerfelIndex();
+        boolean stepSuccessful = isPilot
+            ? spielLogik.pilotSchritt(spieler, field.getName(), w, index)
+            : spielLogik.copilotSchritt(spieler, field.getName(), w, index);
+        if (!stepSuccessful) {
+            return;
+        }
+        String texturePath = isPilot
+            ? "images/spiel/dices/blue/blue_" + w.getWert() + ".png"
+            : "images/spiel/dices/orange/orange_" + w.getWert() + ".png";
+        removeWuerfelButtonFromHand(selectedWuerfelData);
+        switchTexture(field.getButton(), texturePath);
+        field.setOccupied(true);
+        selectedWuerfelData = null;
+        if (callback != null) {
+            callback.onPlayerActionCompleted(spieler);
         }
     }
 
     private void removeWuerfelButtonFromHand(SelectedWuerfelData wuerfelData) {
         Spieler owner = wuerfelData.getSpieler();
         int wuerfelIndex = wuerfelData.getWuerfelIndex();
-
-        ArrayList<ImageButton> wuerfelActors;
-        if (owner instanceof Pilot) {
-            wuerfelActors = pilotWuerfelActors;
-        } else {
-            wuerfelActors = copilotWuerfelActors;
+        List<ImageButton> wuerfelActors = (owner instanceof Pilot) ? pilotWuerfelActors : copilotWuerfelActors;
+        if (wuerfelIndex >= 0 && wuerfelIndex < wuerfelActors.size()) {
+            ImageButton wuerfelButton = wuerfelActors.get(wuerfelIndex);
+            wuerfelButton.remove();
+            wuerfelActors.remove(wuerfelIndex);
         }
-
-        ImageButton wuerfelButton = wuerfelActors.get(wuerfelIndex);
-        wuerfelButton.remove();
-        wuerfelActors.remove(wuerfelIndex);
     }
 
     public void checkFeldSituation(Spieler spieler) {
@@ -321,7 +462,6 @@ public class SpielGUI {
         } else if (!feldSpeed.isBelegt() && anzahlWuerfels == 1) {
             verpflicteteAktion(spieler);
         }
-
     }
 
     void verpflicteteAktion(Spieler spieler) {
@@ -329,7 +469,7 @@ public class SpielGUI {
         Feld feldSpeed;
         ControlField neigungField;
         ControlField speedField;
-        ControlGroup verplichteteGroup;
+        ControlGroup verpflichteteGroup;
         ControlGroup allFields;
         if (spieler instanceof Pilot) {
             feldNeigung = spiel.getFeldPilot("neigenFeld");
@@ -346,23 +486,28 @@ public class SpielGUI {
             allFields = getControlGroupByName("Copilot Controls");
             spieler = spiel.getCopilot();
         }
-        if (!(feldSpeed.isBelegt()) && !(feldNeigung.isBelegt())) {
-            //spielLogik.createMessage("Achtung!","Bitte setzen Sie die Würfel auf die Pflichtfelder" );
-            verplichteteGroup = new ControlGroup("Verplichtete", List.of(neigungField, speedField));
-            removeHighlight(getControlGroupByName("Pilot Controls"));
-            disableFields(allFields, verplichteteGroup);
-            addListenersToGroupFields(verplichteteGroup, spieler);
-
-        } else if (!(feldSpeed.isBelegt())) {
-            //spielLogik.createMessage("Achtung!","Bitte setzen Sie die Würfel auf die Pflichtfelde\n Sie können nur Geschwindigkeit wählen ");
-            verplichteteGroup = new ControlGroup("Verplichtete", List.of(speedField));
-            removeHighlight(getControlGroupByName("Pilot Controls"));
-            addListenersToGroupFields(verplichteteGroup, spieler);
+        if (!feldSpeed.isBelegt() && !feldNeigung.isBelegt()) {
+            spielLogik.createMessage("Achtung!", "Bitte setzen Sie die Würfel auf die Pflichtfelder");
+            verpflichteteGroup = new ControlGroup("Verplichtete", List.of(neigungField, speedField));
+            removeHighlight(allFields);
+            removeHighlight(getPilotKoffeeControlGroup());
+            removeHighlight(getCopilotKoffeeControlGroup());
+            disableFields(allFields, verpflichteteGroup);
+            addListenersToGroupFields(verpflichteteGroup, spieler);
+        } else if (!feldSpeed.isBelegt()) {
+            spielLogik.createMessage("Achtung!", "Bitte setzen Sie den Würfel auf das Pflichtfeld");
+            verpflichteteGroup = new ControlGroup("Verplichtete", List.of(speedField));
+            removeHighlight(allFields);
+            removeHighlight(getPilotKoffeeControlGroup());
+            removeHighlight(getCopilotKoffeeControlGroup());
+            addListenersToGroupFields(verpflichteteGroup, spieler);
         } else {
-            //spielLogik.createMessage("Achtung!","Bitte setzen Sie die Würfel auf die Pflichtfelde\n Sie können nur Neigen wählen ");
-            verplichteteGroup = new ControlGroup("Verplichtete", List.of(neigungField));
-            removeHighlight(getControlGroupByName("Pilot Controls"));
-            addListenersToGroupFields(verplichteteGroup, spieler);
+            spielLogik.createMessage("Achtung!", "Bitte setzen Sie den Würfel auf das Pflichtfeld");
+            verpflichteteGroup = new ControlGroup("Verplichtete", List.of(neigungField));
+            removeHighlight(allFields);
+            removeHighlight(getPilotKoffeeControlGroup());
+            removeHighlight(getCopilotKoffeeControlGroup());
+            addListenersToGroupFields(verpflichteteGroup, spieler);
         }
     }
 
@@ -374,40 +519,40 @@ public class SpielGUI {
         this.callback = callback;
     }
 
-    public void clearPlayerListeners(Spieler spieler) {
-        ArrayList<ImageButton> wuerfelActors;
-        if (spieler instanceof Pilot) {
-            wuerfelActors = pilotWuerfelActors;
-        } else {
-            wuerfelActors = copilotWuerfelActors;
-        }
 
+    public void clearPlayerListeners(Spieler spieler) {
+        ArrayList<ImageButton> wuerfelActors = (spieler instanceof Pilot) ? pilotWuerfelActors : copilotWuerfelActors;
         for (ImageButton button : wuerfelActors) {
             button.clearListeners();
         }
 
-        ControlGroup group;
-        if (spieler instanceof Pilot) {
-            group = getControlGroupByName("Pilot Controls");
-        } else {
-            group = getControlGroupByName("Copilot Controls");
-        }
-
+        ControlGroup group = (spieler instanceof Pilot)
+            ? getControlGroupByName("Pilot Controls")
+            : getControlGroupByName("Copilot Controls");
         for (ControlField field : group.getAvailableFields()) {
             field.getButton().clearListeners();
             switchTexture(field.getButton(), "images/spiel/main/empty.png");
         }
 
-        List<ControlField> coffeeGroup = getControlGroupByName("Koffe Controls").getAvailableFields();
-        if (!coffeeGroup.isEmpty()) {
-            for (ControlField field : coffeeGroup) {
+        if (spieler instanceof Pilot) {
+            for (ControlField field : getPilotKoffeeControlGroup().getAvailableFields()) {
+                field.getButton().clearListeners();
+                switchTexture(field.getButton(), "images/spiel/main/empty.png");
+            }
+            for (ControlField field : getPilotUseKoffeeControlGroup().getAllFields()) {
+                field.getButton().clearListeners();
+                switchTexture(field.getButton(), "images/spiel/main/empty.png");
+            }
+        } else {
+            for (ControlField field : getCopilotKoffeeControlGroup().getAvailableFields()) {
+                field.getButton().clearListeners();
+                switchTexture(field.getButton(), "images/spiel/main/empty.png");
+            }
+            for (ControlField field : getCopilotUseKoffeeControlGroup().getAllFields()) {
                 field.getButton().clearListeners();
                 switchTexture(field.getButton(), "images/spiel/main/empty.png");
             }
         }
-        //TODO NeuWurf
-
-        //TODO сюда же надо вписать кнопки потом использования всяких токенов и прочего, после хода игрока, они должны чиститься
     }
 
     public void clearManyUseFields() {
@@ -419,7 +564,6 @@ public class SpielGUI {
             switchTexture(button, "images/spiel/main/empty.png");
             pilotGroup.getFieldByName(s).setOccupied(false);
         }
-
         String[] copilotManyUseFields = {"CNeigung", "CSpeed", "CRadio1", "CRadio2"};
         for (String s : copilotManyUseFields) {
             ImageButton button = copilotGroup.getFieldByName(s).getButton();
@@ -427,54 +571,219 @@ public class SpielGUI {
             copilotGroup.getFieldByName(s).setOccupied(false);
         }
         showNeuWurf(false);
-        showCoffee(false);
+        showCoffee(false, false);
     }
 
-    public void showCoffee(Boolean available) {
-        List<ControlField> coffeeGroup = getControlGroupByName("Koffe Controls").getAvailableFields();
-
-        int coffeesToShow = 3 - coffeeGroup.size();
-
-        useKoffeeControlGroup = guiConstructionMethods.createUseKoffeeButtons("useKoffeeControlGroup", stage, coffeesToShow);
-
-        for (int i = 1; i <= coffeesToShow; i++) {
-            ControlField field = useKoffeeControlGroup.getFieldByName("UseKoffe" + i);
-            if (field != null) {
-                if(available){
-                    switchTexture(field.getButton(), "images/spiel/tokens/kaffee_available.png");
-                } else {
-                    switchTexture(field.getButton(), "images/spiel/tokens/kaffee.png");
+    public void showCoffee(Boolean pilotAvailable, Boolean copilotAvailable) {
+        int coffeeCount = spiel.getKaffeTokenCount();
+        ControlGroup pilotUseGroup = getPilotUseKoffeeControlGroup();
+        if (!pilotAvailable) {
+            for (ControlField field : pilotUseGroup.getAllFields()) {
+                switchTexture(field.getButton(), "images/spiel/main/empty.png");
+                field.getButton().setTouchable(Touchable.disabled);
+            }
+        } else {
+            for (int i = 1; i <= 3; i++) {
+                ControlField field = pilotUseGroup.getFieldByName("UseKoffe" + i);
+                if (field != null) {
+                    if (i <= coffeeCount) {
+                        field.setOccupied(true);
+                        field.getButton().setTouchable(Touchable.enabled);
+                        switchTexture(field.getButton(), "images/spiel/tokens/kaffee.png");
+                    } else {
+                        field.setOccupied(false);
+                        switchTexture(field.getButton(), "images/spiel/main/empty.png");
+                        field.getButton().setTouchable(Touchable.disabled);
+                    }
                 }
+            }
+        }
 
+        ControlGroup copilotUseGroup = getCopilotUseKoffeeControlGroup();
+        if (!copilotAvailable) {
+            for (ControlField field : copilotUseGroup.getAllFields()) {
+                switchTexture(field.getButton(), "images/spiel/main/empty.png");
+                field.getButton().setTouchable(Touchable.disabled);
+            }
+        } else {
+            for (int i = 1; i <= 3; i++) {
+                ControlField field = copilotUseGroup.getFieldByName("UseKoffe" + i);
+                if (field != null) {
+                    if (i <= coffeeCount) {
+                        field.setOccupied(true);
+                        field.getButton().setTouchable(Touchable.enabled);
+                        switchTexture(field.getButton(), "images/spiel/tokens/kaffee.png");
+                    } else {
+                        field.setOccupied(false);
+                        switchTexture(field.getButton(), "images/spiel/main/empty.png");
+                        field.getButton().setTouchable(Touchable.disabled);
+                    }
+                }
+            }
+        }
+    }
+
+    public void useCoffee(Spieler s) {
+        int coffeeCount = spiel.getKaffeTokenCount();
+        ControlGroup useGroup = getUseCoffeeControlGroup(s);
+        if (coffeeCount > 0) {
+            ControlField field = useGroup.getFieldByName("UseKoffe" + coffeeCount);
+            if (field != null && field.isOccupied()) {
+                field.getButton().clearListeners();
+                field.getButton().setTouchable(Touchable.enabled);
+                switchTexture(field.getButton(), "images/spiel/tokens/kaffee_available.png");
+                field.getButton().addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        switchTexture(field.getButton(), "images/spiel/tokens/kaffee_selected.png");
+                        spielLogik.createMessage("Kaffee-Token verwenden", "Bitte wählen Sie einen Würfel aus, dessen Wert Sie ändern möchten!");
+                        waitForDiceSelection(s, field.getName());
+                    }
+                });
+            }
+        } else {
+            for (ControlField f : useGroup.getAllFields()) {
+                f.getButton().clearListeners();
+                switchTexture(f.getButton(), "images/spiel/main/empty.png");
+                f.setOccupied(false);
+            }
+        }
+    }
+
+    private void waitForDiceSelection(Spieler spieler, String name) {
+        ArrayList<ImageButton> wuerfelActors = (spieler instanceof Pilot)
+            ? pilotWuerfelActors
+            : copilotWuerfelActors;
+        ArrayList<Wuerfel> wuerfels = spieler.getWuerfels();
+        String path = (spieler instanceof Pilot)
+            ? "images/spiel/dices/blue/blue_"
+            : "images/spiel/dices/orange/orange_";
+
+        for (int i = 0; i < wuerfelActors.size(); i++) {
+            final ImageButton wuerfelButton = wuerfelActors.get(i);
+            final Wuerfel wuerfel = wuerfels.get(i);
+            final int index = i;
+            final int wert = wuerfel.getWert();
+
+            wuerfelButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    switchTexture(wuerfelButton, path + wert + "_selected.png");
+                    clearDiceListeners(spieler);
+                    spielLogik.createKaffeeTokenWindow(wuerfel, spieler, index, (neuerWert) -> {
+                        switchTexture(wuerfelButton, path + neuerWert + ".png");
+                        removeCoffeeTokenByName(name, spieler);
+                        koffeFieldClearLastUsed();
+                        addWuerfelListenersForSpieler(spieler);
+                        addCoffeeListeners(spiel.getPilot());
+                        addCoffeeListeners(spiel.getCopilot());
+                        if (spiel.getKaffeTokenCount() > 0) {
+                            useCoffee(spieler);
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+
+
+    private void koffeFieldClearLastUsed() {
+        List<ControlField> pilotFields = pilotKoffeeControlGroup.getAllFields();
+        List<ControlField> copilotFields = copilotKoffeeControlGroup.getAllFields();
+
+        List<ControlField> allCoffeeFields = new ArrayList<>();
+        allCoffeeFields.addAll(pilotFields);
+        allCoffeeFields.addAll(copilotFields);
+
+        for (int i = allCoffeeFields.size() - 1; i >= 0; i--) {
+            ControlField field = allCoffeeFields.get(i);
+            if (field.isOccupied()) {
+                freeCoffeeFieldForBoth(field);
+                break;
             }
         }
     }
 
 
 
-    public void useCoffee(){
+    private void freeCoffeeFieldForBoth(ControlField field) {
+        ControlField mirrored = mirroredFields.get(field);
 
+        field.setOccupied(false);
+        switchTexture(field.getButton(), "images/spiel/main/available.png");
+        field.getButton().setTouchable(Touchable.enabled);
+
+        if (mirrored != null) {
+            mirrored.setOccupied(false);
+            switchTexture(mirrored.getButton(), "images/spiel/main/available.png");
+            mirrored.getButton().setTouchable(Touchable.enabled);
+        }
+        addCoffeeListeners(spiel.getPilot());
+        addCoffeeListeners(spiel.getCopilot());
     }
 
 
-    public void showNeuWurf(Boolean available){
+    private void clearDiceListeners(Spieler spieler) {
+        ArrayList<ImageButton> wuerfelActors = (spieler instanceof Pilot) ? pilotWuerfelActors : copilotWuerfelActors;
+        for (ImageButton ib : wuerfelActors) {
+            ib.clearListeners();
+        }
+    }
+
+    private void removeCoffeeTokenByName(String name, Spieler spieler) {
+        ControlGroup useGroup = getUseCoffeeControlGroup(spieler);
+        ControlField usedField = useGroup.getFieldByName(name);
+        if (usedField != null) {
+            usedField.setOccupied(false);
+            switchTexture(usedField.getButton(), "images/spiel/main/empty.png");
+            usedField.getButton().setTouchable(Touchable.disabled);
+        }
+    }
+
+    public void showNeuWurf(Boolean available) {
         int anzahlTokens = spiel.getNeuWurfTokenCount();
         ImageButton button = neuWurf.getButton();
-        if (anzahlTokens == 0){
+        if (anzahlTokens == 0) {
             switchTexture(button, "images/spiel/main/empty.png");
+            button.setTouchable(Touchable.disabled);
         } else {
-            if(available){
+            if (available) {
+                button.setTouchable(Touchable.enabled);
                 switchTexture(button, "images/spiel/tokens/neuwurf_available.png");
-            }
-            else{
+            } else {
                 switchTexture(button, "images/spiel/tokens/neuwurf.png");
             }
-
         }
     }
 
-
-
+    public void useNeuWurf(Spieler spieler) {
+        ImageButton button = neuWurf.getButton();
+        button.clearListeners();
+        if (spiel.getNeuWurfTokenCount() > 0) {
+            button.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    switchTexture(button, "images/spiel/tokens/neuwurf_selected.png");
+                    spielLogik.createNeuWurfTokenWindow(spieler, (p1, p2) -> {
+                        if (p1 != null) {
+                            createWuerfelForSpieler(p1);
+                            addWuerfelListenersForSpieler(p1);
+                        }
+                        if (p2 != null) {
+                            createWuerfelForSpieler(p2);
+                            addWuerfelListenersForSpieler(p2);
+                        }
+                        if (spiel.getNeuWurfTokenCount() == 0) {
+                            switchTexture(button, "images/spiel/main/empty.png");
+                            button.setTouchable(Touchable.disabled);
+                        } else {
+                            button.setTouchable(Touchable.enabled);
+                            switchTexture(button, "images/spiel/tokens/neuwurf_available.png");
+                        }
+                    });
+                }
+            });
+        }
+    }
 }
-
-
