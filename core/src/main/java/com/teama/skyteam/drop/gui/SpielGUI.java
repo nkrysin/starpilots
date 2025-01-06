@@ -121,6 +121,10 @@ public class SpielGUI {
         final ImageButton[] prevSelectedButton = {null};
         final String[] prevNormalTextureName = {null};
 
+        System.out.println(spieler instanceof Pilot);
+        System.out.println(wuerfelActors.size());
+        System.out.println(wuerfels.size());
+
         for (int i = 0; i < wuerfelActors.size(); i++) {
             final ImageButton wuerfelButton = wuerfelActors.get(i);
             final Wuerfel w = wuerfels.get(i);

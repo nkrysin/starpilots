@@ -53,6 +53,7 @@ public class SpielControllerGUI {
         while (!spielEnde) {
             switch (state) {
                 case CHECK_END:
+                    printState(state);
                     if (spielLogik.checkAusfallBedingung()) {
                         spielEnde = true;
                         state = State.END;
@@ -66,12 +67,14 @@ public class SpielControllerGUI {
                     break;
 
                 case PREPARE_ROUND:
+                    printState(state);
                     prepareRound();
                     state = State.PLAY_TURN_FIRST;
                     break;
 
                 case PLAY_TURN_FIRST:
                     if (ersterSpieler.getAnzahlWuerfels() > 0 && !spielLogik.checkAusfallBedingung() && nowMustBeFirst) {
+                        printState(state);
                         spielGUI.addWuerfelListenersForSpieler(ersterSpieler);
                         spielGUI.addFieldListenersForPlacement(ersterSpieler);
                         spielGUI.checkFeldSituation(ersterSpieler);
@@ -99,6 +102,7 @@ public class SpielControllerGUI {
                     if (!neigungErledigt && spielLogik.neigenSetzen()) {
                         neigungErledigt = true;
                     }
+                    printState(state);
                     state = State.CHECK_REISEFELD;
                     break;
 
@@ -106,11 +110,13 @@ public class SpielControllerGUI {
                     if (!reiseFeldAktualisiert && spielLogik.reiseFeldZustandAktualisieren()) {
                         reiseFeldAktualisiert = true;
                     }
+                    printState(state);
                     state = State.PLAY_TURN_SECOND;
                     break;
 
                 case PLAY_TURN_SECOND:
                     if (zweiterSpieler.getAnzahlWuerfels() > 0 && !spielLogik.checkAusfallBedingung() && nowMustBeSecond) {
+                        printState(state);
                         spielGUI.addWuerfelListenersForSpieler(zweiterSpieler);
                         spielGUI.addFieldListenersForPlacement(zweiterSpieler);
                         spielGUI.checkFeldSituation(zweiterSpieler);
@@ -244,4 +250,46 @@ public class SpielControllerGUI {
         FINAL_CHECK,
         END
     }
+
+    public void printState(State state) {
+        switch (state) {
+            case CHECK_END:
+                System.out.println("Current state: CHECK_END");
+                break;
+            case PREPARE_ROUND:
+                System.out.println("Current state: PREPARE_ROUND");
+                break;
+            case PLAY_TURN_FIRST:
+                System.out.println("Current state: PLAY_TURN_FIRST");
+                break;
+            case CHECK_NEIGUNG:
+                System.out.println("Current state: CHECK_NEIGUNG");
+                break;
+            case CHECK_REISEFELD:
+                System.out.println("Current state: CHECK_REISEFELD");
+                break;
+            case PLAY_TURN_SECOND:
+                System.out.println("Current state: PLAY_TURN_SECOND");
+                break;
+            case CHECK_NEIGUNG_AGAIN:
+                System.out.println("Current state: CHECK_NEIGUNG_AGAIN");
+                break;
+            case CHECK_REISEFELD_AGAIN:
+                System.out.println("Current state: CHECK_REISEFELD_AGAIN");
+                break;
+            case ROUND_FINISH:
+                System.out.println("Current state: ROUND_FINISH");
+                break;
+            case FINAL_CHECK:
+                System.out.println("Current state: FINAL_CHECK");
+                break;
+            case END:
+                System.out.println("Current state: END");
+                break;
+            default:
+                System.out.println("Unknown state");
+                break;
+        }
+    }
+
 }
