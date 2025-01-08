@@ -453,6 +453,7 @@ public class SpielGUI {
     }
 
     public void checkFeldSituation(Spieler spieler) {
+        System.out.println();
         Feld feldNeigung;
         Feld feldSpeed;
         int anzahlWuerfels;
@@ -483,12 +484,14 @@ public class SpielGUI {
         ControlField speedField;
         ControlGroup verpflichteteGroup;
         ControlGroup allFields;
+        ControlGroup coffeeFields;
         if (spieler instanceof Pilot) {
             feldNeigung = spiel.getFeldPilot("neigenFeld");
             feldSpeed = spiel.getFeldPilot("speedFeld");
             neigungField = getControlGroupByName("Pilot Controls").getFieldByName("PNeigung");
             speedField = getControlGroupByName("Pilot Controls").getFieldByName("PSpeed");
             allFields = getControlGroupByName("Pilot Controls");
+            coffeeFields = pilotKoffeeControlGroup;
             spieler = spiel.getPilot();
         } else {
             feldNeigung = spiel.getFeldCopilot("neigenFeld");
@@ -496,6 +499,7 @@ public class SpielGUI {
             neigungField = getControlGroupByName("Copilot Controls").getFieldByName("CNeigung");
             speedField = getControlGroupByName("Copilot Controls").getFieldByName("CSpeed");
             allFields = getControlGroupByName("Copilot Controls");
+            coffeeFields = copilotKoffeeControlGroup;
             spieler = spiel.getCopilot();
         }
         if (!feldSpeed.isBelegt() && !feldNeigung.isBelegt()) {
@@ -505,6 +509,7 @@ public class SpielGUI {
             removeHighlight(getPilotKoffeeControlGroup());
             removeHighlight(getCopilotKoffeeControlGroup());
             disableFields(allFields, verpflichteteGroup);
+            disableFields(coffeeFields, verpflichteteGroup);
             addListenersToGroupFields(verpflichteteGroup, spieler);
         } else if (!feldSpeed.isBelegt()) {
             spielLogik.createMessage("Achtung!", "Bitte setzen Sie den Würfel auf das Pflichtfeld");
@@ -546,10 +551,12 @@ public class SpielGUI {
             switchTexture(field.getButton(), "images/spiel/main/empty.png");
         }
 
+
         if (spieler instanceof Pilot) {
             for (ControlField field : getPilotKoffeeControlGroup().getAllFields()) {
                 field.getButton().clearListeners();
-                switchTexture(field.getButton(), "images/spiel/main/empty.png");
+                //TODO check is this is right
+                //switchTexture(field.getButton(), "images/spiel/main/empty.png");
             }
             for (ControlField field : getPilotUseKoffeeControlGroup().getAllFields()) {
                 field.getButton().clearListeners();
@@ -558,13 +565,15 @@ public class SpielGUI {
         } else {
             for (ControlField field : getCopilotKoffeeControlGroup().getAllFields()) {
                 field.getButton().clearListeners();
-                switchTexture(field.getButton(), "images/spiel/main/empty.png");
+                //switchTexture(field.getButton(), "images/spiel/main/empty.png");
             }
             for (ControlField field : getCopilotUseKoffeeControlGroup().getAllFields()) {
                 field.getButton().clearListeners();
                 switchTexture(field.getButton(), "images/spiel/main/empty.png");
             }
         }
+
+
     }
 
     public void clearManyUseFields() {
@@ -686,13 +695,9 @@ public class SpielGUI {
                         switchTexture(wuerfelButton, path + neuerWert + ".png");
                         removeCoffeeTokenByName(name, spieler);
                         koffeFieldClearLastUsed(spieler);
-
-
+                        checkFeldSituation(spieler);
                         addWuerfelListenersForSpieler(spieler);
-                        System.out.println("Wait for dice selection pilot " + (spieler instanceof Pilot));
-                        System.out.println("Using from wait for dice selection");
-                        addCoffeeListeners(spieler);
-                        //addCoffeeListeners(spiel.getCopilot());
+
                         if (spiel.getKaffeTokenCount() > 0) {
                             useCoffee(spieler);
                         }
@@ -726,21 +731,25 @@ public class SpielGUI {
     private void freeCoffeeFieldForBoth(ControlField field, Spieler s) {
         ControlField mirrored = mirroredFields.get(field);
 
-        field.setOccupied(false);
-        switchTexture(field.getButton(), "images/spiel/main/available.png");
-        field.getButton().setTouchable(Touchable.enabled);
-
-
-        if (mirrored != null) {
+        if (s instanceof Pilot) {
+            field.setOccupied(false);
+            switchTexture(field.getButton(), "images/spiel/main/available.png");
             mirrored.setOccupied(false);
             switchTexture(mirrored.getButton(), "images/spiel/main/available.png");
             mirrored.getButton().setTouchable(Touchable.enabled);
-        }
-        System.out.println("using free coffee field for both");
-        System.out.println(field.getName());
+            addCoffeeListeners(s);
 
-        //addCoffeeListeners(s);
-        //addCoffeeListeners(spiel.getCopilot());
+        }
+
+        else {
+            field.setOccupied(false);
+            switchTexture(field.getButton(), "images/spiel/main/available.png");
+            mirrored.setOccupied(false);
+            switchTexture(mirrored.getButton(), "images/spiel/main/available.png");
+            field.getButton().setTouchable(Touchable.enabled);
+            addCoffeeListeners(s);
+        }
+
     }
 
 
