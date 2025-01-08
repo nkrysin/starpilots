@@ -38,6 +38,7 @@ public class SpielControllerGUI {
         this.spielGUI.setPlayerActionCallback(new PlayerActionCallback() {
             @Override
             public void onPlayerActionCompleted(Spieler spieler) {
+                System.out.println("Clearing listeners for pilot: " + (spieler instanceof Pilot));
                 // ЧИСТИМ только у того, кто закончил ход
                 spielGUI.clearPlayerListeners(spieler);
                 spielenSchritt();
@@ -88,6 +89,8 @@ public class SpielControllerGUI {
                         spielGUI.showNeuWurf(true);
 
                         spielGUI.useCoffee(ersterSpieler);
+
+                        System.out.println("Gui actor is pilot " + (ersterSpieler instanceof Pilot));
                         spielGUI.useNeuWurf(ersterSpieler);
 
                         nowMustBeFirst = false;
@@ -162,7 +165,7 @@ public class SpielControllerGUI {
                     finishRound();
                     if (spielLogik.checkAusfallBedingung()) {
                         spielEnde = true;
-                        spielLogik.createFinalWindow(false);
+                        //spielLogik.createFinalWindow(false);
                         state = State.END;
                     } else if (letzteRunde) {
                         state = State.FINAL_CHECK;
@@ -173,16 +176,16 @@ public class SpielControllerGUI {
 
                 case FINAL_CHECK:
                     if (spielLogik.checkGewinnBedingung()) {
-                        spielLogik.createFinalWindow(true);
+                        //spielLogik.createFinalWindow(true);
                     } else {
-                        spielLogik.createFinalWindow(false);
+                        //spielLogik.createFinalWindow(false);
                     }
                     spielEnde = true;
                     state = State.END;
                     break;
 
                 case END:
-                    spielLogik.createFinalWindow(false);
+                    //spielLogik.createFinalWindow(false);
                     spielEnde = true;
                     break;
             }

@@ -33,6 +33,7 @@ public class Pilot extends Spieler{
     //TODO проверить можно ли использовать его без повторного написания тут?
     private boolean kaffeeAufFeldPruefenUndPlatzieren(String feldName, Wuerfel wuerfel, int indexWuerfel) {
         if (!spiel.getFeldPilot(feldName).isBelegt() && !spiel.getFeldCopilot(feldName).isBelegt()) {
+            System.out.println("Deliting wuerfel -- pilot");
             wuerfelAufFeldPlatzieren(feldName, wuerfel, indexWuerfel);
             KaffeToken token = new KaffeToken();
             spiel.kaffeTokenAnzahlErhoehen(token);

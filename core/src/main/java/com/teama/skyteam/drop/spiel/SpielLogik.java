@@ -146,12 +146,15 @@ public class SpielLogik {
                     return false;
                 }
             case "PilotKaffee1":
+               System.out.println("using pilot");
                 pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, "Kaffee1");
                 return true;
             case "PilotKaffee2":
+                System.out.println("using pilot");
                 pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, "Kaffee2");
                 return true;
             case "PilotKaffee3":
+                System.out.println("using pilot");
                 pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, "Kaffee3");
                 return true;
 
@@ -204,12 +207,15 @@ public class SpielLogik {
                     return false;
                 }
             case "CopilotKaffee1":
+                System.out.println("using copilot1");
                 copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, "Kaffee1");
                 return true;
             case "CopilotKaffee2":
+                System.out.println("using copilot2");
                 copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, "Kaffee2");
                 return true;
             case "CopilotKaffee3":
+                System.out.println("using copilot3");
                 copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, "Kaffee3");
                 return true;
             default:
