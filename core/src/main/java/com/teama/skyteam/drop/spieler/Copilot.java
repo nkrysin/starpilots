@@ -28,7 +28,11 @@ public class Copilot extends Spieler {
     }
 
     private boolean kaffeeAufFeldPruefenUndPlatzieren(String feldName, Wuerfel wuerfel, int indexWuerfel) {
+
+
         if (!spiel.getFeldPilot(feldName).isBelegt() && !spiel.getFeldCopilot(feldName).isBelegt()) {
+
+            System.out.println("Deliting wuerfel -- copilot");
             wuerfelAufFeldPlatzieren(feldName, wuerfel, indexWuerfel);
             KaffeToken token = new KaffeToken();
             spiel.kaffeTokenAnzahlErhoehen(token);
