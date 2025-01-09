@@ -20,7 +20,6 @@ public class SpielControllerGUI {
     private final SpielGUI spielGUI;
     boolean nowMustBeFirst = true;
     boolean nowMustBeSecond = false;
-    boolean coffeeUsed = false;
     private State state = State.CHECK_END;
     private Spieler ersterSpieler;
     private Spieler zweiterSpieler;
@@ -39,7 +38,6 @@ public class SpielControllerGUI {
             @Override
             public void onPlayerActionCompleted(Spieler spieler) {
                 System.out.println("Clearing listeners for pilot: " + (spieler instanceof Pilot));
-                // ЧИСТИМ только у того, кто закончил ход
                 spielGUI.clearPlayerListeners(spieler);
                 spielenSchritt();
             }
@@ -237,7 +235,9 @@ public class SpielControllerGUI {
     }
 
     public void dispose() {
-        spielGUI.stage.dispose();
+        if (spielGUI != null) {
+            spielGUI.dispose();
+        }
     }
 
     private enum State {

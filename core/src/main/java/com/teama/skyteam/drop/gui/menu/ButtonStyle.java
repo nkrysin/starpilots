@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 
-class ButtonStyle {
+public class ButtonStyle {
 
     public static TextButton.TextButtonStyle style() {
         Skin skin = new Skin(Gdx.files.internal("assets/skin/flat-earth-ui.json"));

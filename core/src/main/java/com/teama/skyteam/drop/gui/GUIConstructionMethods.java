@@ -12,12 +12,15 @@ import java.util.ArrayList;
 
 public class GUIConstructionMethods {
 
+    private final ArrayList<ImageButton> createdButtons = new ArrayList<>();
+
     public ImageButton createButton(String textureName, int x, int y, int sizeX, int sizeY) {
         Texture texture = new Texture(textureName);
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.imageUp = new TextureRegionDrawable(new TextureRegion(texture));
         ImageButton button = new ImageButton(style);
         button.setBounds(x, y, sizeX, sizeY);
+        createdButtons.add(button);
         return button;
     }
 
@@ -54,5 +57,14 @@ public class GUIConstructionMethods {
         ControlField field = new ControlField("neuWurf", button);
         stage.addActor(button);
         return field;
+    }
+
+    public void dispose() {
+        for (ImageButton button : createdButtons) {
+            if (button != null) {
+                button.remove();
+            }
+        }
+        createdButtons.clear();
     }
 }

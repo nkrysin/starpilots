@@ -56,8 +56,6 @@ public class Spiel {
         kaffeTokens.add(token);
     }
 
-
-
     public ArrayList<NeuWurfToken> getNeuWurfTokens() {
         return neuWurfToken;
     }
@@ -112,8 +110,6 @@ public class Spiel {
     public Feld getFeldCopilot(String name) {
         return copilotFelds.get(name);
     }
-
-
 
     private Szenario szenario;
 
@@ -247,5 +243,22 @@ public class Spiel {
 
     void setCurrentSpeed(int currentSpeed) {
         this.currentSpeed = currentSpeed;
+    }
+
+
+
+
+    public void dispose(){
+        kaffeTokens.clear();
+        neuWurfToken.clear();
+        getFeldPilot("Kaffee1").setFree();
+        getFeldPilot("Kaffee2").setFree();
+        getFeldPilot("Kaffee3").setFree();
+        getFeldCopilot("Kaffee1").setFree();
+        getFeldCopilot("Kaffee2").setFree();
+        getFeldCopilot("Kaffee3").setFree();
+        this.runde = 1;
+        this.endBedingung = false;
+        this.kollision = false;
     }
 }

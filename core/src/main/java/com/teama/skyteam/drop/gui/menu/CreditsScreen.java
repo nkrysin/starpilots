@@ -34,7 +34,6 @@ class CreditsScreen implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        skin = new Skin(Gdx.files.internal("assets/skin/flat-earth-ui.json"));
         batch = new SpriteBatch();
         credits = new Texture("images/spiel/menu/credits.png");
         Table table = new Table();
@@ -61,7 +60,11 @@ class CreditsScreen implements Screen {
     @Override
     public void render(float delta) {
         batch.begin();
-        batch.draw(credits, 0, 0, 1920, 1080);
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+
+        batch.draw(credits, 0, 0, screenWidth, screenHeight);
+
         batch.end();
 
         stage.act(delta);
@@ -87,7 +90,6 @@ class CreditsScreen implements Screen {
 
     @Override
     public void dispose() {
-        skin.dispose();
     }
 }
 

@@ -22,4 +22,12 @@ public class TextureCache {
         }
         cache.clear();
     }
+
+    private static final TextureCache instance = new TextureCache();
+    public static TextureCache getInstance() {
+        return instance;
+    }
+
+    private TextureCache() {
+    }
 }

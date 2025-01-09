@@ -45,7 +45,7 @@ public class SpielGUI {
     private SpielLogik spielLogik;
     private Skin skin;
     private SchalterGUI schalterGUI;
-    private Image ruder = new Image(new Texture("images/spiel/main/axis 2.png"));
+    private Image ruder;
     private PlayerActionCallback callback;
     private GameUIManager gameUIManager;
     private ControlField neuWurf;
@@ -64,6 +64,8 @@ public class SpielGUI {
     }
 
     private void setRuder() {
+        Texture ruderTexture = new Texture("images/spiel/main/axis 2.png");
+        ruder = new Image(ruderTexture);
         ruder.setPosition(868, 630);
         ruder.setOrigin(ruder.getWidth() / 2, ruder.getHeight() / 2 - 5);
         this.stage.addActor(ruder);
@@ -120,10 +122,6 @@ public class SpielGUI {
         ArrayList<Wuerfel> wuerfels = spieler.getWuerfels();
         final ImageButton[] prevSelectedButton = {null};
         final String[] prevNormalTextureName = {null};
-
-        System.out.println(spieler instanceof Pilot);
-        System.out.println(wuerfelActors.size());
-        System.out.println(wuerfels.size());
 
         for (int i = 0; i < wuerfelActors.size(); i++) {
             final ImageButton wuerfelButton = wuerfelActors.get(i);
@@ -308,22 +306,16 @@ public class SpielGUI {
     public void addFieldListenersForPlacement(Spieler spieler) {
         ControlGroup mainGroup = getMainControlGroup(spieler);
         addListenersToGroupFields(mainGroup, spieler);
-        System.out.println("Placement listeners pilot " + (spieler instanceof Pilot));
-        System.out.println("Using from fields placement listener");
         addCoffeeListeners(spieler);
     }
 
     private void addCoffeeListeners(Spieler spieler) {
-        System.out.println("Coffee listener outter pilot " + (spieler instanceof Pilot));
         ControlGroup koffeeGroup = getCoffeeControlGroup(spieler);
-        System.out.println("Outter Koffee group name " + koffeeGroup.getName());
         highlightAvailableFields(koffeeGroup);
         for (ControlField field : koffeeGroup.getAvailableFields()) {
             field.getButton().addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    System.out.println("Coffee listener clicked pilot " + (spieler instanceof Pilot));
-                    System.out.println("Inner Koffee group name " + koffeeGroup.getName());
                     handleCoffeeFieldClick(field, spieler);
                 }
             });
@@ -361,7 +353,6 @@ public class SpielGUI {
         }
 
         boolean isPilot = (spieler instanceof Pilot);
-        System.out.println(isPilot);
         Wuerfel w = selectedWuerfelData.getWuerfel();
         int index = selectedWuerfelData.getWuerfelIndex();
 
@@ -644,9 +635,11 @@ public class SpielGUI {
         }
     }
 
+
     public void useCoffee(Spieler s) {
         int coffeeCount = spiel.getKaffeTokenCount();
         ControlGroup useGroup = getUseCoffeeControlGroup(s);
+
         if (coffeeCount > 0) {
             ControlField field = useGroup.getFieldByName("UseKoffe" + coffeeCount);
             if (field != null && field.isOccupied()) {
@@ -815,4 +808,72 @@ public class SpielGUI {
             });
         }
     }
+
+
+    public void dispose() {
+        if (ruder != null && ruder.getDrawable() instanceof TextureRegionDrawable) {
+            ruder.remove();
+            ruder = null;
+        }
+
+        if (guiConstructionMethods != null) {
+            guiConstructionMethods.dispose();
+
+        }
+
+        if (schalterGUI != null) {
+            schalterGUI.dispose();
+            schalterGUI = null;
+        }
+
+        if (neuWurf != null && neuWurf.getButton() != null) {
+            ImageButton button = neuWurf.getButton();
+            button.remove();
+            neuWurf = null;
+        }
+
+        for (ImageButton button : pilotWuerfelActors) {
+            button.remove();
+        }
+        pilotWuerfelActors.clear();
+
+        for (ImageButton button : copilotWuerfelActors) {
+            button.remove();
+        }
+        copilotWuerfelActors.clear();
+
+        if (pilotKoffeeControlGroup != null) {
+            pilotKoffeeControlGroup.dispose();
+            pilotKoffeeControlGroup = null;
+        }
+        if (copilotKoffeeControlGroup != null) {
+            copilotKoffeeControlGroup.dispose();
+            copilotKoffeeControlGroup = null;
+        }
+        if (pilotUseKoffeeControlGroup != null) {
+            pilotUseKoffeeControlGroup.dispose();
+            pilotUseKoffeeControlGroup = null;
+        }
+        if (copilotUseKoffeeControlGroup != null) {
+            copilotUseKoffeeControlGroup.dispose();
+            copilotUseKoffeeControlGroup = null;
+        }
+        for (ControlGroup group : controlGroups) {
+            group.dispose();
+        }
+
+        controlGroups.clear();
+
+        mirroredFields.clear();
+        selectedWuerfelData = null;
+
+
+        spielLogik = null;
+        skin = null;
+        callback = null;
+        gameUIManager = null;
+
+        spiel.dispose();
+    }
+
 }

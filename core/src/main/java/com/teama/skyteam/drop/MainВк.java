@@ -4,8 +4,9 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.teama.skyteam.drop.gui.menu.StartScreen;
 import com.badlogic.gdx.audio.Music;
+import com.teama.skyteam.drop.gui.menu.StartScreen;
+import com.teama.skyteam.drop.gui.utilities.TextureCache;
 
 public class MainВк extends ApplicationAdapter {
 
@@ -27,7 +28,7 @@ public class MainВк extends ApplicationAdapter {
     public void create() {
         menuMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/main_menu.mp3"));
         menuMusic.setLooping(true);
-        menuMusic.setVolume(0.35f);
+        menuMusic.setVolume(0.05f);
         setScreen(new StartScreen(this));
     }
 
@@ -43,22 +44,29 @@ public class MainВк extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        currentScreen.resize(width, height);
+        if (currentScreen != null) {
+            currentScreen.resize(width, height);
+        }
     }
 
     @Override
     public void pause() {
-        currentScreen.pause();
+        if (currentScreen != null) {
+            currentScreen.pause();
+        }
     }
 
     @Override
     public void resume() {
-        currentScreen.resume();
+        if (currentScreen != null) {
+            currentScreen.resume();
+        }
     }
 
     @Override
     public void dispose() {
+        super.dispose();
+        TextureCache.dispose();
         menuMusic.dispose();
-        currentScreen.dispose();
     }
 }

@@ -2,21 +2,18 @@ package com.teama.skyteam.drop.gui.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.teama.skyteam.drop.MainВк;
 
-class MainMenuScreen implements Screen {
+public class MainMenuScreen implements Screen {
     private final MainВк main;
     private Stage stage;
-    private Skin skin;
     private Texture logo;
     private SpriteBatch batch;
     private Texture planeBackground;
@@ -32,10 +29,6 @@ class MainMenuScreen implements Screen {
         }
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-
-
-
-        skin = new Skin(Gdx.files.internal("assets/skin/flat-earth-ui.json"));
 
         Table table = new Table();
         table.setFillParent(true);
@@ -75,7 +68,7 @@ class MainMenuScreen implements Screen {
 
         batch = new SpriteBatch();
         logo = new Texture("images/spiel/menu/logo.png");
-        planeBackground = new Texture("images/spiel/menu/bg_menu1.jpeg");
+        planeBackground = new Texture("images/spiel/menu/bg_menu1.png");
     }
 
     @Override
@@ -103,6 +96,5 @@ class MainMenuScreen implements Screen {
     }
     @Override
     public void dispose() {
-        skin.dispose();
     }
 }

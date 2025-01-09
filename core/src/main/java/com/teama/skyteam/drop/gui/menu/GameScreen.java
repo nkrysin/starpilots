@@ -12,12 +12,12 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.teama.skyteam.drop.MainВк;
 import com.teama.skyteam.drop.gui.GameUIManager;
-import com.teama.skyteam.drop.gui.utilities.CameraKeyboardController;
+import com.teama.skyteam.drop.gui.utilities.InputController;
 import com.teama.skyteam.drop.gui.utilities.TextureCache;
 import com.teama.skyteam.drop.spiel.Spiel;
 import com.teama.skyteam.drop.spiel.SpielControllerGUI;
 
-class GameScreen implements Screen {
+public class GameScreen implements Screen {
     private final MainВк main;
     private final Spiel spiel;
     private final float tableWidth = 1920;
@@ -30,7 +30,7 @@ class GameScreen implements Screen {
     private GameUIManager gameUIManager;
     private SpielControllerGUI spielControllerGUI;
     private Stage stage;
-    private CameraKeyboardController cameraController;
+    private InputController inputController;
     private Skin skin;
 
     public GameScreen(MainВк main, Spiel spiel) {
@@ -43,20 +43,22 @@ class GameScreen implements Screen {
         if (main.menuMusic.isPlaying()) {
             main.menuMusic.stop();
         }
+
         batch = new SpriteBatch();
-        tableTexture = new Texture("images/spiel/main/table_w_arrows.png");
-        boardTexture = new Texture("images/spiel/main/board.png");
+
+        tableTexture = TextureCache.get("images/spiel/main/table_w_arrows.png");
+        boardTexture = TextureCache.get("images/spiel/main/board.png");
 
         gameUIManager = new GameUIManager(spiel);
 
         camera = new OrthographicCamera();
         viewport = new FitViewport(1920, 1080, camera);
-        stage = new Stage(viewport, batch);
+        stage = new Stage(viewport);
 
-        cameraController = new CameraKeyboardController(camera, tableHeight, stage);
+        skin = new Skin(Gdx.files.internal("skin/flat-earth-ui.json"));
+
+        inputController = new InputController(camera, tableHeight, stage, main);
         Gdx.input.setInputProcessor(stage);
-
-        skin = new Skin(Gdx.files.internal("assets/skin/flat-earth-ui.json"));
 
         spielControllerGUI = new SpielControllerGUI(spiel, gameUIManager, stage, skin);
     }
@@ -71,20 +73,17 @@ class GameScreen implements Screen {
 
         batch.begin();
         batch.draw(tableTexture, 0, 0, tableWidth, tableHeight);
-
         gameUIManager.render(batch);
-
         batch.draw(boardTexture, 656, 115);
         batch.end();
 
         spielControllerGUI.render();
-
-        cameraController.updateAndRender(delta);
+        inputController.updateAndRender(delta);
     }
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height);
+        viewport.update(width, height, true);
         spielControllerGUI.resize(width, height);
     }
 
@@ -98,16 +97,34 @@ class GameScreen implements Screen {
 
     @Override
     public void hide() {
-        dispose();
     }
 
     @Override
     public void dispose() {
-        batch.dispose();
-        gameUIManager.dispose();
-        boardTexture.dispose();
-        tableTexture.dispose();
-        spielControllerGUI.dispose();
-        TextureCache.dispose();
+        if (batch != null) {
+            batch.dispose();
+            batch = null;
+        }
+
+        if (gameUIManager != null) {
+            gameUIManager.dispose();
+            gameUIManager = null;
+        }
+
+        if (spielControllerGUI != null) {
+            spielControllerGUI.dispose();
+            spielControllerGUI = null;
+        }
+
+        if (skin != null) {
+            skin.dispose();
+            skin = null;
+        }
+
+        if (stage != null) {
+            stage.dispose();
+            stage = null;
+        }
     }
+
 }

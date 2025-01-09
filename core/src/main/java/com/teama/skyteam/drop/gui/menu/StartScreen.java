@@ -38,7 +38,7 @@ public class StartScreen implements Screen {
             public void run() {
                 main.setScreen(new MainMenuScreen(main));
             }
-        }, 6f);
+        }, 6.6f);
     }
 
     @Override

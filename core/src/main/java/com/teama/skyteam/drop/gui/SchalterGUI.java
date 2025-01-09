@@ -4,14 +4,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.teama.skyteam.drop.gui.utilities.TextureCache;
 
 public class SchalterGUI {
     Image[] fahrgestellSchalter = new Image[3];
     Image[] bremsenSchalter = new Image[3];
     Image[] klappenSchalter = new Image[4];
-    Image bremsenIndicator = new Image(new Texture("images/spiel/markers/red_marker.png"));
-    Image fahrgestellIndicator = new Image(new Texture("images/spiel/markers/blue_marker.png"));
-    Image klappenIndicator = new Image(new Texture("images/spiel/markers/orange_marker.png"));
+    Image bremsenIndicator;
+    Image fahrgestellIndicator;
+    Image klappenIndicator;
     private final int[][] fahrgestellKoordinaten = {{705,545}, {705,410}, {705,275}};
     private final int[][] bremsenKoordinaten = {{867,242}, {960,242}, {1051,242}};
     private final int[][] klappenKoordinaten = {{1213,545}, {1213,410}, {1213,275}, {1213,139}};
@@ -23,9 +24,13 @@ public class SchalterGUI {
     private int step = 30;
     private float rotation;
     float newX, newY;
+    private final TextureCache textureCache = TextureCache.getInstance();
 
     public SchalterGUI(Stage stage) {
         this.stage = stage;
+        bremsenIndicator = new Image(textureCache.get("images/spiel/markers/red_marker.png"));
+        fahrgestellIndicator = new Image(textureCache.get("images/spiel/markers/blue_marker.png"));
+        klappenIndicator = new Image(textureCache.get("images/spiel/markers/orange_marker.png"));
     }
 
     public void addToStage(){
@@ -173,6 +178,37 @@ public class SchalterGUI {
                 klappenIndicator.setRotation(rotation);
                 klappenIndicator.addAction(Actions.moveTo(newX, newY, 0.3f));
                 break;
+        }
+    }
+
+
+    public void dispose() {
+        for (Image schalter : fahrgestellSchalter) {
+            if (schalter != null) {
+                schalter.remove();
+            }
+        }
+
+        for (Image schalter : bremsenSchalter) {
+            if (schalter != null) {
+                schalter.remove();
+            }
+        }
+
+        for (Image schalter : klappenSchalter) {
+            if (schalter != null) {
+                schalter.remove();
+            }
+        }
+
+        if (bremsenIndicator != null) {
+            bremsenIndicator.remove();
+        }
+        if (fahrgestellIndicator != null) {
+            fahrgestellIndicator.remove();
+        }
+        if (klappenIndicator != null) {
+            klappenIndicator.remove();
         }
     }
 }

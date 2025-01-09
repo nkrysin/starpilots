@@ -36,7 +36,6 @@ class ScenarioSelectionScreen implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        skin = new Skin(Gdx.files.internal("assets/skin/flat-earth-ui.json"));
 
         Table table = new Table();
         table.setFillParent(true);
@@ -84,7 +83,7 @@ class ScenarioSelectionScreen implements Screen {
 
         batch = new SpriteBatch();
         logo = new Texture("images/spiel/menu/logo.png");
-        planeBackground = new Texture("images/spiel/menu/bg_menu2.jpeg");
+        planeBackground = new Texture("images/spiel/menu/bg_menu2.png");
     }
 
     private void startGameWithScenario(Route scenario) {
@@ -124,6 +123,6 @@ class ScenarioSelectionScreen implements Screen {
 
     @Override
     public void dispose() {
-        skin.dispose();
+
     }
 }

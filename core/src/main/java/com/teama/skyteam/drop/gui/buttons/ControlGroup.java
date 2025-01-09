@@ -1,5 +1,9 @@
 package com.teama.skyteam.drop.gui.buttons;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.teama.skyteam.drop.gui.utilities.TextureCache;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +45,15 @@ public class ControlGroup {
 
     public List<ControlField> getAllFields() {
         return new ArrayList<>(fields.values());
+    }
+
+    public void dispose() {
+        for (ControlField field : fields.values()) {
+            if (field.getButton() != null) {
+                field.getButton().remove();
+            }
+        }
+        fields.clear();
     }
 
 
