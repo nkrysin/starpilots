@@ -1,9 +1,8 @@
 package com.teama.skyteam.drop.szenario;
 
-public class ReiseFeld { //Feld
-
+public class ReiseFeld {
     private final boolean istFlughafen;
-    private int planes; // Anzahl der Flugzeuge auf diesem Feld.
+    private int planes;
 
     ReiseFeld(int planes, boolean istFlughafen) {
 
@@ -13,7 +12,7 @@ public class ReiseFeld { //Feld
 
 
     public void removeFlugzeug() {
-        setAnzahlFlugzeug(getAnzahlFlugzeug()-1);
+        setAnzahlFlugzeug(getAnzahlFlugzeug() - 1);
     }
 
     public int getAnzahlFlugzeug() {

@@ -1,9 +1,9 @@
 package com.teama.skyteam.drop.szenario.flughoehe;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Flughoehe {
-
     private int hoehe;
     private boolean hatErneuWerfen;
 
@@ -12,16 +12,8 @@ public class Flughoehe {
         this.hatErneuWerfen = hatErneuWerfen;
     }
 
-    public int getHoehe() {
-        return hoehe;
-    }
-
-    public boolean hatErneuWerfen() {
-        return hatErneuWerfen;
-    }
-
-    public static List<Flughoehe> createHoeheSzenario(String type){
-        switch (type.toUpperCase()){
+    public static List<Flughoehe> createHoeheSzenario(String type) {
+        switch (type.toUpperCase()) {
             case "GREEN":
                 return createGreenSzenario();
             case "RED":
@@ -47,4 +39,11 @@ public class Flughoehe {
         return redSzenario;
     }
 
+    public int getHoehe() {
+        return hoehe;
+    }
+
+    public boolean hatErneuWerfen() {
+        return hatErneuWerfen;
+    }
 }

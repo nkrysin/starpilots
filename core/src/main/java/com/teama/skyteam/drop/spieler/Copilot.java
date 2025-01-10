@@ -8,10 +8,6 @@ public class Copilot extends Spieler {
 
     private Spiel spiel;
 
-    public Copilot(String name, Spiel spiel) {
-        super(name);
-        this.spiel = spiel;
-    }
     public Copilot(Spiel spiel) {
         super();
         this.spiel = spiel;
@@ -22,36 +18,30 @@ public class Copilot extends Spieler {
 
         if (feld.wuerfelPlatzieren(wuerfel)) {
             getWuerfels().remove(indexWuerfel);
+            if ("Kaffee1".equals(feldName) || "Kaffee2".equals(feldName) || "Kaffee3".equals(feldName)) {
+                spiel.getFeldPilot(feldName).setBelegt();
+            }
         } else {
             throw new IllegalArgumentException("Feld '" + feldName + "' ist schon belegt!");
         }
     }
 
-    private boolean kaffeeAufFeldPruefenUndPlatzieren(String feldName, Wuerfel wuerfel, int indexWuerfel) {
+    private void kaffeeAufFeldPruefenUndPlatzieren(String feldName, Wuerfel wuerfel, int indexWuerfel) {
         if (!spiel.getFeldPilot(feldName).isBelegt() && !spiel.getFeldCopilot(feldName).isBelegt()) {
             wuerfelAufFeldPlatzieren(feldName, wuerfel, indexWuerfel);
             KaffeToken token = new KaffeToken();
             spiel.kaffeTokenAnzahlErhoehen(token);
-            return true;
         }
-        return false;
     }
 
     @Override
-    public void kaffeeWaehlen(Wuerfel wuerfel, int  indexWuerfel) {
-
+    public void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel, String kaffee) {
 
         if (spiel.getKaffeTokenCount() >= 3) {
             throw new IllegalArgumentException("Sie können nicht mehr als 3 KaffeTokens haben!");
         }
 
-        String[] kaffeFelder = {"kaffeFeld1", "kaffeFeld2", "kaffeFeld3"};
-
-        for (String feldName : kaffeFelder) {
-             if (kaffeeAufFeldPruefenUndPlatzieren(feldName, wuerfel, indexWuerfel)){
-                 break;
-             }
-        }
+        kaffeeAufFeldPruefenUndPlatzieren(kaffee, wuerfel, indexWuerfel);
 
     }
 
@@ -61,11 +51,9 @@ public class Copilot extends Spieler {
 
         if (!spiel.getFeldCopilot("radioFeld1").isBelegt()) {
             wuerfelAufFeldPlatzieren("radioFeld1", wuerfel, indexWuerfel);
-        }
-        else if (!spiel.getFeldCopilot("radioFeld2").isBelegt()) {
+        } else if (!spiel.getFeldCopilot("radioFeld2").isBelegt()) {
             wuerfelAufFeldPlatzieren("radioFeld2", wuerfel, indexWuerfel);
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Beide Radiofelder sind bereits belegt!");
         }
     }
@@ -87,7 +75,7 @@ public class Copilot extends Spieler {
                 wuerfelAufFeldPlatzieren("klappenFeld1_2", wuerfel, indexWuerfel);
                 break;
             case 2:
-                if(!spiel.getFeldCopilot("klappenFeld1_2").isBelegt()){
+                if (!spiel.getFeldCopilot("klappenFeld1_2").isBelegt()) {
                     wuerfelAufFeldPlatzieren("klappenFeld1_2", wuerfel, indexWuerfel);
                     break;
                 }

@@ -1,0 +1,42 @@
+package com.teama.skyteam.drop.spiel;
+
+import com.teama.skyteam.drop.flugzeug.Flugzeug;
+import com.teama.skyteam.drop.spieler.Copilot;
+import com.teama.skyteam.drop.spieler.Pilot;
+import com.teama.skyteam.drop.szenario.Route;
+
+
+public class SpielConstructor {
+    private static Spiel spiel;
+
+    private SpielConstructor() {
+    }
+
+    public static Spiel createSpiel(Route route) {
+        if (spiel != null) {
+            spiel = null;
+        }
+        if (spiel == null) {
+            spiel = new Spiel();
+            spiel.setFlugzeug(new Flugzeug());
+
+            Pilot pilot = new Pilot(spiel);
+            spiel.setPilot(pilot);
+
+            Copilot copilot = new Copilot(spiel);
+            spiel.setCopilot(copilot);
+
+            spiel.setPilotFelds();
+            spiel.setCopilotFelds();
+
+            spiel.setSzenario(route);
+
+            spiel.updateCurrentField();
+            spiel.updateCurrentHoehe();
+
+            spiel.setRouteSzenario();
+            spiel.setHoeheSzenario();
+        }
+        return spiel;
+    }
+}

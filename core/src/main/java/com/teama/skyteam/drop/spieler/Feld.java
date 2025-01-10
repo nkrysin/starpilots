@@ -12,7 +12,6 @@ public class Feld {
         this.wuerfel = null;
     }
 
-
     public boolean isBelegt() {
         return belegt;
     }
@@ -40,4 +39,7 @@ public class Feld {
         this.belegt = true;
     }
 
+    public void setBelegt() {
+        this.belegt = true;
+    }
 }

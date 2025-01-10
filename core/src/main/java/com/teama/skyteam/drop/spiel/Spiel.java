@@ -4,7 +4,6 @@ import com.teama.skyteam.drop.flugzeug.Flugzeug;
 import com.teama.skyteam.drop.spieler.Copilot;
 import com.teama.skyteam.drop.spieler.Feld;
 import com.teama.skyteam.drop.spieler.Pilot;
-import com.teama.skyteam.drop.szenario.HoeheSzenarioTypes;
 import com.teama.skyteam.drop.szenario.ReiseFeld;
 import com.teama.skyteam.drop.szenario.Route;
 import com.teama.skyteam.drop.szenario.Szenario;
@@ -13,7 +12,10 @@ import com.teama.skyteam.drop.tokens.KaffeToken;
 import com.teama.skyteam.drop.tokens.NeuWurfToken;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TreeMap;
 
 public class Spiel {
     private Pilot pilot;
@@ -22,8 +24,6 @@ public class Spiel {
     private HashMap<String, Feld> copilotFelds;
     private ReiseFeld currentField;
     private int position = 0;
-    //TODO ОБЯЗАТЕЛЬНО присвоить сюда значение, чтобы потом отрисовывать его
-    private HoeheSzenarioTypes hoeheSzenarioType;
     private Flughoehe currentHoehe;
     private List<Flughoehe> hoeheSzenario;
     private TreeMap<Integer, ReiseFeld> routeSzenario;
@@ -34,6 +34,8 @@ public class Spiel {
     private ArrayList<KaffeToken> kaffeTokens = new ArrayList<KaffeToken>();
     private ArrayList<NeuWurfToken> neuWurfToken = new ArrayList<NeuWurfToken>();
 
+    private int currentSpeed;
+    private Szenario szenario;
 
     boolean isKollision() {
         return kollision;
@@ -47,7 +49,7 @@ public class Spiel {
         return kaffeTokens;
     }
 
-    public int getKaffeTokenCount(){
+    public int getKaffeTokenCount() {
         return kaffeTokens.size();
     }
 
@@ -55,13 +57,11 @@ public class Spiel {
         kaffeTokens.add(token);
     }
 
-
-
     public ArrayList<NeuWurfToken> getNeuWurfTokens() {
         return neuWurfToken;
     }
 
-    public int getNeuWurfTokenCount(){
+    public int getNeuWurfTokenCount() {
         return neuWurfToken.size();
     }
 
@@ -69,28 +69,25 @@ public class Spiel {
         neuWurfToken.add(new NeuWurfToken());
     }
 
-
-
-
-    void setPilotFelds(){
+    void setPilotFelds() {
         HashMap<String, Feld> pilotFelds = new HashMap<>();
         pilotFelds.put("radioFeld", new Feld());
         pilotFelds.put("neigenFeld", new Feld());
         pilotFelds.put("speedFeld", new Feld());
-        pilotFelds.put("fahrgestellFeld1_2", new Feld()); //drei neue Felder hinzugefügt,um Fahrgestell zu nutzen
+        pilotFelds.put("fahrgestellFeld1_2", new Feld());
         pilotFelds.put("fahrgestellFeld3_4", new Feld());
         pilotFelds.put("fahrgestellFeld5_6", new Feld());
         pilotFelds.put("bremsenFeld2", new Feld());
         pilotFelds.put("bremsenFeld4", new Feld());
         pilotFelds.put("bremsenFeld6", new Feld());
-        pilotFelds.put("kaffeFeld1", new Feld());
-        pilotFelds.put("kaffeFeld2", new Feld());
-        pilotFelds.put("kaffeFeld3", new Feld());
+        pilotFelds.put("Kaffee1", new Feld());
+        pilotFelds.put("Kaffee2", new Feld());
+        pilotFelds.put("Kaffee3", new Feld());
         this.pilotFelds = pilotFelds;
 
     }
 
-    void setCopilotFelds(){
+    void setCopilotFelds() {
         HashMap<String, Feld> copilotFelds = new HashMap<>();
         copilotFelds.put("radioFeld1", new Feld());
         copilotFelds.put("radioFeld2", new Feld());
@@ -100,9 +97,9 @@ public class Spiel {
         copilotFelds.put("klappenFeld2_3", new Feld());
         copilotFelds.put("klappenFeld4_5", new Feld());
         copilotFelds.put("klappenFeld5_6", new Feld());
-        copilotFelds.put("kaffeFeld1", new Feld());
-        copilotFelds.put("kaffeFeld2", new Feld());
-        copilotFelds.put("kaffeFeld3", new Feld());
+        copilotFelds.put("Kaffee1", new Feld());
+        copilotFelds.put("Kaffee2", new Feld());
+        copilotFelds.put("Kaffee3", new Feld());
         this.copilotFelds = copilotFelds;
     }
 
@@ -114,38 +111,7 @@ public class Spiel {
         return copilotFelds.get(name);
     }
 
-
-
-    private Szenario szenario;
-
-    void setSzenario(Route route) {
-        try {
-            //TODO Поменять это на нормальный
-            /*
-             *
-             * Logik wie man das Szenario auf Bildschirm wählt
-             *
-             * */
-            switch (route){
-                case HANEDA ->
-                        this.szenario = new Szenario(Route.HANEDA);
-                case MONTREAL_TRUDEAU ->
-                        this.szenario = new Szenario(Route.MONTREAL_TRUDEAU);
-                case KUALA_LUMPUR ->
-                        this.szenario = new Szenario(Route.KUALA_LUMPUR);
-        }
-
-        } catch (IOException e) {
-            //TODO Поменять это на нормальный вывод без println
-            System.err.println("Fehler beim Erstellen des Szenarios: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-
-
-
-    void updateCurrentField(){
+    void updateCurrentField() {
         this.currentField = getCurrentField();
     }
 
@@ -161,40 +127,29 @@ public class Spiel {
         this.position = position;
     }
 
-    void updateCurrentHoehe(){
+    void updateCurrentHoehe() {
         this.currentHoehe = getCurrentHoehe();
     }
+
     Flughoehe getCurrentHoehe() {
         return szenario.getCurrentFlughoehe();
     }
 
-
-
-    void setRouteSzenario(){
+    void setRouteSzenario() {
         this.routeSzenario = getRouteSzenario();
     }
-    TreeMap<Integer, ReiseFeld> getRouteSzenario() {
+
+    public TreeMap<Integer, ReiseFeld> getRouteSzenario() {
         return szenario.getCurrentRoute();
     }
 
-
-    void setHoeheSzenario(){
+    void setHoeheSzenario() {
         this.hoeheSzenario = getHoeheSzenario();
     }
+
     List<Flughoehe> getHoeheSzenario() {
         return szenario.getHoeheSzenario();
     }
-
-    //TODO не забыть его использовать при отрисовке игры
-    private HoeheSzenarioTypes getHoeheSzenarioType() {
-        return szenario.getHoeheSzenarioType();
-    }
-
-    //TODO понять нужен ли он вообще тут
-    public void setKaffeTokens(ArrayList<KaffeToken> kaffeTokens) {
-        this.kaffeTokens = kaffeTokens;
-    }
-
 
     public int getRunde() {
         return runde;
@@ -204,9 +159,22 @@ public class Spiel {
         this.runde = runde;
     }
 
-    //TODO не забыть его использовать при отрисовке игры
     public Szenario getSzenario() {
         return szenario;
+    }
+
+    void setSzenario(Route route) {
+        try {
+            switch (route) {
+                case HANEDA -> this.szenario = new Szenario(Route.HANEDA);
+                case MONTREAL_TRUDEAU -> this.szenario = new Szenario(Route.MONTREAL_TRUDEAU);
+                case KUALA_LUMPUR -> this.szenario = new Szenario(Route.KUALA_LUMPUR);
+            }
+
+        } catch (IOException e) {
+            System.err.println("Fehler beim Erstellen des Szenarios: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public Copilot getCopilot() {
@@ -232,13 +200,14 @@ public class Spiel {
     public void setFlugzeug(Flugzeug flugzeug) {
         this.flugzeug = flugzeug;
     }
-    //TODO понять нужен ли он вообще тут
-    public boolean isEndBedingung() {
-        return endBedingung;
-    }
+
 
     public void setEndBedingung(boolean endBedingung) {
         this.endBedingung = endBedingung;
     }
 
+
+    void setCurrentSpeed(int currentSpeed) {
+        this.currentSpeed = currentSpeed;
+    }
 }

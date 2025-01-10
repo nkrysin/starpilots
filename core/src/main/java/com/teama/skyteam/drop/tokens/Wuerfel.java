@@ -5,6 +5,10 @@ import java.util.Random;
 public class Wuerfel {
     private int wert;
 
+    public Wuerfel() {
+        wuerfeln();
+    }
+
     public int getWert() {
         return wert;
     }
@@ -15,12 +19,8 @@ public class Wuerfel {
         this.wert = randomNumber;
     }
 
-    public Wuerfel() {
-        wuerfeln();
-    }
-
-    void wertAendern(KaffeTokenAktion aktion){
-        switch(aktion){
+    void wertAendern(KaffeTokenAktion aktion) {
+        switch (aktion) {
             case PLUS:
                 this.wert = getWert() + 1;
                 break;

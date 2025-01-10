@@ -10,10 +10,6 @@ public class Pilot extends Spieler{
 
     private  Spiel spiel;
 
-    public Pilot(String name, Spiel spiel) {
-        super(name);
-        this.spiel = spiel;
-    }
     public Pilot(Spiel spiel) {
         super();
         this.spiel = spiel;
@@ -24,38 +20,33 @@ public class Pilot extends Spieler{
 
         if (feld.wuerfelPlatzieren(wuerfel)) {
             getWuerfels().remove(indexWuerfel);
+            if ("Kaffee1".equals(feldName) || "Kaffee2".equals(feldName) || "Kaffee3".equals(feldName)) {
+                spiel.getFeldCopilot(feldName).setBelegt();
+
+            }
         } else {
             throw new IllegalArgumentException("Feld '" + feldName + "' ist schon belegt!");
         }
     }
 
 
-    //TODO проверить можно ли использовать его без повторного написания тут?
-    private boolean kaffeeAufFeldPruefenUndPlatzieren(String feldName, Wuerfel wuerfel, int indexWuerfel) {
+    private void kaffeeAufFeldPruefenUndPlatzieren(String feldName, Wuerfel wuerfel, int indexWuerfel) {
         if (!spiel.getFeldPilot(feldName).isBelegt() && !spiel.getFeldCopilot(feldName).isBelegt()) {
             wuerfelAufFeldPlatzieren(feldName, wuerfel, indexWuerfel);
             KaffeToken token = new KaffeToken();
             spiel.kaffeTokenAnzahlErhoehen(token);
-            return true;
         }
-        return false;
     }
 
     @Override
-    public void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel) {
+    public void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel, String kaffeeFeld) {
         if (spiel.getKaffeTokenCount() >= 3) {
             throw new IllegalArgumentException("Sie können nicht mehr als 3 KaffeTokens haben!");
         }
 
-        String[] kaffeFelder = {"kaffeFeld1", "kaffeFeld2", "kaffeFeld3"};
+        kaffeeAufFeldPruefenUndPlatzieren(kaffeeFeld, wuerfel, indexWuerfel);
 
-        for (String feldName : kaffeFelder) {
-            if (kaffeeAufFeldPruefenUndPlatzieren(feldName, wuerfel, indexWuerfel)){
-                break;
-            }
-        }
     }
-
 
     @Override
     public void radioWaehlen(Wuerfel wuerfel, int indexWuerfel) {
@@ -105,5 +96,4 @@ public class Pilot extends Spieler{
                 throw new IllegalArgumentException("Ein Würfel mit diesem Wert kann nicht auf diesem Feld platziert werden!");
         }
     }
-
 }
