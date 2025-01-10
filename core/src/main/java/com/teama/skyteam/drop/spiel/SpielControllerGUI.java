@@ -3,7 +3,7 @@ package com.teama.skyteam.drop.spiel;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.teama.skyteam.drop.gui.GameUIManager;
+import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
 import com.teama.skyteam.drop.gui.SpielGUI;
 import com.teama.skyteam.drop.gui.utilities.PlayerActionCallback;
 import com.teama.skyteam.drop.spieler.Feld;
@@ -16,7 +16,7 @@ public class SpielControllerGUI {
 
     private final Spiel spiel;
     private final SpielLogik spielLogik;
-    private final GameUIManager gameUIManager;
+    private final SzenarioHoeheManager szenarioHoeheManager;
     private final SpielGUI spielGUI;
     boolean nowMustBeFirst = true;
     boolean nowMustBeSecond = false;
@@ -28,11 +28,11 @@ public class SpielControllerGUI {
     private boolean letzteRunde = false;
     private boolean spielEnde = false;
 
-    public SpielControllerGUI(Spiel spiel, GameUIManager gameUIManager, Stage stage, Skin skin) {
+    public SpielControllerGUI(Spiel spiel, SzenarioHoeheManager szenarioHoeheManager, Stage stage, Skin skin) {
         this.spiel = spiel;
-        this.spielGUI = new SpielGUI(spiel, stage, skin, gameUIManager);
-        this.gameUIManager = gameUIManager;
-        this.spielLogik = new SpielLogik(spiel, stage, skin, spielGUI.getSchalterGUI(), spielGUI.getRuder(), gameUIManager);
+        this.spielGUI = new SpielGUI(spiel, stage, skin, szenarioHoeheManager);
+        this.szenarioHoeheManager = szenarioHoeheManager;
+        this.spielLogik = new SpielLogik(spiel, stage, skin, spielGUI.getSchalterGUI(), spielGUI.getRuder(), szenarioHoeheManager);
 
         this.spielGUI.setPlayerActionCallback(new PlayerActionCallback() {
             @Override
@@ -163,7 +163,7 @@ public class SpielControllerGUI {
                     finishRound();
                     if (spielLogik.checkAusfallBedingung()) {
                         spielEnde = true;
-                        //spielLogik.createFinalWindow(false);
+                        spielLogik.createFinalWindow(false);
                         state = State.END;
                     } else if (letzteRunde) {
                         state = State.FINAL_CHECK;
@@ -174,16 +174,16 @@ public class SpielControllerGUI {
 
                 case FINAL_CHECK:
                     if (spielLogik.checkGewinnBedingung()) {
-                        //spielLogik.createFinalWindow(true);
+                        spielLogik.createFinalWindow(true);
                     } else {
-                        //spielLogik.createFinalWindow(false);
+                        spielLogik.createFinalWindow(false);
                     }
                     spielEnde = true;
                     state = State.END;
                     break;
 
                 case END:
-                    //spielLogik.createFinalWindow(false);
+                    spielLogik.createFinalWindow(false);
                     spielEnde = true;
                     break;
             }
@@ -214,7 +214,7 @@ public class SpielControllerGUI {
         spielLogik.removeDiceFromOneUseFelds(oneUseFelds);
         spielLogik.clearManyUseFelds();
         spielGUI.clearManyUseFields();
-        gameUIManager.updateHoehe();
+        szenarioHoeheManager.updateHoehe();
 
         spiel.setRunde(spiel.getRunde() + 1);
         spielLogik.hoeheReduzieren();

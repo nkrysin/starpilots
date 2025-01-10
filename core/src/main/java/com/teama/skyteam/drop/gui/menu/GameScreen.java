@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.teama.skyteam.drop.MainВк;
-import com.teama.skyteam.drop.gui.GameUIManager;
+import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
 import com.teama.skyteam.drop.gui.utilities.InputController;
 import com.teama.skyteam.drop.gui.utilities.TextureCache;
 import com.teama.skyteam.drop.spiel.Spiel;
@@ -27,7 +27,7 @@ public class GameScreen implements Screen {
     private Texture boardTexture;
     private OrthographicCamera camera;
     private Viewport viewport;
-    private GameUIManager gameUIManager;
+    private SzenarioHoeheManager szenarioHoeheManager;
     private SpielControllerGUI spielControllerGUI;
     private Stage stage;
     private InputController inputController;
@@ -49,7 +49,7 @@ public class GameScreen implements Screen {
         tableTexture = TextureCache.get("images/spiel/main/table_w_arrows.png");
         boardTexture = TextureCache.get("images/spiel/main/board.png");
 
-        gameUIManager = new GameUIManager(spiel);
+        szenarioHoeheManager = new SzenarioHoeheManager(spiel);
 
         camera = new OrthographicCamera();
         viewport = new FitViewport(1920, 1080, camera);
@@ -60,7 +60,7 @@ public class GameScreen implements Screen {
         inputController = new InputController(camera, tableHeight, stage, main);
         Gdx.input.setInputProcessor(stage);
 
-        spielControllerGUI = new SpielControllerGUI(spiel, gameUIManager, stage, skin);
+        spielControllerGUI = new SpielControllerGUI(spiel, szenarioHoeheManager, stage, skin);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class GameScreen implements Screen {
 
         batch.begin();
         batch.draw(tableTexture, 0, 0, tableWidth, tableHeight);
-        gameUIManager.render(batch);
+        szenarioHoeheManager.render(batch);
         batch.draw(boardTexture, 656, 115);
         batch.end();
 
@@ -106,9 +106,9 @@ public class GameScreen implements Screen {
             batch = null;
         }
 
-        if (gameUIManager != null) {
-            gameUIManager.dispose();
-            gameUIManager = null;
+        if (szenarioHoeheManager != null) {
+            szenarioHoeheManager.dispose();
+            szenarioHoeheManager = null;
         }
 
         if (spielControllerGUI != null) {

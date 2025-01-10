@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.teama.skyteam.drop.flugzeug.Klappen;
-import com.teama.skyteam.drop.gui.GameUIManager;
+import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
 import com.teama.skyteam.drop.gui.SchalterGUI;
 import com.teama.skyteam.drop.spieler.*;
 import com.teama.skyteam.drop.szenario.ReiseFeld;
@@ -32,15 +32,15 @@ public class SpielLogik {
     private SchalterGUI schalterGUI;
     private Image ruder;
     private int neuerWert;
-    private GameUIManager gameUIManager;
+    private SzenarioHoeheManager szenarioHoeheManager;
 
-    public SpielLogik(Spiel spiel, Stage stage, Skin skin, SchalterGUI schalterGUI, Image ruder, GameUIManager gameUIManager) {
+    public SpielLogik(Spiel spiel, Stage stage, Skin skin, SchalterGUI schalterGUI, Image ruder, SzenarioHoeheManager szenarioHoeheManager) {
         this.spiel = spiel;
         this.stage = stage;
         this.skin = skin;
         this.schalterGUI = schalterGUI;
         this.ruder = ruder;
-        this.gameUIManager = gameUIManager;
+        this.szenarioHoeheManager = szenarioHoeheManager;
     }
 
     boolean checkAusfallBedingung() {
@@ -318,7 +318,7 @@ public class SpielLogik {
             }
             spiel.setPosition(newPosition);
             spiel.updateCurrentField();
-            gameUIManager.updateScenario(steps);
+            szenarioHoeheManager.updateScenario(steps);
         }
     }
 
@@ -496,7 +496,6 @@ public class SpielLogik {
             window.setModal(true);
             window.setMovable(false);
             Label label = new Label("Wem möchten Sie neue Würfel geben?", skin);
-            label.setWrap(true);
             window.add(label).pad(20).row();
             Table buttonTable = new Table();
             NeuWurfToken token = neuWurfToken();

@@ -6,11 +6,11 @@ import com.teama.skyteam.drop.gui.szenario.HoeheGUI;
 import com.teama.skyteam.drop.gui.szenario.SzenarioGUI;
 import com.teama.skyteam.drop.spiel.Spiel;
 
-public class GameUIManager {
+public class SzenarioHoeheManager {
     private SzenarioGUI szenarioGUI;
     private HoeheGUI hoeheGUI;
 
-    public GameUIManager(Spiel spiel) {
+    public SzenarioHoeheManager(Spiel spiel) {
         //TODO изменить конструктор
         //этот класс по идее должен отвечать за высоты и прочее с ним связанноее, надо его внимательно делать
         //но я честно забыл почему он зовется GameUIManager лол

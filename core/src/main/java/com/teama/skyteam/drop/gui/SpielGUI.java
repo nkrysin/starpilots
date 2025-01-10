@@ -47,10 +47,10 @@ public class SpielGUI {
     private SchalterGUI schalterGUI;
     private Image ruder;
     private PlayerActionCallback callback;
-    private GameUIManager gameUIManager;
+    private SzenarioHoeheManager szenarioHoeheManager;
     private ControlField neuWurf;
 
-    public SpielGUI(Spiel spiel, Stage stage, Skin skin, GameUIManager gameUIManager) {
+    public SpielGUI(Spiel spiel, Stage stage, Skin skin, SzenarioHoeheManager szenarioHoeheManager) {
         this.spiel = spiel;
         this.stage = stage;
         this.skin = skin;
@@ -58,13 +58,13 @@ public class SpielGUI {
         this.guiConstructionMethods = new GUIConstructionMethods();
         schalterGUI = new SchalterGUI(stage);
         schalterGUI.addToStage();
-        this.gameUIManager = gameUIManager;
-        spielLogik = new SpielLogik(spiel, stage, skin, schalterGUI, ruder, gameUIManager);
+        this.szenarioHoeheManager = szenarioHoeheManager;
+        spielLogik = new SpielLogik(spiel, stage, skin, schalterGUI, ruder, szenarioHoeheManager);
         createFieldActors();
     }
 
     private void setRuder() {
-        Texture ruderTexture = new Texture("images/spiel/main/axis 2.png");
+        Texture ruderTexture = new Texture("images/spiel/main/axis.png");
         ruder = new Image(ruderTexture);
         ruder.setPosition(868, 630);
         ruder.setOrigin(ruder.getWidth() / 2, ruder.getHeight() / 2 - 5);
@@ -871,7 +871,7 @@ public class SpielGUI {
         spielLogik = null;
         skin = null;
         callback = null;
-        gameUIManager = null;
+        szenarioHoeheManager = null;
 
         spiel.dispose();
     }
