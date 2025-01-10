@@ -9,14 +9,9 @@ import java.util.ArrayList;
 
 public abstract class Spieler {
 
-    public String name;
-
-
     private ArrayList<Wuerfel> wuerfels =  new ArrayList<Wuerfel>(4);
 
-    public Spieler(String name) {
-        this.name = name;
-    }
+
     public Spieler(){
 
     }
@@ -35,8 +30,6 @@ public abstract class Spieler {
     }
 
 
-
-    //muss überprüft werden, ob einen NeuwurfTocken vorhanden ist
     public void neuWurfTokenBenutzen(NeuWurfToken token, Spieler target){
         target.setWuerfels(token.erneutWerfen(target));
     }
@@ -61,29 +54,11 @@ public abstract class Spieler {
             wuerfel = token.wertAendern(aktion, wuerfel);
             wuerfels.set(indexWuerfel, wuerfel);
         }
-
-
-        //danach im spiel sollte einen KaffeeToken aus dem ArrayList gelöscht werden
     }
 
     protected abstract void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel, String kaffeeFeld);
     protected abstract void radioWaehlen(Wuerfel wuerfel, int indexWuerfel);
     protected abstract void speedWaehlen(Wuerfel wuerfel, int indexWuerfel);
     protected abstract void  neigenWaehlen(Wuerfel wuerfel, int indexWuerfel);
-
-    public void aktionAusfuehren(String aktion, Wuerfel wuerfel, int indexWuerfel) {
-        switch (aktion.toLowerCase()) {
-            case "speed":
-                speedWaehlen(wuerfel, indexWuerfel);
-                break;
-            case "neigen":
-                neigenWaehlen(wuerfel, indexWuerfel);
-                break;
-            default:
-                throw new IllegalArgumentException("Unbekannte Aktion: " + aktion);
-        }
-    }
-
-
 
 }

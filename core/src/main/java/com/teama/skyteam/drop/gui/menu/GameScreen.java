@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.teama.skyteam.drop.MainВк;
+import com.teama.skyteam.drop.MainBk;
 import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
 import com.teama.skyteam.drop.gui.utilities.InputController;
 import com.teama.skyteam.drop.gui.utilities.TextureCache;
@@ -18,7 +18,7 @@ import com.teama.skyteam.drop.spiel.Spiel;
 import com.teama.skyteam.drop.spiel.SpielControllerGUI;
 
 public class GameScreen implements Screen {
-    private final MainВк main;
+    private final MainBk main;
     private final Spiel spiel;
     private final float tableWidth = 1920;
     private final float tableHeight = 1700;
@@ -33,7 +33,7 @@ public class GameScreen implements Screen {
     private InputController inputController;
     private Skin skin;
 
-    public GameScreen(MainВк main, Spiel spiel) {
+    public GameScreen(MainBk main, Spiel spiel) {
         this.main = main;
         this.spiel = spiel;
     }

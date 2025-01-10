@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.teama.skyteam.drop.MainВк;
+import com.teama.skyteam.drop.MainBk;
 import com.teama.skyteam.drop.gui.menu.ButtonStyle;
 import com.teama.skyteam.drop.gui.menu.MainMenuScreen;
 
@@ -26,11 +26,11 @@ public class InputController {
     private boolean limitCamera = true;
     private boolean isPaused = false;
 
-    private MainВк main;
+    private MainBk main;
 
     private Image pauseBackground;
 
-    public InputController(OrthographicCamera camera, float tableHeight, Stage stage, MainВк main){
+    public InputController(OrthographicCamera camera, float tableHeight, Stage stage, MainBk main){
         this.camera = camera;
         this.tableHeight = tableHeight;
         this.stage = stage;

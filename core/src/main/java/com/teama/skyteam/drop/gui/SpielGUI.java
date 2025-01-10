@@ -547,8 +547,6 @@ public class SpielGUI {
         if (spieler instanceof Pilot) {
             for (ControlField field : getPilotKoffeeControlGroup().getAllFields()) {
                 field.getButton().clearListeners();
-                //TODO check is this is right
-                //switchTexture(field.getButton(), "images/spiel/main/empty.png");
             }
             for (ControlField field : getPilotUseKoffeeControlGroup().getAllFields()) {
                 field.getButton().clearListeners();

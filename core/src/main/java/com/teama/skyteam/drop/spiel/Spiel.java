@@ -4,7 +4,6 @@ import com.teama.skyteam.drop.flugzeug.Flugzeug;
 import com.teama.skyteam.drop.spieler.Copilot;
 import com.teama.skyteam.drop.spieler.Feld;
 import com.teama.skyteam.drop.spieler.Pilot;
-import com.teama.skyteam.drop.szenario.HoeheSzenarioTypes;
 import com.teama.skyteam.drop.szenario.ReiseFeld;
 import com.teama.skyteam.drop.szenario.Route;
 import com.teama.skyteam.drop.szenario.Szenario;
@@ -124,7 +123,6 @@ public class Spiel {
         }
 
         } catch (IOException e) {
-            //TODO Поменять это на нормальный вывод без println
             System.err.println("Fehler beim Erstellen des Szenarios: " + e.getMessage());
             e.printStackTrace();
         }

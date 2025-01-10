@@ -6,10 +6,10 @@ import com.teama.skyteam.drop.spieler.Pilot;
 import com.teama.skyteam.drop.szenario.Route;
 
 
-public class SpielSingletonConstructor {
+public class SpielConstructor {
     private static Spiel spiel;
 
-    private SpielSingletonConstructor() {
+    private SpielConstructor() {
     }
 
     public static Spiel createSpiel(Route route) {

@@ -10,10 +10,7 @@ public class Pilot extends Spieler{
 
     private  Spiel spiel;
 
-    public Pilot(String name, Spiel spiel) {
-        super(name);
-        this.spiel = spiel;
-    }
+
     public Pilot(Spiel spiel) {
         super();
         this.spiel = spiel;
@@ -30,16 +27,13 @@ public class Pilot extends Spieler{
     }
 
 
-    //TODO проверить можно ли использовать его без повторного написания тут?
-    private boolean kaffeeAufFeldPruefenUndPlatzieren(String feldName, Wuerfel wuerfel, int indexWuerfel) {
+    private void kaffeeAufFeldPruefenUndPlatzieren(String feldName, Wuerfel wuerfel, int indexWuerfel) {
         if (!spiel.getFeldPilot(feldName).isBelegt() && !spiel.getFeldCopilot(feldName).isBelegt()) {
             System.out.println("Deliting wuerfel -- pilot");
             wuerfelAufFeldPlatzieren(feldName, wuerfel, indexWuerfel);
             KaffeToken token = new KaffeToken();
             spiel.kaffeTokenAnzahlErhoehen(token);
-            return true;
         }
-        return false;
     }
 
     @Override

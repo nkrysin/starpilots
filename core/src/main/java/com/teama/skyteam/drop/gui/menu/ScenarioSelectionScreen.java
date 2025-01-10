@@ -2,7 +2,6 @@ package com.teama.skyteam.drop.gui.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -11,20 +10,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.teama.skyteam.drop.MainВк;
+import com.teama.skyteam.drop.MainBk;
 import com.teama.skyteam.drop.spiel.Spiel;
-import com.teama.skyteam.drop.spiel.SpielSingletonConstructor;
+import com.teama.skyteam.drop.spiel.SpielConstructor;
 import com.teama.skyteam.drop.szenario.Route;
 
 class ScenarioSelectionScreen implements Screen {
-    private final MainВк main;
+    private final MainBk main;
     private Stage stage;
     private Skin skin;
     private Texture logo;
     private SpriteBatch batch;
     private Texture planeBackground;
 
-    public ScenarioSelectionScreen(MainВк main) {
+    public ScenarioSelectionScreen(MainBk main) {
         this.main = main;
     }
 
@@ -87,7 +86,7 @@ class ScenarioSelectionScreen implements Screen {
     }
 
     private void startGameWithScenario(Route scenario) {
-        Spiel spiel = SpielSingletonConstructor.createSpiel(scenario);
+        Spiel spiel = SpielConstructor.createSpiel(scenario);
         main.setScreen(new GameScreen(main, spiel));
     }
 

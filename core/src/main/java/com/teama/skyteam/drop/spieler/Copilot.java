@@ -8,10 +8,6 @@ public class Copilot extends Spieler {
 
     private Spiel spiel;
 
-    public Copilot(String name, Spiel spiel) {
-        super(name);
-        this.spiel = spiel;
-    }
     public Copilot(Spiel spiel) {
         super();
         this.spiel = spiel;
@@ -27,18 +23,14 @@ public class Copilot extends Spieler {
         }
     }
 
-    private boolean kaffeeAufFeldPruefenUndPlatzieren(String feldName, Wuerfel wuerfel, int indexWuerfel) {
-
-
+    private void kaffeeAufFeldPruefenUndPlatzieren(String feldName, Wuerfel wuerfel, int indexWuerfel) {
         if (!spiel.getFeldPilot(feldName).isBelegt() && !spiel.getFeldCopilot(feldName).isBelegt()) {
 
             System.out.println("Deliting wuerfel -- copilot");
             wuerfelAufFeldPlatzieren(feldName, wuerfel, indexWuerfel);
             KaffeToken token = new KaffeToken();
             spiel.kaffeTokenAnzahlErhoehen(token);
-            return true;
         }
-        return false;
     }
 
     @Override

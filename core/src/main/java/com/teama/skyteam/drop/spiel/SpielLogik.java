@@ -66,9 +66,6 @@ public class SpielLogik {
         return bedingungIstFrei && bedingungNeigung && bedingungKlappen && bedingungFahrgestelle && bedingungSpeed;
     }
 
-    boolean checkEndBedingung() {
-        return checkAusfallBedingung() || checkFinalRound();
-    }
 
     public boolean pilotSchritt(Spieler spieler, String auswahl, Wuerfel gewaehlterWuerfel, int indexWuerfel) {
         Pilot pilot = (Pilot) spieler;

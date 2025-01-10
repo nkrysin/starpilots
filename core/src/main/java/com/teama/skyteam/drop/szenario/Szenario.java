@@ -14,7 +14,6 @@ import java.util.*;
 public class Szenario {
 
 
-    //TODO должен быть использован позже в Spiel для импорта графики
     private String szenarioName;
 
 

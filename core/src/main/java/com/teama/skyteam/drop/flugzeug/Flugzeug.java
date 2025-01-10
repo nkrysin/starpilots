@@ -85,15 +85,6 @@ public class Flugzeug {
 
 
     /*Methods*/
-    //TODO а он нужен?
-    private int zweiWuerfelWertSummieren(Wuerfel[] wuerfel) {
-        if (wuerfel == null || wuerfel.length != 2) {
-            throw new IllegalArgumentException("Falsche Anzahl von Würfeln wurden gegeben");
-        }
-        int sum = wuerfel[0].getWert() + wuerfel[1].getWert();
-        return sum;
-    }
-
     private int zweiWuerfelWertSubtrahieren(Wuerfel[] wuerfel) {
         if (wuerfel == null || wuerfel.length != 2) {
             throw new IllegalArgumentException("Falsche Anzahl von Würfeln wurden gegeben");

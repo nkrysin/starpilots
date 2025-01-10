@@ -8,7 +8,7 @@ import com.badlogic.gdx.audio.Music;
 import com.teama.skyteam.drop.gui.menu.StartScreen;
 import com.teama.skyteam.drop.gui.utilities.TextureCache;
 
-public class MainВк extends ApplicationAdapter {
+public class MainBk extends ApplicationAdapter {
 
     private Screen currentScreen;
     public Music menuMusic;

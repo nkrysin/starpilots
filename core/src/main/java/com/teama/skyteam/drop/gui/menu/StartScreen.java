@@ -4,16 +4,16 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Timer;
-import com.teama.skyteam.drop.MainВк;
+import com.teama.skyteam.drop.MainBk;
 
 public class StartScreen implements Screen {
-    private final MainВк main;
+    private final MainBk main;
     private SpriteBatch batch;
     private Texture teamATexture;
     private Texture startScreenLogoTexture;
     private boolean showSecondImage = false;
 
-    public StartScreen(MainВк main) {
+    public StartScreen(MainBk main) {
         this.main = main;
     }
 

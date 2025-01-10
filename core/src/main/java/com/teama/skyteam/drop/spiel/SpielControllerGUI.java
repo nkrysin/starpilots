@@ -224,10 +224,6 @@ public class SpielControllerGUI {
         spielGUI.removeAllHideImages();
     }
 
-    public boolean isSpielEnde() {
-        return spielEnde;
-    }
-
     public void render() {
         spielGUI.stage.act(Gdx.graphics.getDeltaTime());
         spielGUI.stage.draw();

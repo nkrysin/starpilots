@@ -39,9 +39,5 @@ public class Feld {
         this.wuerfel = null;
         this.belegt = true;
     }
-    public void setFree(){
-        this.wuerfel = null;
-        this.belegt = false;
-    }
 
 }

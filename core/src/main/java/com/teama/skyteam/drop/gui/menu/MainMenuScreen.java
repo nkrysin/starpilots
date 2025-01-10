@@ -9,16 +9,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.teama.skyteam.drop.MainВк;
+import com.teama.skyteam.drop.MainBk;
 
 public class MainMenuScreen implements Screen {
-    private final MainВк main;
+    private final MainBk main;
     private Stage stage;
     private Texture logo;
     private SpriteBatch batch;
     private Texture planeBackground;
 
-    public MainMenuScreen(MainВк main) {
+    public MainMenuScreen(MainBk main) {
         this.main = main;
     }
 
