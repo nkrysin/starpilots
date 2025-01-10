@@ -72,7 +72,7 @@ public class Spiel {
         pilotFelds.put("radioFeld", new Feld());
         pilotFelds.put("neigenFeld", new Feld());
         pilotFelds.put("speedFeld", new Feld());
-        pilotFelds.put("fahrgestellFeld1_2", new Feld()); //drei neue Felder hinzugefügt,um Fahrgestell zu nutzen
+        pilotFelds.put("fahrgestellFeld1_2", new Feld());
         pilotFelds.put("fahrgestellFeld3_4", new Feld());
         pilotFelds.put("fahrgestellFeld5_6", new Feld());
         pilotFelds.put("bremsenFeld2", new Feld());

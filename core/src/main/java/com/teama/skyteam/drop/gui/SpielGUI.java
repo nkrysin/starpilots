@@ -551,7 +551,6 @@ public class SpielGUI {
         } else {
             for (ControlField field : getCopilotKaffeeControlGroup().getAllFields()) {
                 field.getButton().clearListeners();
-                //switchTexture(field.getButton(), "images/spiel/main/empty.png");
             }
             for (ControlField field : getCopilotUseKaffeeControlGroup().getAllFields()) {
                 field.getButton().clearListeners();

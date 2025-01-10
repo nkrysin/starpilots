@@ -63,8 +63,6 @@ public class Szenario {
 
     private void setHoeheSzenario(List<Flughoehe> hoeheSzenario) {
         int szenarioRouteLength = currentRoute.size();
-        //Ist die Länge des Szenarios kürzer als die Standardanzahl der Höhen,
-        // dann sollte sie entsprechend reduziert werden, da die Höhe nur einmal pro Runde reduziert wird
         this.hoeheSzenario = adjustHoeheRoute(hoeheSzenario, szenarioRouteLength);
     }
 

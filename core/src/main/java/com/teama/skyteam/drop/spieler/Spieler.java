@@ -40,10 +40,8 @@ public abstract class Spieler {
     }
 
 
-    //muss auch überprüft werden, ob einen KaffeToken vorhanden ist
     public void kaffeeTokenBenutzen(KaffeToken token, int indexWuerfel, KaffeTokenAktion aktion){
         Wuerfel wuerfel = wuerfels.get(indexWuerfel);
-        //choose action
         if (aktion == KaffeTokenAktion.PLUS && wuerfel.getWert() == 6){
             throw new IllegalArgumentException("Wuerfelwert ist schon maximal");
         }
