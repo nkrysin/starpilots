@@ -78,16 +78,16 @@ public class SpielControllerGUI {
                         spielGUI.addWuerfelListenersForSpieler(ersterSpieler);
                         spielGUI.addFieldListenersForPlacement(ersterSpieler);
                         spielGUI.checkFeldSituation(ersterSpieler);
-                        spielGUI.setKoffeeGroupsActive(ersterSpieler);
+                        spielGUI.setKaffeeGroupsActive(ersterSpieler);
 
                         if (ersterSpieler instanceof Pilot) {
-                            spielGUI.showCoffee(true, false);
+                            spielGUI.showKaffee(true, false);
                         } else {
-                            spielGUI.showCoffee(false, true);
+                            spielGUI.showKaffee(false, true);
                         }
                         spielGUI.showNeuWurf(true);
 
-                        spielGUI.useCoffee(ersterSpieler);
+                        spielGUI.useKaffee(ersterSpieler);
 
                         System.out.println("Gui actor is pilot " + (ersterSpieler instanceof Pilot));
                         spielGUI.useNeuWurf(ersterSpieler);
@@ -123,16 +123,16 @@ public class SpielControllerGUI {
                         spielGUI.addWuerfelListenersForSpieler(zweiterSpieler);
                         spielGUI.addFieldListenersForPlacement(zweiterSpieler);
                         spielGUI.checkFeldSituation(zweiterSpieler);
-                        spielGUI.setKoffeeGroupsActive(zweiterSpieler);
+                        spielGUI.setKaffeeGroupsActive(zweiterSpieler);
 
                         if (zweiterSpieler instanceof Pilot) {
-                            spielGUI.showCoffee(true, false);
+                            spielGUI.showKaffee(true, false);
                         } else {
-                            spielGUI.showCoffee(false, true);
+                            spielGUI.showKaffee(false, true);
                         }
                         spielGUI.showNeuWurf(true);
                         spielGUI.useNeuWurf(zweiterSpieler);
-                        spielGUI.useCoffee(zweiterSpieler);
+                        spielGUI.useKaffee(zweiterSpieler);
 
                         nowMustBeFirst = true;
                         nowMustBeSecond = false;

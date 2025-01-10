@@ -35,17 +35,17 @@ public class GUIConstructionMethods {
         return new ControlGroup(groupName, fields);
     }
 
-    public ControlGroup createUseKoffeeButtons(String groupName, int[][] positions, Stage stage) {
-        String[] koffeeFieldNames = {"UseKoffe1", "UseKoffe2", "UseKoffe3"};
+    public ControlGroup createUseKaffeeButtons(String groupName, int[][] positions, Stage stage) {
+        String[] kaffeeFieldNames = {"UseKaffe1", "UseKaffe2", "UseKaffe3"};
         ArrayList<ControlField> fields = new ArrayList<>();
-        for (int i = 0; i < koffeeFieldNames.length; i++) {
+        for (int i = 0; i < kaffeeFieldNames.length; i++) {
             ImageButton button = createButton("images/spiel/main/empty.png",
                 positions[i][0],
                 positions[i][1],
                 39,
                 39
             );
-            ControlField field = new ControlField(koffeeFieldNames[i], button);
+            ControlField field = new ControlField(kaffeeFieldNames[i], button);
             fields.add(field);
             stage.addActor(button);
         }
