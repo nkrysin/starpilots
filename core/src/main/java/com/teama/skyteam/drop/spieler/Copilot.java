@@ -18,6 +18,9 @@ public class Copilot extends Spieler {
 
         if (feld.wuerfelPlatzieren(wuerfel)) {
             getWuerfels().remove(indexWuerfel);
+            if ("Kaffee1".equals(feldName) || "Kaffee2".equals(feldName) || "Kaffee3".equals(feldName)) {
+                spiel.getFeldPilot(feldName).setBelegt();
+            }
         } else {
             throw new IllegalArgumentException("Feld '" + feldName + "' ist schon belegt!");
         }

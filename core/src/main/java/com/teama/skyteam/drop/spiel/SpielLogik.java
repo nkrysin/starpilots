@@ -394,20 +394,25 @@ public class SpielLogik {
     }
 
     void clearKaffeFeld(){
-        if (!spiel.getFeldPilot("Kaffee1").isBelegt()&&!spiel.getFeldCopilot("Kaffee1").isBelegt()){
-            if (!spiel.getFeldPilot("Kaffee2").isBelegt()&&!spiel.getFeldCopilot("Kaffee2").isBelegt()){
-                spiel.getFeldPilot("Kaffee3").setWuerfel(null);
-                spiel.getFeldCopilot("Kaffee3").setWuerfel(null);
-            }
-            else {
+        int kaffeeCount = spiel.getKaffeTokenCount();
+        switch (kaffeeCount) {
+            case 0:
+                spiel.getFeldPilot("Kaffee1").setWuerfel(null);
+                spiel.getFeldCopilot("Kaffee1").setWuerfel(null);
                 spiel.getFeldPilot("Kaffee2").setWuerfel(null);
                 spiel.getFeldCopilot("Kaffee2").setWuerfel(null);
-            }
+                spiel.getFeldPilot("Kaffee3").setWuerfel(null);
+                spiel.getFeldCopilot("Kaffee3").setWuerfel(null);
+            case 1:
+                spiel.getFeldPilot("Kaffee2").setWuerfel(null);
+                spiel.getFeldCopilot("Kaffee2").setWuerfel(null);
+                spiel.getFeldPilot("Kaffee3").setWuerfel(null);
+                spiel.getFeldCopilot("Kaffee3").setWuerfel(null);
+            case 2:
+                spiel.getFeldPilot("Kaffee3").setWuerfel(null);
+                spiel.getFeldCopilot("Kaffee3").setWuerfel(null);
         }
-        else {
-            spiel.getFeldPilot("Kaffee1").setWuerfel(null);
-            spiel.getFeldCopilot("Kaffee1").setWuerfel(null);
-        }
+
     }
 
     public void createMessage(String title, String text) {

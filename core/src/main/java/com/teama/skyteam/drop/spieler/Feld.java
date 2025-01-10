@@ -40,4 +40,7 @@ public class Feld {
         this.belegt = true;
     }
 
+    public void setBelegt() {
+        this.belegt = true;
+    }
 }
