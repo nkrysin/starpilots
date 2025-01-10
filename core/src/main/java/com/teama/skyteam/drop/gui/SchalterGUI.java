@@ -24,13 +24,12 @@ public class SchalterGUI {
     private int step = 30;
     private float rotation;
     float newX, newY;
-    private final TextureCache textureCache = TextureCache.getInstance();
 
     public SchalterGUI(Stage stage) {
         this.stage = stage;
-        bremsenIndicator = new Image(textureCache.get("images/spiel/markers/red_marker.png"));
-        fahrgestellIndicator = new Image(textureCache.get("images/spiel/markers/blue_marker.png"));
-        klappenIndicator = new Image(textureCache.get("images/spiel/markers/orange_marker.png"));
+        bremsenIndicator = new Image(TextureCache.get("images/spiel/markers/red_marker.png"));
+        fahrgestellIndicator = new Image(TextureCache.get("images/spiel/markers/blue_marker.png"));
+        klappenIndicator = new Image(TextureCache.get("images/spiel/markers/orange_marker.png"));
     }
 
     public void addToStage(){

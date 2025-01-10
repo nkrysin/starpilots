@@ -22,7 +22,6 @@ public class Spiel {
     private HashMap<String, Feld> copilotFelds;
     private ReiseFeld currentField;
     private int position = 0;
-    //TODO ОБЯЗАТЕЛЬНО присвоить сюда значение, чтобы потом отрисовывать его
     private Flughoehe currentHoehe;
     private List<Flughoehe> hoeheSzenario;
     private TreeMap<Integer, ReiseFeld> routeSzenario;
@@ -115,12 +114,6 @@ public class Spiel {
 
     void setSzenario(Route route) {
         try {
-            //TODO Поменять это на нормальный
-            /*
-             *
-             * Logik wie man das Szenario auf Bildschirm wählt
-             *
-             * */
             switch (route){
                 case HANEDA ->
                         this.szenario = new Szenario(Route.HANEDA);
@@ -180,17 +173,6 @@ public class Spiel {
         return szenario.getHoeheSzenario();
     }
 
-    //TODO не забыть его использовать при отрисовке игры
-    private HoeheSzenarioTypes getHoeheSzenarioType() {
-        return szenario.getHoeheSzenarioType();
-    }
-
-    //TODO понять нужен ли он вообще тут
-    public void setKaffeTokens(ArrayList<KaffeToken> kaffeTokens) {
-        this.kaffeTokens = kaffeTokens;
-    }
-
-
     public int getRunde() {
         return runde;
     }
@@ -199,7 +181,6 @@ public class Spiel {
         this.runde = runde;
     }
 
-    //TODO не забыть его использовать при отрисовке игры
     public Szenario getSzenario() {
         return szenario;
     }
@@ -227,38 +208,16 @@ public class Spiel {
     public void setFlugzeug(Flugzeug flugzeug) {
         this.flugzeug = flugzeug;
     }
-    //TODO понять нужен ли он вообще тут
-    public boolean isEndBedingung() {
-        return endBedingung;
-    }
+
 
     public void setEndBedingung(boolean endBedingung) {
         this.endBedingung = endBedingung;
     }
 
 
-    public int getCurrentSpeed() {
-        return currentSpeed;
-    }
-
     void setCurrentSpeed(int currentSpeed) {
         this.currentSpeed = currentSpeed;
     }
 
 
-
-
-    public void dispose(){
-        kaffeTokens.clear();
-        neuWurfToken.clear();
-        getFeldPilot("Kaffee1").setFree();
-        getFeldPilot("Kaffee2").setFree();
-        getFeldPilot("Kaffee3").setFree();
-        getFeldCopilot("Kaffee1").setFree();
-        getFeldCopilot("Kaffee2").setFree();
-        getFeldCopilot("Kaffee3").setFree();
-        this.runde = 1;
-        this.endBedingung = false;
-        this.kollision = false;
-    }
 }

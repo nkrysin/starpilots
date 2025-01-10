@@ -6,14 +6,16 @@ import com.teama.skyteam.drop.spieler.Pilot;
 import com.teama.skyteam.drop.szenario.Route;
 
 
-//Erzeugt Spiel-Objekt
 public class SpielSingletonConstructor {
-    private static Spiel spiel; //Nur ein Objekt ist möglich
+    private static Spiel spiel;
 
     private SpielSingletonConstructor() {
     }
 
     public static Spiel createSpiel(Route route) {
+        if (spiel != null) {
+            spiel = null;
+        }
         if (spiel == null) {
             spiel = new Spiel();
             spiel.setFlugzeug(new Flugzeug());

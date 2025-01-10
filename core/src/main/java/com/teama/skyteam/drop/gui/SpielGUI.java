@@ -2,6 +2,7 @@ package com.teama.skyteam.drop.gui;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -873,7 +874,50 @@ public class SpielGUI {
         callback = null;
         szenarioHoeheManager = null;
 
-        spiel.dispose();
+    }
+
+
+
+    public void hideWuerfel(Spieler spieler) {
+        float pilotX = 330;
+        float pilotY = 390;
+
+        float copilotX = 1290;
+        float copilotY = 390;
+
+        if (spieler instanceof Pilot) {
+            renderHideImage(copilotX, copilotY);
+            removeHideImage(pilotX, pilotY);
+        }
+        else {
+            renderHideImage(pilotX, pilotY);
+            removeHideImage(copilotX, copilotY);
+        }
+    }
+
+    private void renderHideImage(float x, float y) {
+        Image hideWuerfelImage = new Image(TextureCache.get("images/spiel/dices/dice_cover.png"));
+        hideWuerfelImage.setPosition(x, y);
+        stage.addActor(hideWuerfelImage);
+    }
+
+    private void removeHideImage(float x, float y) {
+        for (Actor actor : stage.getActors()) {
+            if (actor instanceof Image && actor.getX() == x && actor.getY() == y) {
+                actor.remove();
+                break;
+            }
+        }
+    }
+    public void removeAllHideImages() {
+        float pilotX = 330;
+        float pilotY = 390;
+
+        float copilotX = 1290;
+        float copilotY = 390;
+
+        removeHideImage(pilotX, pilotY);
+        removeHideImage(copilotX, copilotY);
     }
 
 }
