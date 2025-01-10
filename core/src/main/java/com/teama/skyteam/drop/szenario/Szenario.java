@@ -1,90 +1,23 @@
-
 package com.teama.skyteam.drop.szenario;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.teama.skyteam.drop.szenario.flughoehe.Flughoehe;
 
-import java.io.*;
-import java.util.*;
-
-
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.List;
+import java.util.TreeMap;
 
 public class Szenario {
-
-
     private String szenarioName;
-
-
     private TreeMap<Integer, ReiseFeld> currentRoute;
-
     private List<Flughoehe> hoeheSzenario;
     private HoeheSzenarioTypes hoeheSzenarioType;
 
-
-
     public Szenario(Route szenarioName) throws IOException {
         scenarioImport(szenarioName);
-    }
-
-    private void setSzenarioName(String szenarioName) {
-        this.szenarioName = szenarioName;
-    }
-
-    public String getSzenarioName() {
-        return szenarioName;
-    }
-
-    public TreeMap<Integer, ReiseFeld> getCurrentRoute() {
-        return currentRoute;
-    }
-
-    private void setCurrentRoute(TreeMap<Integer, ReiseFeld> currentRoute) {
-        this.currentRoute = currentRoute;
-    }
-
-
-    public HoeheSzenarioTypes getHoeheSzenarioType() {
-        return hoeheSzenarioType;
-    }
-
-    private void setHoeheSzenarioType(String hoeheSzenarioType) {
-        try {
-            this.hoeheSzenarioType = HoeheSzenarioTypes.valueOf(hoeheSzenarioType);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Fehler: Szenario hat keine gültigen Werte: " + hoeheSzenarioType, e);
-        }
-    }
-
-    public List<Flughoehe> getHoeheSzenario() {
-        return hoeheSzenario;
-    }
-
-    private void setHoeheSzenario(List<Flughoehe> hoeheSzenario) {
-        int szenarioRouteLength = currentRoute.size();
-        this.hoeheSzenario = adjustHoeheRoute(hoeheSzenario, szenarioRouteLength);
-    }
-
-
-
-    private void scenarioImport(Route route) throws IOException {
-        if (route == null) {
-            throw new IOException("Ungültige Route. Route kann nicht null sein.");
-        }
-        setSzenarioName(route.getRouteName());
-
-        FileHandle routesFile = Gdx.files.internal("routes.txt");
-
-        if (!routesFile.exists()) {
-            throw new IOException("Die Datei routes.txt konnte nicht gefunden werden.");
-        }
-
-        setCurrentRoute(readRoute(route, routesFile.readString()));
-
-        String hoeheSzenarioType = readHoeheSzenario(route, routesFile.readString());
-        setHoeheSzenarioType(hoeheSzenarioType);
-        setHoeheSzenario(Flughoehe.createHoeheSzenario(hoeheSzenarioType));
     }
 
     private static TreeMap<Integer, ReiseFeld> readRoute(Route route, String fileContent) throws IOException {
@@ -147,6 +80,61 @@ public class Szenario {
         return type.trim().toUpperCase();
     }
 
+    public String getSzenarioName() {
+        return szenarioName;
+    }
+
+    private void setSzenarioName(String szenarioName) {
+        this.szenarioName = szenarioName;
+    }
+
+    public TreeMap<Integer, ReiseFeld> getCurrentRoute() {
+        return currentRoute;
+    }
+
+    private void setCurrentRoute(TreeMap<Integer, ReiseFeld> currentRoute) {
+        this.currentRoute = currentRoute;
+    }
+
+    public HoeheSzenarioTypes getHoeheSzenarioType() {
+        return hoeheSzenarioType;
+    }
+
+    private void setHoeheSzenarioType(String hoeheSzenarioType) {
+        try {
+            this.hoeheSzenarioType = HoeheSzenarioTypes.valueOf(hoeheSzenarioType);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Fehler: Szenario hat keine gültigen Werte: " + hoeheSzenarioType, e);
+        }
+    }
+
+    public List<Flughoehe> getHoeheSzenario() {
+        return hoeheSzenario;
+    }
+
+    private void setHoeheSzenario(List<Flughoehe> hoeheSzenario) {
+        int szenarioRouteLength = currentRoute.size();
+        this.hoeheSzenario = adjustHoeheRoute(hoeheSzenario, szenarioRouteLength);
+    }
+
+    private void scenarioImport(Route route) throws IOException {
+        if (route == null) {
+            throw new IOException("Ungültige Route. Route kann nicht null sein.");
+        }
+        setSzenarioName(route.getRouteName());
+
+        FileHandle routesFile = Gdx.files.internal("routes.txt");
+
+        if (!routesFile.exists()) {
+            throw new IOException("Die Datei routes.txt konnte nicht gefunden werden.");
+        }
+
+        setCurrentRoute(readRoute(route, routesFile.readString()));
+
+        String hoeheSzenarioType = readHoeheSzenario(route, routesFile.readString());
+        setHoeheSzenarioType(hoeheSzenarioType);
+        setHoeheSzenario(Flughoehe.createHoeheSzenario(hoeheSzenarioType));
+    }
 
     public ReiseFeld getCurrentField(int position) {
         if (currentRoute == null) {
@@ -159,7 +147,6 @@ public class Szenario {
         }
         return field;
     }
-
 
 
     public Flughoehe getCurrentFlughoehe() {

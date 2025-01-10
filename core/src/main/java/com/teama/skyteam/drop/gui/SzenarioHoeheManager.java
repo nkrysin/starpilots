@@ -19,7 +19,7 @@ public class SzenarioHoeheManager {
         szenarioGUI.moveStep(currentSpeed);
     }
 
-    public void updateHoehe(){
+    public void updateHoehe() {
         hoeheGUI.moveStep();
     }
 

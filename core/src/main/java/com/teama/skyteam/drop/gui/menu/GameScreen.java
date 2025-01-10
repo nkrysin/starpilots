@@ -126,5 +126,4 @@ public class GameScreen implements Screen {
             stage = null;
         }
     }
-
 }

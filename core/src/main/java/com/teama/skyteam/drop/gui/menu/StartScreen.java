@@ -45,7 +45,7 @@ public class StartScreen implements Screen {
     public void render(float delta) {
         batch.begin();
         if (!showSecondImage) {
-            batch.draw(teamATexture, 0, 0, 1920,1080);
+            batch.draw(teamATexture, 0, 0, 1920, 1080);
         } else {
             batch.draw(startScreenLogoTexture, 0, 0);
         }

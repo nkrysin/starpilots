@@ -12,7 +12,10 @@ import com.teama.skyteam.drop.tokens.KaffeToken;
 import com.teama.skyteam.drop.tokens.NeuWurfToken;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TreeMap;
 
 public class Spiel {
     private Pilot pilot;
@@ -32,7 +35,7 @@ public class Spiel {
     private ArrayList<NeuWurfToken> neuWurfToken = new ArrayList<NeuWurfToken>();
 
     private int currentSpeed;
-
+    private Szenario szenario;
 
     boolean isKollision() {
         return kollision;
@@ -46,7 +49,7 @@ public class Spiel {
         return kaffeTokens;
     }
 
-    public int getKaffeTokenCount(){
+    public int getKaffeTokenCount() {
         return kaffeTokens.size();
     }
 
@@ -58,7 +61,7 @@ public class Spiel {
         return neuWurfToken;
     }
 
-    public int getNeuWurfTokenCount(){
+    public int getNeuWurfTokenCount() {
         return neuWurfToken.size();
     }
 
@@ -66,8 +69,7 @@ public class Spiel {
         neuWurfToken.add(new NeuWurfToken());
     }
 
-
-    void setPilotFelds(){
+    void setPilotFelds() {
         HashMap<String, Feld> pilotFelds = new HashMap<>();
         pilotFelds.put("radioFeld", new Feld());
         pilotFelds.put("neigenFeld", new Feld());
@@ -85,7 +87,7 @@ public class Spiel {
 
     }
 
-    void setCopilotFelds(){
+    void setCopilotFelds() {
         HashMap<String, Feld> copilotFelds = new HashMap<>();
         copilotFelds.put("radioFeld1", new Feld());
         copilotFelds.put("radioFeld2", new Feld());
@@ -109,29 +111,7 @@ public class Spiel {
         return copilotFelds.get(name);
     }
 
-    private Szenario szenario;
-
-    void setSzenario(Route route) {
-        try {
-            switch (route){
-                case HANEDA ->
-                        this.szenario = new Szenario(Route.HANEDA);
-                case MONTREAL_TRUDEAU ->
-                        this.szenario = new Szenario(Route.MONTREAL_TRUDEAU);
-                case KUALA_LUMPUR ->
-                        this.szenario = new Szenario(Route.KUALA_LUMPUR);
-        }
-
-        } catch (IOException e) {
-            System.err.println("Fehler beim Erstellen des Szenarios: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-
-
-
-    void updateCurrentField(){
+    void updateCurrentField() {
         this.currentField = getCurrentField();
     }
 
@@ -147,26 +127,26 @@ public class Spiel {
         this.position = position;
     }
 
-    void updateCurrentHoehe(){
+    void updateCurrentHoehe() {
         this.currentHoehe = getCurrentHoehe();
     }
+
     Flughoehe getCurrentHoehe() {
         return szenario.getCurrentFlughoehe();
     }
 
-
-
-    void setRouteSzenario(){
+    void setRouteSzenario() {
         this.routeSzenario = getRouteSzenario();
     }
+
     public TreeMap<Integer, ReiseFeld> getRouteSzenario() {
         return szenario.getCurrentRoute();
     }
 
-
-    void setHoeheSzenario(){
+    void setHoeheSzenario() {
         this.hoeheSzenario = getHoeheSzenario();
     }
+
     List<Flughoehe> getHoeheSzenario() {
         return szenario.getHoeheSzenario();
     }
@@ -181,6 +161,20 @@ public class Spiel {
 
     public Szenario getSzenario() {
         return szenario;
+    }
+
+    void setSzenario(Route route) {
+        try {
+            switch (route) {
+                case HANEDA -> this.szenario = new Szenario(Route.HANEDA);
+                case MONTREAL_TRUDEAU -> this.szenario = new Szenario(Route.MONTREAL_TRUDEAU);
+                case KUALA_LUMPUR -> this.szenario = new Szenario(Route.KUALA_LUMPUR);
+            }
+
+        } catch (IOException e) {
+            System.err.println("Fehler beim Erstellen des Szenarios: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public Copilot getCopilot() {
@@ -216,6 +210,4 @@ public class Spiel {
     void setCurrentSpeed(int currentSpeed) {
         this.currentSpeed = currentSpeed;
     }
-
-
 }

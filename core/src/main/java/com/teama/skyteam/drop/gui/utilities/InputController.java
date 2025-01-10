@@ -43,7 +43,6 @@ public class InputController {
     private void createPauseStage(){
         pauseStage = new Stage(new ScreenViewport());
 
-
         Texture backgroundTexture = new Texture("images/spiel/main/pause_background.png");
         pauseBackground = new Image(backgroundTexture);
         pauseBackground.setFillParent(true);

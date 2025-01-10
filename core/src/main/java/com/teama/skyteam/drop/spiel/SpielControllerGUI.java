@@ -3,8 +3,8 @@ package com.teama.skyteam.drop.spiel;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
 import com.teama.skyteam.drop.gui.SpielGUI;
+import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
 import com.teama.skyteam.drop.gui.utilities.PlayerActionCallback;
 import com.teama.skyteam.drop.spieler.Feld;
 import com.teama.skyteam.drop.spieler.Pilot;
@@ -37,12 +37,40 @@ public class SpielControllerGUI {
         this.spielGUI.setPlayerActionCallback(new PlayerActionCallback() {
             @Override
             public void onPlayerActionCompleted(Spieler spieler) {
-                System.out.println("Clearing listeners for pilot: " + (spieler instanceof Pilot));
                 spielGUI.clearPlayerListeners(spieler);
                 spielenSchritt();
             }
         });
         spielenSchritt();
+    }
+
+    private void prepareRound() {
+        neigungErledigt = false;
+        reiseFeldAktualisiert = false;
+
+        spielLogik.addNeuWurfTokens();
+        boolean isEvenRound = (spiel.getRunde() + 1) % 2 == 0;
+        ersterSpieler = isEvenRound ? spiel.getPilot() : spiel.getCopilot();
+        zweiterSpieler = isEvenRound ? spiel.getCopilot() : spiel.getPilot();
+
+        spielLogik.setNeuWuerfels(ersterSpieler);
+        spielLogik.setNeuWuerfels(zweiterSpieler);
+
+        spielGUI.createWuerfelForSpieler(ersterSpieler);
+        spielGUI.createWuerfelForSpieler(zweiterSpieler);
+    }
+
+    private void finishRound() {
+        ArrayList<Feld> oneUseFelds = spielLogik.getOneUseFelds();
+        spielLogik.removeDiceFromOneUseFelds(oneUseFelds);
+        spielLogik.clearManyUseFelds();
+        spielGUI.clearManyUseFields();
+        szenarioHoeheManager.updateHoehe();
+
+        spiel.setRunde(spiel.getRunde() + 1);
+        spielLogik.hoeheReduzieren();
+        spiel.setEndBedingung(spielLogik.checkAusfallBedingung());
+        spielGUI.removeAllHideImages();
     }
 
     public void spielenSchritt() {
@@ -52,7 +80,6 @@ public class SpielControllerGUI {
         while (!spielEnde) {
             switch (state) {
                 case CHECK_END:
-                    printState(state);
                     if (spielLogik.checkAusfallBedingung()) {
                         spielEnde = true;
                         state = State.END;
@@ -66,14 +93,14 @@ public class SpielControllerGUI {
                     break;
 
                 case PREPARE_ROUND:
-                    printState(state);
+
                     prepareRound();
                     state = State.PLAY_TURN_FIRST;
                     break;
 
                 case PLAY_TURN_FIRST:
                     if (ersterSpieler.getAnzahlWuerfels() > 0 && !spielLogik.checkAusfallBedingung() && nowMustBeFirst) {
-                        printState(state);
+
                         spielGUI.hideWuerfel(ersterSpieler);
                         spielGUI.addWuerfelListenersForSpieler(ersterSpieler);
                         spielGUI.addFieldListenersForPlacement(ersterSpieler);
@@ -89,7 +116,6 @@ public class SpielControllerGUI {
 
                         spielGUI.useKaffee(ersterSpieler);
 
-                        System.out.println("Gui actor is pilot " + (ersterSpieler instanceof Pilot));
                         spielGUI.useNeuWurf(ersterSpieler);
 
                         nowMustBeFirst = false;
@@ -104,7 +130,7 @@ public class SpielControllerGUI {
                     if (!neigungErledigt && spielLogik.neigenSetzen()) {
                         neigungErledigt = true;
                     }
-                    printState(state);
+
                     state = State.CHECK_REISEFELD;
                     break;
 
@@ -112,13 +138,13 @@ public class SpielControllerGUI {
                     if (!reiseFeldAktualisiert && spielLogik.reiseFeldZustandAktualisieren()) {
                         reiseFeldAktualisiert = true;
                     }
-                    printState(state);
+
                     state = State.PLAY_TURN_SECOND;
                     break;
 
                 case PLAY_TURN_SECOND:
                     if (zweiterSpieler.getAnzahlWuerfels() > 0 && !spielLogik.checkAusfallBedingung() && nowMustBeSecond) {
-                        printState(state);
+
                         spielGUI.hideWuerfel(zweiterSpieler);
                         spielGUI.addWuerfelListenersForSpieler(zweiterSpieler);
                         spielGUI.addFieldListenersForPlacement(zweiterSpieler);
@@ -195,35 +221,6 @@ public class SpielControllerGUI {
         }
     }
 
-    private void prepareRound() {
-        neigungErledigt = false;
-        reiseFeldAktualisiert = false;
-
-        spielLogik.addNeuWurfTokens();
-        boolean isEvenRound = (spiel.getRunde() + 1) % 2 == 0;
-        ersterSpieler = isEvenRound ? spiel.getPilot() : spiel.getCopilot();
-        zweiterSpieler = isEvenRound ? spiel.getCopilot() : spiel.getPilot();
-
-        spielLogik.setNeuWuerfels(ersterSpieler);
-        spielLogik.setNeuWuerfels(zweiterSpieler);
-
-        spielGUI.createWuerfelForSpieler(ersterSpieler);
-        spielGUI.createWuerfelForSpieler(zweiterSpieler);
-    }
-
-    private void finishRound() {
-        ArrayList<Feld> oneUseFelds = spielLogik.getOneUseFelds();
-        spielLogik.removeDiceFromOneUseFelds(oneUseFelds);
-        spielLogik.clearManyUseFelds();
-        spielGUI.clearManyUseFields();
-        szenarioHoeheManager.updateHoehe();
-
-        spiel.setRunde(spiel.getRunde() + 1);
-        spielLogik.hoeheReduzieren();
-        spiel.setEndBedingung(spielLogik.checkAusfallBedingung());
-        spielGUI.removeAllHideImages();
-    }
-
     public void render() {
         spielGUI.stage.act(Gdx.graphics.getDeltaTime());
         spielGUI.stage.draw();
@@ -252,46 +249,4 @@ public class SpielControllerGUI {
         FINAL_CHECK,
         END
     }
-
-    public void printState(State state) {
-        switch (state) {
-            case CHECK_END:
-                System.out.println("Current state: CHECK_END");
-                break;
-            case PREPARE_ROUND:
-                System.out.println("Current state: PREPARE_ROUND");
-                break;
-            case PLAY_TURN_FIRST:
-                System.out.println("Current state: PLAY_TURN_FIRST");
-                break;
-            case CHECK_NEIGUNG:
-                System.out.println("Current state: CHECK_NEIGUNG");
-                break;
-            case CHECK_REISEFELD:
-                System.out.println("Current state: CHECK_REISEFELD");
-                break;
-            case PLAY_TURN_SECOND:
-                System.out.println("Current state: PLAY_TURN_SECOND");
-                break;
-            case CHECK_NEIGUNG_AGAIN:
-                System.out.println("Current state: CHECK_NEIGUNG_AGAIN");
-                break;
-            case CHECK_REISEFELD_AGAIN:
-                System.out.println("Current state: CHECK_REISEFELD_AGAIN");
-                break;
-            case ROUND_FINISH:
-                System.out.println("Current state: ROUND_FINISH");
-                break;
-            case FINAL_CHECK:
-                System.out.println("Current state: FINAL_CHECK");
-                break;
-            case END:
-                System.out.println("Current state: END");
-                break;
-            default:
-                System.out.println("Unknown state");
-                break;
-        }
-    }
-
 }

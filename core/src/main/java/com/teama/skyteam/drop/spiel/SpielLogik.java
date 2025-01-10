@@ -9,9 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.teama.skyteam.drop.flugzeug.Klappen;
-import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
 import com.teama.skyteam.drop.gui.SchalterGUI;
-import com.teama.skyteam.drop.spieler.*;
+import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
+import com.teama.skyteam.drop.spieler.Copilot;
+import com.teama.skyteam.drop.spieler.Feld;
+import com.teama.skyteam.drop.spieler.Pilot;
+import com.teama.skyteam.drop.spieler.Spieler;
 import com.teama.skyteam.drop.szenario.ReiseFeld;
 import com.teama.skyteam.drop.szenario.flughoehe.Flughoehe;
 import com.teama.skyteam.drop.tokens.KaffeToken;
@@ -19,16 +22,17 @@ import com.teama.skyteam.drop.tokens.KaffeTokenAktion;
 import com.teama.skyteam.drop.tokens.NeuWurfToken;
 import com.teama.skyteam.drop.tokens.Wuerfel;
 
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class SpielLogik {
     private final Spiel spiel;
-    private Window window;
     private final Skin skin;
     private final Stage stage;
+    private Window window;
     private SchalterGUI schalterGUI;
     private Image ruder;
     private int neuerWert;
@@ -51,7 +55,7 @@ public class SpielLogik {
         return bedingungKollision || bedingungWenigerAlsSzenarioLange || bedingungHoehe || bedingungNeigung;
     }
 
-    boolean checkFinalRound(){
+    boolean checkFinalRound() {
         boolean bedingungFlughafen = spiel.getCurrentField().istFlughafen();
         boolean bedingungHoehe = (spiel.getCurrentHoehe().getHoehe() == 0);
         return bedingungFlughafen && bedingungHoehe;
@@ -71,7 +75,7 @@ public class SpielLogik {
         Pilot pilot = (Pilot) spieler;
         switch (auswahl) {
             case "PRadio":
-                if(!spiel.getFeldPilot("radioFeld").isBelegt()){
+                if (!spiel.getFeldPilot("radioFeld").isBelegt()) {
                     radio(gewaehlterWuerfel);
                     pilot.radioWaehlen(gewaehlterWuerfel, indexWuerfel);
                 }
@@ -83,37 +87,37 @@ public class SpielLogik {
                 pilot.neigenWaehlen(gewaehlterWuerfel, indexWuerfel);
                 return true;
             case "PBremsen2":
-                if (spiel.getFlugzeug().bremsen(gewaehlterWuerfel)){
+                if (spiel.getFlugzeug().bremsen(gewaehlterWuerfel)) {
                     pilot.bremsenWaehlen(gewaehlterWuerfel, indexWuerfel);
                     schalterGUI.activateBremsenSchalter(0);
                     schalterGUI.moveBremsenIndicator(spiel.getFlugzeug().getBremsenZustand().getValue());
                     return true;
-                } else{
+                } else {
                     createMessage("Fehler", "Fehler beim Bremsen! Würfel nicht passend.");
                     return false;
                 }
             case "PBremsen4":
-                if (gewaehlterWuerfel.getWert()==4 && spiel.getFlugzeug().bremsen(gewaehlterWuerfel)){
+                if (gewaehlterWuerfel.getWert() == 4 && spiel.getFlugzeug().bremsen(gewaehlterWuerfel)) {
                     pilot.bremsenWaehlen(gewaehlterWuerfel, indexWuerfel);
                     schalterGUI.activateBremsenSchalter(1);
                     schalterGUI.moveBremsenIndicator(spiel.getFlugzeug().getBremsenZustand().getValue());
                     return true;
-                } else{
+                } else {
                     createMessage("Fehler", "Bremsen nicht möglich!");
                     return false;
                 }
             case "PBremsen6":
-                if (gewaehlterWuerfel.getWert()==6 && spiel.getFlugzeug().bremsen(gewaehlterWuerfel)){
+                if (gewaehlterWuerfel.getWert() == 6 && spiel.getFlugzeug().bremsen(gewaehlterWuerfel)) {
                     pilot.bremsenWaehlen(gewaehlterWuerfel, indexWuerfel);
                     schalterGUI.activateBremsenSchalter(2);
                     schalterGUI.moveBremsenIndicator(spiel.getFlugzeug().getBremsenZustand().getValue());
                     return true;
-                } else{
+                } else {
                     createMessage("Fehler", "Bremsen nicht möglich!");
                     return false;
                 }
             case "PFahrgestell12":
-                if ((gewaehlterWuerfel.getWert() == 1 || gewaehlterWuerfel.getWert() == 2) && spiel.getFlugzeug().fahrgestellAusfahren(gewaehlterWuerfel)){
+                if ((gewaehlterWuerfel.getWert() == 1 || gewaehlterWuerfel.getWert() == 2) && spiel.getFlugzeug().fahrgestellAusfahren(gewaehlterWuerfel)) {
                     pilot.fahrgestellWaehlen(gewaehlterWuerfel, indexWuerfel);
                     schalterGUI.activateFahrgestellSchalter(0);
                     schalterGUI.moveFahrgestellIndicator(spiel.getFlugzeug().getFahrgestellZustand().getAkrivierteFahrgestelle());
@@ -123,7 +127,7 @@ public class SpielLogik {
                     return false;
                 }
             case "PFahrgestell34":
-                if ((gewaehlterWuerfel.getWert() == 3 || gewaehlterWuerfel.getWert() == 4) && spiel.getFlugzeug().fahrgestellAusfahren(gewaehlterWuerfel)){
+                if ((gewaehlterWuerfel.getWert() == 3 || gewaehlterWuerfel.getWert() == 4) && spiel.getFlugzeug().fahrgestellAusfahren(gewaehlterWuerfel)) {
                     pilot.fahrgestellWaehlen(gewaehlterWuerfel, indexWuerfel);
                     schalterGUI.activateFahrgestellSchalter(1);
                     schalterGUI.moveFahrgestellIndicator(spiel.getFlugzeug().getFahrgestellZustand().getAkrivierteFahrgestelle());
@@ -133,7 +137,7 @@ public class SpielLogik {
                     return false;
                 }
             case "PFahrgestell56":
-                if ((gewaehlterWuerfel.getWert() == 5 || gewaehlterWuerfel.getWert() == 6) && spiel.getFlugzeug().fahrgestellAusfahren(gewaehlterWuerfel)){
+                if ((gewaehlterWuerfel.getWert() == 5 || gewaehlterWuerfel.getWert() == 6) && spiel.getFlugzeug().fahrgestellAusfahren(gewaehlterWuerfel)) {
                     pilot.fahrgestellWaehlen(gewaehlterWuerfel, indexWuerfel);
                     schalterGUI.activateFahrgestellSchalter(2);
                     schalterGUI.moveFahrgestellIndicator(spiel.getFlugzeug().getFahrgestellZustand().getAkrivierteFahrgestelle());
@@ -143,15 +147,12 @@ public class SpielLogik {
                     return false;
                 }
             case "PilotKaffee1":
-               System.out.println("using pilot");
                 pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, "Kaffee1");
                 return true;
             case "PilotKaffee2":
-                System.out.println("using pilot");
                 pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, "Kaffee2");
                 return true;
             case "PilotKaffee3":
-                System.out.println("using pilot");
                 pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, "Kaffee3");
                 return true;
 
@@ -165,13 +166,13 @@ public class SpielLogik {
         Copilot copilot = (Copilot) spieler;
         switch (auswahl) {
             case "CRadio1":
-                if(!spiel.getFeldCopilot("radioFeld1").isBelegt()){
+                if (!spiel.getFeldCopilot("radioFeld1").isBelegt()) {
                     radio(gewaehlterWuerfel);
                     copilot.radioWaehlen(gewaehlterWuerfel, indexWuerfel);
                 }
                 return true;
             case "CRadio2":
-                if(!spiel.getFeldCopilot("radioFeld2").isBelegt()){
+                if (!spiel.getFeldCopilot("radioFeld2").isBelegt()) {
                     radio(gewaehlterWuerfel);
                     copilot.radioWaehlen(gewaehlterWuerfel, indexWuerfel);
                 }
@@ -204,15 +205,12 @@ public class SpielLogik {
                     return false;
                 }
             case "CopilotKaffee1":
-                System.out.println("using copilot1");
                 copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, "Kaffee1");
                 return true;
             case "CopilotKaffee2":
-                System.out.println("using copilot2");
                 copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, "Kaffee2");
                 return true;
             case "CopilotKaffee3":
-                System.out.println("using copilot3");
                 copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, "Kaffee3");
                 return true;
             default:
@@ -224,7 +222,7 @@ public class SpielLogik {
     boolean reiseFeldZustandAktualisieren() {
         boolean speedFeldPilotBelegt = spiel.getFeldPilot("speedFeld").isBelegt();
         boolean speedFeldCopilotBelegt = spiel.getFeldCopilot("speedFeld").isBelegt();
-        if(speedFeldPilotBelegt && speedFeldCopilotBelegt) {
+        if (speedFeldPilotBelegt && speedFeldCopilotBelegt) {
             int pilotSpeed = spiel.getFeldPilot("speedFeld").getWuerfel().getWert();
             int copilotSpeed = spiel.getFeldCopilot("speedFeld").getWuerfel().getWert();
             int totalSpeed = pilotSpeed + copilotSpeed;
@@ -279,15 +277,14 @@ public class SpielLogik {
         float angle = 25f;
         boolean neigenFeldPilotBelegt = spiel.getFeldPilot("neigenFeld").isBelegt();
         boolean neigenFeldCopilotBelegt = spiel.getFeldCopilot("neigenFeld").isBelegt();
-        if(neigenFeldPilotBelegt && neigenFeldCopilotBelegt) {
+        if (neigenFeldPilotBelegt && neigenFeldCopilotBelegt) {
             Wuerfel w1 = spiel.getFeldPilot("neigenFeld").getWuerfel();
             Wuerfel w2 = spiel.getFeldCopilot("neigenFeld").getWuerfel();
-            spiel.getFlugzeug().neigen(spiel.getFlugzeug().getNeigung(), new Wuerfel[]{w1,w2});
+            spiel.getFlugzeug().neigen(spiel.getFlugzeug().getNeigung(), new Wuerfel[]{w1, w2});
             float targetRotation;
-            if(spiel.getFlugzeug().getNeigung() == 0){
+            if (spiel.getFlugzeug().getNeigung() == 0) {
                 targetRotation = 0;
-            }
-            else {
+            } else {
                 targetRotation = angle * spiel.getFlugzeug().getNeigung();
             }
             ruder.addAction(Actions.rotateTo(targetRotation, 1f));
@@ -302,14 +299,12 @@ public class SpielLogik {
         int newPosition = position + steps;
         if (newPosition >= routeSzenario.size()) {
             spiel.setKollision(true);
-        }
-        else if (steps > 2) {
+        } else if (steps > 2) {
             createMessage("Fehler", "Der Schritt ist zu groß!");
-        }
-        else {
+        } else {
             for (int i = position; i <= newPosition; i++) {
                 ReiseFeld currentField = routeSzenario.get(i);
-                if (currentField.getAnzahlFlugzeug()>0) {
+                if (currentField.getAnzahlFlugzeug() > 0) {
                     spiel.setKollision(true);
                 }
             }
@@ -321,7 +316,7 @@ public class SpielLogik {
 
     void addNeuWurfTokens() {
         Flughoehe currentHoehe = spiel.getCurrentHoehe();
-        if(currentHoehe.hatErneuWerfen()){
+        if (currentHoehe.hatErneuWerfen()) {
             spiel.neuWurfTokenAnzahlErhoehen();
         }
     }
@@ -337,15 +332,15 @@ public class SpielLogik {
         spieler.setWuerfels(werfen());
     }
 
-    private ArrayList<Wuerfel> werfen(){
+    private ArrayList<Wuerfel> werfen() {
         ArrayList<Wuerfel> wurfe = new ArrayList<>();
-        for(int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             wurfe.add(new Wuerfel());
         }
         return wurfe;
     }
 
-    void clearManyUseFelds(){
+    void clearManyUseFelds() {
         spiel.getFeldPilot("neigenFeld").setWuerfel(null);
         spiel.getFeldPilot("speedFeld").setWuerfel(null);
         spiel.getFeldPilot("radioFeld").setWuerfel(null);
@@ -368,7 +363,7 @@ public class SpielLogik {
         }
     }
 
-    ArrayList<Feld> getOneUseFelds(){
+    ArrayList<Feld> getOneUseFelds() {
         ArrayList<Feld> oneUseFelds = new ArrayList<>();
         Feld fg12 = spiel.getFeldPilot("fahrgestellFeld1_2");
         Feld fg34 = spiel.getFeldPilot("fahrgestellFeld3_4");
@@ -393,7 +388,7 @@ public class SpielLogik {
         return oneUseFelds;
     }
 
-    void clearKaffeFeld(){
+    void clearKaffeFeld() {
         int kaffeeCount = spiel.getKaffeTokenCount();
         switch (kaffeeCount) {
             case 0:
@@ -431,12 +426,12 @@ public class SpielLogik {
             });
             window.add(closeButton).pad(10).row();
             window.pack();
-            window.setPosition((Gdx.graphics.getWidth() - window.getWidth()) / 2f,(Gdx.graphics.getHeight() - window.getHeight()) / 2f);
+            window.setPosition((Gdx.graphics.getWidth() - window.getWidth()) / 2f, (Gdx.graphics.getHeight() - window.getHeight()) / 2f);
             stage.addActor(window);
         }
     }
 
-    public void createKaffeeTokenWindow(Wuerfel wuerfel, Spieler spieler, int index, Consumer<Integer>callback){
+    public void createKaffeeTokenWindow(Wuerfel wuerfel, Spieler spieler, int index, Consumer<Integer> callback) {
         if (window == null) {
             window = new Window("Wert aendern", skin);
             window.setModal(true);
@@ -451,7 +446,7 @@ public class SpielLogik {
             plusButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    if (wuerfel.getWert() < 6){
+                    if (wuerfel.getWert() < 6) {
                         spieler.kaffeeTokenBenutzen(kaffeToken(), index, KaffeTokenAktion.PLUS);
                         neuerWert = spieler.getWuerfels().get(index).getWert();
                         clearKaffeFeld();
@@ -469,7 +464,7 @@ public class SpielLogik {
             minusButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    if (wuerfel.getWert() > 1){
+                    if (wuerfel.getWert() > 1) {
                         spieler.kaffeeTokenBenutzen(kaffeToken(), index, KaffeTokenAktion.MINUS);
                         neuerWert = spieler.getWuerfels().get(index).getWert();
                         clearKaffeFeld();
@@ -487,12 +482,12 @@ public class SpielLogik {
             buttonTable.add(minusButton).padLeft(20);
             window.add(buttonTable).center().pad(20).row();
             window.pack();
-            window.setPosition((Gdx.graphics.getWidth() - window.getWidth()) / 2f,(Gdx.graphics.getHeight() - window.getHeight()) / 2f);
+            window.setPosition((Gdx.graphics.getWidth() - window.getWidth()) / 2f, (Gdx.graphics.getHeight() - window.getHeight()) / 2f);
             stage.addActor(window);
         }
     }
 
-    public void createNeuWurfTokenWindow(Spieler spieler,  BiConsumer<Spieler, Spieler> callback) {
+    public void createNeuWurfTokenWindow(Spieler spieler, BiConsumer<Spieler, Spieler> callback) {
         if (window == null) {
             window = new Window("Neu werfen", skin);
             window.setModal(true);
@@ -523,7 +518,7 @@ public class SpielLogik {
                     callback.accept(null, copilot);
                 }
             });
-            TextButton beideButton  = new TextButton("Beide", skin);
+            TextButton beideButton = new TextButton("Beide", skin);
             beideButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -538,12 +533,12 @@ public class SpielLogik {
             buttonTable.add(beideButton).pad(5);
             window.add(buttonTable).center().pad(10).row();
             window.pack();
-            window.setPosition((Gdx.graphics.getWidth() - window.getWidth()) / 2f,(Gdx.graphics.getHeight() - window.getHeight()) / 2f);
+            window.setPosition((Gdx.graphics.getWidth() - window.getWidth()) / 2f, (Gdx.graphics.getHeight() - window.getHeight()) / 2f);
             stage.addActor(window);
         }
     }
 
-    public void  createFinalWindow(boolean win) {
+    public void createFinalWindow(boolean win) {
         if (window != null) {
             window.remove();
             window = null;
@@ -553,14 +548,13 @@ public class SpielLogik {
         float w;
         float h;
         String buttonText;
-        if (win){
+        if (win) {
             path = "images/spiel/main/dog-happy.png";
             w = 800;
             h = 550;
             buttonText = "Hurra!";
             title = "Sieg!";
-        }
-        else{
+        } else {
             path = "images/spiel/main/frog-sad.png";
             w = 800;
             h = 450;
@@ -583,7 +577,7 @@ public class SpielLogik {
         });
         window.add(closeButton).pad(10).row();
         window.setSize(w, h);
-        window.setPosition((Gdx.graphics.getWidth() - window.getWidth()) / 2f,(Gdx.graphics.getHeight() - window.getHeight()) / 2f);
+        window.setPosition((Gdx.graphics.getWidth() - window.getWidth()) / 2f, (Gdx.graphics.getHeight() - window.getHeight()) / 2f);
         stage.addActor(window);
     }
 }

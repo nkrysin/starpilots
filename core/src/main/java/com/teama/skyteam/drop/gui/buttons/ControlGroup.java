@@ -51,7 +51,4 @@ public class ControlGroup {
         }
         fields.clear();
     }
-
-
-
 }

@@ -3,15 +3,15 @@ package com.teama.skyteam.drop;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.GL20;
 import com.teama.skyteam.drop.gui.menu.StartScreen;
 import com.teama.skyteam.drop.gui.utilities.TextureCache;
 
 public class MainBk extends ApplicationAdapter {
 
-    private Screen currentScreen;
     public Music menuMusic;
+    private Screen currentScreen;
 
     public void setScreen(Screen newScreen) {
         if (currentScreen != null) {

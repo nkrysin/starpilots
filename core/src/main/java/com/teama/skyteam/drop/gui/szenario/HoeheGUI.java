@@ -6,9 +6,9 @@ import com.teama.skyteam.drop.spiel.Spiel;
 import com.teama.skyteam.drop.szenario.HoeheSzenarioTypes;
 
 public class HoeheGUI {
+    private final int MOVE_STEP = 96;
     private Texture hoeheTexture;
     private float cardX, cardY;
-    private final int MOVE_STEP = 96;
     private Spiel spiel;
 
     public HoeheGUI(Spiel spiel) {
@@ -20,7 +20,7 @@ public class HoeheGUI {
 
     private void setHoeheTexture(Spiel spiel) {
         HoeheSzenarioTypes type = spiel.getSzenario().getHoeheSzenarioType();
-        switch (type){
+        switch (type) {
             case RED -> hoeheTexture = new Texture("images/hoehe/RED.png");
             case GREEN -> hoeheTexture = new Texture("images/hoehe/GREEN.png");
         }
@@ -38,8 +38,4 @@ public class HoeheGUI {
     public void moveStep() {
         cardY -= MOVE_STEP;
     }
-
-
-
-
 }

@@ -17,5 +17,4 @@ public enum Klappen {
     public int getValue() {
         return value;
     }
-
 }

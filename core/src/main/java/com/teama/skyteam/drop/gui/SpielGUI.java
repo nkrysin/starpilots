@@ -117,6 +117,7 @@ public class SpielGUI {
         } else {
             copilotWuerfelActors = wuerfelActors;
         }
+        hideWuerfel(spieler);
     }
 
     public void addWuerfelListenersForSpieler(Spieler spieler) {
@@ -344,7 +345,6 @@ public class SpielGUI {
         mirroredFields.put(copilotK3, pilotK3);
     }
 
-
     private void handleKaffeeFieldClick(ControlField field, Spieler spieler) {
         if (selectedWuerfelData == null || field.isOccupied()) {
             return;
@@ -378,7 +378,6 @@ public class SpielGUI {
         }
 
     }
-
 
     private void addListenersToGroupFields(ControlGroup group, Spieler spieler) {
         highlightAvailableFields(group);
@@ -441,7 +440,6 @@ public class SpielGUI {
     }
 
     public void checkFeldSituation(Spieler spieler) {
-        System.out.println();
         Feld feldNeigung;
         Feld feldSpeed;
         int anzahlWuerfels;
@@ -557,8 +555,6 @@ public class SpielGUI {
                 switchTexture(field.getButton(), "images/spiel/main/empty.png");
             }
         }
-
-
     }
 
     public void clearManyUseFields() {
@@ -732,7 +728,6 @@ public class SpielGUI {
             field.getButton().setTouchable(Touchable.enabled);
             addKaffeeListeners(s);
         }
-
     }
 
 
@@ -906,5 +901,4 @@ public class SpielGUI {
         removeHideImage(pilotX, pilotY);
         removeHideImage(copilotX, copilotY);
     }
-
 }

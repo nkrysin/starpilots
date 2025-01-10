@@ -103,21 +103,21 @@ public class Flugzeug {
         int wert = wuerfel.getWert();
         Bremsen aktuellerZustand = getBremsenZustand();
 
-        switch (aktuellerZustand){
+        switch (aktuellerZustand) {
             case NONE:
-                if (wert == 2){
+                if (wert == 2) {
                     setBremsenZustand(Bremsen.LEVEL1);
                     return true;
                 }
                 break;
             case LEVEL1:
-                if (wert == 4){
+                if (wert == 4) {
                     setBremsenZustand(Bremsen.LEVEL2);
                     return true;
                 }
                 break;
             case LEVEL2:
-                if (wert == 6){
+                if (wert == 6) {
                     setBremsenZustand(Bremsen.LEVEL3);
                     return true;
                 }
@@ -188,15 +188,14 @@ public class Flugzeug {
         return false;
     }
 
-    private void speedUntereGrenzeAktualisieren(){
+    private void speedUntereGrenzeAktualisieren() {
         int akrivierteFahrgestelle = getFahrgestellZustand().getAkrivierteFahrgestelle();
-        switch (akrivierteFahrgestelle){
+        switch (akrivierteFahrgestelle) {
             case 1 -> setSpeedUntereGrenze(Speed.FIVE);
             case 2 -> setSpeedUntereGrenze(Speed.SIX);
             case 3 -> setSpeedUntereGrenze(Speed.SEVEN);
         }
     }
-
 }
 
 

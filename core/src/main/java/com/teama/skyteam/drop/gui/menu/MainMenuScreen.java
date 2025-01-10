@@ -4,11 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.teama.skyteam.drop.MainBk;
 
 public class MainMenuScreen implements Screen {
@@ -37,7 +37,7 @@ public class MainMenuScreen implements Screen {
         TextButton.TextButtonStyle blueButtonStyle = ButtonStyle.style();
 
         TextButton startButton = new TextButton("Start Game", blueButtonStyle);
-        startButton.addListener(new ClickListener(){
+        startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 main.setScreen(new ScenarioSelectionScreen(main));
@@ -45,7 +45,7 @@ public class MainMenuScreen implements Screen {
         });
 
         TextButton creditsButton = new TextButton("Credits", blueButtonStyle);
-        creditsButton.addListener(new ClickListener(){
+        creditsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 main.setScreen(new CreditsScreen(main));
@@ -53,13 +53,12 @@ public class MainMenuScreen implements Screen {
         });
 
         TextButton exitButton = new TextButton("Exit", blueButtonStyle);
-        exitButton.addListener(new ClickListener(){
+        exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
             }
         });
-
 
         float buttonWidth = 350f;
         table.add(startButton).width(buttonWidth).pad(20).row();
@@ -73,11 +72,9 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-
-
         batch.begin();
         batch.draw(planeBackground, 0, 0, 1920, 1080);
-        batch.draw(logo, 519, 720, 883,220);
+        batch.draw(logo, 519, 720, 883, 220);
         batch.end();
 
         stage.act(delta);
@@ -85,15 +82,22 @@ public class MainMenuScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) { }
+    public void resize(int width, int height) {
+    }
+
     @Override
-    public void pause() { }
+    public void pause() {
+    }
+
     @Override
-    public void resume() { }
+    public void resume() {
+    }
+
     @Override
     public void hide() {
         dispose();
     }
+
     @Override
     public void dispose() {
     }

@@ -92,11 +92,9 @@ class ScenarioSelectionScreen implements Screen {
 
     @Override
     public void render(float delta) {
-
-
         batch.begin();
         batch.draw(planeBackground, 0, 0, 1920, 1080);
-        batch.draw(logo, 519, 720, 883,220);
+        batch.draw(logo, 519, 720, 883, 220);
         batch.end();
 
         stage.act(delta);
@@ -122,6 +120,5 @@ class ScenarioSelectionScreen implements Screen {
 
     @Override
     public void dispose() {
-
     }
 }
