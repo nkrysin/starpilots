@@ -100,7 +100,7 @@ public class Szenario {
         return hoeheSzenarioType;
     }
 
-    private void setHoeheSzenarioType(String hoeheSzenarioType) {
+    void setHoeheSzenarioType(String hoeheSzenarioType) {
         try {
             this.hoeheSzenarioType = HoeheSzenarioTypes.valueOf(hoeheSzenarioType);
         } catch (IllegalArgumentException e) {

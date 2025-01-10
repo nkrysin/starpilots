@@ -398,14 +398,17 @@ public class SpielLogik {
                 spiel.getFeldCopilot("Kaffee2").setWuerfel(null);
                 spiel.getFeldPilot("Kaffee3").setWuerfel(null);
                 spiel.getFeldCopilot("Kaffee3").setWuerfel(null);
+                break;
             case 1:
                 spiel.getFeldPilot("Kaffee2").setWuerfel(null);
                 spiel.getFeldCopilot("Kaffee2").setWuerfel(null);
                 spiel.getFeldPilot("Kaffee3").setWuerfel(null);
                 spiel.getFeldCopilot("Kaffee3").setWuerfel(null);
+                break;
             case 2:
                 spiel.getFeldPilot("Kaffee3").setWuerfel(null);
                 spiel.getFeldCopilot("Kaffee3").setWuerfel(null);
+                break;
         }
 
     }
