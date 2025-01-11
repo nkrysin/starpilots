@@ -318,7 +318,7 @@ public class SpielLogikTest {
 
     @Test
     void testKaffeeTokenReturnsFirstTokenAndRemovesIt() {
-        ArrayList<KaffeeToken> kaffeeTokens = new ArrayList<>();
+        ArrayList<KaffeeToken> kaffeeTokens = new ArrayList<KaffeeToken>();
         KaffeeToken token1 = mock(KaffeeToken.class);
         KaffeeToken token2 = mock(KaffeeToken.class);
 
@@ -336,7 +336,7 @@ public class SpielLogikTest {
 
     @Test
     void testNeuWurfTokenReturnsFirstTokenAndRemovesIt() {
-        ArrayList<NeuWurfToken> neuWurfTokens = new ArrayList<>();
+        ArrayList<NeuWurfToken> neuWurfTokens = new ArrayList<NeuWurfToken>();
         NeuWurfToken token1 = mock(NeuWurfToken.class);
         NeuWurfToken token2 = mock(NeuWurfToken.class);
 
@@ -427,7 +427,7 @@ public class SpielLogikTest {
         when(belegtesFeld2.isBelegt()).thenReturn(true);
         when(freiesFeld.isBelegt()).thenReturn(false);
 
-        ArrayList<Feld> oneUseFelds = new ArrayList<>();
+        ArrayList<Feld> oneUseFelds = new ArrayList<Feld>();
         oneUseFelds.add(belegtesFeld1);
         oneUseFelds.add(freiesFeld);
         oneUseFelds.add(belegtesFeld2);
@@ -446,7 +446,7 @@ public class SpielLogikTest {
 
     @Test
     void testHoeheReduzierenRemovesFirstElement() {
-        ArrayList<Flughoehe> mockHoeheRoute = new ArrayList<>();
+        ArrayList<Flughoehe> mockHoeheRoute = new ArrayList<Flughoehe>();
         Flughoehe hoehe1 = mock(Flughoehe.class);
         Flughoehe hoehe2 = mock(Flughoehe.class);
 
@@ -463,7 +463,7 @@ public class SpielLogikTest {
 
     @Test
     void testHoeheReduzierenDoesNothingWhenOnlyOneElement() {
-        ArrayList<Flughoehe> mockHoeheRoute = new ArrayList<>();
+        ArrayList<Flughoehe> mockHoeheRoute = new ArrayList<Flughoehe>();
         Flughoehe hoehe1 = mock(Flughoehe.class);
 
         mockHoeheRoute.add(hoehe1);
@@ -475,6 +475,7 @@ public class SpielLogikTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     void testSetNeuWuerfels() {
         Spieler spieler = mock(Spieler.class);
 
