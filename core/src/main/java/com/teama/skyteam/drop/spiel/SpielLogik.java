@@ -17,8 +17,8 @@ import com.teama.skyteam.drop.spieler.Pilot;
 import com.teama.skyteam.drop.spieler.Spieler;
 import com.teama.skyteam.drop.szenario.ReiseFeld;
 import com.teama.skyteam.drop.szenario.flughoehe.Flughoehe;
-import com.teama.skyteam.drop.tokens.KaffeToken;
-import com.teama.skyteam.drop.tokens.KaffeTokenAktion;
+import com.teama.skyteam.drop.tokens.KaffeeToken;
+import com.teama.skyteam.drop.tokens.KaffeeTokenAktion;
 import com.teama.skyteam.drop.tokens.NeuWurfToken;
 import com.teama.skyteam.drop.tokens.Wuerfel;
 
@@ -244,10 +244,10 @@ public class SpielLogik {
         return false;
     }
 
-    KaffeToken kaffeToken() {
-        ArrayList<KaffeToken> kaffeTokens = spiel.getKaffeTokens();
-        KaffeToken token = kaffeTokens.getFirst();
-        kaffeTokens.removeFirst();
+    KaffeeToken kaffeeToken() {
+        ArrayList<KaffeeToken> kaffeeTokens = spiel.getKaffeeTokens();
+        KaffeeToken token = kaffeeTokens.getFirst();
+        kaffeeTokens.removeFirst();
         return token;
     }
 
@@ -388,8 +388,8 @@ public class SpielLogik {
         return oneUseFelds;
     }
 
-    void clearKaffeFeld() {
-        int kaffeeCount = spiel.getKaffeTokenCount();
+    void clearKaffeeFeld() {
+        int kaffeeCount = spiel.getKaffeeTokenCount();
         switch (kaffeeCount) {
             case 0:
                 spiel.getFeldPilot("Kaffee1").setWuerfel(null);
@@ -398,14 +398,17 @@ public class SpielLogik {
                 spiel.getFeldCopilot("Kaffee2").setWuerfel(null);
                 spiel.getFeldPilot("Kaffee3").setWuerfel(null);
                 spiel.getFeldCopilot("Kaffee3").setWuerfel(null);
+                break;
             case 1:
                 spiel.getFeldPilot("Kaffee2").setWuerfel(null);
                 spiel.getFeldCopilot("Kaffee2").setWuerfel(null);
                 spiel.getFeldPilot("Kaffee3").setWuerfel(null);
                 spiel.getFeldCopilot("Kaffee3").setWuerfel(null);
+                break;
             case 2:
                 spiel.getFeldPilot("Kaffee3").setWuerfel(null);
                 spiel.getFeldCopilot("Kaffee3").setWuerfel(null);
+                break;
         }
 
     }
@@ -447,9 +450,9 @@ public class SpielLogik {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     if (wuerfel.getWert() < 6) {
-                        spieler.kaffeeTokenBenutzen(kaffeToken(), index, KaffeTokenAktion.PLUS);
+                        spieler.kaffeeTokenBenutzen(kaffeeToken(), index, KaffeeTokenAktion.PLUS);
                         neuerWert = spieler.getWuerfels().get(index).getWert();
-                        clearKaffeFeld();
+                        clearKaffeeFeld();
                         window.remove();
                         window = null;
                         callback.accept(neuerWert);
@@ -465,9 +468,9 @@ public class SpielLogik {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     if (wuerfel.getWert() > 1) {
-                        spieler.kaffeeTokenBenutzen(kaffeToken(), index, KaffeTokenAktion.MINUS);
+                        spieler.kaffeeTokenBenutzen(kaffeeToken(), index, KaffeeTokenAktion.MINUS);
                         neuerWert = spieler.getWuerfels().get(index).getWert();
-                        clearKaffeFeld();
+                        clearKaffeeFeld();
                         window.remove();
                         window = null;
                         callback.accept(neuerWert);

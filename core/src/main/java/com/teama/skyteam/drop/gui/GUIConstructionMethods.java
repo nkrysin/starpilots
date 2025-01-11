@@ -36,7 +36,7 @@ public class GUIConstructionMethods {
     }
 
     public ControlGroup createUseKaffeeButtons(String groupName, int[][] positions, Stage stage) {
-        String[] kaffeeFieldNames = {"UseKaffe1", "UseKaffe2", "UseKaffe3"};
+        String[] kaffeeFieldNames = {"UseKaffee1", "UseKaffee2", "UseKaffee3"};
         ArrayList<ControlField> fields = new ArrayList<>();
         for (int i = 0; i < kaffeeFieldNames.length; i++) {
             ImageButton button = createButton("images/spiel/main/empty.png",

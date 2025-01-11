@@ -1,13 +1,13 @@
 package com.teama.skyteam.drop.tokens;
 
-public class KaffeToken {
-    public Wuerfel wertAendern(KaffeTokenAktion aktion, Wuerfel wuerfel) {
+public class KaffeeToken {
+    public Wuerfel wertAendern(KaffeeTokenAktion aktion, Wuerfel wuerfel) {
         switch (aktion) {
             case PLUS:
-                wuerfel.wertAendern(KaffeTokenAktion.PLUS);
+                wuerfel.wertAendern(KaffeeTokenAktion.PLUS);
                 return wuerfel;
             case MINUS:
-                wuerfel.wertAendern(KaffeTokenAktion.MINUS);
+                wuerfel.wertAendern(KaffeeTokenAktion.MINUS);
                 return wuerfel;
             default:
                 return wuerfel;
