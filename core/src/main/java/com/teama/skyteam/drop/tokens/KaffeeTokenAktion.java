@@ -1,6 +1,6 @@
 package com.teama.skyteam.drop.tokens;
 
-public enum KaffeTokenAktion {
+public enum KaffeeTokenAktion {
     PLUS,
     MINUS
 }

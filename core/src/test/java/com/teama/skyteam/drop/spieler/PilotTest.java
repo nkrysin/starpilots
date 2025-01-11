@@ -1,8 +1,8 @@
 package com.teama.skyteam.drop.spieler;
 
 import com.teama.skyteam.drop.spiel.Spiel;
-import com.teama.skyteam.drop.tokens.KaffeToken;
-import com.teama.skyteam.drop.tokens.KaffeTokenAktion;
+import com.teama.skyteam.drop.tokens.KaffeeToken;
+import com.teama.skyteam.drop.tokens.KaffeeTokenAktion;
 import com.teama.skyteam.drop.tokens.NeuWurfToken;
 import com.teama.skyteam.drop.tokens.Wuerfel;
 import org.junit.jupiter.api.BeforeEach;
@@ -129,7 +129,7 @@ class PilotTest {
 
     @Test
     void testKaffeeWaehlenMaxTokens() {
-        when(mockSpiel.getKaffeTokenCount()).thenReturn(3);
+        when(mockSpiel.getKaffeeTokenCount()).thenReturn(3);
 
         ArrayList<Wuerfel> wuerfels = new ArrayList<>();
         wuerfels.add(mockWuerfel);
@@ -140,7 +140,7 @@ class PilotTest {
                 () -> pilot.kaffeeWaehlen(mockWuerfel, 0, "Kaffee1")
         );
 
-        assertEquals("Sie können nicht mehr als 3 KaffeTokens haben!", exception.getMessage());
+        assertEquals("Sie können nicht mehr als 3 KaffeeTokens haben!", exception.getMessage());
     }
 
     @Test
@@ -320,21 +320,21 @@ class PilotTest {
 
     @Test
     void testKaffeeWaehlenSuccess() {
-        when(mockSpiel.getKaffeTokenCount()).thenReturn(0);
+        when(mockSpiel.getKaffeeTokenCount()).thenReturn(0);
 
-        Feld mockKaffeFeld1Pilot = mock(Feld.class);
+        Feld mockKaffeeFeld1Pilot = mock(Feld.class);
 
-        when(mockSpiel.getFeldPilot("Kaffee1")).thenReturn(mockKaffeFeld1Pilot);
+        when(mockSpiel.getFeldPilot("Kaffee1")).thenReturn(mockKaffeeFeld1Pilot);
 
-        Feld mockKaffeFeld1Copilot = mock(Feld.class);
+        Feld mockKaffeeFeld1Copilot = mock(Feld.class);
 
-        when(mockSpiel.getFeldCopilot("Kaffee1")).thenReturn(mockKaffeFeld1Copilot);
+        when(mockSpiel.getFeldCopilot("Kaffee1")).thenReturn(mockKaffeeFeld1Copilot);
 
-        when(mockKaffeFeld1Pilot.isBelegt()).thenReturn(false);
-        when(mockKaffeFeld1Copilot.isBelegt()).thenReturn(false);
+        when(mockKaffeeFeld1Pilot.isBelegt()).thenReturn(false);
+        when(mockKaffeeFeld1Copilot.isBelegt()).thenReturn(false);
 
-        when(mockKaffeFeld1Pilot.wuerfelPlatzieren(mockWuerfel)).thenReturn(true);
-        when(mockKaffeFeld1Copilot.wuerfelPlatzieren(mockWuerfel)).thenReturn(true);
+        when(mockKaffeeFeld1Pilot.wuerfelPlatzieren(mockWuerfel)).thenReturn(true);
+        when(mockKaffeeFeld1Copilot.wuerfelPlatzieren(mockWuerfel)).thenReturn(true);
 
         ArrayList<Wuerfel> wuerfels = new ArrayList<>();
         wuerfels.add(mockWuerfel);
@@ -342,7 +342,7 @@ class PilotTest {
 
         pilot.kaffeeWaehlen(mockWuerfel, 0, "Kaffee1");
 
-        verify(mockSpiel, times(1)).kaffeTokenAnzahlErhoehen(any(KaffeToken.class));
+        verify(mockSpiel, times(1)).kaffeeTokenAnzahlErhoehen(any(KaffeeToken.class));
         assertTrue(pilot.getWuerfels().isEmpty());
     }
 
@@ -404,13 +404,13 @@ class PilotTest {
 
     @Test
     void testKaffeeTokenBenutzenPlusSuccess() {
-        KaffeToken mockToken = mock(KaffeToken.class);
+        KaffeeToken mockToken = mock(KaffeeToken.class);
         Wuerfel mockWuerfel = mock(Wuerfel.class);
         Wuerfel updatedWuerfel = mock(Wuerfel.class);
 
         when(mockWuerfel.getWert()).thenReturn(5);
 
-        when(mockToken.wertAendern(KaffeTokenAktion.PLUS, mockWuerfel)).thenReturn(updatedWuerfel);
+        when(mockToken.wertAendern(KaffeeTokenAktion.PLUS, mockWuerfel)).thenReturn(updatedWuerfel);
 
         when(updatedWuerfel.getWert()).thenReturn(6);
 
@@ -418,25 +418,25 @@ class PilotTest {
         wuerfels.add(mockWuerfel);
         pilot.setWuerfels(wuerfels);
 
-        pilot.kaffeeTokenBenutzen(mockToken, 0, KaffeTokenAktion.PLUS);
+        pilot.kaffeeTokenBenutzen(mockToken, 0, KaffeeTokenAktion.PLUS);
 
         Wuerfel resultWuerfel = pilot.getWuerfels().get(0);
         assertEquals(updatedWuerfel, resultWuerfel);
 
         assertEquals(6, resultWuerfel.getWert());
 
-        verify(mockToken, times(1)).wertAendern(KaffeTokenAktion.PLUS, mockWuerfel);
+        verify(mockToken, times(1)).wertAendern(KaffeeTokenAktion.PLUS, mockWuerfel);
     }
 
     @Test
     void testKaffeeTokenBenutzenMinusSuccess() {
-        KaffeToken mockToken = mock(KaffeToken.class);
+        KaffeeToken mockToken = mock(KaffeeToken.class);
         Wuerfel mockWuerfel = mock(Wuerfel.class);
         Wuerfel updatedWuerfel = mock(Wuerfel.class);
 
         when(mockWuerfel.getWert()).thenReturn(5);
 
-        when(mockToken.wertAendern(KaffeTokenAktion.MINUS, mockWuerfel)).thenReturn(updatedWuerfel);
+        when(mockToken.wertAendern(KaffeeTokenAktion.MINUS, mockWuerfel)).thenReturn(updatedWuerfel);
 
         when(updatedWuerfel.getWert()).thenReturn(4);
 
@@ -444,19 +444,19 @@ class PilotTest {
         wuerfels.add(mockWuerfel);
         pilot.setWuerfels(wuerfels);
 
-        pilot.kaffeeTokenBenutzen(mockToken, 0, KaffeTokenAktion.MINUS);
+        pilot.kaffeeTokenBenutzen(mockToken, 0, KaffeeTokenAktion.MINUS);
 
         Wuerfel resultWuerfel = pilot.getWuerfels().get(0);
         assertEquals(updatedWuerfel, resultWuerfel);
 
         assertEquals(4, resultWuerfel.getWert());
 
-        verify(mockToken, times(1)).wertAendern(KaffeTokenAktion.MINUS, mockWuerfel);
+        verify(mockToken, times(1)).wertAendern(KaffeeTokenAktion.MINUS, mockWuerfel);
     }
 
     @Test
     void testKaffeeTokenBenutzenPlusException() {
-        KaffeToken mockToken = mock(KaffeToken.class);
+        KaffeeToken mockToken = mock(KaffeeToken.class);
         Wuerfel mockWuerfel = mock(Wuerfel.class);
 
         when(mockWuerfel.getWert()).thenReturn(6);
@@ -467,7 +467,7 @@ class PilotTest {
 
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> pilot.kaffeeTokenBenutzen(mockToken, 0, KaffeTokenAktion.PLUS)
+                () -> pilot.kaffeeTokenBenutzen(mockToken, 0, KaffeeTokenAktion.PLUS)
         );
 
         assertEquals("Wuerfelwert ist schon maximal", exception.getMessage());
@@ -475,7 +475,7 @@ class PilotTest {
 
     @Test
     void testKaffeeTokenBenutzenMinusException() {
-        KaffeToken mockToken = mock(KaffeToken.class);
+        KaffeeToken mockToken = mock(KaffeeToken.class);
         Wuerfel mockWuerfel = mock(Wuerfel.class);
 
         when(mockWuerfel.getWert()).thenReturn(1);
@@ -486,7 +486,7 @@ class PilotTest {
 
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> pilot.kaffeeTokenBenutzen(mockToken, 0, KaffeTokenAktion.MINUS)
+                () -> pilot.kaffeeTokenBenutzen(mockToken, 0, KaffeeTokenAktion.MINUS)
         );
 
         assertEquals("Wuerfelwert ist schon minimal", exception.getMessage());

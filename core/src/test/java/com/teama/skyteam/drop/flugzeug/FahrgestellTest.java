@@ -31,6 +31,4 @@ class FahrgestellTest {
         assertEquals(1, fahrgestell.getAkrivierteFahrgestelle());
         assertFalse(fahrgestell.fahrgestellAktivieren(2));
     }
-
-
 }

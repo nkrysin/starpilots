@@ -19,7 +19,7 @@ public class Wuerfel {
         this.wert = randomNumber;
     }
 
-    void wertAendern(KaffeTokenAktion aktion) {
+    void wertAendern(KaffeeTokenAktion aktion) {
         switch (aktion) {
             case PLUS:
                 this.wert = getWert() + 1;

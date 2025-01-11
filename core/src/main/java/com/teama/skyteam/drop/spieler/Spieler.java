@@ -1,7 +1,7 @@
 package com.teama.skyteam.drop.spieler;
 
-import com.teama.skyteam.drop.tokens.KaffeToken;
-import com.teama.skyteam.drop.tokens.KaffeTokenAktion;
+import com.teama.skyteam.drop.tokens.KaffeeToken;
+import com.teama.skyteam.drop.tokens.KaffeeTokenAktion;
 import com.teama.skyteam.drop.tokens.NeuWurfToken;
 import com.teama.skyteam.drop.tokens.Wuerfel;
 
@@ -35,11 +35,11 @@ public abstract class Spieler {
         target2.setWuerfels(token.erneutWerfen(target2));
     }
 
-    public void kaffeeTokenBenutzen(KaffeToken token, int indexWuerfel, KaffeTokenAktion aktion) {
+    public void kaffeeTokenBenutzen(KaffeeToken token, int indexWuerfel, KaffeeTokenAktion aktion) {
         Wuerfel wuerfel = wuerfels.get(indexWuerfel);
-        if (aktion == KaffeTokenAktion.PLUS && wuerfel.getWert() == 6) {
+        if (aktion == KaffeeTokenAktion.PLUS && wuerfel.getWert() == 6) {
             throw new IllegalArgumentException("Wuerfelwert ist schon maximal");
-        } else if (aktion == KaffeTokenAktion.MINUS && wuerfel.getWert() == 1) {
+        } else if (aktion == KaffeeTokenAktion.MINUS && wuerfel.getWert() == 1) {
             throw new IllegalArgumentException("Wuerfelwert ist schon minimal");
         } else {
             wuerfel = token.wertAendern(aktion, wuerfel);

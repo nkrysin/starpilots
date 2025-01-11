@@ -44,6 +44,20 @@ public class SpielControllerGUI {
         spielenSchritt();
     }
 
+    private enum State {
+        CHECK_END,
+        PREPARE_ROUND,
+        PLAY_TURN_FIRST,
+        CHECK_NEIGUNG,
+        CHECK_REISEFELD,
+        PLAY_TURN_SECOND,
+        CHECK_NEIGUNG_AGAIN,
+        CHECK_REISEFELD_AGAIN,
+        ROUND_FINISH,
+        FINAL_CHECK,
+        END
+    }
+
     private void prepareRound() {
         neigungErledigt = false;
         reiseFeldAktualisiert = false;
@@ -234,19 +248,5 @@ public class SpielControllerGUI {
         if (spielGUI != null) {
             spielGUI.dispose();
         }
-    }
-
-    private enum State {
-        CHECK_END,
-        PREPARE_ROUND,
-        PLAY_TURN_FIRST,
-        CHECK_NEIGUNG,
-        CHECK_REISEFELD,
-        PLAY_TURN_SECOND,
-        CHECK_NEIGUNG_AGAIN,
-        CHECK_REISEFELD_AGAIN,
-        ROUND_FINISH,
-        FINAL_CHECK,
-        END
     }
 }

@@ -1,7 +1,7 @@
 package com.teama.skyteam.drop.spieler;
 
 import com.teama.skyteam.drop.spiel.Spiel;
-import com.teama.skyteam.drop.tokens.KaffeToken;
+import com.teama.skyteam.drop.tokens.KaffeeToken;
 import com.teama.skyteam.drop.tokens.Wuerfel;
 
 public class Copilot extends Spieler {
@@ -29,16 +29,16 @@ public class Copilot extends Spieler {
     private void kaffeeAufFeldPruefenUndPlatzieren(String feldName, Wuerfel wuerfel, int indexWuerfel) {
         if (!spiel.getFeldPilot(feldName).isBelegt() && !spiel.getFeldCopilot(feldName).isBelegt()) {
             wuerfelAufFeldPlatzieren(feldName, wuerfel, indexWuerfel);
-            KaffeToken token = new KaffeToken();
-            spiel.kaffeTokenAnzahlErhoehen(token);
+            KaffeeToken token = new KaffeeToken();
+            spiel.kaffeeTokenAnzahlErhoehen(token);
         }
     }
 
     @Override
     public void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel, String kaffee) {
 
-        if (spiel.getKaffeTokenCount() >= 3) {
-            throw new IllegalArgumentException("Sie können nicht mehr als 3 KaffeTokens haben!");
+        if (spiel.getKaffeeTokenCount() >= 3) {
+            throw new IllegalArgumentException("Sie können nicht mehr als 3 KaffeeTokens haben!");
         }
 
         kaffeeAufFeldPruefenUndPlatzieren(kaffee, wuerfel, indexWuerfel);

@@ -5,7 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class FlugzeugTest {
 
@@ -35,7 +36,6 @@ class FlugzeugTest {
 
     @Test
     public void testFlugzeugNeigenMit2GleichenWerten() {
-
         when(mockWuerfel1.getWert()).thenReturn(3);
         when(mockWuerfel2.getWert()).thenReturn(3);
 
@@ -46,7 +46,6 @@ class FlugzeugTest {
 
     @Test
     public void testFlugzeugNeigenMit2VerschiedenWertenCopilotGroesser() {
-
         when(mockWuerfel1.getWert()).thenReturn(4);
         when(mockWuerfel2.getWert()).thenReturn(5);
 
@@ -56,7 +55,6 @@ class FlugzeugTest {
 
     @Test
     public void testFlugzeugNeigenMit2VerschiedenWertenPilotGroesser() {
-
         when(mockWuerfel1.getWert()).thenReturn(6);
         when(mockWuerfel2.getWert()).thenReturn(4);
 
@@ -66,11 +64,8 @@ class FlugzeugTest {
 
     @Test
     public void testFlugzeugBremsenLevel1() {
-
         flugzeug.setBremsenZustand(Bremsen.NONE);
-
         when(mockWuerfel1.getWert()).thenReturn(2);
-
         boolean result = flugzeug.bremsen(mockWuerfel1);
 
         assertTrue(result);
@@ -80,9 +75,7 @@ class FlugzeugTest {
     @Test
     public void testFlugzeugBremsenLevel2() {
         flugzeug.setBremsenZustand(Bremsen.LEVEL1);
-
         when(mockWuerfel1.getWert()).thenReturn(4);
-
         boolean result = flugzeug.bremsen(mockWuerfel1);
 
         assertTrue(result);
@@ -94,7 +87,6 @@ class FlugzeugTest {
     public void testFlugzeugBremsenLevel3() {
         flugzeug.setBremsenZustand(Bremsen.LEVEL2);
         when(mockWuerfel1.getWert()).thenReturn(6);
-
         boolean result = flugzeug.bremsen(mockWuerfel1);
 
         assertTrue(result);
@@ -104,11 +96,8 @@ class FlugzeugTest {
 
     @Test
     public void testFlugzeugBremsenNichtLevel3() {
-
         flugzeug.setBremsenZustand(Bremsen.LEVEL1);
-
         when(mockWuerfel1.getWert()).thenReturn(6);
-
         boolean result = flugzeug.bremsen(mockWuerfel1);
 
         assertFalse(result);
@@ -118,11 +107,8 @@ class FlugzeugTest {
 
     @Test
     public void testFlugzeugBremsenNichtLevel2() {
-
         flugzeug.setBremsenZustand(Bremsen.NONE);
-
         when(mockWuerfel1.getWert()).thenReturn(4);
-
         boolean result = flugzeug.bremsen(mockWuerfel1);
 
         assertFalse(result);
@@ -132,11 +118,8 @@ class FlugzeugTest {
 
     @Test
     public void testFlugzeugBremsenNichtLevel1() {
-
         flugzeug.setBremsenZustand(Bremsen.NONE);
-
         when(mockWuerfel1.getWert()).thenReturn(1);
-
         boolean result = flugzeug.bremsen(mockWuerfel1);
 
         assertFalse(result);
@@ -146,11 +129,8 @@ class FlugzeugTest {
 
     @Test
     public void testFlugzeugKlappenOeffnenLevel1MitWert1() {
-
         flugzeug.setKlappenZustand(Klappen.NONE);
-
         when(mockWuerfel1.getWert()).thenReturn(1);
-
         boolean result = flugzeug.klappenOeffnen(mockWuerfel1);
 
         assertTrue(result);
@@ -161,9 +141,7 @@ class FlugzeugTest {
     @Test
     public void testFlugzeugKlappenOeffnenLevel1MitWert2() {
         flugzeug.setKlappenZustand(Klappen.NONE);
-
         when(mockWuerfel1.getWert()).thenReturn(2);
-
         boolean result = flugzeug.klappenOeffnen(mockWuerfel1);
 
         assertTrue(result);
@@ -175,9 +153,7 @@ class FlugzeugTest {
     @Test
     public void testFlugzeugKlappenOeffnenLevel2MitWert2() {
         flugzeug.setKlappenZustand(Klappen.LEVEL1);
-
         when(mockWuerfel1.getWert()).thenReturn(2);
-
         boolean result = flugzeug.klappenOeffnen(mockWuerfel1);
 
         assertTrue(result);
@@ -189,9 +165,7 @@ class FlugzeugTest {
     @Test
     public void testFlugzeugKlappenOeffnenLevel2MitWert3() {
         flugzeug.setKlappenZustand(Klappen.LEVEL1);
-
         when(mockWuerfel1.getWert()).thenReturn(3);
-
         boolean result = flugzeug.klappenOeffnen(mockWuerfel1);
 
         assertTrue(result);
@@ -203,9 +177,7 @@ class FlugzeugTest {
     @Test
     public void testFlugzeugKlappenOeffnenLevel3MitWert4() {
         flugzeug.setKlappenZustand(Klappen.LEVEL2);
-
         when(mockWuerfel1.getWert()).thenReturn(4);
-
         boolean result = flugzeug.klappenOeffnen(mockWuerfel1);
 
         assertTrue(result);
@@ -217,9 +189,7 @@ class FlugzeugTest {
     @Test
     public void testFlugzeugKlappenOeffnenLevel3MitWert5() {
         flugzeug.setKlappenZustand(Klappen.LEVEL2);
-
         when(mockWuerfel1.getWert()).thenReturn(5);
-
         boolean result = flugzeug.klappenOeffnen(mockWuerfel1);
 
         assertTrue(result);
@@ -230,9 +200,7 @@ class FlugzeugTest {
     @Test
     public void testFlugzeugKlappenOeffnenLevel4MitWert5() {
         flugzeug.setKlappenZustand(Klappen.LEVEL3);
-
         when(mockWuerfel1.getWert()).thenReturn(5);
-
         boolean result = flugzeug.klappenOeffnen(mockWuerfel1);
 
         assertTrue(result);
@@ -243,9 +211,7 @@ class FlugzeugTest {
     @Test
     public void testFlugzeugKlappenOeffnenLevel4MitWert6() {
         flugzeug.setKlappenZustand(Klappen.LEVEL3);
-
         when(mockWuerfel1.getWert()).thenReturn(6);
-
         boolean result = flugzeug.klappenOeffnen(mockWuerfel1);
 
         assertTrue(result);
@@ -256,9 +222,7 @@ class FlugzeugTest {
     @Test
     public void testFlugzeugKlappenOeffnenNichtLevel1() {
         flugzeug.setKlappenZustand(Klappen.NONE);
-
         when(mockWuerfel1.getWert()).thenReturn(3);
-
         boolean result = flugzeug.klappenOeffnen(mockWuerfel1);
 
         assertFalse(result);
@@ -268,11 +232,8 @@ class FlugzeugTest {
 
     @Test
     public void testFlugzeugKlappenOeffnenNichtLevel2() {
-
         flugzeug.setKlappenZustand(Klappen.NONE);
-
         when(mockWuerfel1.getWert()).thenReturn(4);
-
         boolean result = flugzeug.klappenOeffnen(mockWuerfel1);
 
         assertFalse(result);
@@ -283,9 +244,7 @@ class FlugzeugTest {
     @Test
     public void testFlugzeugKlappenOeffnenNichtLevel3() {
         flugzeug.setKlappenZustand(Klappen.LEVEL2);
-
         when(mockWuerfel1.getWert()).thenReturn(3);
-
         boolean result = flugzeug.klappenOeffnen(mockWuerfel1);
 
         assertFalse(result);
@@ -297,9 +256,7 @@ class FlugzeugTest {
     @Test
     public void testFlugzeugKlappenOeffnenNichtLevel4() {
         flugzeug.setKlappenZustand(Klappen.LEVEL2);
-
         when(mockWuerfel1.getWert()).thenReturn(6);
-
         boolean result = flugzeug.klappenOeffnen(mockWuerfel1);
 
         assertFalse(result);
@@ -309,7 +266,6 @@ class FlugzeugTest {
 
     @Test
     void testFahrgestellAusfahrenWert() {
-
         Wuerfel mockWuerfel1 = mock(Wuerfel.class);
         when(mockWuerfel1.getWert()).thenReturn(1);
 

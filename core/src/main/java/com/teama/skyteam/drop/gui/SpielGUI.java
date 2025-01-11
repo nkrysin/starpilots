@@ -179,7 +179,7 @@ public class SpielGUI {
         }, stage, 55, 55));
 
         pilotKaffeeControlGroup = guiConstructionMethods.createControlGroup(
-            "Pilot Kaffe Controls",
+            "Pilot Kaffee Controls",
             new String[]{"PilotKaffee1", "PilotKaffee2", "PilotKaffee3"},
             new int[][]{
                 {842, 142},
@@ -191,7 +191,7 @@ public class SpielGUI {
             55
         );
         copilotKaffeeControlGroup = guiConstructionMethods.createControlGroup(
-            "Copilot Kaffe Controls",
+            "Copilot Kaffee Controls",
             new String[]{"CopilotKaffee1", "CopilotKaffee2", "CopilotKaffee3"},
             new int[][]{
                 {842, 142},
@@ -577,7 +577,7 @@ public class SpielGUI {
     }
 
     public void showKaffee(Boolean pilotAvailable, Boolean copilotAvailable) {
-        int kaffeeCount = spiel.getKaffeTokenCount();
+        int kaffeeCount = spiel.getKaffeeTokenCount();
         ControlGroup pilotUseGroup = getPilotUseKaffeeControlGroup();
         if (!pilotAvailable) {
             for (ControlField field : pilotUseGroup.getAllFields()) {
@@ -586,7 +586,7 @@ public class SpielGUI {
             }
         } else {
             for (int i = 1; i <= 3; i++) {
-                ControlField field = pilotUseGroup.getFieldByName("UseKaffe" + i);
+                ControlField field = pilotUseGroup.getFieldByName("UseKaffee" + i);
                 if (field != null) {
                     if (i <= kaffeeCount) {
                         field.setOccupied(true);
@@ -609,7 +609,7 @@ public class SpielGUI {
             }
         } else {
             for (int i = 1; i <= 3; i++) {
-                ControlField field = copilotUseGroup.getFieldByName("UseKaffe" + i);
+                ControlField field = copilotUseGroup.getFieldByName("UseKaffee" + i);
                 if (field != null) {
                     if (i <= kaffeeCount) {
                         field.setOccupied(true);
@@ -627,11 +627,11 @@ public class SpielGUI {
 
 
     public void useKaffee(Spieler s) {
-        int kaffeeCount = spiel.getKaffeTokenCount();
+        int kaffeeCount = spiel.getKaffeeTokenCount();
         ControlGroup useGroup = getUseKaffeeControlGroup(s);
 
         if (kaffeeCount > 0) {
-            ControlField field = useGroup.getFieldByName("UseKaffe" + kaffeeCount);
+            ControlField field = useGroup.getFieldByName("UseKaffee" + kaffeeCount);
             if (field != null && field.isOccupied()) {
                 field.getButton().clearListeners();
                 field.getButton().setTouchable(Touchable.enabled);
@@ -681,7 +681,7 @@ public class SpielGUI {
                         checkFeldSituation(spieler);
                         addWuerfelListenersForSpieler(spieler);
 
-                        if (spiel.getKaffeTokenCount() > 0) {
+                        if (spiel.getKaffeeTokenCount() > 0) {
                             useKaffee(spieler);
                         }
                     });

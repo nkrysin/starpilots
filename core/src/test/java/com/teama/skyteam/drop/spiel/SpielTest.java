@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.teama.skyteam.drop.szenario.ReiseFeld;
 import com.teama.skyteam.drop.szenario.Route;
-import com.teama.skyteam.drop.tokens.KaffeToken;
+import com.teama.skyteam.drop.tokens.KaffeeToken;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,13 +50,13 @@ class SpielTest {
     }
 
     @Test
-    void testKaffeTokenAnzahlErhoehen() {
+    void testKaffeeTokenAnzahlErhoehen() {
         Spiel spiel = new Spiel();
-        int initialCount = spiel.getKaffeTokenCount();
+        int initialCount = spiel.getKaffeeTokenCount();
 
 
-        spiel.kaffeTokenAnzahlErhoehen(new KaffeToken());
-        assertEquals(initialCount + 1, spiel.getKaffeTokenCount());
+        spiel.kaffeeTokenAnzahlErhoehen(new KaffeeToken());
+        assertEquals(initialCount + 1, spiel.getKaffeeTokenCount());
     }
 
     @Test
@@ -137,7 +137,6 @@ class SpielTest {
     @Test
     void testSetHoeheSzenarioWithEmptyList() {
         Spiel spiel = new Spiel();
-
         spiel.setSzenario(Route.HANEDA);
 
         spiel.setHoeheSzenario();

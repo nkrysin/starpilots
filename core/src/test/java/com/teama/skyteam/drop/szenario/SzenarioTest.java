@@ -1,15 +1,44 @@
 package com.teama.skyteam.drop.szenario;
 
+import com.badlogic.gdx.Files;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.teama.skyteam.drop.szenario.flughoehe.Flughoehe;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 class SzenarioTest {
+
+    private Files originalFiles;
+    @BeforeEach
+    public void setup() throws Exception {
+        Field filesField = Gdx.class.getDeclaredField("files");
+        filesField.setAccessible(true);
+
+        originalFiles = (Files) filesField.get(null);
+
+        Files mockFiles = mock(Files.class);
+
+        FileHandle mockFileHandle = mock(FileHandle.class);
+
+        String mockedContent = "MontrealTrudeau\nGREEN\n7\n0\n0\n1\n2\n1\n3\n2\nHaneda\nGREEN\n8\n0\n1\n1\n2\n1\n0\n2\n1\nKualaLumpur\nGREEN\n8\n0\n0\n1\n1\n0\n1\n1\n1\nSzenarioType\n";
+
+        when(mockFileHandle.readString()).thenReturn(mockedContent);
+        when(mockFileHandle.exists()).thenReturn(true);
+
+        when(mockFiles.internal("routes.txt")).thenReturn(mockFileHandle);
+
+        filesField.set(null, mockFiles);
+    }
 
     @Test
     void testConstructorWithValidRoute() throws IOException {

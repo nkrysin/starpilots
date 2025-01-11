@@ -8,7 +8,7 @@ import com.teama.skyteam.drop.szenario.ReiseFeld;
 import com.teama.skyteam.drop.szenario.Route;
 import com.teama.skyteam.drop.szenario.Szenario;
 import com.teama.skyteam.drop.szenario.flughoehe.Flughoehe;
-import com.teama.skyteam.drop.tokens.KaffeToken;
+import com.teama.skyteam.drop.tokens.KaffeeToken;
 import com.teama.skyteam.drop.tokens.NeuWurfToken;
 
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class Spiel {
     private int runde = 1;
     private boolean endBedingung = false;
     private boolean kollision = false;
-    private ArrayList<KaffeToken> kaffeTokens = new ArrayList<KaffeToken>();
+    private ArrayList<KaffeeToken> kaffeeTokens = new ArrayList<KaffeeToken>();
     private ArrayList<NeuWurfToken> neuWurfToken = new ArrayList<NeuWurfToken>();
 
     private int currentSpeed;
@@ -45,16 +45,16 @@ public class Spiel {
         this.kollision = kollision;
     }
 
-    public ArrayList<KaffeToken> getKaffeTokens() {
-        return kaffeTokens;
+    public ArrayList<KaffeeToken> getKaffeeTokens() {
+        return kaffeeTokens;
     }
 
-    public int getKaffeTokenCount() {
-        return kaffeTokens.size();
+    public int getKaffeeTokenCount() {
+        return kaffeeTokens.size();
     }
 
-    public void kaffeTokenAnzahlErhoehen(KaffeToken token) {
-        kaffeTokens.add(token);
+    public void kaffeeTokenAnzahlErhoehen(KaffeeToken token) {
+        kaffeeTokens.add(token);
     }
 
     public ArrayList<NeuWurfToken> getNeuWurfTokens() {

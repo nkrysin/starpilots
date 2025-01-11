@@ -12,7 +12,7 @@ import com.teama.skyteam.drop.spieler.Pilot;
 import com.teama.skyteam.drop.spieler.Spieler;
 import com.teama.skyteam.drop.szenario.ReiseFeld;
 import com.teama.skyteam.drop.szenario.flughoehe.Flughoehe;
-import com.teama.skyteam.drop.tokens.KaffeToken;
+import com.teama.skyteam.drop.tokens.KaffeeToken;
 import com.teama.skyteam.drop.tokens.NeuWurfToken;
 import com.teama.skyteam.drop.tokens.Wuerfel;
 import org.junit.jupiter.api.BeforeEach;
@@ -62,16 +62,16 @@ public class SpielLogikTest {
         when(feld.getAnzahlFlugzeug()).thenReturn(0);
         when(feld.istFlughafen()).thenReturn(true);
 
-        Feld kaffeFeld1 = mock(Feld.class);
-        Feld kaffeFeld2 = mock(Feld.class);
-        Feld kaffeFeld3 = mock(Feld.class);
+        Feld kaffeeFeld1 = mock(Feld.class);
+        Feld kaffeeFeld2 = mock(Feld.class);
+        Feld kaffeeFeld3 = mock(Feld.class);
 
-        when(spiel.getFeldPilot("kaffeFeld1")).thenReturn(kaffeFeld1);
-        when(spiel.getFeldCopilot("kaffeFeld1")).thenReturn(kaffeFeld1);
-        when(spiel.getFeldPilot("kaffeFeld2")).thenReturn(kaffeFeld2);
-        when(spiel.getFeldCopilot("kaffeFeld2")).thenReturn(kaffeFeld2);
-        when(spiel.getFeldPilot("kaffeFeld3")).thenReturn(kaffeFeld3);
-        when(spiel.getFeldCopilot("kaffeFeld3")).thenReturn(kaffeFeld3);
+        when(spiel.getFeldPilot("Kaffee1")).thenReturn(kaffeeFeld1);
+        when(spiel.getFeldCopilot("Kaffee1")).thenReturn(kaffeeFeld1);
+        when(spiel.getFeldPilot("Kaffee2")).thenReturn(kaffeeFeld2);
+        when(spiel.getFeldCopilot("Kaffee2")).thenReturn(kaffeeFeld2);
+        when(spiel.getFeldPilot("Kaffee3")).thenReturn(kaffeeFeld3);
+        when(spiel.getFeldCopilot("Kaffee3")).thenReturn(kaffeeFeld3);
 
         spielLogik = new SpielLogik(spiel, stage, skin, schalterGUI, ruder, szenarioHoeheManager);
     }
@@ -317,21 +317,21 @@ public class SpielLogikTest {
     }
 
     @Test
-    void testKaffeTokenReturnsFirstTokenAndRemovesIt() {
-        ArrayList<KaffeToken> kaffeTokens = new ArrayList<>();
-        KaffeToken token1 = mock(KaffeToken.class);
-        KaffeToken token2 = mock(KaffeToken.class);
+    void testKaffeeTokenReturnsFirstTokenAndRemovesIt() {
+        ArrayList<KaffeeToken> kaffeeTokens = new ArrayList<>();
+        KaffeeToken token1 = mock(KaffeeToken.class);
+        KaffeeToken token2 = mock(KaffeeToken.class);
 
-        kaffeTokens.add(token1);
-        kaffeTokens.add(token2);
+        kaffeeTokens.add(token1);
+        kaffeeTokens.add(token2);
 
-        when(spiel.getKaffeTokens()).thenReturn(kaffeTokens);
+        when(spiel.getKaffeeTokens()).thenReturn(kaffeeTokens);
 
-        KaffeToken result = spielLogik.kaffeToken();
+        KaffeeToken result = spielLogik.kaffeeToken();
 
         assertEquals(token1, result);
-        assertEquals(1, kaffeTokens.size());
-        assertEquals(token2, kaffeTokens.get(0));
+        assertEquals(1, kaffeeTokens.size());
+        assertEquals(token2, kaffeeTokens.get(0));
     }
 
     @Test
@@ -354,7 +354,6 @@ public class SpielLogikTest {
 
     @Test
     void testClearManyUseFelds() {
-
         Feld mockNeigenFeldPilot = mock(Feld.class);
         Feld mockSpeedFeldPilot = mock(Feld.class);
         Feld mockRadioFeldPilot = mock(Feld.class);
@@ -386,8 +385,6 @@ public class SpielLogikTest {
 
     @Test
     void testGetOneUseFelds() {
-
-
         Feld feld1 = mock(Feld.class);
         Feld feld2 = mock(Feld.class);
         Feld feld3 = mock(Feld.class);
@@ -410,8 +407,6 @@ public class SpielLogikTest {
         when(spiel.getFeldCopilot("klappenFeld2_3")).thenReturn(feld8);
         when(spiel.getFeldCopilot("klappenFeld4_5")).thenReturn(feld9);
         when(spiel.getFeldCopilot("klappenFeld5_6")).thenReturn(feld10);
-
-
 
         ArrayList<Feld> oneUseFelds = spielLogik.getOneUseFelds();
 
@@ -472,7 +467,6 @@ public class SpielLogikTest {
         Flughoehe hoehe1 = mock(Flughoehe.class);
 
         mockHoeheRoute.add(hoehe1);
-
         when(spiel.getHoeheSzenario()).thenReturn(mockHoeheRoute);
 
         spielLogik.hoeheReduzieren();
@@ -505,7 +499,6 @@ public class SpielLogikTest {
 
     @Test
     void testCheckFinalRoundWhenFieldIsNotFlughafen() {
-
         ReiseFeld mockField = mock(ReiseFeld.class);
         Flughoehe mockHoehe = mock(Flughoehe.class);
 
@@ -520,7 +513,6 @@ public class SpielLogikTest {
 
     @Test
     void testCheckFinalRoundWhenHeightIsNotZero() {
-
         ReiseFeld mockField = mock(ReiseFeld.class);
         Flughoehe mockHoehe = mock(Flughoehe.class);
 
@@ -535,66 +527,65 @@ public class SpielLogikTest {
 
 
     @Test
-    void testClearKaffeFeldWhenKaffeTokenCountIs0() {
-        Feld mockKaffeFeld1Pilot = mock(Feld.class);
-        Feld mockKaffeFeld1Copilot = mock(Feld.class);
-        Feld mockKaffeFeld2Pilot = mock(Feld.class);
-        Feld mockKaffeFeld2Copilot = mock(Feld.class);
-        Feld mockKaffeFeld3Pilot = mock(Feld.class);
-        Feld mockKaffeFeld3Copilot = mock(Feld.class);
+    void testClearKaffeeFeldWhenKaffeeTokenCountIs0() {
+        Feld mockKaffeeFeld1Pilot = mock(Feld.class);
+        Feld mockKaffeeFeld1Copilot = mock(Feld.class);
+        Feld mockKaffeeFeld2Pilot = mock(Feld.class);
+        Feld mockKaffeeFeld2Copilot = mock(Feld.class);
+        Feld mockKaffeeFeld3Pilot = mock(Feld.class);
+        Feld mockKaffeeFeld3Copilot = mock(Feld.class);
 
-        when(spiel.getFeldPilot("Kaffee1")).thenReturn(mockKaffeFeld1Pilot);
-        when(spiel.getFeldCopilot("Kaffee1")).thenReturn(mockKaffeFeld1Copilot);
-        when(spiel.getFeldPilot("Kaffee2")).thenReturn(mockKaffeFeld2Pilot);
-        when(spiel.getFeldCopilot("Kaffee2")).thenReturn(mockKaffeFeld2Copilot);
-        when(spiel.getFeldPilot("Kaffee3")).thenReturn(mockKaffeFeld3Pilot);
-        when(spiel.getFeldCopilot("Kaffee3")).thenReturn(mockKaffeFeld3Copilot);
-        when(spiel.getKaffeTokenCount()).thenReturn(0);
+        when(spiel.getFeldPilot("Kaffee1")).thenReturn(mockKaffeeFeld1Pilot);
+        when(spiel.getFeldCopilot("Kaffee1")).thenReturn(mockKaffeeFeld1Copilot);
+        when(spiel.getFeldPilot("Kaffee2")).thenReturn(mockKaffeeFeld2Pilot);
+        when(spiel.getFeldCopilot("Kaffee2")).thenReturn(mockKaffeeFeld2Copilot);
+        when(spiel.getFeldPilot("Kaffee3")).thenReturn(mockKaffeeFeld3Pilot);
+        when(spiel.getFeldCopilot("Kaffee3")).thenReturn(mockKaffeeFeld3Copilot);
+        when(spiel.getKaffeeTokenCount()).thenReturn(0);
 
-        spielLogik.clearKaffeFeld();
+        spielLogik.clearKaffeeFeld();
 
-        verify(mockKaffeFeld1Pilot, times(1)).setWuerfel(null);
-        verify(mockKaffeFeld1Copilot, times(1)).setWuerfel(null);
-        verify(mockKaffeFeld2Pilot, times(1)).setWuerfel(null);
-        verify(mockKaffeFeld2Copilot, times(1)).setWuerfel(null);
-        verify(mockKaffeFeld3Pilot, times(1)).setWuerfel(null);
-        verify(mockKaffeFeld3Copilot, times(1)).setWuerfel(null);
+        verify(mockKaffeeFeld1Pilot, times(1)).setWuerfel(null);
+        verify(mockKaffeeFeld1Copilot, times(1)).setWuerfel(null);
+        verify(mockKaffeeFeld2Pilot, times(1)).setWuerfel(null);
+        verify(mockKaffeeFeld2Copilot, times(1)).setWuerfel(null);
+        verify(mockKaffeeFeld3Pilot, times(1)).setWuerfel(null);
+        verify(mockKaffeeFeld3Copilot, times(1)).setWuerfel(null);
     }
 
     @Test
-    void testClearKaffeFeldWhenKaffeTokenCountIs1() {
-        Feld mockKaffeFeld2Pilot = mock(Feld.class);
-        Feld mockKaffeFeld2Copilot = mock(Feld.class);
-        Feld mockKaffeFeld3Pilot = mock(Feld.class);
-        Feld mockKaffeFeld3Copilot = mock(Feld.class);
+    void testClearKaffeeFeldWhenKaffeeTokenCountIs1() {
+        Feld mockKaffeeFeld2Pilot = mock(Feld.class);
+        Feld mockKaffeeFeld2Copilot = mock(Feld.class);
+        Feld mockKaffeeFeld3Pilot = mock(Feld.class);
+        Feld mockKaffeeFeld3Copilot = mock(Feld.class);
 
-        when(spiel.getFeldPilot("Kaffee2")).thenReturn(mockKaffeFeld2Pilot);
-        when(spiel.getFeldCopilot("Kaffee2")).thenReturn(mockKaffeFeld2Copilot);
-        when(spiel.getFeldPilot("Kaffee3")).thenReturn(mockKaffeFeld3Pilot);
-        when(spiel.getFeldCopilot("Kaffee3")).thenReturn(mockKaffeFeld3Copilot);
-        when(spiel.getKaffeTokenCount()).thenReturn(1);
+        when(spiel.getFeldPilot("Kaffee2")).thenReturn(mockKaffeeFeld2Pilot);
+        when(spiel.getFeldCopilot("Kaffee2")).thenReturn(mockKaffeeFeld2Copilot);
+        when(spiel.getFeldPilot("Kaffee3")).thenReturn(mockKaffeeFeld3Pilot);
+        when(spiel.getFeldCopilot("Kaffee3")).thenReturn(mockKaffeeFeld3Copilot);
+        when(spiel.getKaffeeTokenCount()).thenReturn(1);
 
-        spielLogik.clearKaffeFeld();
+        spielLogik.clearKaffeeFeld();
 
-        verify(mockKaffeFeld2Pilot, times(1)).setWuerfel(null);
-        verify(mockKaffeFeld2Copilot, times(1)).setWuerfel(null);
-        verify(mockKaffeFeld3Pilot, times(1)).setWuerfel(null);
-        verify(mockKaffeFeld3Copilot, times(1)).setWuerfel(null);
+        verify(mockKaffeeFeld2Pilot, times(1)).setWuerfel(null);
+        verify(mockKaffeeFeld2Copilot, times(1)).setWuerfel(null);
+        verify(mockKaffeeFeld3Pilot, times(1)).setWuerfel(null);
+        verify(mockKaffeeFeld3Copilot, times(1)).setWuerfel(null);
     }
 
     @Test
-    void testClearKaffeFeldWhenKaffeTokenCountIs2() {
-        Feld mockKaffeFeld3Pilot = mock(Feld.class);
-        Feld mockKaffeFeld3Copilot = mock(Feld.class);
+    void testClearKaffeeFeldWhenKaffeeTokenCountIs2() {
+        Feld mockKaffeeFeld3Pilot = mock(Feld.class);
+        Feld mockKaffeeFeld3Copilot = mock(Feld.class);
 
-        when(spiel.getFeldPilot("Kaffee3")).thenReturn(mockKaffeFeld3Pilot);
-        when(spiel.getFeldCopilot("Kaffee3")).thenReturn(mockKaffeFeld3Copilot);
-        when(spiel.getKaffeTokenCount()).thenReturn(2);
+        when(spiel.getFeldPilot("Kaffee3")).thenReturn(mockKaffeeFeld3Pilot);
+        when(spiel.getFeldCopilot("Kaffee3")).thenReturn(mockKaffeeFeld3Copilot);
+        when(spiel.getKaffeeTokenCount()).thenReturn(2);
 
-        spielLogik.clearKaffeFeld();
+        spielLogik.clearKaffeeFeld();
 
-        verify(mockKaffeFeld3Pilot, times(1)).setWuerfel(null);
-        verify(mockKaffeFeld3Copilot, times(1)).setWuerfel(null);
+        verify(mockKaffeeFeld3Pilot, times(1)).setWuerfel(null);
+        verify(mockKaffeeFeld3Copilot, times(1)).setWuerfel(null);
     }
-
 }

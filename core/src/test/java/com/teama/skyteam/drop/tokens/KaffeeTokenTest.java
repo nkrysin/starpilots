@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-class KaffeTokenTest {
+class KaffeeTokenTest {
     private Wuerfel w;
 
     @BeforeEach
@@ -15,14 +15,14 @@ class KaffeTokenTest {
     @Test
     void wertAendernIncrement() {
         int wert = w.getWert();
-        w.wertAendern(KaffeTokenAktion.PLUS);
+        w.wertAendern(KaffeeTokenAktion.PLUS);
         assertEquals(wert + 1, w.getWert());
     }
 
     @Test
     void wertAendernDecrement() {
         int wert = w.getWert();
-        w.wertAendern(KaffeTokenAktion.MINUS);
+        w.wertAendern(KaffeeTokenAktion.MINUS);
         assertEquals(wert - 1, w.getWert());
     }
 }
