@@ -1,6 +1,7 @@
 package com.teama.skyteam.drop.lwjgl3;
 
-import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.Graphics.DisplayMode;
+import com.badlogic.gdx.Graphics.Monitor;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.teama.skyteam.drop.MainBk;
@@ -30,14 +31,32 @@ public class Lwjgl3Launcher {
         //// If you remove the above line and set Vsync to false, you can get unlimited FPS, which can be
         //// useful for testing performance, but can also be very stressful to some hardware.
         //// You may also need to configure GPU drivers to fully disable Vsync; this can cause screen tearing.
-        //configuration.setWindowedMode(1920, 1080);
-        //configuration.setWindowedMode(1280, 720);
-        //configuration.setWindowedMode(1366, 768); //a little bit smaller
         configuration.setResizable(false);
 
-        //Fullscreen Mode
-        Graphics.DisplayMode displayMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
-        configuration.setFullscreenMode(displayMode);
+        int displayModeOption = 3;
+        Monitor[] monitors = Lwjgl3ApplicationConfiguration.getMonitors();
+        switch (displayModeOption) {
+            case 1: // window 1920x1080
+                configuration.setWindowedMode(1920, 1080);
+                break;
+
+            case 2: // fullscreen 1920x1080 on the second monitor
+                if (monitors.length > 1) {
+                    Monitor secondMonitor = monitors[1];
+                    DisplayMode displayMode = Lwjgl3ApplicationConfiguration.getDisplayMode(secondMonitor);
+                    configuration.setFullscreenMode(displayMode);
+                } else {
+                    DisplayMode defaultDisplayMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
+                    configuration.setFullscreenMode(defaultDisplayMode);
+                }
+                break;
+
+            case 3: // fullscreen 1920x1080 on the default monitor
+            default:
+                DisplayMode defaultDisplayMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
+                configuration.setFullscreenMode(defaultDisplayMode);
+                break;
+        }
 
         //// You can change these files; they are in lwjgl3/src/main/resources/ .
         configuration.setWindowIcon("plane128.png", "plane64.png", "plane32.png", "plane16.png");
