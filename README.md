@@ -36,7 +36,7 @@ Das Team bestand aus zwei Personen: **Nataliia Shcherba** und **Nikolai Krysin**
     1. Das neue Szenario in die Datei `routes.txt` hinzufügen.
     2. Das Szenario in die ENUM-Klasse `Route` eintragen.
     3. Den neuen Fall im `setSzenario`-Methodenblock der Klasse `Spiel` einfügen.
-    4. Eine neue Schaltfläche im `ScenarioSelectionScreen` hinzufügen und das passende Bild in den Ordner `images/szenario/` legen.
+    4. Eine neue Taste im `ScenarioSelectionScreen` hinzufügen und das passende Bild in den Ordner `images/szenario/` legen.
 
   Diese Schritte ermöglichen die Auswahl eines neuen Szenarios, ohne den Pfad zur Datei manuell angeben zu müssen!
 
