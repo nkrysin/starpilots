@@ -2,6 +2,7 @@ package com.teama.skyteam.drop.tokens;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 class KaffeeTokenTest {
@@ -25,4 +26,24 @@ class KaffeeTokenTest {
         w.wertAendern(KaffeeTokenAktion.MINUS);
         assertEquals(wert - 1, w.getWert());
     }
+    @Test
+    void testWertAendernPlus() {
+        KaffeeToken kaffeeToken = new KaffeeToken();
+        Wuerfel mockWuerfel = mock(Wuerfel.class);
+        KaffeeTokenAktion aktion = KaffeeTokenAktion.PLUS;
+        Wuerfel result = kaffeeToken.wertAendern(aktion, mockWuerfel);
+        verify(mockWuerfel, times(1)).wertAendern(KaffeeTokenAktion.PLUS);
+        assertEquals(mockWuerfel, result);
+    }
+
+    @Test
+    void testWertAendernMinus() {
+        KaffeeToken kaffeeToken = new KaffeeToken();
+        Wuerfel mockWuerfel = mock(Wuerfel.class);
+        KaffeeTokenAktion aktion = KaffeeTokenAktion.MINUS;
+        Wuerfel result = kaffeeToken.wertAendern(aktion, mockWuerfel);
+        verify(mockWuerfel, times(1)).wertAendern(KaffeeTokenAktion.MINUS);
+        assertEquals(mockWuerfel, result);
+    }
+
 }

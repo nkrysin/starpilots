@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -109,6 +111,33 @@ class SzenarioTest {
         Szenario szenario = new Szenario(Route.HANEDA);
 
         assertThrows(IllegalArgumentException.class, () -> szenario.getCurrentField(999));
+    }
+    @Test
+    void testGetCurrentFlughoeheWithEmptyListThrowsException() throws IOException {
+        Szenario szenario = new Szenario(Route.MONTREAL_TRUDEAU);
+        szenario.getHoeheSzenario().clear();
+        assertThrows(IllegalStateException.class, szenario::getCurrentFlughoehe);
+    }
+
+    @Test
+    void testAdjustHoeheRouteWhenRouteLengthIsGreaterOrEqual() throws IOException {
+        Szenario szenario = new Szenario(Route.MONTREAL_TRUDEAU);
+        List<Flughoehe> originalList = new ArrayList<>(szenario.getHoeheSzenario());
+        int originalSize = originalList.size();
+        int szenarioRouteLength = originalSize;
+        List<Flughoehe> adjusted = szenario.adjustHoeheRoute(originalList, szenarioRouteLength);
+        assertEquals(originalSize, adjusted.size());
+        assertEquals(szenario.getHoeheSzenario().get(0).getHoehe(), adjusted.get(0).getHoehe());
+    }
+
+    @Test
+    void testAdjustHoeheRouteWhenRouteLengthIsSmaller() throws IOException {
+        Szenario szenario = new Szenario(Route.MONTREAL_TRUDEAU);
+        List<Flughoehe> originalList = new ArrayList<>(szenario.getHoeheSzenario());
+        int originalSize = originalList.size();
+        int szenarioRouteLength = originalSize - 2;
+        List<Flughoehe> adjusted = szenario.adjustHoeheRoute(originalList, szenarioRouteLength);
+        assertEquals(szenarioRouteLength, adjusted.size());
     }
 
 }

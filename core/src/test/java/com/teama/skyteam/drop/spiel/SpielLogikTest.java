@@ -589,4 +589,105 @@ public class SpielLogikTest {
         verify(mockKaffeeFeld3Pilot, times(1)).setWuerfel(null);
         verify(mockKaffeeFeld3Copilot, times(1)).setWuerfel(null);
     }
+
+    @Test
+    void testAddNeuWurfTokensWhenHatErneuWerfenIsTrue() {
+        Flughoehe currentHoehe = mock(Flughoehe.class);
+        when(spiel.getCurrentHoehe()).thenReturn(currentHoehe);
+        when(currentHoehe.hatErneuWerfen()).thenReturn(true);
+
+        spielLogik.addNeuWurfTokens();
+
+        verify(spiel, times(1)).neuWurfTokenAnzahlErhoehen();
+    }
+
+    @Test
+    void testAddNeuWurfTokensWhenHatErneuWerfenIsFalse() {
+        Flughoehe currentHoehe = mock(Flughoehe.class);
+        when(spiel.getCurrentHoehe()).thenReturn(currentHoehe);
+        when(currentHoehe.hatErneuWerfen()).thenReturn(false);
+
+        spielLogik.addNeuWurfTokens();
+
+        verify(spiel, never()).neuWurfTokenAnzahlErhoehen();
+    }
+
+    @Test
+    void testVorwaertsBewegenWithCollisionDueToOtherPlane() {
+        TreeMap<Integer, ReiseFeld> mockRoute = new TreeMap<>();
+        ReiseFeld mockFeld0 = mock(ReiseFeld.class);
+        ReiseFeld mockFeld1 = mock(ReiseFeld.class);
+
+        mockRoute.put(0, mockFeld0);
+        mockRoute.put(1, mockFeld1);
+
+        when(spiel.getRouteSzenario()).thenReturn(mockRoute);
+        when(spiel.getCurrentPosition()).thenReturn(0);
+        when(mockFeld1.getAnzahlFlugzeug()).thenReturn(1);
+
+        spielLogik.vorwaertsBewegen(1);
+
+        verify(spiel).setKollision(true);
+    }
+
+    @Test
+    void testFeldZustandAktualisierenStepsIsZero() {
+        Feld speedFeldPilot = mock(Feld.class);
+        Feld speedFeldCopilot = mock(Feld.class);
+        when(spiel.getFeldPilot("speedFeld")).thenReturn(speedFeldPilot);
+        when(spiel.getFeldCopilot("speedFeld")).thenReturn(speedFeldCopilot);
+        when(speedFeldPilot.isBelegt()).thenReturn(true);
+        when(speedFeldCopilot.isBelegt()).thenReturn(true);
+
+        Wuerfel w1 = mock(Wuerfel.class);
+        Wuerfel w2 = mock(Wuerfel.class);
+        when(speedFeldPilot.getWuerfel()).thenReturn(w1);
+        when(speedFeldCopilot.getWuerfel()).thenReturn(w2);
+        when(w1.getWert()).thenReturn(1);
+        when(w2.getWert()).thenReturn(1);
+
+        Flugzeug flugzeug = mock(Flugzeug.class);
+        when(spiel.getFlugzeug()).thenReturn(flugzeug);
+        Speed speedFive = Speed.FIVE;
+        Speed speedEight = Speed.EIGHT;
+        when(flugzeug.getSpeedUntereGrenze()).thenReturn(speedFive);
+        when(flugzeug.getSpeedObereGrenze()).thenReturn(speedEight);
+
+        spielLogik.reiseFeldZustandAktualisieren();
+
+        verify(flugzeug).setSpeedAktuell(2);
+        verify(spiel).setCurrentSpeed(0);
+        verify(spiel, never()).setPosition(anyInt());
+    }
+
+    @Test
+    void testFeldZustandAktualisierenStepsIsTwo() {
+        Feld speedFeldPilot = mock(Feld.class);
+        Feld speedFeldCopilot = mock(Feld.class);
+        when(spiel.getFeldPilot("speedFeld")).thenReturn(speedFeldPilot);
+        when(spiel.getFeldCopilot("speedFeld")).thenReturn(speedFeldCopilot);
+        when(speedFeldPilot.isBelegt()).thenReturn(true);
+        when(speedFeldCopilot.isBelegt()).thenReturn(true);
+
+        Wuerfel w1 = mock(Wuerfel.class);
+        Wuerfel w2 = mock(Wuerfel.class);
+        when(speedFeldPilot.getWuerfel()).thenReturn(w1);
+        when(speedFeldCopilot.getWuerfel()).thenReturn(w2);
+        when(w1.getWert()).thenReturn(5);
+        when(w2.getWert()).thenReturn(5);
+
+        Flugzeug flugzeug = mock(Flugzeug.class);
+        when(spiel.getFlugzeug()).thenReturn(flugzeug);
+        Speed speedFive = Speed.FIVE;
+        Speed speedEight = Speed.EIGHT;
+        when(flugzeug.getSpeedUntereGrenze()).thenReturn(speedFive);
+        when(flugzeug.getSpeedObereGrenze()).thenReturn(speedEight);
+
+        spielLogik.reiseFeldZustandAktualisieren();
+
+        verify(flugzeug).setSpeedAktuell(10);
+        verify(spiel).setCurrentSpeed(2);
+        verify(spiel, never()).setPosition(anyInt());
+    }
+
 }
