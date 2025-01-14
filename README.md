@@ -10,6 +10,9 @@
 
 # 📝 Projektbeschreibung
 
+## 💾 Dokumentation
+Die Dokumentation, einschließlich **Diagrammen**, **Anwendungsfalldefinition** und **Spezifikation**, befindet sich im Projektverzeichnis in der Ordnerstruktur **`documentation`** im Hauptverzeichnis.
+
 ## ✨ Kurze Beschreibung des Projekts
 Im Rahmen des Kurses **Software System Entwicklung** wurde in diesem Projekt eine Implementierung der beliebten Brettspiel-Adaption **Sky Team** als Desktop-Spiel für den PC entwickelt. Das Originalspiel wurde von **Luc Rémond** entworfen und 2023 von **Le Scorpion Masqué** veröffentlicht. Zudem erhielt es den Preis **Spiel des Jahres 2024**. Das Hauptziel des Projekts war es, ein funktionierendes, optimiertes und ästhetisch ansprechendes Spiel zu schaffen.
 
