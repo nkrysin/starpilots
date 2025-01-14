@@ -1,0 +1,702 @@
+<mxfile host="Electron" modified="2025-01-14T13:27:13.384Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.2.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="wD4SPPLbrExf0fCfzDZb" version="24.2.5" type="device">
+  <diagram id="XNqciTeE_3WiimFnA2kF" name="Klassendiagramm">
+    <mxGraphModel dx="1905" dy="2304" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="827" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="node6" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;Bremsen&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- Bremsen(int): &lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ LEVEL1: &lt;br&gt;+ LEVEL2: &lt;br&gt;+ LEVEL3: &lt;/p&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ NONE:&lt;br&gt;&lt;/p&gt;- value: int&lt;br&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getValue(): int&lt;br&gt;+ values(): Bremsen[]&lt;br&gt;+ valueOf(String): Bremsen&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="-403" y="459.5" width="202" height="288" as="geometry" />
+        </mxCell>
+        <mxCell id="node26" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ButtonStyle&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ButtonStyle(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ style(): TextButtonStyle&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="-400" y="2310" width="192" height="97" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-69" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=1;" parent="1" source="node35" target="node4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-162" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-69" vertex="1" connectable="0">
+          <mxGeometry x="0.7592" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-163" value="*" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-69" vertex="1" connectable="0">
+          <mxGeometry x="-0.71" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node35" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ControlField&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ControlField(String, ImageButton): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- button: ImageButton&lt;br/&gt;- name: String&lt;br/&gt;- occupied: boolean&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ isOccupied(): boolean&lt;br/&gt;+ setOccupied(boolean): void&lt;br/&gt;+ getName(): String&lt;br/&gt;+ getButton(): ImageButton&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="3340" y="1558" width="259" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="node4" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ControlGroup&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ControlGroup(String, List&amp;lt;ControlField&amp;gt;): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- fields: Map&amp;lt;String, ControlField&amp;gt;&lt;br/&gt;- name: String&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ size(): int&lt;br/&gt;+ getAvailableFields(): List&amp;lt;ControlField&amp;gt;&lt;br/&gt;+ getName(): String&lt;br/&gt;+ getFieldByName(String): ControlField&lt;br/&gt;+ getAllFields(): List&amp;lt;ControlField&amp;gt;&lt;br/&gt;+ dispose(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="2884" y="1554" width="303" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="node36" target="node1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="3204" y="30" />
+              <mxPoint x="3204" y="-1370" />
+              <mxPoint x="2101" y="-1370" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node36" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Copilot&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Copilot(Spiel): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- spiel: Spiel&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ kaffeeWaehlen(Wuerfel, int, String): void&lt;br/&gt;- kaffeeAufFeldPruefenUndPlatzieren(String, Wuerfel, int): void&lt;br/&gt;- wuerfelAufFeldPlatzieren(String, Wuerfel, int): void&lt;br/&gt;+ speedWaehlen(Wuerfel, int): void&lt;br/&gt;+ klappenWaehlen(Wuerfel, int): void&lt;br/&gt;+ radioWaehlen(Wuerfel, int): void&lt;br/&gt;+ neigenWaehlen(Wuerfel, int): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="2760" y="-40" width="424" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-107" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="node27" target="node26" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-80" y="3378" />
+              <mxPoint x="-80" y="2358" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node27" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;CreditsScreen&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ CreditsScreen(MainBk): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- batch: SpriteBatch&lt;br/&gt;- main: MainBk&lt;br/&gt;- stage: Stage&lt;br/&gt;- skin: Skin&lt;br/&gt;- credits: Texture&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ pause(): void&lt;br/&gt;+ resume(): void&lt;br/&gt;+ resize(int, int): void&lt;br/&gt;+ dispose(): void&lt;br/&gt;+ show(): void&lt;br/&gt;+ hide(): void&lt;br/&gt;+ render(float): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="64" y="3200" width="196" height="357" as="geometry" />
+        </mxCell>
+        <mxCell id="node3" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Fahrgestell&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Fahrgestell(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- akrivierteFahrgestelle: int&lt;br/&gt;- aktivierteFahrgestelle: Map&amp;lt;Integer, Boolean&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getAkrivierteFahrgestelle(): int&lt;br/&gt;+ fahrgestellAktivieren(int): boolean&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="200" y="-244" width="331" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=1;" parent="1" source="node30" target="node25" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="J0REmVnRyDgnnzUWtvh6-1" value="0...4" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="EfraLezkb1FkA3-PALIp-41">
+          <mxGeometry x="-0.9397" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="J0REmVnRyDgnnzUWtvh6-2" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="EfraLezkb1FkA3-PALIp-41">
+          <mxGeometry x="0.9175" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node14" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Feld&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Feld(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- wuerfel: Wuerfel&lt;br/&gt;- belegt: boolean&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ setBelegt(): void&lt;br/&gt;+ setWuerfel(Wuerfel): void&lt;br/&gt;+ isBelegt(): boolean&lt;br/&gt;+ getWuerfel(): Wuerfel&lt;br/&gt;+ clearOneUseFeld(): void&lt;br/&gt;+ wuerfelPlatzieren(Wuerfel): boolean&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="1840" y="-839" width="267" height="270" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;startArrow=classic;startFill=1;" parent="1" source="node20" target="node16" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=none;endFill=0;startArrow=classic;startFill=1;" parent="1" source="node20" target="node7" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="240" y="-877" />
+              <mxPoint x="240" y="-1290" />
+              <mxPoint x="1545" y="-1290" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node20" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Flughoehe&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- Flughoehe(int, boolean): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- hatErneuWerfen: boolean&lt;br/&gt;- hoehe: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- createGreenSzenario(): List&amp;lt;Flughoehe&amp;gt;&lt;br/&gt;+ hatErneuWerfen(): boolean&lt;br/&gt;+ createHoeheSzenario(String): List&amp;lt;Flughoehe&amp;gt;&lt;br/&gt;- createRedSzenario(): List&amp;lt;Flughoehe&amp;gt;&lt;br/&gt;+ getHoehe(): int&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="260" y="-940" width="336" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;endArrow=none;endFill=0;startArrow=classic;startFill=1;" parent="1" source="node24" target="node7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="node24" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Flugzeug&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Flugzeug(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- speedUntereGrenze: Speed&lt;br/&gt;- bremsenZustand: Bremsen&lt;br/&gt;- speedAktuell: int&lt;br/&gt;- klappenZustand: Klappen&lt;br/&gt;- speedObereGrenze: Speed&lt;br/&gt;- neigung: int&lt;br/&gt;- fahrgestellZustand: Fahrgestell&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;~ setSpeedObereGrenze(Speed): void&lt;br/&gt;+ bremsen(Wuerfel): boolean&lt;br/&gt;~ setNeigung(int): void&lt;br/&gt;+ neigen(int, Wuerfel[]): void&lt;br/&gt;+ getSpeedUntereGrenze(): Speed&lt;br/&gt;+ getNeigung(): int&lt;br/&gt;+ klappenOeffnen(Wuerfel): boolean&lt;br/&gt;- speedUntereGrenzeAktualisieren(): void&lt;br/&gt;+ getSpeedAktuell(): int&lt;br/&gt;+ getSpeedObereGrenze(): Speed&lt;br/&gt;+ getBremsenZustand(): Bremsen&lt;br/&gt;+ getKlappenZustand(): Klappen&lt;br/&gt;~ setKlappenZustand(Klappen): void&lt;br/&gt;+ getFahrgestellZustand(): Fahrgestell&lt;br/&gt;~ setFahrgestellZustand(Fahrgestell): void&lt;br/&gt;+ setSpeedAktuell(int): void&lt;br/&gt;~ setSpeedUntereGrenze(Speed): void&lt;br/&gt;~ setBremsenZustand(Bremsen): void&lt;br/&gt;- zweiWuerfelWertSubtrahieren(Wuerfel[]): int&lt;br/&gt;+ fahrgestellAusfahren(Wuerfel): boolean&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="727" y="-499" width="321" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-70" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;" parent="1" source="node21" target="node35" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="3155" y="2830" />
+              <mxPoint x="3470" y="2830" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-72" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="node21" target="node4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="node21" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;GUIConstructionMethods&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ GUIConstructionMethods(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- createdButtons: ArrayList&amp;lt;ImageButton&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ createButton(String, int, int, int, int): ImageButton&lt;br/&gt;+ createUseKaffeeButtons(String, int[][], Stage): ControlGroup&lt;br/&gt;~ createNeuWurfButton(Stage): ControlField&lt;br/&gt;+ createControlGroup(String, String[], int[][], Stage, int, int): ControlGroup&lt;br/&gt;+ dispose(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="2800" y="2969" width="473" height="226" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-85" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="node19" target="node17" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-88" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" parent="1" source="node19" target="EfraLezkb1FkA3-PALIp-7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-90" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=1;" parent="1" source="node19" target="EfraLezkb1FkA3-PALIp-8" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-150" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-90" vertex="1" connectable="0">
+          <mxGeometry x="0.9648" y="3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-151" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-90" vertex="1" connectable="0">
+          <mxGeometry x="-0.9621" y="-2" relative="1" as="geometry">
+            <mxPoint y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-113" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;" parent="1" source="node19" target="EfraLezkb1FkA3-PALIp-11" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="node19" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;GameScreen&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ GameScreen(MainBk, Spiel): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- szenarioHoeheManager: SzenarioHoeheManager&lt;br/&gt;- skin: Skin&lt;br/&gt;- tableHeight: float&lt;br/&gt;- main: MainBk&lt;br/&gt;- tableTexture: Texture&lt;br/&gt;- inputController: InputController&lt;br/&gt;- stage: Stage&lt;br/&gt;- tableWidth: float&lt;br/&gt;- spielControllerGUI: SpielControllerGUI&lt;br/&gt;- viewport: Viewport&lt;br/&gt;- camera: OrthographicCamera&lt;br/&gt;- spiel: Spiel&lt;br/&gt;- batch: SpriteBatch&lt;br/&gt;- boardTexture: Texture&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ hide(): void&lt;br/&gt;+ render(float): void&lt;br/&gt;+ dispose(): void&lt;br/&gt;+ pause(): void&lt;br/&gt;+ show(): void&lt;br/&gt;+ resize(int, int): void&lt;br/&gt;+ resume(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="558.5" y="2210" width="347" height="573" as="geometry" />
+        </mxCell>
+        <mxCell id="node12" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;Green&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- Green(int, boolean): &lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ GREEN_0: &lt;br&gt;+ GREEN_1000: &lt;br&gt;+ GREEN_2000: &lt;br&gt;+ GREEN_3000: &lt;br&gt;+ GREEN_4000: &lt;br&gt;+ GREEN_5000: &lt;br&gt;+ GREEN_6000: &lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6;&quot;&gt;- hoehe: int&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6;&quot;&gt;- hatErneuWerfen: boolean&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ values(): Green[]&lt;br&gt;~ getHoehe(): int&lt;br&gt;+ valueOf(String): Green&lt;br&gt;~ hatErneuWerfen(): boolean&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="-693" y="639.5" width="212" height="395.5" as="geometry" />
+        </mxCell>
+        <mxCell id="node0" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;HoeheGUI&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ HoeheGUI(Spiel): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- MOVE_STEP: int&lt;br/&gt;- hoeheTexture: Texture&lt;br/&gt;- cardY: float&lt;br/&gt;- cardX: float&lt;br/&gt;- spiel: Spiel&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ moveStep(): void&lt;br/&gt;- setHoeheTexture(Spiel): void&lt;br/&gt;+ render(SpriteBatch): void&lt;br/&gt;+ dispose(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="3970" y="1930" width="227" height="285" as="geometry" />
+        </mxCell>
+        <mxCell id="node23" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;HoeheSzenarioTypes&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ HoeheSzenarioTypes(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ GREEN: &lt;br/&gt;+ RED: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ values(): HoeheSzenarioTypes[]&lt;br/&gt;+ valueOf(String): HoeheSzenarioTypes&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="-441.5" y="201" width="279" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="node1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;KaffeeToken&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ KaffeeToken(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ wertAendern(KaffeeTokenAktion, Wuerfel): Wuerfel&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="1920" y="-1088" width="363" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="node32" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;KaffeeTokenAktion&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ KaffeeTokenAktion(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ PLUS: &lt;br/&gt;+ MINUS: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ valueOf(String): KaffeeTokenAktion&lt;br/&gt;+ values(): KaffeeTokenAktion[]&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="-693" y="1061.5" width="265" height="208" as="geometry" />
+        </mxCell>
+        <mxCell id="node8" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;Klappen&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- Klappen(int): &lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ LEVEL2: &lt;br&gt;+ LEVEL3: &lt;br&gt;+ LEVEL1: &lt;br&gt;+ LEVEL4: &lt;br&gt;+ NONE: &lt;/p&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- value: int&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ values(): Klappen[]&lt;br&gt;+ valueOf(String): Klappen&lt;br&gt;+ getValue(): int&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="-403" y="779.5" width="197" height="318" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-96" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" parent="1" source="node34" target="node37" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-100" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" parent="1" source="node34" target="node27" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-106" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="node34" target="node26" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-80" y="2439" />
+              <mxPoint x="-80" y="2359" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node34" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;MainMenuScreen&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ MainMenuScreen(MainBk): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- logo: Texture&lt;br/&gt;- main: MainBk&lt;br/&gt;- planeBackground: Texture&lt;br/&gt;- stage: Stage&lt;br/&gt;- batch: SpriteBatch&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ hide(): void&lt;br/&gt;+ dispose(): void&lt;br/&gt;+ render(float): void&lt;br/&gt;+ pause(): void&lt;br/&gt;+ resume(): void&lt;br/&gt;+ resize(int, int): void&lt;br/&gt;+ show(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="41.5" y="2350" width="215" height="357" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" parent="1" source="node29" target="node30" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=1;" parent="1" source="node29" target="node7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-123" value="0...*" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-46" vertex="1" connectable="0">
+          <mxGeometry x="-0.8897" y="-5" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-170" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-46" vertex="1" connectable="0">
+          <mxGeometry x="0.9509" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node29" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;NeuWurfToken&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ NeuWurfToken(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ erneutWerfen(Spieler): ArrayList&amp;lt;Wuerfel&amp;gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="2343" y="-1165" width="311" height="97" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="node9" target="node1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2972" y="-1280" />
+              <mxPoint x="2101" y="-1280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node9" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Pilot&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Pilot(Spiel): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- spiel: Spiel&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ bremsenWaehlen(Wuerfel, int): void&lt;br/&gt;+ neigenWaehlen(Wuerfel, int): void&lt;br/&gt;+ radioWaehlen(Wuerfel, int): void&lt;br/&gt;+ fahrgestellWaehlen(Wuerfel, int): void&lt;br/&gt;- wuerfelAufFeldPlatzieren(String, Wuerfel, int): void&lt;br/&gt;+ kaffeeWaehlen(Wuerfel, int, String): void&lt;br/&gt;+ speedWaehlen(Wuerfel, int): void&lt;br/&gt;- kaffeeAufFeldPruefenUndPlatzieren(String, Wuerfel, int): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="2760" y="-440" width="424" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="node5" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;Red&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- Red(int, boolean): &lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ RED_0: &lt;br&gt;+ RED_1000: &lt;br&gt;+ RED_2000: &lt;br&gt;+ RED_3000: &lt;br&gt;+ RED_4000: &lt;br&gt;+ RED_5000: &lt;br&gt;+ RED_6000: &lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6;&quot;&gt;- hoehe: int&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px; line-height: 1.6;&quot;&gt;- hatErneuWerfen: boolean&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;~ hatErneuWerfen(): boolean&lt;br&gt;+ values(): Red[]&lt;br&gt;~ getHoehe(): int&lt;br&gt;+ valueOf(String): Red&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="-693" y="201" width="212" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;endArrow=none;endFill=0;startArrow=classic;startFill=1;" parent="1" source="node15" target="node16" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;endArrow=none;endFill=0;startArrow=classic;startFill=1;" parent="1" source="node15" target="node7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="node15" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ReiseFeld&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;~ ReiseFeld(int, boolean): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- istFlughafen: boolean&lt;br/&gt;- planes: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ removeFlugzeug(): void&lt;br/&gt;+ setAnzahlFlugzeug(int): void&lt;br/&gt;+ getAnzahlFlugzeug(): int&lt;br/&gt;+ istFlughafen(): boolean&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="270" y="-1210" width="222" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="node31" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;Route&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- Route(String): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ KUALA_LUMPUR: &lt;br/&gt;+ HANEDA: &lt;br/&gt;+ MONTREAL_TRUDEAU: &lt;br/&gt;- routeName: String&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ values(): Route[]&lt;br/&gt;+ valueOf(String): Route&lt;br/&gt;+ getRouteName(): String&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="-128" y="201" width="192" height="237" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-60" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="node37" target="node22" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="866" y="1960" />
+              <mxPoint x="866" y="553" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-87" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="node37" target="node19" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-104" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="node37" target="node26" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-80" y="2164" />
+              <mxPoint x="-80" y="2359" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node37" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ScenarioSelectionScreen&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ ScenarioSelectionScreen(MainBk): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- batch: SpriteBatch&lt;br/&gt;- skin: Skin&lt;br/&gt;- main: MainBk&lt;br/&gt;- stage: Stage&lt;br/&gt;- planeBackground: Texture&lt;br/&gt;- logo: Texture&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ dispose(): void&lt;br/&gt;- startGameWithScenario(Route): void&lt;br/&gt;+ resume(): void&lt;br/&gt;+ resize(int, int): void&lt;br/&gt;+ pause(): void&lt;br/&gt;+ hide(): void&lt;br/&gt;+ show(): void&lt;br/&gt;+ render(float): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="41.5" y="1860" width="271" height="405" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-115" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="node10" target="EfraLezkb1FkA3-PALIp-11" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1913" y="3575" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node10" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SchalterGUI&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ SchalterGUI(Stage): &lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- fahrgestellKoordinaten: int[][]&lt;br&gt;- bremsenKoordinaten: int[][]&lt;br&gt;- klappenIndicatorKoordinaten: int[][]&lt;br&gt;~ texture: Texture&lt;br&gt;- klappenKoordinaten: int[][]&lt;br&gt;~ bremsenSchalter: Image[]&lt;br&gt;- bremsenIndicatorKoordinaten: int[][]&lt;br&gt;- stage: Stage&lt;br&gt;- fahrgestellIndicatorKoordinaten: int[][]&lt;br&gt;~ bremsenIndicator: Image&lt;br&gt;~ newX: float&lt;/p&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;~ newY: float&lt;br&gt;- rotation: float&lt;br&gt;- step: int&lt;br&gt;~ fahrgestellSchalter: Image[]&lt;br&gt;~ klappenSchalter: Image[]&lt;br&gt;~ klappenIndicator: Image&lt;br&gt;~ fahrgestellIndicator: Image&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ activateKlappenSchalter(int): void&lt;br&gt;+ moveBremsenIndicator(int): void&lt;br&gt;+ activateFahrgestellSchalter(int): void&lt;br&gt;+ moveKlappenIndicator(int): void&lt;br&gt;- addIndicators(Image, int, int, float): void&lt;br&gt;+ dispose(): void&lt;br&gt;+ addToStage(): void&lt;br&gt;+ activateBremsenSchalter(int): void&lt;br&gt;+ moveFahrgestellIndicator(int): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="1913" y="2950" width="291" height="700" as="geometry" />
+        </mxCell>
+        <mxCell id="node28" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;Speed&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- Speed(int): &lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ FOUR: &lt;br&gt;+ FIVE: &lt;br&gt;+ SIX: &lt;br&gt;+ SEVEN: &lt;br&gt;+ EIGHT: &lt;br&gt;+ NINE: &lt;br&gt;+ TEN: &lt;br&gt;+ ELEVEN: &lt;br&gt;+ TWELVE: &lt;/p&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- value: int&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ values(): Speed[]&lt;br&gt;+ getValue(): int&lt;br&gt;+ valueOf(String): Speed&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="-125.5" y="459.5" width="187" height="408" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=1;" parent="1" source="node7" target="node22" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-155" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-37" vertex="1" connectable="0">
+          <mxGeometry x="0.8284" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-156" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-37" vertex="1" connectable="0">
+          <mxGeometry x="-0.8558" y="-3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="node7" target="node9" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2530" y="-460" />
+              <mxPoint x="2530" y="-365" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="node7" target="node36" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2070" y="80" />
+              <mxPoint x="2070" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-62" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=1;" parent="1" source="node7" target="node0" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1634" y="1300" />
+              <mxPoint x="4027" y="1300" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-173" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-62" vertex="1" connectable="0">
+          <mxGeometry x="0.9859" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-79" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=1;" parent="1" source="node7" target="node18" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1634" y="1480" />
+              <mxPoint x="1930" y="1480" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-167" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-79" vertex="1" connectable="0">
+          <mxGeometry x="0.9778" y="3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-169" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-79" vertex="1" connectable="0">
+          <mxGeometry x="-0.9802" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-83" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=1;" parent="1" source="node7" target="node17" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-137" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-83" vertex="1" connectable="0">
+          <mxGeometry x="0.9294" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-138" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-83" vertex="1" connectable="0">
+          <mxGeometry x="-0.967" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-91" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=1;" parent="1" source="node7" target="node19" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1367" y="290" />
+              <mxPoint x="1110" y="290" />
+              <mxPoint x="1110" y="2353" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-176" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-91" vertex="1" connectable="0">
+          <mxGeometry x="0.9861" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-103" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=1;" parent="1" source="node7" target="node13" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-153" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-103" vertex="1" connectable="0">
+          <mxGeometry x="-0.9817" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-154" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-103" vertex="1" connectable="0">
+          <mxGeometry x="0.9708" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node7" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Spiel&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Spiel(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- hoeheSzenario: List&amp;lt;Flughoehe&amp;gt;&lt;br/&gt;- currentSpeed: int&lt;br/&gt;- endBedingung: boolean&lt;br/&gt;- flugzeug: Flugzeug&lt;br/&gt;- szenario: Szenario&lt;br/&gt;- neuWurfToken: ArrayList&amp;lt;NeuWurfToken&amp;gt;&lt;br/&gt;- runde: int&lt;br/&gt;- currentField: ReiseFeld&lt;br/&gt;- currentHoehe: Flughoehe&lt;br/&gt;- kollision: boolean&lt;br/&gt;- kaffeeTokens: ArrayList&amp;lt;KaffeeToken&amp;gt;&lt;br/&gt;- copilot: Copilot&lt;br/&gt;- position: int&lt;br/&gt;- pilot: Pilot&lt;br/&gt;- pilotFelds: HashMap&amp;lt;String, Feld&amp;gt;&lt;br/&gt;- copilotFelds: HashMap&amp;lt;String, Feld&amp;gt;&lt;br/&gt;- routeSzenario: TreeMap&amp;lt;Integer, ReiseFeld&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;~ setSzenario(Route): void&lt;br/&gt;+ getFeldCopilot(String): Feld&lt;br/&gt;~ updateCurrentHoehe(): void&lt;br/&gt;+ getKaffeeTokenCount(): int&lt;br/&gt;+ getKaffeeTokens(): ArrayList&amp;lt;KaffeeToken&amp;gt;&lt;br/&gt;~ setPilotFelds(): void&lt;br/&gt;~ getCurrentHoehe(): Flughoehe&lt;br/&gt;+ setRunde(int): void&lt;br/&gt;+ setEndBedingung(boolean): void&lt;br/&gt;+ getFeldPilot(String): Feld&lt;br/&gt;~ setHoeheSzenario(): void&lt;br/&gt;+ setFlugzeug(Flugzeug): void&lt;br/&gt;~ isKollision(): boolean&lt;br/&gt;~ neuWurfTokenAnzahlErhoehen(): void&lt;br/&gt;+ setPosition(int): void&lt;br/&gt;+ getNeuWurfTokenCount(): int&lt;br/&gt;+ getRunde(): int&lt;br/&gt;~ setCopilotFelds(): void&lt;br/&gt;~ getHoeheSzenario(): List&amp;lt;Flughoehe&amp;gt;&lt;br/&gt;+ getNeuWurfTokens(): ArrayList&amp;lt;NeuWurfToken&amp;gt;&lt;br/&gt;+ setPilot(Pilot): void&lt;br/&gt;~ updateCurrentField(): void&lt;br/&gt;~ setKollision(boolean): void&lt;br/&gt;+ getFlugzeug(): Flugzeug&lt;br/&gt;+ setCopilot(Copilot): void&lt;br/&gt;+ getPilot(): Pilot&lt;br/&gt;+ kaffeeTokenAnzahlErhoehen(KaffeeToken): void&lt;br/&gt;~ getCurrentField(): ReiseFeld&lt;br/&gt;+ getCurrentPosition(): int&lt;br/&gt;+ getSzenario(): Szenario&lt;br/&gt;+ getRouteSzenario(): TreeMap&amp;lt;Integer, ReiseFeld&amp;gt;&lt;br/&gt;+ getCopilot(): Copilot&lt;br/&gt;~ setCurrentSpeed(int): void&lt;br/&gt;~ setRouteSzenario(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="1367" y="-1080" width="356" height="1240" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="node22" target="node24" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-56" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="node22" target="node9" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2189" y="478" />
+              <mxPoint x="2189" y="200" />
+              <mxPoint x="2670" y="200" />
+              <mxPoint x="2670" y="-215" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-58" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" parent="1" source="node22" target="node36" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="node22" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SpielConstructor&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- SpielConstructor(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- spiel: Spiel&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ createSpiel(Route): Spiel&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="1408" y="440" width="198" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-80" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" parent="1" source="node17" target="node18" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-84" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" parent="1" source="node17" target="node13" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="node17" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SpielControllerGUI&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ SpielControllerGUI(Spiel, SzenarioHoeheManager, Stage, Skin): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- letzteRunde: boolean&lt;br/&gt;- spielLogik: SpielLogik&lt;br/&gt;- ersterSpieler: Spieler&lt;br/&gt;- reiseFeldAktualisiert: boolean&lt;br/&gt;- szenarioHoeheManager: SzenarioHoeheManager&lt;br/&gt;- spielEnde: boolean&lt;br/&gt;- neigungErledigt: boolean&lt;br/&gt;~ nowMustBeFirst: boolean&lt;br/&gt;- spiel: Spiel&lt;br/&gt;- state: State&lt;br/&gt;~ nowMustBeSecond: boolean&lt;br/&gt;- spielGUI: SpielGUI&lt;br/&gt;- zweiterSpieler: Spieler&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ spielenSchritt(): void&lt;br/&gt;+ dispose(): void&lt;br/&gt;+ resize(int, int): void&lt;br/&gt;- finishRound(): void&lt;br/&gt;- prepareRound(): void&lt;br/&gt;+ render(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="1946" y="670" width="437" height="525" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-73" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="node13" target="node4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-74" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" parent="1" source="node13" target="node21" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-75" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;" parent="1" source="node13" target="node10" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-78" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="node13" target="EfraLezkb1FkA3-PALIp-9" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-81" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="node13" target="node18" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-86" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="node13" target="EfraLezkb1FkA3-PALIp-10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1440" y="1240" />
+              <mxPoint x="3317" y="1240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-111" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" parent="1" source="node13" target="EfraLezkb1FkA3-PALIp-11" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="node13" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SpielGUI&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ SpielGUI(Spiel, Stage, Skin, SzenarioHoeheManager): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- copilotWuerfelActors: ArrayList&amp;lt;ImageButton&amp;gt;&lt;br/&gt;- copilotWuerfelsCoordinates: int[][]&lt;br/&gt;- mirroredFields: Map&amp;lt;ControlField, ControlField&amp;gt;&lt;br/&gt;- schalterGUI: SchalterGUI&lt;br/&gt;- spiel: Spiel&lt;br/&gt;- pilotUseKaffeeControlGroup: ControlGroup&lt;br/&gt;- pilotKaffeeControlGroup: ControlGroup&lt;br/&gt;- callback: PlayerActionCallback&lt;br/&gt;- controlGroups: ArrayList&amp;lt;ControlGroup&amp;gt;&lt;br/&gt;- skin: Skin&lt;br/&gt;- copilotUseKaffeeControlGroup: ControlGroup&lt;br/&gt;- spielLogik: SpielLogik&lt;br/&gt;+ stage: Stage&lt;br/&gt;- neuWurf: ControlField&lt;br/&gt;- pilotWuerfelActors: ArrayList&amp;lt;ImageButton&amp;gt;&lt;br/&gt;- selectedWuerfelData: SelectedWuerfelData&lt;br/&gt;- pilotWuerfelsCoordinates: int[][]&lt;br/&gt;- copilotKaffeeControlGroup: ControlGroup&lt;br/&gt;- guiConstructionMethods: GUIConstructionMethods&lt;br/&gt;- szenarioHoeheManager: SzenarioHoeheManager&lt;br/&gt;- ruder: Image&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- getPilotKaffeeControlGroup(): ControlGroup&lt;br/&gt;- removeWuerfelButtonFromHand(SelectedWuerfelData): void&lt;br/&gt;- getMainControlGroup(Spieler): ControlGroup&lt;br/&gt;+ createWuerfelForSpieler(Spieler): void&lt;br/&gt;- getKaffeeControlGroup(Spieler): ControlGroup&lt;br/&gt;- getCopilotKaffeeControlGroup(): ControlGroup&lt;br/&gt;+ highlightAvailableFields(ControlGroup): void&lt;br/&gt;+ clearManyUseFields(): void&lt;br/&gt;+ useKaffee(Spieler): void&lt;br/&gt;- addKaffeeListeners(Spieler): void&lt;br/&gt;+ setPlayerActionCallback(PlayerActionCallback): void&lt;br/&gt;+ showKaffee(Boolean, Boolean): void&lt;br/&gt;+ removeHighlight(ControlGroup): void&lt;br/&gt;+ getSchalterGUI(): SchalterGUI&lt;br/&gt;- switchTexture(ImageButton, String): void&lt;br/&gt;- getCopilotUseKaffeeControlGroup(): ControlGroup&lt;br/&gt;- removeHideImage(float, float): void&lt;br/&gt;+ setKaffeeGroupsActive(Spieler): void&lt;br/&gt;+ hideWuerfel(Spieler): void&lt;br/&gt;+ disableFields(ControlGroup, ControlGroup): void&lt;br/&gt;- createFieldActors(): void&lt;br/&gt;- getPilotUseKaffeeControlGroup(): ControlGroup&lt;br/&gt;+ initMirrors(): void&lt;br/&gt;+ dispose(): void&lt;br/&gt;- getControlGroupByName(String): ControlGroup?&lt;br/&gt;- renderHideImage(float, float): void&lt;br/&gt;+ addWuerfelListenersForSpieler(Spieler): void&lt;br/&gt;- handleMainFieldClick(ControlField, Spieler): void&lt;br/&gt;+ showNeuWurf(Boolean): void&lt;br/&gt;- getUseKaffeeControlGroup(Spieler): ControlGroup&lt;br/&gt;+ clearPlayerListeners(Spieler): void&lt;br/&gt;+ addFieldListenersForPlacement(Spieler): void&lt;br/&gt;- removeKaffeeTokenByName(String, Spieler): void&lt;br/&gt;- handleKaffeeFieldClick(ControlField, Spieler): void&lt;br/&gt;+ getRuder(): Image&lt;br/&gt;+ useNeuWurf(Spieler): void&lt;br/&gt;- freeKaffeeFieldForBoth(ControlField, Spieler): void&lt;br/&gt;+ removeAllHideImages(): void&lt;br/&gt;~ verpflicteteAktion(Spieler): void&lt;br/&gt;- waitForDiceSelection(Spieler, String): void&lt;br/&gt;+ checkFeldSituation(Spieler): void&lt;br/&gt;- clearDiceListeners(Spieler): void&lt;br/&gt;- addListenersToGroupFields(ControlGroup, Spieler): void&lt;br/&gt;- blockFieldForBoth(ControlField, ControlField, SelectedWuerfelData): void&lt;br/&gt;- kaffeeFieldClearLastUsed(Spieler): void&lt;br/&gt;- setRuder(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="1200" y="1640" width="480" height="1610" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" parent="1" source="node18" target="node30" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2163" y="1800" />
+              <mxPoint x="2575" y="1800" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-77" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="node18" target="node10" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="node18" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SpielLogik&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ SpielLogik(Spiel, Stage, Skin, SchalterGUI, Image, SzenarioHoeheManager): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- spiel: Spiel&lt;br/&gt;- skin: Skin&lt;br/&gt;- stage: Stage&lt;br/&gt;- window: Window&lt;br/&gt;- szenarioHoeheManager: SzenarioHoeheManager&lt;br/&gt;- ruder: Image&lt;br/&gt;- schalterGUI: SchalterGUI&lt;br/&gt;- neuerWert: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;~ radio(Wuerfel): void&lt;br/&gt;~ vorwaertsBewegen(int): void&lt;br/&gt;~ getOneUseFelds(): ArrayList&amp;lt;Feld&amp;gt;&lt;br/&gt;~ checkAusfallBedingung(): boolean&lt;br/&gt;~ neigenSetzen(): boolean&lt;br/&gt;+ copilotSchritt(Spieler, String, Wuerfel, int): boolean&lt;br/&gt;- werfen(): ArrayList&amp;lt;Wuerfel&amp;gt;&lt;br/&gt;+ createFinalWindow(boolean): void&lt;br/&gt;~ reiseFeldZustandAktualisieren(): boolean&lt;br/&gt;+ createNeuWurfTokenWindow(Spieler, BiConsumer&amp;lt;Spieler, Spieler&amp;gt;): void&lt;br/&gt;~ kaffeeToken(): KaffeeToken&lt;br/&gt;~ addNeuWurfTokens(): void&lt;br/&gt;~ checkGewinnBedingung(): boolean&lt;br/&gt;~ clearManyUseFelds(): void&lt;br/&gt;+ createMessage(String, String): void&lt;br/&gt;~ hoeheReduzieren(): void&lt;br/&gt;~ clearKaffeeFeld(): void&lt;br/&gt;~ removeDiceFromOneUseFelds(ArrayList&amp;lt;Feld&amp;gt;): void&lt;br/&gt;+ pilotSchritt(Spieler, String, Wuerfel, int): boolean&lt;br/&gt;~ neuWurfToken(): NeuWurfToken&lt;br/&gt;+ createKaffeeTokenWindow(Wuerfel, Spieler, int, Consumer&amp;lt;Integer&amp;gt;): void&lt;br/&gt;~ setNeuWuerfels(Spieler): void&lt;br/&gt;~ checkFinalRound(): boolean&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="1803" y="1845" width="507" height="790" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="node25" target="node7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=1;" parent="1" source="node25" target="EfraLezkb1FkA3-PALIp-10" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-133" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-51" vertex="1" connectable="0">
+          <mxGeometry x="-0.9612" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-136" value="4" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-51" vertex="1" connectable="0">
+          <mxGeometry x="0.9441" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-52" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;endArrow=none;endFill=0;startArrow=open;startFill=0;" parent="1" source="node25" target="node17" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="node25" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;span style=&quot;font-size: 12px; font-weight: 700; text-wrap: wrap; background-color: rgb(251, 251, 251);&quot;&gt;&amp;lt;&amp;lt;abstract&amp;gt;&amp;gt;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Spieler&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Spieler(): &lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- wuerfels: ArrayList&amp;lt;Wuerfel&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getWuerfels(): ArrayList&amp;lt;Wuerfel&amp;gt;&lt;br&gt;+ getAnzahlWuerfels(): int&lt;br&gt;+ setWuerfels(ArrayList&amp;lt;Wuerfel&amp;gt;): void&lt;br&gt;+ neuWurfTokenBenutzen(NeuWurfToken, Spieler, Spieler): void&lt;br&gt;# neigenWaehlen(Wuerfel, int): void&lt;br&gt;# speedWaehlen(Wuerfel, int): void&lt;br&gt;+ neuWurfTokenBenutzen(NeuWurfToken, Spieler): void&lt;br&gt;+ kaffeeTokenBenutzen(KaffeeToken, int, KaffeeTokenAktion): void&lt;br&gt;# kaffeeWaehlen(Wuerfel, int, String): void&lt;br&gt;# radioWaehlen(Wuerfel, int): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="2011" y="-370" width="451" height="360" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-98" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="node33" target="node34" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="node33" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;StartScreen&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ StartScreen(MainBk): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- startScreenLogoTexture: Texture&lt;br/&gt;- showSecondImage: boolean&lt;br/&gt;- teamATexture: Texture&lt;br/&gt;- main: MainBk&lt;br/&gt;- batch: SpriteBatch&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ pause(): void&lt;br/&gt;+ dispose(): void&lt;br/&gt;+ show(): void&lt;br/&gt;+ hide(): void&lt;br/&gt;+ resume(): void&lt;br/&gt;+ render(float): void&lt;br/&gt;+ resize(int, int): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="41.5" y="2770" width="250" height="357" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;endArrow=diamondThin;endFill=1;startArrow=none;startFill=0;" parent="1" source="node16" target="node7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-124" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-21" vertex="1" connectable="0">
+          <mxGeometry x="0.9271" y="5" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-125" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-21" vertex="1" connectable="0">
+          <mxGeometry x="-0.9491" y="5" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;startArrow=classic;startFill=1;" parent="1" source="node16" target="node22" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="node16" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Szenario&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Szenario(Route): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- szenarioName: String&lt;br/&gt;- hoeheSzenario: List&amp;lt;Flughoehe&amp;gt;&lt;br/&gt;- hoeheSzenarioType: HoeheSzenarioTypes&lt;br/&gt;- currentRoute: TreeMap&amp;lt;Integer, ReiseFeld&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- readHoeheSzenario(Route, String): String&lt;br/&gt;- readRoute(Route, String): TreeMap&amp;lt;Integer, ReiseFeld&amp;gt;&lt;br/&gt;+ getHoeheSzenario(): List&amp;lt;Flughoehe&amp;gt;&lt;br/&gt;+ getHoeheSzenarioType(): HoeheSzenarioTypes&lt;br/&gt;- scenarioImport(Route): void&lt;br/&gt;~ setHoeheSzenarioType(String): void&lt;br/&gt;+ getSzenarioName(): String&lt;br/&gt;- setHoeheSzenario(List&amp;lt;Flughoehe&amp;gt;): void&lt;br/&gt;- setCurrentRoute(TreeMap&amp;lt;Integer, ReiseFeld&amp;gt;): void&lt;br/&gt;- adjustHoeheRoute(List&amp;lt;Flughoehe&amp;gt;, int): List&amp;lt;Flughoehe&amp;gt;&lt;br/&gt;- setSzenarioName(String): void&lt;br/&gt;+ getCurrentFlughoehe(): Flughoehe&lt;br/&gt;+ getCurrentField(int): ReiseFeld&lt;br/&gt;+ getCurrentRoute(): TreeMap&amp;lt;Integer, ReiseFeld&amp;gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="720" y="-1160" width="407" height="501" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-65" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;endArrow=none;endFill=0;startArrow=diamondThin;startFill=1;" parent="1" source="node2" target="node7" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="4240" y="2393" />
+              <mxPoint x="4240" y="1300" />
+              <mxPoint x="1690" y="1300" />
+              <mxPoint x="1690" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-165" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-65" vertex="1" connectable="0">
+          <mxGeometry x="-0.9895" y="5" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-166" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-65" vertex="1" connectable="0">
+          <mxGeometry x="0.9659" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node2" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SzenarioGUI&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ SzenarioGUI(Spiel): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- planeTexture: Texture&lt;br/&gt;- cardX: float&lt;br/&gt;- cardY: float&lt;br/&gt;- planePositions: float[][]&lt;br/&gt;- szenarioTexture: Texture&lt;br/&gt;- szenarioName: String&lt;br/&gt;- offsetY: float&lt;br/&gt;- MOVE_STEP: int&lt;br/&gt;- emptyTexture: Texture&lt;br/&gt;- currentPosititon: int&lt;br/&gt;- spiel: Spiel&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ moveStep(int): void&lt;br/&gt;+ dispose(): void&lt;br/&gt;+ render(SpriteBatch): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="3970" y="2292" width="202" height="405" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-63" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" parent="1" source="node11" target="node0" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-64" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="node11" target="node2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-66" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=none;endFill=0;startArrow=classic;startFill=1;" parent="1" source="node11" target="node19" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="3770" y="3900" />
+              <mxPoint x="732" y="3900" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-67" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=1;" parent="1" source="node11" target="node17" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-159" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-67" vertex="1" connectable="0">
+          <mxGeometry x="-0.9889" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-160" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-67" vertex="1" connectable="0">
+          <mxGeometry x="0.9873" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-175" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="node11" target="node18" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="node11" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SzenarioHoeheManager&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ SzenarioHoeheManager(Spiel): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- szenarioGUI: SzenarioGUI&lt;br/&gt;- hoeheGUI: HoeheGUI&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ updateScenario(int): void&lt;br/&gt;+ dispose(): void&lt;br/&gt;+ updateHoehe(): void&lt;br/&gt;+ render(SpriteBatch): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="3650" y="2183" width="241" height="226" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=1;" parent="1" source="node30" target="node14" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-129" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-33" vertex="1" connectable="0">
+          <mxGeometry x="0.8487" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-130" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-33" vertex="1" connectable="0">
+          <mxGeometry x="-0.8424" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=1;" parent="1" source="node30" target="EfraLezkb1FkA3-PALIp-10" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-131" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-40" vertex="1" connectable="0">
+          <mxGeometry x="0.9588" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-132" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-40" vertex="1" connectable="0">
+          <mxGeometry x="-0.9714" y="-3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="node30" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Wuerfel&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ Wuerfel(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- wert: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- wuerfeln(): void&lt;br/&gt;+ getWert(): int&lt;br/&gt;~ wertAendern(KaffeeTokenAktion): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="2360" y="-817" width="287" height="183" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-93" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="EfraLezkb1FkA3-PALIp-7" target="node34" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-109" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="EfraLezkb1FkA3-PALIp-7" target="node26" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-80" y="1479" />
+              <mxPoint x="-80" y="2359" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-7" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;InputController&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ InputController(OrthographicCamera, float, Stage, MainBk): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- tableHeight: float&lt;br/&gt;- cameraSpeed: float&lt;br/&gt;- stage: Stage&lt;br/&gt;- limitCamera: boolean&lt;br/&gt;- camera: OrthographicCamera&lt;br/&gt;- pauseBackground: Image&lt;br/&gt;- pauseStage: Stage&lt;br/&gt;- isPaused: boolean&lt;br/&gt;- main: MainBk&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ updateAndRender(float): void&lt;br/&gt;- resumeGame(): void&lt;br/&gt;- handleKeyboard(): void&lt;br/&gt;- exitGame(): void&lt;br/&gt;- togglePause(): void&lt;br/&gt;- returnToMenu(): void&lt;br/&gt;+ dispose(): void&lt;br/&gt;- createPauseStage(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="270" y="1240" width="413" height="477" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-92" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=1;" parent="1" source="EfraLezkb1FkA3-PALIp-8" target="EfraLezkb1FkA3-PALIp-7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-139" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-92" vertex="1" connectable="0">
+          <mxGeometry x="0.9723" y="3" relative="1" as="geometry">
+            <mxPoint y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-149" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-92" vertex="1" connectable="0">
+          <mxGeometry x="-0.9858" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-95" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=1;" parent="1" source="EfraLezkb1FkA3-PALIp-8" target="node37" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-145" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-95" vertex="1" connectable="0">
+          <mxGeometry x="0.9621" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-99" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=1;" parent="1" source="EfraLezkb1FkA3-PALIp-8" target="node27" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-146" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-99" vertex="1" connectable="0">
+          <mxGeometry x="0.8419" y="-3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-148" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-99" vertex="1" connectable="0">
+          <mxGeometry x="-0.9017" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-101" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=diamondThin;endFill=1;" parent="1" source="EfraLezkb1FkA3-PALIp-8" target="node34" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-143" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-101" vertex="1" connectable="0">
+          <mxGeometry x="0.9587" y="4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-112" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" parent="1" source="EfraLezkb1FkA3-PALIp-8" target="EfraLezkb1FkA3-PALIp-11" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-8" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;MainBk&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ MainBk(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ menuMusic: Music&lt;br/&gt;- currentScreen: Screen&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ resize(int, int): void&lt;br/&gt;+ create(): void&lt;br/&gt;+ pause(): void&lt;br/&gt;+ resume(): void&lt;br/&gt;+ dispose(): void&lt;br/&gt;+ setScreen(Screen): void&lt;br/&gt;+ render(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="297" y="3654" width="195" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-9" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;PlayerActionCallback&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ onPlayerActionCompleted(Spieler): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="1294" y="3390" width="292" height="79" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-10" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SelectedWuerfelData&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ SelectedWuerfelData(Spieler, int, Wuerfel): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- wuerfel: Wuerfel&lt;br/&gt;- diceTexturePath: String&lt;br/&gt;- spieler: Spieler&lt;br/&gt;- wuerfelIndex: int&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ getWuerfel(): Wuerfel&lt;br/&gt;+ getDiceTexturePath(): String&lt;br/&gt;+ getSpieler(): Spieler&lt;br/&gt;+ getWuerfelIndex(): int&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="3160" y="410" width="313" height="261" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-11" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;TextureCache&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- TextureCache(): &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;- cache: Map&amp;lt;String, Texture&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt;+ get(String): Texture&lt;br/&gt;+ dispose(): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="860" y="3490" width="226" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;endArrow=block;endFill=0;entryX=1.002;entryY=0.583;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="node9" target="node25" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2667" y="-225.10000000000002" as="sourcePoint" />
+            <mxPoint x="2490" y="-160" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="2610" y="-290" />
+              <mxPoint x="2610" y="-160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=-0.002;exitY=0.272;exitDx=0;exitDy=0;entryX=1.001;entryY=0.585;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=block;endFill=0;exitPerimeter=0;" parent="1" source="node36" target="node25" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2770" y="-280" as="sourcePoint" />
+            <mxPoint x="2474" y="-147" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="2610" y="36" />
+              <mxPoint x="2610" y="-160" />
+              <mxPoint x="2474" y="-160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1.001;entryY=0.313;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=diamondThin;endFill=1;" parent="1" source="node14" target="node7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-116" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-34" vertex="1" connectable="0">
+          <mxGeometry x="0.7767" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-118" value="*" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-34" vertex="1" connectable="0">
+          <mxGeometry x="-0.7474" y="-4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0.003;entryY=0.431;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=diamondThin;endFill=1;" parent="1" source="node3" target="node24" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-127" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-39" vertex="1" connectable="0">
+          <mxGeometry x="0.8036" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-128" value="3" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-39" vertex="1" connectable="0">
+          <mxGeometry x="-0.8838" y="4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.996;entryY=0.061;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=diamondThin;endFill=1;" parent="1" source="node1" target="node7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-119" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-47" vertex="1" connectable="0">
+          <mxGeometry x="0.7898" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-120" value="0...3" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-47" vertex="1" connectable="0">
+          <mxGeometry x="-0.8015" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-97" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.996;entryY=0.42;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=diamondThin;endFill=1;" parent="1" source="EfraLezkb1FkA3-PALIp-8" target="node33" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-141" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-97" vertex="1" connectable="0">
+          <mxGeometry x="-0.9621" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EfraLezkb1FkA3-PALIp-142" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="EfraLezkb1FkA3-PALIp-97" vertex="1" connectable="0">
+          <mxGeometry x="0.9405" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
