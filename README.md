@@ -13,6 +13,10 @@ Falls dabei ein **JSON-Formatierungsfehler** auftritt, kann der folgende Startvo
 
 # 📝 Projektbeschreibung
 
+## 🗂️ Link zum alten Repository ohne LibGDX
+
+🔗 **Alter Repository:** [https://gitlab.hof-university.de/nkrysin/team-a-sse](https://gitlab.hof-university.de/nkrysin/team-a-sse)
+
 ## 💾 Dokumentation
 Die Dokumentation, einschließlich **Diagrammen**, **Anwendungsfalldefinition** und **Spezifikation**, befindet sich im Projektverzeichnis im Verzeichnis  **`documentation`** im Hauptverzeichnis.
 
