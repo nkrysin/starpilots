@@ -1,7 +1,10 @@
 # ✈️ SkyTeam by Team-A
 
 ## ⚠️ Anleitung zum Starten des Projekts ⚠️
-*Hinweis: Beim Starten über das Gradle-Menü auf der rechten Seite kann es wahrscheinlich zu einem JSON-Formatierungsfehler kommen.*
+Früher musste das Programm wie unten beschrieben gestartet werden, da ein Bug in `ButtonStyle` vorhanden war.  
+Jetzt kann das Programm direkt über das **Gradle-Menü** auf der rechten Seite gestartet werden.  
+Falls dabei ein **JSON-Formatierungsfehler** auftritt, kann der folgende Startvorgang zuverlässig genutzt werden:
+
 1. Öffnen Sie das Projekt in **IntelliJ IDEA**.
 2. Suchen Sie die Datei `Lwjgl3Launcher`:
     - Pfad: `java/com/teama/skyteam/drop/lwjgl3/Lwjgl3Launcher.java`.
