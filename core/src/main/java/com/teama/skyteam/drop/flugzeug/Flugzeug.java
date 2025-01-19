@@ -12,8 +12,18 @@ public class Flugzeug {
     private Fahrgestell fahrgestellZustand;
 
 
-    /*Constructor*/
-
+    /**
+     * Konstruktor für die Klasse Flugzeug.
+     *
+     * Initialisiert ein neues Flugzeug-Objekt entsprechend den Spielregeln:
+     * - Die aktuelle Geschwindigkeit wird auf 0 gesetzt.
+     * - Die untere Geschwindigkeitsgrenze wird auf Speed.FOUR gesetzt.
+     * - Die obere Geschwindigkeitsgrenze wird auf Speed.EIGHT gesetzt.
+     * - Die Neigung wird auf 0 gesetzt.
+     * - Der Bremsenzustand wird auf Bremsen.NONE gesetzt.
+     * - Der Klappenzustand wird auf Klappen.NONE gesetzt.
+     * - Der Fahrgestellzustand wird auf ein neues Fahrgestell-Objekt gesetzt.
+     */
     public Flugzeug() {
         setSpeedAktuell(0);
         setSpeedUntereGrenze(Speed.FOUR);
@@ -22,7 +32,6 @@ public class Flugzeug {
         setBremsenZustand(Bremsen.NONE);
         setKlappenZustand(Klappen.NONE);
         setFahrgestellZustand(new Fahrgestell());
-
     }
 
     /*Getters and Setters*/
@@ -84,7 +93,13 @@ public class Flugzeug {
     }
 
 
-    /*Methods*/
+    /**
+     * Subtrahiert die Werte zweier Würfel.
+     *
+     * @param wuerfel ein Array von zwei Würfeln, deren Werte subtrahiert werden.
+     * @return die Differenz zwischen den Werten der beiden Würfel.
+     * @throws IllegalArgumentException wenn das Array null ist oder nicht genau zwei Würfel enthält.
+     */
     private int zweiWuerfelWertSubtrahieren(Wuerfel[] wuerfel) {
         if (wuerfel == null || wuerfel.length != 2) {
             throw new IllegalArgumentException("Falsche Anzahl von Würfeln wurden gegeben");
@@ -93,12 +108,23 @@ public class Flugzeug {
         return sub;
     }
 
+    /**
+     * Ändert die Neigung des Flugzeugs basierend auf einem gegebenen Wert und den Würfelwerten.
+     *
+     * @param neigung die Basisneigung, die geändert werden soll.
+     * @param wuerfel ein Array von zwei Würfeln, deren Wertunterschied zur Neigung addiert wird.
+     */
     public void neigen(int neigung, Wuerfel[] wuerfel) {
         int sub = zweiWuerfelWertSubtrahieren(wuerfel);
         setNeigung(neigung + sub);
     }
 
-
+    /**
+     * Aktiviert die Bremsen basierend auf dem Wert eines Würfels.
+     *
+     * @param wuerfel ein Würfel, dessen Wert die nächste Bremsstufe bestimmt.
+     * @return true, wenn der Bremszustand erfolgreich geändert wurde; false, wenn keine Änderung möglich war.
+     */
     public boolean bremsen(Wuerfel wuerfel) {
         int wert = wuerfel.getWert();
         Bremsen aktuellerZustand = getBremsenZustand();
@@ -128,6 +154,12 @@ public class Flugzeug {
         return false;
     }
 
+    /**
+     * Öffnet die Klappen basierend auf dem Wert eines Würfels.
+     *
+     * @param wuerfel ein Würfel, dessen Wert die nächste Klappenstufe bestimmt.
+     * @return true, wenn der Klappenzustand erfolgreich geändert wurde; false, wenn keine Änderung möglich war.
+     */
     public boolean klappenOeffnen(Wuerfel wuerfel) {
         int wert = wuerfel.getWert();
         Klappen aktuellerZustand = getKlappenZustand();
@@ -167,6 +199,12 @@ public class Flugzeug {
         return false;
     }
 
+    /**
+     * Aktiviert ein bestimmtes Fahrgestell basierend auf dem Wert eines Würfels.
+     *
+     * @param wuerfel ein Würfel, dessen Wert das zu aktivierende Fahrgestell bestimmt.
+     * @return true, wenn das Fahrgestell erfolgreich aktiviert wurde; false, wenn keine Änderung möglich war.
+     */
     public boolean fahrgestellAusfahren(Wuerfel wuerfel) {
         int wert = wuerfel.getWert();
         switch (wert) {
@@ -188,6 +226,9 @@ public class Flugzeug {
         return false;
     }
 
+    /**
+     * Aktualisiert die untere Geschwindigkeitsgrenze basierend auf der Anzahl der aktivierten Fahrgestelle.
+     */
     private void speedUntereGrenzeAktualisieren() {
         int akrivierteFahrgestelle = getFahrgestellZustand().getAkrivierteFahrgestelle();
         switch (akrivierteFahrgestelle) {
