@@ -56,6 +56,50 @@ Das Team bestand aus zwei Personen: **Nataliia Shcherba** und **Nikolai Krysin**
 
   In der Klasse **SpielGUI** wurde der `switchTexture`-Methodenblock eingeführt, der die Textur einer Schaltfläche durch eine andere ersetzt, indem er sie aus dem Cache abruft. Das Ergebnis: Das Spiel kann stundenlang ohne FPS-Einbrüche oder Abstürze gespielt werden.
 
+# 📜 Sky Team – Spielregeln
+
+**Sky Team** ist ein kooperatives Brettspiel für zwei Spieler, bei dem Sie gemeinsam ein Flugzeug steuern, um es sicher zu landen.
+
+## 🎯 Ziel des Spiels:
+Das Ziel ist es, das Flugzeug erfolgreich zu landen, indem Sie alle Phasen des Sinkflugs und der Landung meistern. Dabei müssen Sie die Kontrolle über Höhe, Geschwindigkeit, Fahrgestell, Klappen und andere Systeme behalten, Kollisionen mit anderen Flugzeugen vermeiden und den Flughafen im richtigen Moment erreichen.
+
+## 🎮 Spielablauf:
+
+### 1. Vorbereitung einer Runde:
+Vor Beginn jeder Runde können Sie Ihre Pläne und Strategien besprechen. Während der Runde ist jedoch jegliche Kommunikation verboten, und jeder Spieler handelt eigenständig.
+
+### 2. Platzieren der Würfel:
+- **Pilot** darf Würfel nur auf **blaue Felder** legen, **Kopilot** nur auf **orange Felder**.
+- Auf **Kaffeefelder** dürfen beide Spieler Würfel legen.
+- Würfel werden abwechselnd platziert, und es ist nicht erlaubt, die Würfel des anderen Spielers zu sehen.
+
+### 3. Verwendung von Kaffee und Neuwurf:
+- Sie können jederzeit ein **Kaffeetoken** verwenden, um den Wert eines Würfels um **+1 oder -1** zu verändern.
+- Mit einem **Neuwurf-Token** kann ein Spieler einen seiner Würfel erneut würfeln.
+
+### 4. Aktivierung von Systemen:
+- **Fahrgestell:** Kann in beliebiger Reihenfolge aktiviert werden.
+- **Bremsen:** Müssen streng in der Reihenfolge **2 → 4 → 6** aktiviert werden.
+- **Klappen:** Müssen ebenfalls in der vorgegebenen Reihenfolge aktiviert werden.
+
+### 5. Besondere Herausforderungen:
+- **Höhe:** Die Höhe des Flugzeugs sinkt in jeder Runde automatisch um **1000 Meter (1 Einheit)**.
+- **Fluglage:** Das Flugzeug darf nicht mehr als **2 Einheiten** nach links oder rechts abweichen.
+- **Geschwindigkeit:** Achten Sie darauf, dass die Geschwindigkeit kontrolliert bleibt und rechtzeitig gebremst wird.
+- **Kollisionen:** Räumen Sie den Weg über das Funkgerät frei, um Kollisionen mit anderen Flugzeugen zu vermeiden.
+
+## 🏆 Gewinnbedingungen:
+Die letzte Runde beginnt, sobald:
+- Das **Flughafen-Bild** auf Ihrer **Aktuellen Position** ist.
+- Das **Flugzeug-Bild** auf Ihrer **Aktuellen Höhe** ist.
+
+Sie gewinnen das Spiel, wenn am Ende der letzten Runde folgende Bedingungen erfüllt sind:
+1. **Kein Flugzeug verbleibt auf der Entfernungsliste**
+2. **Fahrgestell und Klappen grünes Licht zeigen**
+3. **Das Flugzeug ist genau waagerecht ausgerichtet**
+4. **Die Geschwindigkeit ist geringer als die Stärke der Bremsen**
+
+**Glückwunsch!** Wenn alle Kriterien erfüllt sind, applaudieren die Passagiere begeistert, und Sie haben das Spiel gewonnen! 🎉
 
 # LibGDX default README
 
