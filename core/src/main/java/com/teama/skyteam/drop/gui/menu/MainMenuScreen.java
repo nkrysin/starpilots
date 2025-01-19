@@ -1,3 +1,10 @@
+/**
+ * Repräsentiert den Hauptmenübildschirm des Spiels.
+ *
+ * Die Klasse `MainMenuScreen` zeigt das Hauptmenü des Spiels,
+ * in dem der Spieler Optionen wie "Spiel starten", "Credits" und "Beenden" auswählen kann.
+ * Der Bildschirm enthält einen Hintergrund, ein Logo und interaktive Buttons.
+ */
 package com.teama.skyteam.drop.gui.menu;
 
 import com.badlogic.gdx.Gdx;

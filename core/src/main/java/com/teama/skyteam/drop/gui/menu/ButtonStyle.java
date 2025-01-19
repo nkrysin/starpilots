@@ -1,3 +1,10 @@
+/**
+ * Stellt die Stildefinition für GUI-Buttons bereit.
+ *
+ * Die Klasse `ButtonStyle` wird verwendet, um eine konsistente Gestaltung von TextButtons
+ * im GUI sicherzustellen. Der Stil basiert auf einer Skin-Datei und definiert Farben und Zustände
+ * (normal, gedrückt, hover) für die Buttons.
+ */
 package com.teama.skyteam.drop.gui.menu;
 
 import com.badlogic.gdx.Gdx;
@@ -10,9 +17,10 @@ public class ButtonStyle {
     public static TextButton.TextButtonStyle style() {
         Skin skin = new Skin(Gdx.files.internal("skin/flat-earth-ui.json"));
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.up = skin.newDrawable("button-c", Color.SLATE);
-        style.down = skin.newDrawable("button-p", Color.SLATE);
-        style.over = skin.newDrawable("button-h", Color.SKY);
+        // Setzt die Hintergründe für verschiedene Zustände (normal, gedrückt, hover).
+        style.up = skin.newDrawable("button-c", Color.SLATE); // Normalzustand
+        style.down = skin.newDrawable("button-p", Color.SLATE); // Gedrückt
+        style.over = skin.newDrawable("button-h", Color.SKY); // Hover
         style.font = skin.getFont("button");
         style.fontColor = Color.WHITE;
         return style;

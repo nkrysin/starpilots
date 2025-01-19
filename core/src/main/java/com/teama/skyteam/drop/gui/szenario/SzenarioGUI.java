@@ -1,3 +1,10 @@
+/**
+ * Repräsentiert die GUI-Komponente für das Szenario im Spiel.
+ *
+ * Die Klasse `SzenarioGUI` rendert die aktuelle Route des Szenarios und die Flugzeugpositionen
+ * basierend auf dem aktuellen Spielzustand. Sie ermöglicht auch die Bewegung der Ansicht
+ * durch Schritte entlang der Route.
+ */
 package com.teama.skyteam.drop.gui.szenario;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -9,8 +16,8 @@ import java.util.TreeMap;
 
 public class SzenarioGUI {
 
-    private final int MOVE_STEP = 96;
-    private final float[][] planePositions = {
+    private final int MOVE_STEP = 96; // Die Schrittgröße für die Bewegung der Ansicht. Gilt für FUllHD-Bildschirme
+    private final float[][] planePositions = {  // Positionen der Flugzeuge auf der Karte.  Das gilt nur für FUllHD-Bildschirme
         {792, 886},
         {834, 886},
         {876, 886}
@@ -62,7 +69,11 @@ public class SzenarioGUI {
         }
     }
 
-
+    /**
+     * Bewegt die Karte um eine bestimmte Anzahl von Schritten.
+     *
+     * @param steps Die Anzahl der Schritte, um die die Karte bewegt werden soll.
+     */
     public void moveStep(int steps) {
         offsetY += steps * MOVE_STEP;
     }

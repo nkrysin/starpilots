@@ -1,3 +1,10 @@
+/**
+ * Verwaltet die Caching-Logik für Texturen im Spiel.
+ *
+ * Die Klasse `TextureCache` sorgt dafür, dass Texturen nur einmal geladen und
+ * wiederverwendet werden, um Speicher- und Performanceprobleme zu minimieren.
+ * Sie stellt Methoden bereit, um Texturen zu erhalten und den gesamten Cache freizugeben.
+ */
 package com.teama.skyteam.drop.gui.utilities;
 
 import com.badlogic.gdx.Gdx;
@@ -9,6 +16,13 @@ import java.util.Map;
 public class TextureCache {
     private static final Map<String, Texture> cache = new HashMap<>();
 
+    /**
+     * Gibt eine Textur basierend auf dem angegebenen Pfad zurück.
+     * Wenn die Textur nicht im Cache vorhanden ist, wird sie geladen und hinzugefügt.
+     *
+     * @param path Der Pfad zur Texturdatei.
+     * @return Die Textur, die mit dem angegebenen Pfad verknüpft ist.
+     */
     public static Texture get(String path) {
         if (!cache.containsKey(path)) {
             cache.put(path, new Texture(Gdx.files.internal(path)));
@@ -21,8 +35,5 @@ public class TextureCache {
             t.dispose();
         }
         cache.clear();
-    }
-
-    private TextureCache() {
     }
 }

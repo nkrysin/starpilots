@@ -1,3 +1,10 @@
+/**
+ * Stellt Methoden zur Konstruktion von GUI-Elementen bereit.
+ *
+ * Die Klasse `GUIConstructionMethods` bietet Hilfsmethoden, um GUI-Elemente wie Buttons und Kontrollgruppen
+ * zu erstellen. Diese Elemente können auf einer `Stage` hinzugefügt werden, um sie im Spiel darzustellen.
+ * Außerdem wird eine Methode bereitgestellt, um die erstellten Ressourcen freizugeben.
+ */
 package com.teama.skyteam.drop.gui;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -12,8 +19,18 @@ import java.util.ArrayList;
 
 public class GUIConstructionMethods {
 
-    private final ArrayList<ImageButton> createdButtons = new ArrayList<>();
+    private final ArrayList<ImageButton> createdButtons = new ArrayList<>(); // Liste der erstellten Buttons.
 
+    /**
+     * Erstellt einen neuen Button mit einer Textur und fügt ihn der internen Liste hinzu.
+     *
+     * @param textureName der Pfad zur Texturdatei.
+     * @param x die X-Koordinate des Buttons.
+     * @param y die Y-Koordinate des Buttons.
+     * @param sizeX die Breite des Buttons.
+     * @param sizeY die Höhe des Buttons.
+     * @return der erstellte `ImageButton`.
+     */
     public ImageButton createButton(String textureName, int x, int y, int sizeX, int sizeY) {
         Texture texture = new Texture(textureName);
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
@@ -24,6 +41,17 @@ public class GUIConstructionMethods {
         return button;
     }
 
+    /**
+     * Erstellt eine neue Kontrollgruppe mit mehreren Feldern und Buttons.
+     *
+     * @param groupName der Name der Kontrollgruppe.
+     * @param fieldNames die Namen der Felder in der Gruppe.
+     * @param positions die Positionen der Felder (Array von [x, y]-Koordinaten).
+     * @param stage die `Stage`, auf der die Buttons hinzugefügt werden.
+     * @param sizeX die Breite der Buttons.
+     * @param sizeY die Höhe der Buttons.
+     * @return die erstellte `ControlGroup`.
+     */
     public ControlGroup createControlGroup(String groupName, String[] fieldNames, int[][] positions, Stage stage, int sizeX, int sizeY) {
         ArrayList<ControlField> fields = new ArrayList<>();
         for (int i = 0; i < fieldNames.length; i++) {
@@ -35,6 +63,14 @@ public class GUIConstructionMethods {
         return new ControlGroup(groupName, fields);
     }
 
+    /**
+     * Erstellt eine Kontrollgruppe speziell für Kaffee-Aktionen.
+     *
+     * @param groupName der Name der Kontrollgruppe.
+     * @param positions die Positionen der Buttons (Array von [x, y]-Koordinaten).
+     * @param stage die `Stage`, auf der die Buttons hinzugefügt werden.
+     * @return die erstellte `ControlGroup` für Kaffee-Aktionen.
+     */
     public ControlGroup createUseKaffeeButtons(String groupName, int[][] positions, Stage stage) {
         String[] kaffeeFieldNames = {"UseKaffee1", "UseKaffee2", "UseKaffee3"};
         ArrayList<ControlField> fields = new ArrayList<>();
@@ -52,6 +88,12 @@ public class GUIConstructionMethods {
         return new ControlGroup(groupName, fields);
     }
 
+    /**
+     * Erstellt einen speziellen Button für den "Neu Wurf"-Vorgang.
+     *
+     * @param stage die `Stage`, auf der der Button hinzugefügt wird.
+     * @return das erstellte `ControlField`, das den Button enthält.
+     */
     ControlField createNeuWurfButton(Stage stage) {
         ImageButton button = createButton("images/spiel/main/empty.png", 681, 873, 60, 60);
         ControlField field = new ControlField("neuWurf", button);

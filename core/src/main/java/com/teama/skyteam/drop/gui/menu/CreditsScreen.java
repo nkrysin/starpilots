@@ -1,3 +1,10 @@
+/**
+ * Repräsentiert den "Credits"-Bildschirm im Spiel.
+ *
+ * Die Klasse `CreditsScreen` zeigt den Credits-Bildschirm, auf dem die Entwickler
+ * oder weitere Informationen zum Spiel angezeigt werden. Der Bildschirm enthält
+ * einen Hintergrund und einen Button, um zum Hauptmenü zurückzukehren.
+ */
 package com.teama.skyteam.drop.gui.menu;
 
 import com.badlogic.gdx.Gdx;

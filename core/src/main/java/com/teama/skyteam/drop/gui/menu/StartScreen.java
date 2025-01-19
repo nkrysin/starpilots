@@ -1,3 +1,13 @@
+/**
+ * Repräsentiert den Startbildschirm des Spiels.
+ *
+ * Die Klasse `StartScreen` zeigt nacheinander zwei Bilder an:
+ * 1. Ein Team-A-Logo.
+ * 2. Ein Startbildschirm-Logo.
+ *
+ * Nach einer festgelegten Zeit wechselt der Bildschirm automatisch zum Hauptmenü.
+ * Der Startbildschirm dient als Einführung, bevor der Spieler in das Menü gelangt.
+ */
 package com.teama.skyteam.drop.gui.menu;
 
 import com.badlogic.gdx.Screen;
