@@ -56,6 +56,12 @@ Das Team bestand aus zwei Personen: **Nataliia Shcherba** und **Nikolai Krysin**
 
   In der Klasse **SpielGUI** wurde der `switchTexture`-Methodenblock eingeführt, der die Textur einer Schaltfläche durch eine andere ersetzt, indem er sie aus dem Cache abruft. Das Ergebnis: Das Spiel kann stundenlang ohne FPS-Einbrüche oder Abstürze gespielt werden.
 
+- **👂 SpielGUI Listener Integration:** SpielGUI fungiert als eine zentrale Komponente, der Spieleraktionen erkennt und den registrierten Listener benachrichtigt.
+Ein einzelner Listener wird über die Methode `setPlayerActionCallback` registriert, wobei SpielControllerGUI seine Implementierung des Interfaces `PlayerActionCallback` bereitstellt.
+Sobald ein Spieler eine Aktion abgeschlossen hat (das Platzieren eines Würfels), ruft SpielGUI die Methode `onPlayerActionCompleted` in SpielControllerGUI auf, wodurch die Spiellogik (der Übergang zum nächsten Spielschritt durch `spielenSchritt`) ausgeführt wird.
+Dieser Ansatz vereinfacht die Ereignisverarbeitung, hält GUI und Spiellogik lose gekoppelt und sorgt für eine klare Trennung der Verantwortlichkeiten.
+
+
 # 📜 Sky Team – Spielregeln
 
 **Sky Team** ist ein kooperatives Brettspiel für zwei Spieler, bei dem Sie gemeinsam ein Flugzeug steuern, um es sicher zu landen.
