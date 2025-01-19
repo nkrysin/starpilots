@@ -63,6 +63,11 @@ Das Team bestand aus zwei Personen: **Nataliia Shcherba** und **Nikolai Krysin**
 ## 🎯 Ziel des Spiels:
 Das Ziel ist es, das Flugzeug erfolgreich zu landen, indem Sie alle Phasen des Sinkflugs und der Landung meistern. Dabei müssen Sie die Kontrolle über Höhe, Geschwindigkeit, Fahrgestell, Klappen und andere Systeme behalten, Kollisionen mit anderen Flugzeugen vermeiden und den Flughafen im richtigen Moment erreichen.
 
+## 📖 Vollständige Regeln:
+Das Buch mit dem vollständigen Regeln kann hier gefunden werden:
+- 🇬🇧 **[Englische Regeln](https://www.scorpionmasque.com/sites/scorpionmasque.com/files/st_rules01_en_06jun2023.pdf)**
+- 🇩🇪 **[Deutsche Regeln](https://cms.kosmos.de/Downloads/4002051684044%20_Sky%20Team_Manual_01_DE_web.pdf)**
+
 ## 🎮 Spielablauf:
 
 ### 1. Vorbereitung einer Runde:
