@@ -1,3 +1,11 @@
+/**
+ * Steuert die Eingaben des Spielers und verwaltet die Kamera- sowie Pausenfunktionalitäten.
+ *
+ * Die Klasse `InputController` verarbeitet die Benutzereingaben wie Tastatursteuerung und ESC-Taste
+ * für das Pausieren des Spiels. Sie bietet eine Pause-Ansicht mit Optionen zum Fortsetzen,
+ * Zurückkehren ins Hauptmenü oder Beenden des Spiels. Außerdem steuert sie die Kamerabewegung
+ * innerhalb der Grenzen des Spielfelds.
+ */
 package com.teama.skyteam.drop.gui.utilities;
 
 import com.badlogic.gdx.Gdx;
@@ -30,6 +38,14 @@ public class InputController {
 
     private Image pauseBackground;
 
+    /**
+     * Konstruktor zur Initialisierung des Input-Controllers.
+     *
+     * @param camera Die Kamera, die das Spielfeld anzeigt.
+     * @param tableHeight Die Höhe des Spielfelds.
+     * @param stage Die Bühne für das Spiel.
+     * @param main Die Hauptinstanz des Spiels.
+     */
     public InputController(OrthographicCamera camera, float tableHeight, Stage stage, MainBk main){
         this.camera = camera;
         this.tableHeight = tableHeight;
@@ -40,6 +56,9 @@ public class InputController {
         createPauseStage();
     }
 
+    /**
+     * Erstellt die Pausenansicht mit den Optionen.
+     */
     private void createPauseStage(){
         pauseStage = new Stage(new ScreenViewport());
 
@@ -87,6 +106,11 @@ public class InputController {
         pauseStage.addActor(table);
     }
 
+    /**
+     * Aktualisiert die Eingabeverarbeitung und rendert die entsprechende Ansicht.
+     *
+     * @param delta Die Zeit seit dem letzten Frame.
+     */
     public void updateAndRender(float delta){
         if(!isPaused){
             handleKeyboard();
@@ -98,6 +122,9 @@ public class InputController {
         }
     }
 
+    /**
+     * Verarbeitet die Tastatureingaben für die Kamerabewegung und Pause.
+     */
     private void handleKeyboard(){
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             togglePause();
@@ -124,6 +151,9 @@ public class InputController {
         }
     }
 
+    /**
+     * Schaltet den Pausenmodus um.
+     */
     private void togglePause(){
         isPaused = !isPaused;
         if(isPaused){
@@ -133,17 +163,26 @@ public class InputController {
         }
     }
 
+    /**
+     * Beendet den Pausenmodus und setzt das Spiel fort.
+     */
     private void resumeGame(){
         isPaused = false;
         Gdx.input.setInputProcessor(stage);
     }
 
+    /**
+     * Wechselt ins Hauptmenü.
+     */
     private void returnToMenu(){
         isPaused = false;
         Gdx.input.setInputProcessor(stage);
         main.setScreen(new MainMenuScreen(main));
     }
 
+    /**
+     * Beendet das Spiel.
+     */
     private void exitGame(){
         Gdx.app.exit();
     }

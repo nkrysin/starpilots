@@ -1,3 +1,14 @@
+/**
+ * Repräsentiert den Szenarioauswahl-Bildschirm im Spiel.
+ *
+ * Die Klasse `ScenarioSelectionScreen` ermöglicht es dem Spieler, ein Szenario auszuwählen,
+ * mit dem das Spiel gestartet wird. Jedes Szenario wird durch eine Tastet dargestellt,
+ * und es wird eine spezifische Route initialisiert. Der Bildschirm enthält außerdem eine Option,
+ * zum Hauptmenü zurückzukehren.
+ *
+ * **Wichtig:** Beim Hinzufügen eines neuen Szenarios muss eine entsprechende Taste
+ * mit einer Zuordnung zu diesem Szenario in diese Klasse aufgenommen werden.
+ */
 package com.teama.skyteam.drop.gui.menu;
 
 import com.badlogic.gdx.Gdx;
@@ -85,6 +96,11 @@ class ScenarioSelectionScreen implements Screen {
         planeBackground = new Texture("images/spiel/menu/bg_menu2.png");
     }
 
+    /**
+     * Startet das Spiel mit dem ausgewählten Szenario.
+     *
+     * @param scenario Das Szenario, mit dem das Spiel initialisiert werden soll.
+     */
     private void startGameWithScenario(Route scenario) {
         Spiel spiel = SpielConstructor.createSpiel(scenario);
         main.setScreen(new GameScreen(main, spiel));

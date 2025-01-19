@@ -1,3 +1,10 @@
+/**
+ * Stellt die GUI-Komponente für die Schalter und Indikatoren im Spiel bereit.
+ *
+ * Die Klasse `SchalterGUI` verwaltet die Schalter für Fahrgestell, Bremsen und Klappen sowie
+ * deren visuelle Indikatoren. Schalter können aktiviert und Indikatoren basierend auf den Spielwerten
+ * bewegt werden. Alle GUI-Elemente werden auf der Bühne (`Stage`) dargestellt.
+ */
 package com.teama.skyteam.drop.gui;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -7,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.teama.skyteam.drop.gui.utilities.TextureCache;
 
 public class SchalterGUI {
+    // Koordinaten der Schalter und Indikatoren. Diese gelten nur für FUllHD-Bildschirme
     private final int[][] fahrgestellKoordinaten = {{705, 545}, {705, 410}, {705, 275}};
     private final int[][] bremsenKoordinaten = {{867, 242}, {960, 242}, {1051, 242}};
     private final int[][] klappenKoordinaten = {{1213, 545}, {1213, 410}, {1213, 275}, {1213, 139}};
@@ -32,6 +40,9 @@ public class SchalterGUI {
         klappenIndicator = new Image(TextureCache.get("images/spiel/markers/orange_marker.png"));
     }
 
+    /**
+     * Fügt die Schalter und Indikatoren der Bühne hinzu.
+     */
     public void addToStage() {
         for (int i = 0; i < fahrgestellKoordinaten.length; i++) {
             fahrgestellSchalter[i] = new Image(texture);
@@ -58,6 +69,14 @@ public class SchalterGUI {
         addIndicators(klappenIndicator, klappenIndicatorKoordinaten[0][0], klappenIndicatorKoordinaten[0][1], 25f);
     }
 
+    /**
+     * Fügt einen Indikator zur Bühne hinzu und konfiguriert Position, Rotation und Skalierung.
+     *
+     * @param indicator Der Indikator (Image), der hinzugefügt wird.
+     * @param x X-Koordinate der Position.
+     * @param y Y-Koordinate der Position.
+     * @param angle Rotationswinkel des Indikators (in Grad).
+     */
     private void addIndicators(Image indicator, int x, int y, float angle) {
         indicator.setPosition(x, y);
         indicator.setOrigin(indicator.getWidth() * 0.09f / 2, indicator.getHeight() * 0.09f / 2);
@@ -66,6 +85,11 @@ public class SchalterGUI {
         stage.addActor(indicator);
     }
 
+    /**
+     * Aktiviert den Schalter für das Fahrgestell.
+     *
+     * @param index Der Index des Schalters.
+     */
     public void activateFahrgestellSchalter(int index) {
         Image schalter = fahrgestellSchalter[index];
         float currentX = schalter.getX();
@@ -73,6 +97,11 @@ public class SchalterGUI {
         schalter.addAction(Actions.moveTo(newX, schalter.getY(), 0.3f));
     }
 
+    /**
+     * Aktiviert den Schalter für die Bremsen.
+     *
+     * @param index Der Index des Schalters.
+     */
     public void activateBremsenSchalter(int index) {
         Image schalter = bremsenSchalter[index];
         float currentX = schalter.getX();
@@ -80,6 +109,11 @@ public class SchalterGUI {
         schalter.addAction(Actions.moveTo(newX, schalter.getY(), 0.3f));
     }
 
+    /**
+     * Aktiviert den Schalter für die Klappen.
+     *
+     * @param index Der Index des Schalters.
+     */
     public void activateKlappenSchalter(int index) {
         Image schalter = klappenSchalter[index];
         float currentX = schalter.getX();
@@ -87,6 +121,11 @@ public class SchalterGUI {
         schalter.addAction(Actions.moveTo(newX, schalter.getY(), 0.3f));
     }
 
+    /**
+     * Bewegt den Bremsen-Indikator basierend auf dem angegebenen Wert.
+     *
+     * @param value Der Wert, der die Position bestimmt.
+     */
     public void moveBremsenIndicator(int value) {
         switch (value) {
             case 2:
@@ -115,6 +154,11 @@ public class SchalterGUI {
         }
     }
 
+    /**
+     * Bewegt den Fahrgestell-Indikator basierend auf dem angegebenen Wert.
+     *
+     * @param value Der Wert, der die Position bestimmt.
+     */
     public void moveFahrgestellIndicator(int value) {
         switch (value) {
             case 1:
@@ -144,6 +188,11 @@ public class SchalterGUI {
         }
     }
 
+    /**
+     * Bewegt den Klappen-Indikator basierend auf dem angegebenen Wert.
+     *
+     * @param value Der Wert, der die Position bestimmt.
+     */
     public void moveKlappenIndicator(int value) {
         switch (value) {
             case 9:

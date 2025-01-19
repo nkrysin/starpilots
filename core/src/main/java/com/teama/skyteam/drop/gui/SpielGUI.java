@@ -1,3 +1,11 @@
+/**
+ * Repräsentiert die grafische Benutzeroberfläche (GUI) des Spiels.
+ *
+ * Die Klasse `SpielGUI` verwaltet die Erstellung und Steuerung aller visuellen Elemente,
+ * wie z. B. Würfel, Schalter und Steuergruppen, sowie die Interaktion zwischen Spielern
+ * und der Spiel-Logik. Sie integriert verschiedene GUI-Komponenten wie Schalter, Kaffeegruppen
+ * und Würfel und sorgt für die Synchronisation mit der Spielmechanik.
+ */
 package com.teama.skyteam.drop.gui;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -32,6 +40,7 @@ public class SpielGUI {
 
     public final Stage stage;
     private final Spiel spiel;
+    // Koordinaten von Wuerfeln. Diese gelten nur für FUllHD-Bildschirme
     private final int[][] pilotWuerfelsCoordinates = {{411, 553}, {491, 553}, {411, 473}, {491, 473}};
     private final int[][] copilotWuerfelsCoordinates = {{1367, 553}, {1448, 553}, {1367, 473}, {1448, 473}};
     private final GUIConstructionMethods guiConstructionMethods;
@@ -52,6 +61,14 @@ public class SpielGUI {
     private ControlField neuWurf;
     private Map<ControlField, ControlField> mirroredFields = new HashMap<>();
 
+    /**
+     * Konstruktor zur Initialisierung der Spiel-GUI.
+     *
+     * @param spiel Die aktuelle Spiel-Logik.
+     * @param stage Die Bühne, auf der die grafischen Elemente platziert werden.
+     * @param skin Das Skin-Objekt für die Gestaltung der GUI-Elemente.
+     * @param szenarioHoeheManager Der Manager zur Verwaltung der Szenariohöhe.
+     */
     public SpielGUI(Spiel spiel, Stage stage, Skin skin, SzenarioHoeheManager szenarioHoeheManager) {
         this.spiel = spiel;
         this.stage = stage;
@@ -65,6 +82,9 @@ public class SpielGUI {
         createFieldActors();
     }
 
+    /**
+     * Initialisiert und fügt das Ruder zur Bühne hinzu.
+     */
     private void setRuder() {
         Texture ruderTexture = new Texture("images/spiel/main/axis.png");
         ruder = new Image(ruderTexture);
@@ -77,6 +97,11 @@ public class SpielGUI {
         return ruder;
     }
 
+    /**
+     * Erstellt grafische Würfel für den angegebenen Spieler und fügt sie der Bühne hinzu.
+     *
+     * @param spieler Der Spieler, für den die Würfel erstellt werden.
+     */
     public void createWuerfelForSpieler(Spieler spieler) {
         if (spieler instanceof Pilot) {
             for (ImageButton oldButton : pilotWuerfelActors) {
@@ -120,6 +145,11 @@ public class SpielGUI {
         hideWuerfel(spieler);
     }
 
+    /**
+     * Fügt den Würfeln eines Spielers Click-Listener hinzu.
+     *
+     * @param spieler Der Spieler, dessen Würfel interaktiv gemacht werden.
+     */
     public void addWuerfelListenersForSpieler(Spieler spieler) {
         ArrayList<ImageButton> wuerfelActors = (spieler instanceof Pilot) ? pilotWuerfelActors : copilotWuerfelActors;
         ArrayList<Wuerfel> wuerfels = spieler.getWuerfels();
@@ -159,12 +189,21 @@ public class SpielGUI {
         }
     }
 
+    /**
+     * Ändert die Textur eines ImageButtons.
+     *
+     * @param button Der Button, dessen Textur geändert werden soll.
+     * @param newTexturePath Der Pfad zur neuen Textur.
+     */
     private void switchTexture(ImageButton button, String newTexturePath) {
         Texture newTexture = TextureCache.get(newTexturePath);
         TextureRegionDrawable newDrawable = new TextureRegionDrawable(new TextureRegion(newTexture));
         button.getStyle().imageUp = newDrawable;
     }
 
+    /**
+     * Erstellt die grafischen Felder (ControlFields) für die Steuerung der Spieleraktionen.
+     */
     private void createFieldActors() {
         controlGroups.add(guiConstructionMethods.createControlGroup("Pilot Controls", new String[]{
             "PRadio", "PNeigung", "PSpeed", "PFahrgestell12", "PFahrgestell34", "PFahrgestell56", "PBremsen2", "PBremsen4", "PBremsen6"
@@ -227,6 +266,11 @@ public class SpielGUI {
         initMirrors();
     }
 
+    /**
+     * Aktiviert die Kontrollgruppen für die Kaffeeaktionen eines Spielers.
+     *
+     * @param current Der aktuelle Spieler, dessen Kaffeeaktionen aktiviert werden.
+     */
     public void setKaffeeGroupsActive(Spieler current) {
         boolean isPilot = current instanceof Pilot;
         for (ControlField cf : pilotKaffeeControlGroup.getAllFields()) {
@@ -243,6 +287,11 @@ public class SpielGUI {
         }
     }
 
+    /**
+     * Hebt die verfügbaren Felder einer Kontrollgruppe hervor.
+     *
+     * @param group Die Kontrollgruppe, deren Felder hervorgehoben werden sollen.
+     */
     public void highlightAvailableFields(ControlGroup group) {
         for (ControlField field : group.getAvailableFields()) {
             ImageButton button = field.getButton();
@@ -250,6 +299,11 @@ public class SpielGUI {
         }
     }
 
+    /**
+     * Entfernt die Hervorhebung von verfügbaren Feldern einer Kontrollgruppe.
+     *
+     * @param group Die Kontrollgruppe, deren Hervorhebung entfernt werden soll.
+     */
     public void removeHighlight(ControlGroup group) {
         for (ControlField field : group.getAvailableFields()) {
             ImageButton button = field.getButton();
@@ -257,6 +311,12 @@ public class SpielGUI {
         }
     }
 
+    /**
+     * Deaktiviert Felder in einer Kontrollgruppe, die nicht in der Pflichtgruppe enthalten sind.
+     *
+     * @param group Die Kontrollgruppe, deren Felder deaktiviert werden sollen.
+     * @param pflicht Die Pflichtgruppe, deren Felder aktiv bleiben sollen.
+     */
     public void disableFields(ControlGroup group, ControlGroup pflicht) {
         List<ControlField> pflichtFields = pflicht.getAvailableFields();
         for (ControlField field : group.getAvailableFields()) {
@@ -266,6 +326,12 @@ public class SpielGUI {
         }
     }
 
+    /**
+     * Gibt die Hauptkontrollgruppe des Spielers zurück.
+     *
+     * @param spieler Der Spieler, dessen Hauptkontrollgruppe abgerufen werden soll.
+     * @return Die Hauptkontrollgruppe des Spielers.
+     */
     private ControlGroup getMainControlGroup(Spieler spieler) {
         return (spieler instanceof Pilot)
             ? getControlGroupByName("Pilot Controls")
@@ -288,14 +354,32 @@ public class SpielGUI {
         return copilotUseKaffeeControlGroup;
     }
 
+    /**
+     * Gibt die Kaffee-Kontrollgruppe eines bestimmten Spielers zurück.
+     *
+     * @param spieler Der Spieler, dessen Kaffee-Kontrollgruppe abgerufen werden soll.
+     * @return Die entsprechende Kaffee-Kontrollgruppe.
+     */
     private ControlGroup getKaffeeControlGroup(Spieler spieler) {
         return (spieler instanceof Pilot) ? getPilotKaffeeControlGroup() : getCopilotKaffeeControlGroup();
     }
 
+    /**
+     * Gibt die Kontrollgruppe für die Verwendung von Kaffee eines bestimmten Spielers zurück.
+     *
+     * @param spieler Der Spieler, dessen Kaffee-Verwendungsgruppe abgerufen werden soll.
+     * @return Die entsprechende Kontrollgruppe für die Verwendung von Kaffee.
+     */
     private ControlGroup getUseKaffeeControlGroup(Spieler spieler) {
         return (spieler instanceof Pilot) ? getPilotUseKaffeeControlGroup() : getCopilotUseKaffeeControlGroup();
     }
 
+    /**
+     * Gibt eine Kontrollgruppe anhand ihres Namens zurück.
+     *
+     * @param name Der Name der Kontrollgruppe.
+     * @return Die Kontrollgruppe mit dem angegebenen Namen oder null, wenn sie nicht existiert.
+     */
     private ControlGroup getControlGroupByName(String name) {
         for (ControlGroup cg : controlGroups) {
             if (cg.getName().equals(name)) {
@@ -305,12 +389,22 @@ public class SpielGUI {
         return null;
     }
 
+    /**
+     * Fügt Click-Listener zu den Feldern einer Kontrollgruppe hinzu, um Würfel zu platzieren.
+     *
+     * @param spieler Der Spieler, dessen Würfel platziert werden sollen.
+     */
     public void addFieldListenersForPlacement(Spieler spieler) {
         ControlGroup mainGroup = getMainControlGroup(spieler);
         addListenersToGroupFields(mainGroup, spieler);
         addKaffeeListeners(spieler);
     }
 
+    /**
+     * Fügt Click-Listener zu den Kaffee-Kontrollfeldern eines Spielers hinzu.
+     *
+     * @param spieler Der Spieler, dessen Kaffee-Kontrollfelder aktiviert werden sollen.
+     */
     private void addKaffeeListeners(Spieler spieler) {
         ControlGroup kaffeeGroup = getKaffeeControlGroup(spieler);
         highlightAvailableFields(kaffeeGroup);
@@ -325,6 +419,13 @@ public class SpielGUI {
 
     }
 
+
+    /**
+     * Initialisiert die Spiegelung von Feldern zwischen Pilot und Copilot.
+     *
+     * Erstellt Zuordnungen zwischen den entsprechenden Feldern der Kaffee-Kontrollgruppen
+     * von Pilot und Copilot, sodass deren Zustände synchronisiert werden können.
+     */
     public void initMirrors() {
         ControlField pilotK1 = pilotKaffeeControlGroup.getFieldByName("PilotKaffee1");
         ControlField copilotK1 = copilotKaffeeControlGroup.getFieldByName("CopilotKaffee1");
@@ -345,6 +446,12 @@ public class SpielGUI {
         mirroredFields.put(copilotK3, pilotK3);
     }
 
+    /**
+     * Behandelt die Aktion beim Klicken auf ein Kaffee-Kontrollfeld.
+     *
+     * @param field Das angeklickte Kontrollfeld.
+     * @param spieler Der Spieler, der die Aktion ausführt.
+     */
     private void handleKaffeeFieldClick(ControlField field, Spieler spieler) {
         if (selectedWuerfelData == null || field.isOccupied()) {
             return;
@@ -379,6 +486,12 @@ public class SpielGUI {
 
     }
 
+    /**
+     * Fügt Click-Listener zu den Hauptkontrollfeldern eines Spielers hinzu.
+     *
+     * @param group Die Hauptkontrollgruppe des Spielers.
+     * @param spieler Der Spieler, dessen Felder aktiviert werden.
+     */
     private void addListenersToGroupFields(ControlGroup group, Spieler spieler) {
         highlightAvailableFields(group);
         for (ControlField field : group.getAvailableFields()) {
@@ -391,6 +504,13 @@ public class SpielGUI {
         }
     }
 
+    /**
+     * Blockiert ein Feld für beide Spieler (Pilot und Copilot) und markiert es als belegt.
+     *
+     * @param fieldPilot Das Kontrollfeld des Piloten.
+     * @param fieldCopilot Das entsprechende Kontrollfeld des Copiloten.
+     * @param data Die Daten des ausgewählten Würfels.
+     */
     private void blockFieldForBoth(ControlField fieldPilot, ControlField fieldCopilot, SelectedWuerfelData data) {
         String texture = data.getDiceTexturePath();
 
@@ -403,6 +523,12 @@ public class SpielGUI {
         fieldCopilot.getButton().setTouchable(Touchable.disabled);
     }
 
+    /**
+     * Behandelt die Aktion beim Klicken auf ein Hauptkontrollfeld.
+     *
+     * @param field Das angeklickte Kontrollfeld.
+     * @param spieler Der Spieler, der die Aktion ausführt.
+     */
     private void handleMainFieldClick(ControlField field, Spieler spieler) {
         if (selectedWuerfelData == null || field.isOccupied()) {
             return;
@@ -428,6 +554,11 @@ public class SpielGUI {
         }
     }
 
+    /**
+     * Entfernt den Button des Würfels aus der Hand eines Spielers.
+     *
+     * @param wuerfelData Die Daten des Würfels, der entfernt werden soll.
+     */
     private void removeWuerfelButtonFromHand(SelectedWuerfelData wuerfelData) {
         Spieler owner = wuerfelData.getSpieler();
         int wuerfelIndex = wuerfelData.getWuerfelIndex();
@@ -439,6 +570,11 @@ public class SpielGUI {
         }
     }
 
+    /**
+     * Überprüft die aktuelle Situation der Felder für einen Spieler und führt ggf. Pflichtaktionen aus.
+     *
+     * @param spieler Der Spieler, dessen Feldsituation überprüft wird.
+     */
     public void checkFeldSituation(Spieler spieler) {
         Feld feldNeigung;
         Feld feldSpeed;
@@ -463,6 +599,11 @@ public class SpielGUI {
         }
     }
 
+    /**
+     * Führt eine Pflichtaktion für einen Spieler aus, wenn diese erforderlich ist.
+     *
+     * @param spieler Der Spieler, der die Pflichtaktion ausführen muss.
+     */
     void verpflicteteAktion(Spieler spieler) {
         Feld feldNeigung;
         Feld feldSpeed;
@@ -518,11 +659,20 @@ public class SpielGUI {
         return schalterGUI;
     }
 
+    /**
+     * Setzt den Callback für Spieleraktionen.
+     *
+     * @param callback Die Callback-Instanz, die bei Abschluss einer Spieleraktion aufgerufen wird.
+     */
     public void setPlayerActionCallback(PlayerActionCallback callback) {
         this.callback = callback;
     }
 
-
+    /**
+     * Entfernt alle Listener von den Würfeln und Kontrollfeldern eines Spielers.
+     *
+     * @param spieler Der Spieler, dessen Listener entfernt werden sollen.
+     */
     public void clearPlayerListeners(Spieler spieler) {
         ArrayList<ImageButton> wuerfelActors = (spieler instanceof Pilot) ? pilotWuerfelActors : copilotWuerfelActors;
         for (ImageButton button : wuerfelActors) {
@@ -557,6 +707,9 @@ public class SpielGUI {
         }
     }
 
+    /**
+     * Entfernt die Hervorhebung von Mehrfachnutzungsfeldern und setzt sie zurück.
+     */
     public void clearManyUseFields() {
         ControlGroup pilotGroup = getControlGroupByName("Pilot Controls");
         ControlGroup copilotGroup = getControlGroupByName("Copilot Controls");
@@ -576,6 +729,13 @@ public class SpielGUI {
         showKaffee(false, false);
     }
 
+
+    /**
+     * Zeigt die Kaffee-Kontrollgruppen an oder blendet sie aus.
+     *
+     * @param pilotAvailable Gibt an, ob die Kaffeegruppen des Piloten aktiv sein sollen.
+     * @param copilotAvailable Gibt an, ob die Kaffeegruppen des Copiloten aktiv sein sollen.
+     */
     public void showKaffee(Boolean pilotAvailable, Boolean copilotAvailable) {
         int kaffeeCount = spiel.getKaffeeTokenCount();
         ControlGroup pilotUseGroup = getPilotUseKaffeeControlGroup();
@@ -626,6 +786,11 @@ public class SpielGUI {
     }
 
 
+    /**
+     * Aktiviert die Verwendung eines Kaffee-Tokens für einen Spieler.
+     *
+     * @param s Der Spieler, der ein Kaffee-Token verwenden möchte.
+     */
     public void useKaffee(Spieler s) {
         int kaffeeCount = spiel.getKaffeeTokenCount();
         ControlGroup useGroup = getUseKaffeeControlGroup(s);
@@ -654,6 +819,12 @@ public class SpielGUI {
         }
     }
 
+    /**
+     * Wartet auf die Auswahl eines Würfels durch den Spieler, um die Kaffee-Aktion auszuführen.
+     *
+     * @param spieler Der Spieler, der die Aktion durchführt.
+     * @param name Der Name des Kaffee-Kontrollfeldes.
+     */
     private void waitForDiceSelection(Spieler spieler, String name) {
         ArrayList<ImageButton> wuerfelActors = (spieler instanceof Pilot)
             ? pilotWuerfelActors
@@ -690,7 +861,11 @@ public class SpielGUI {
         }
     }
 
-
+    /**
+     * Entfernt die zuletzt verwendeten Kaffee-Kontrollfelder.
+     *
+     * @param s Der Spieler, dessen Kontrollfelder zurückgesetzt werden sollen.
+     */
     private void kaffeeFieldClearLastUsed(Spieler s) {
         List<ControlField> pilotFields = pilotKaffeeControlGroup.getAllFields();
         List<ControlField> copilotFields = copilotKaffeeControlGroup.getAllFields();
@@ -708,7 +883,12 @@ public class SpielGUI {
         }
     }
 
-
+    /**
+     * Gibt ein Kaffee-Kontrollfeld und sein Spiegelbild für beide Spieler frei.
+     *
+     * @param field Das Kaffee-Kontrollfeld, das freigegeben werden soll.
+     * @param s Der Spieler, für den das Kontrollfeld freigegeben wird.
+     */
     private void freeKaffeeFieldForBoth(ControlField field, Spieler s) {
         ControlField mirrored = mirroredFields.get(field);
 
@@ -730,7 +910,11 @@ public class SpielGUI {
         }
     }
 
-
+    /**
+     * Entfernt alle Listener von den Würfeln eines Spielers.
+     *
+     * @param spieler Der Spieler, dessen Würfel zurückgesetzt werden sollen.
+     */
     private void clearDiceListeners(Spieler spieler) {
         ArrayList<ImageButton> wuerfelActors = (spieler instanceof Pilot) ? pilotWuerfelActors : copilotWuerfelActors;
         for (ImageButton ib : wuerfelActors) {
@@ -738,6 +922,12 @@ public class SpielGUI {
         }
     }
 
+    /**
+     * Entfernt ein verwendetes Kaffee-Token aus der Kontrollgruppe.
+     *
+     * @param name Der Name des verwendeten Kaffee-Kontrollfeldes.
+     * @param spieler Der Spieler, dessen Kaffee-Token entfernt werden soll.
+     */
     private void removeKaffeeTokenByName(String name, Spieler spieler) {
         ControlGroup useGroup = getUseKaffeeControlGroup(spieler);
         ControlField usedField = useGroup.getFieldByName(name);
@@ -748,6 +938,11 @@ public class SpielGUI {
         }
     }
 
+    /**
+     * Zeigt oder versteckt den Button für den "Neu Wurf"-Token.
+     *
+     * @param available Gibt an, ob der Button aktiv oder deaktiviert sein soll.
+     */
     public void showNeuWurf(Boolean available) {
         int anzahlTokens = spiel.getNeuWurfTokenCount();
         ImageButton button = neuWurf.getButton();
@@ -764,6 +959,11 @@ public class SpielGUI {
         }
     }
 
+    /**
+     * Aktiviert die Verwendung eines "Neu Wurf"-Tokens für den Spieler.
+     *
+     * @param spieler Der Spieler, der ein "Neu Wurf"-Token verwenden möchte.
+     */
     public void useNeuWurf(Spieler spieler) {
         ImageButton button = neuWurf.getButton();
         button.clearListeners();
@@ -801,6 +1001,9 @@ public class SpielGUI {
     }
 
 
+    /**
+     * Gibt alle verwendeten Ressourcen frei und entfernt alle GUI-Elemente.
+     */
     public void dispose() {
         if (ruder != null && ruder.getDrawable() instanceof TextureRegionDrawable) {
             ruder.remove();
@@ -865,7 +1068,11 @@ public class SpielGUI {
         szenarioHoeheManager = null;
     }
 
-
+    /**
+     * Blendet die Würfel des anderen Spielers aus, um sie zu verbergen.
+     *
+     * @param spieler Der aktuelle Spieler, dessen Würfel sichtbar bleiben sollen.
+     */
     public void hideWuerfel(Spieler spieler) {
         float pilotX = 330;
         float pilotY = 390;
@@ -882,12 +1089,24 @@ public class SpielGUI {
         }
     }
 
+    /**
+     * Fügt ein Bild hinzu, das die Würfel an der angegebenen Position abdeckt.
+     *
+     * @param x Die X-Koordinate der Position.
+     * @param y Die Y-Koordinate der Position.
+     */
     private void renderHideImage(float x, float y) {
         Image hideWuerfelImage = new Image(TextureCache.get("images/spiel/dices/dice_cover.png"));
         hideWuerfelImage.setPosition(x, y);
         stage.addActor(hideWuerfelImage);
     }
 
+    /**
+     * Entfernt das Bild, das die Würfel an der angegebenen Position abdeckt.
+     *
+     * @param x Die X-Koordinate der Position.
+     * @param y Die Y-Koordinate der Position.
+     */
     private void removeHideImage(float x, float y) {
         for (Actor actor : stage.getActors()) {
             if (actor instanceof Image && actor.getX() == x && actor.getY() == y) {
@@ -897,6 +1116,9 @@ public class SpielGUI {
         }
     }
 
+    /**
+     * Entfernt alle Bilder, die die Würfel verbergen.
+     */
     public void removeAllHideImages() {
         float pilotX = 330;
         float pilotY = 390;

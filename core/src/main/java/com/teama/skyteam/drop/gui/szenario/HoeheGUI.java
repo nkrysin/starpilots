@@ -1,3 +1,10 @@
+/**
+ * Repräsentiert die GUI-Komponente für die Höhenanzeige im Spiel.
+ *
+ * Die Klasse `HoeheGUI` zeigt die aktuelle Höhenkarte basierend auf dem Szenariotyp an
+ * und bietet die Möglichkeit, die Karte schrittweise zu verschieben (z. B. nach unten).
+ * Sie nutzt die Höhe des Szenarios aus dem Spiel, um die entsprechende Karte auszuwählen.
+ */
 package com.teama.skyteam.drop.gui.szenario;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -6,11 +13,17 @@ import com.teama.skyteam.drop.spiel.Spiel;
 import com.teama.skyteam.drop.szenario.HoeheSzenarioTypes;
 
 public class HoeheGUI {
-    private final int MOVE_STEP = 96;
+    private final int MOVE_STEP = 96; // Der Schrittwert, um die Karte zu bewegen. Gilt für FUllHD-Bildschirme
     private Texture hoeheTexture;
     private float cardX, cardY;
     private Spiel spiel;
 
+    /**
+     * Konstruktor zur Initialisierung der Höhen-GUI.
+     *
+     * @param spiel Das aktuelle Spielobjekt, das die Szenarioinformationen bereitstellt.
+     * cardX = 989 und cardY = 841 gelten nur für FUllHD-Bildschirme
+     */
     public HoeheGUI(Spiel spiel) {
         this.spiel = spiel;
         setHoeheTexture(spiel);
@@ -18,6 +31,11 @@ public class HoeheGUI {
         cardY = 841;
     }
 
+    /**
+     * Wählt die Textur der Höhenkarte basierend auf dem Szenariotyp.
+     *
+     * @param spiel Das aktuelle Spielobjekt, das den Typ des Höhen-Szenarios enthält.
+     */
     private void setHoeheTexture(Spiel spiel) {
         HoeheSzenarioTypes type = spiel.getSzenario().getHoeheSzenarioType();
         switch (type) {
@@ -34,7 +52,9 @@ public class HoeheGUI {
         hoeheTexture.dispose();
     }
 
-
+    /**
+     * Bewegt die Höhenkarte um einen festen Schritt nach unten.
+     */
     public void moveStep() {
         cardY -= MOVE_STEP;
     }
