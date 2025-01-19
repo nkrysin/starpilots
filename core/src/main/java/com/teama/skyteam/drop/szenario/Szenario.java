@@ -157,7 +157,7 @@ public class Szenario {
         return hoeheRoute.getFirst();
     }
 
-    private List<Flughoehe> adjustHoeheRoute(List<Flughoehe> hoeheRoute, int szenarioRouteLength) {
+    List<Flughoehe> adjustHoeheRoute(List<Flughoehe> hoeheRoute, int szenarioRouteLength) {
         int l = hoeheRoute.size();
         if (szenarioRouteLength < l) {
             int difference = l - szenarioRouteLength;

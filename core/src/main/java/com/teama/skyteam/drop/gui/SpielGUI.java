@@ -788,6 +788,12 @@ public class SpielGUI {
                             button.setTouchable(Touchable.enabled);
                             switchTexture(button, "images/spiel/tokens/neuwurf_available.png");
                         }
+                        removeAllHideImages();
+                        if( (spieler instanceof Pilot) ){
+                            hideWuerfel(spieler);
+                        } else {
+                            hideWuerfel(spiel.getCopilot());
+                        }
                     });
                 }
             });

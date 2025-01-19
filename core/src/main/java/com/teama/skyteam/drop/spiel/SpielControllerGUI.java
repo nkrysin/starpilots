@@ -114,7 +114,7 @@ public class SpielControllerGUI {
 
                 case PLAY_TURN_FIRST:
                     if (ersterSpieler.getAnzahlWuerfels() > 0 && !spielLogik.checkAusfallBedingung() && nowMustBeFirst) {
-
+                        spielGUI.removeAllHideImages();
                         spielGUI.hideWuerfel(ersterSpieler);
                         spielGUI.addWuerfelListenersForSpieler(ersterSpieler);
                         spielGUI.addFieldListenersForPlacement(ersterSpieler);
@@ -158,7 +158,7 @@ public class SpielControllerGUI {
 
                 case PLAY_TURN_SECOND:
                     if (zweiterSpieler.getAnzahlWuerfels() > 0 && !spielLogik.checkAusfallBedingung() && nowMustBeSecond) {
-
+                        spielGUI.removeAllHideImages();
                         spielGUI.hideWuerfel(zweiterSpieler);
                         spielGUI.addWuerfelListenersForSpieler(zweiterSpieler);
                         spielGUI.addFieldListenersForPlacement(zweiterSpieler);

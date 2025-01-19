@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class ButtonStyle {
     public static TextButton.TextButtonStyle style() {
-        Skin skin = new Skin(Gdx.files.internal("assets/skin/flat-earth-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("skin/flat-earth-ui.json"));
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.up = skin.newDrawable("button-c", Color.SLATE);
         style.down = skin.newDrawable("button-p", Color.SLATE);
