@@ -1,3 +1,11 @@
+/**
+ * Verwaltert die Eigenschaften und Zustände eines Flugzeugs im Spiel.
+ *
+ * Die Klasse `Flugzeug` enthält grundlegende Attribute wie die aktuelle Geschwindigkeit, die Neigung,
+ * den Zustand der Bremsen, der Klappen und des Fahrgestells. Sie stellt Methoden zur Verwaltung und
+ * Aktualisierung dieser Eigenschaften zur Verfügung, die im Spiel verwendet werden, um das Flugzeug
+ * zu steuern und zu verändern.
+ */
 package com.teama.skyteam.drop.flugzeug;
 
 import com.teama.skyteam.drop.tokens.Wuerfel;

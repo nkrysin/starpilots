@@ -1,3 +1,9 @@
+/**
+ * Verwaltert die Aktivierung von Fahrgestellen eines Flugzeugs.
+ *
+ * Die Klasse stellt sicher, dass jedes Fahrgestell nur einmal aktiviert werden kann
+ * und gibt die Anzahl der aktivierten Fahrgestelle zurück.
+ */
 package com.teama.skyteam.drop.flugzeug;
 
 import java.util.HashMap;
