@@ -11,6 +11,31 @@ Falls dabei ein **JSON-Formatierungsfehler** auftritt, kann der folgende Startvo
 3. Klicken Sie mit der rechten Maustaste auf die Datei `Lwjgl3Launcher`.
 4. Wählen Sie **Run 'Lwjgl3Launcher.main()'**.
 
+
+## ❓ Wie kann ich das Spiel spielen?
+### 👑 Hauptmenü
+- Nach dem Start des Spiels landen Sie im Hauptmenü, wo Sie das Spiel beginnen **Start Game**, sich die Credits ansehen **Credits** oder das Spiel verlassen **Exit** können.
+- Die Navigation zwischen den Menüelementen erfolgt durch Klicken mit der Maus.
+
+### 👥 Credits
+- Dies ist der Bildschirm mit den Titeln, den Sie verlassen können, indem Sie mit der Maus auf die Schaltfläche **Go back** klicken.
+
+### 🚩 Start Game
+- Hier können Sie mit einem Mausklick das gewünschte Spielszenario auswählen (derzeit gibt es drei Optionen).
+- Sie können das Menü auch verlassen, indem Sie mit der Maus auf die Schaltfläche **Go back** klicken.
+
+
+### 💻 Spielbildschirm:
+- Die Kamerabewegung wird mit den Tasten **↑** und **↓** auf der Tastatur gesteuert.
+- Die Auswahl von Würfeln erfolgt durch einen Klick mit der linken Maustaste auf den Würfel. Die Auswahl eines Feldes für die Platzierung erfolgt ebenfalls mit einem Klick mit der linken Maustaste auf das entsprechende Feld.
+- Das Pausenmenü wird durch Drücken der ESC-Taste aufgerufen.
+
+### ⏸️ Pausenmenü
+Hier können Sie das Spiel fortsetzen **Resume**, ins Hauptmenü zurückkehren **Return to menu** oder das Spiel verlassen 
+**Exit**. Die Auswahl erfolgt durch einen Klick mit der linken Maustaste auf das entsprechende Feld.
+
+
+
 # 📝 Projektbeschreibung
 
 ## 🗂️ Link zum alten Repository ohne LibGDX
