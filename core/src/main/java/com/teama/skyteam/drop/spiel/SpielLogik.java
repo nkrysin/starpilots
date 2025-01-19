@@ -28,6 +28,11 @@ import java.util.TreeMap;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+/**
+ * Die Klasse SpielLogik enthält die Hauptlogik und Steuerung des Spiels.
+ * Sie definiert, wie Spieleraktionen verarbeitet werden und wie der Spielstatus aktualisiert wird.
+ */
+
 public class SpielLogik {
     private final Spiel spiel;
     private final Skin skin;
@@ -47,6 +52,11 @@ public class SpielLogik {
         this.szenarioHoeheManager = szenarioHoeheManager;
     }
 
+    /**
+     * Überprüft, ob eine Ausfallbedingung im Spiel erreicht wurde.
+     *
+     * @return true, wenn eine Ausfallbedingung erfüllt ist, sonst false.
+     */
     boolean checkAusfallBedingung() {
         boolean bedingungKollision = spiel.isKollision();
         boolean bedingungWenigerAlsSzenarioLange = spiel.getCurrentPosition() > spiel.getRouteSzenario().size();
@@ -55,12 +65,22 @@ public class SpielLogik {
         return bedingungKollision || bedingungWenigerAlsSzenarioLange || bedingungHoehe || bedingungNeigung;
     }
 
+    /**
+     * Überprüft, ob die finale Runde des Spiels erreicht wurde.
+     *
+     * @return true, wenn die finale Runde erfüllt ist, sonst false.
+     */
     boolean checkFinalRound() {
         boolean bedingungFlughafen = spiel.getCurrentField().istFlughafen();
         boolean bedingungHoehe = (spiel.getCurrentHoehe().getHoehe() == 0);
         return bedingungFlughafen && bedingungHoehe;
     }
 
+    /**
+     * Überprüft, ob die Gewinnbedingungen erfüllt sind.
+     *
+     * @return true, wenn die Gewinnbedingungen erfüllt sind, sonst false.
+     */
     boolean checkGewinnBedingung() {
         boolean bedingungIstFrei = (spiel.getCurrentField().getAnzahlFlugzeug() == 0);
         boolean bedingungNeigung = (spiel.getFlugzeug().getNeigung() == 0);
@@ -71,6 +91,15 @@ public class SpielLogik {
     }
 
 
+    /**
+     * Führt eine Aktion für den Piloten basierend auf der Auswahl aus.
+     *
+     * @param spieler         Der Spieler (Pilot).
+     * @param auswahl         Die Auswahl des Piloten.
+     * @param gewaehlterWuerfel Der gewählte Würfel.
+     * @param indexWuerfel    Der Index des Würfels.
+     * @return true, wenn die Aktion erfolgreich war, sonst false.
+     */
     public boolean pilotSchritt(Spieler spieler, String auswahl, Wuerfel gewaehlterWuerfel, int indexWuerfel) {
         Pilot pilot = (Pilot) spieler;
         switch (auswahl) {
@@ -162,6 +191,15 @@ public class SpielLogik {
         }
     }
 
+    /**
+     * Führt eine Aktion für den CoPiloten basierend auf der Auswahl aus.
+     *
+     * @param spieler         Der Spieler (CoPilot).
+     * @param auswahl         Die Auswahl des Co-Piloten.
+     * @param gewaehlterWuerfel Der gewählte Würfel.
+     * @param indexWuerfel    Der Index des Würfels.
+     * @return true, wenn die Aktion erfolgreich war, sonst false.
+     */
     public boolean copilotSchritt(Spieler spieler, String auswahl, Wuerfel gewaehlterWuerfel, int indexWuerfel) {
         Copilot copilot = (Copilot) spieler;
         switch (auswahl) {
@@ -219,6 +257,11 @@ public class SpielLogik {
         }
     }
 
+    /**
+     * Aktualisiert den Zustand des aktuellen Reisefelds, basierend auf der Summe der Geschwindigkeit.
+     *
+     * @return true, wenn das Reisefeld erfolgreich aktualisiert wurde, sonst false.
+     */
     boolean reiseFeldZustandAktualisieren() {
         boolean speedFeldPilotBelegt = spiel.getFeldPilot("speedFeld").isBelegt();
         boolean speedFeldCopilotBelegt = spiel.getFeldCopilot("speedFeld").isBelegt();
@@ -244,6 +287,11 @@ public class SpielLogik {
         return false;
     }
 
+    /**
+     * Liefert das erste verfügbare KaffeeToken aus der Liste der KaffeeTokens und entfernt es aus der Liste.
+     *
+     * @return Das erste verfügbare KaffeeToken.
+     */
     KaffeeToken kaffeeToken() {
         ArrayList<KaffeeToken> kaffeeTokens = spiel.getKaffeeTokens();
         KaffeeToken token = kaffeeTokens.getFirst();
@@ -251,6 +299,11 @@ public class SpielLogik {
         return token;
     }
 
+    /**
+     * Liefert das erste verfügbare NeuWurfToken aus der Liste der NeuWurfTokens und entfernt es aus der Liste.
+     *
+     * @return Das erste verfügbare NeuWurfToken.
+     */
     NeuWurfToken neuWurfToken() {
         ArrayList<NeuWurfToken> neuWurfTokens = spiel.getNeuWurfTokens();
         NeuWurfToken token = neuWurfTokens.getFirst();
@@ -258,6 +311,13 @@ public class SpielLogik {
         return token;
     }
 
+    /**
+     * Behandelt eine Radioaktion basierend auf dem Wert des gegebenen Würfels.
+     * Der Zielort wird basierend auf dem Würfelwert berechnet, und wenn dort ein Flugzeug existiert,
+     * wird dieses entfernt.
+     *
+     * @param gewaehlterWuerfel Der Würfel, dessen Wert verwendet wird, um die Zielposition zu berechnen.
+     */
     void radio(Wuerfel gewaehlterWuerfel) {
         int wert = gewaehlterWuerfel.getWert();
         TreeMap<Integer, ReiseFeld> routeSzenario = spiel.getRouteSzenario();
@@ -273,6 +333,12 @@ public class SpielLogik {
         }
     }
 
+    /**
+     * Setzt die Neigung des Flugzeugs basierend auf den Neigungsfeldern platzierten Würfeln.
+     * Berechnet die Zielrotation des Ruders entsprechend der neuen Neigung und animiert die Rotation.
+     *
+     * @return true, wenn die Neigung erfolgreich gesetzt wurde, sonst false (z. B. wenn nicht beide Neigungsfelder belegt sind).
+     */
     boolean neigenSetzen() {
         float angle = 25f;
         boolean neigenFeldPilotBelegt = spiel.getFeldPilot("neigenFeld").isBelegt();
@@ -293,6 +359,11 @@ public class SpielLogik {
         return false;
     }
 
+    /**
+     * Bewegt das Flugzeug vorwärts um die angegebene Anzahl an Schritten.
+     *
+     * @param steps Die Anzahl der Schritte, um die das Flugzeug bewegt werden soll.
+     */
     void vorwaertsBewegen(int steps) {
         int position = spiel.getCurrentPosition();
         TreeMap<Integer, ReiseFeld> routeSzenario = spiel.getRouteSzenario();
@@ -314,6 +385,9 @@ public class SpielLogik {
         }
     }
 
+    /**
+     * Fügt NeuWurf-Tokens hinzu, wenn die auf aktuelle Flughöhe vorhanden sind.
+     */
     void addNeuWurfTokens() {
         Flughoehe currentHoehe = spiel.getCurrentHoehe();
         if (currentHoehe.hatErneuWerfen()) {
@@ -321,6 +395,9 @@ public class SpielLogik {
         }
     }
 
+    /**
+     * Reduziert die Flughöhe, indem das erste Element aus der Höhenroute entfernt wird.
+     */
     void hoeheReduzieren() {
         List<Flughoehe> hoeheRoute = spiel.getHoeheSzenario();
         if (hoeheRoute.size() > 1) {
@@ -328,10 +405,20 @@ public class SpielLogik {
         }
     }
 
+    /**
+     * Setzt neue Würfel für den Spieler, indem ein neuer Wurf generiert wird.
+     *
+     * @param spieler Der Spieler, dessen Würfel neu gesetzt werden sollen.
+     */
     void setNeuWuerfels(Spieler spieler) {
         spieler.setWuerfels(werfen());
     }
 
+    /**
+     * Generiert eine Liste neuer Würfel mit zufälligen Werten.
+     *
+     * @return Eine Liste mit vier neu generierten Würfeln.
+     */
     private ArrayList<Wuerfel> werfen() {
         ArrayList<Wuerfel> wurfe = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
@@ -340,6 +427,9 @@ public class SpielLogik {
         return wurfe;
     }
 
+    /**
+     * Löscht die Würfel von den Feldern, die mehrmals in jeder Runde verwendet werden können.
+     */
     void clearManyUseFelds() {
         spiel.getFeldPilot("neigenFeld").setWuerfel(null);
         spiel.getFeldPilot("speedFeld").setWuerfel(null);
@@ -350,6 +440,11 @@ public class SpielLogik {
         spiel.getFeldCopilot("radioFeld2").setWuerfel(null);
     }
 
+    /**
+     * Entfernt die Würfel von den Feldern, die nur einmal genutzt werden können.
+     *
+     * @param oneUseFelds Die Liste der Felder, die einmal genutzt werden können.
+     */
     void removeDiceFromOneUseFelds(ArrayList<Feld> oneUseFelds) {
         int i = 0;
         while (i < oneUseFelds.size()) {
@@ -363,6 +458,12 @@ public class SpielLogik {
         }
     }
 
+
+    /**
+     * Liefert eine Liste aller Felder, die nur einmal genutzt werden können.
+     *
+     * @return Eine Liste der Felder, die nur einmal genutzt werden können.
+     */
     ArrayList<Feld> getOneUseFelds() {
         ArrayList<Feld> oneUseFelds = new ArrayList<>();
         Feld fg12 = spiel.getFeldPilot("fahrgestellFeld1_2");
@@ -388,6 +489,9 @@ public class SpielLogik {
         return oneUseFelds;
     }
 
+    /**
+     * Entfernt die Würfel von den Kaffee-Feldern, basierend auf der Anzahl Kaffee-Tokens, die beide Spieler haben.
+     */
     void clearKaffeeFeld() {
         int kaffeeCount = spiel.getKaffeeTokenCount();
         switch (kaffeeCount) {
@@ -413,6 +517,12 @@ public class SpielLogik {
 
     }
 
+    /**
+     * Zeigt ein modales Fenster mit einer Nachricht an.
+     *
+     * @param title Der Titel des Fensters.
+     * @param text  Der Inhalt der Nachricht.
+     */
     public void createMessage(String title, String text) {
         if (window == null) {
             window = new Window(title, skin);
@@ -434,6 +544,15 @@ public class SpielLogik {
         }
     }
 
+    /**
+     * Erstellt ein modales Fenster, um den Wert eines Würfels mit einem Kaffee-Token zu ändern.
+     * Der Spieler kann den Wert des Würfels entweder erhöhen oder verringern, solange die Grenzen eingehalten werden.
+     *
+     * @param wuerfel  Der Würfel, dessen Wert geändert werden soll.
+     * @param spieler  Der Spieler, der das Kaffee-Token verwendet.
+     * @param index    Der Index des Würfels in der Würfelliste des Spielers.
+     * @param callback Eine Callback-Funktion, die den neuen Wert des Würfels verarbeitet.
+     */
     public void createKaffeeTokenWindow(Wuerfel wuerfel, Spieler spieler, int index, Consumer<Integer> callback) {
         if (window == null) {
             window = new Window("Wert aendern", skin);
@@ -490,6 +609,13 @@ public class SpielLogik {
         }
     }
 
+    /**
+     * Erstellt ein modales Fenster, um ein NeuWurf-Token zu verwenden.
+     * Der Spieler kann entscheiden, ob er neue Würfel einem Spieler oder beiden Spielern gleichzeitig gibt.
+     *
+     * @param spieler  Der Spieler, der das NeuWurf-Token verwendet.
+     * @param callback Eine Callback-Funktion, die die Spieler aktualisiert, die neue Würfel erhalten haben.
+     */
     public void createNeuWurfTokenWindow(Spieler spieler, BiConsumer<Spieler, Spieler> callback) {
         if (window == null) {
             window = new Window("Neu werfen", skin);
@@ -541,6 +667,12 @@ public class SpielLogik {
         }
     }
 
+    /**
+     * Erstellt ein Fenster, das anzeigt, dass das Spiel gewonnen oder verloren wurde.
+     *
+     * @param win true, wenn das Spiel gewonnen wurde; false, wenn es verloren wurde,
+     * das Bild im Fenster ist davon abhängig
+     */
     public void createFinalWindow(boolean win) {
         if (window != null) {
             window.remove();

@@ -4,6 +4,11 @@ import com.teama.skyteam.drop.spiel.Spiel;
 import com.teama.skyteam.drop.tokens.KaffeeToken;
 import com.teama.skyteam.drop.tokens.Wuerfel;
 
+/**
+ * Die Klasse Copilot erweitert die abstrakte Klasse Spieler.
+ * Sie implementiert spezifische Logiken für den Copiloten im Spiel,
+ * wie das Platzieren von Würfeln auf den Spielfeldern des Copiloten.
+ */
 public class Copilot extends Spieler {
 
     private Spiel spiel;
@@ -13,6 +18,15 @@ public class Copilot extends Spieler {
         this.spiel = spiel;
     }
 
+    /**
+     * Platziert einen Würfel auf einem spezifischen Spielfeld des Copiloten.
+     * Wenn das Feld ein Kaffee-Feld ist, wird es gleichzeitig für den Piloten blockiert.
+     *
+     * @param feldName Der Name des Zielfeldes.
+     * @param wuerfel Der zu platzierende Würfel.
+     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
+     * @throws IllegalArgumentException Wenn das Feld bereits belegt ist.
+     */
     private void wuerfelAufFeldPlatzieren(String feldName, Wuerfel wuerfel, int indexWuerfel) {
         Feld feld = spiel.getFeldCopilot(feldName);
 
@@ -26,6 +40,16 @@ public class Copilot extends Spieler {
         }
     }
 
+
+    /**
+     * Überprüft, ob das Kaffee-Feld für beide Spieler frei ist,
+     * und platziert einen Würfel darauf, falls verfügbar.
+     * Gleichzeitig wird die Anzahl der Kaffee-Tokens erhöht.
+     *
+     * @param feldName Der Name des Zielfeldes.
+     * @param wuerfel Der zu platzierende Würfel.
+     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
+     */
     private void kaffeeAufFeldPruefenUndPlatzieren(String feldName, Wuerfel wuerfel, int indexWuerfel) {
         if (!spiel.getFeldPilot(feldName).isBelegt() && !spiel.getFeldCopilot(feldName).isBelegt()) {
             wuerfelAufFeldPlatzieren(feldName, wuerfel, indexWuerfel);
@@ -34,6 +58,13 @@ public class Copilot extends Spieler {
         }
     }
 
+    /**
+     * Implementiert die Logik zum Platzieren eines Würfels auf einem Kaffee-Feld.
+     * @param wuerfel Der zu platzierende Würfel.
+     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
+     * @param kaffee Der Name des Kaffee-Feldes.
+     * @throws IllegalArgumentException Wenn die maximale Anzahl an Kaffee-Tokens erreicht ist.
+     */
     @Override
     public void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel, String kaffee) {
 
@@ -45,7 +76,12 @@ public class Copilot extends Spieler {
 
     }
 
-
+    /**
+     * Platziert einen Würfel auf einem der beiden Radio-Felder des Copiloten.
+     * @param wuerfel Der zu platzierende Würfel.
+     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
+     * @throws IllegalArgumentException Wenn beide Radio-Felder bereits belegt sind.
+     */
     @Override
     public void radioWaehlen(Wuerfel wuerfel, int indexWuerfel) {
 
@@ -58,16 +94,32 @@ public class Copilot extends Spieler {
         }
     }
 
+    /**
+     * Platziert einen Würfel auf dem Speed-Feld des Copiloten.
+     * @param wuerfel Der zu platzierende Würfel.
+     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
+     */
     @Override
     public void speedWaehlen(Wuerfel wuerfel, int indexWuerfel) {
         wuerfelAufFeldPlatzieren("speedFeld", wuerfel, indexWuerfel);
     }
 
+    /**
+     * Platziert einen Würfel auf dem Neigungs-Feld des Copiloten.
+     * @param wuerfel Der zu platzierende Würfel.
+     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
+     */
     @Override
     public void neigenWaehlen(Wuerfel wuerfel, int indexWuerfel) {
         wuerfelAufFeldPlatzieren("neigenFeld", wuerfel, indexWuerfel);
     }
 
+    /**
+     * Platziert einen Würfel auf einem spezifischen Klappen-Feld des Copiloten basierend auf dem Wert des Würfels.
+     * @param wuerfel Der zu platzierende Würfel.
+     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
+     * @throws IllegalArgumentException Wenn der Würfelwert nicht zu einem Klappen-Feld passt.
+     */
     public void klappenWaehlen(Wuerfel wuerfel, int indexWuerfel) {
 
         switch (wuerfel.getWert()) {

@@ -13,6 +13,8 @@ public class MainBk extends ApplicationAdapter {
     public Music menuMusic;
     private Screen currentScreen;
 
+    // Diese Methode setzt einen neuen Bildschirm (Screen) und verwaltet den Wechsel
+    // zwischen den Bildschirmen. Der aktuelle Bildschirm wird versteckt und entsorgt.
     public void setScreen(Screen newScreen) {
         if (currentScreen != null) {
             currentScreen.hide();
@@ -24,6 +26,8 @@ public class MainBk extends ApplicationAdapter {
         }
     }
 
+    // Diese Methode wird beim Start der Anwendung aufgerufen.
+    // Initialisiert die Hintergrundmusik des Hauptmenüs.
     @Override
     public void create() {
         menuMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/main_menu.mp3"));
@@ -32,6 +36,7 @@ public class MainBk extends ApplicationAdapter {
         setScreen(new StartScreen(this));
     }
 
+    // Diese Methode wird kontinuierlich aufgerufen, um den Bildschirm zu aktualisieren.
     @Override
     public void render() {
         if (currentScreen == null) {
@@ -42,6 +47,7 @@ public class MainBk extends ApplicationAdapter {
         currentScreen.render(Gdx.graphics.getDeltaTime());
     }
 
+    // Diese Methode wird aufgerufen, wenn das Fenster oder der Bildschirm die Größe ändert.
     @Override
     public void resize(int width, int height) {
         if (currentScreen != null) {
@@ -49,6 +55,7 @@ public class MainBk extends ApplicationAdapter {
         }
     }
 
+    // Diese Methode wird aufgerufen, wenn die Anwendung pausiert wird (z. B. bei Minimierung)
     @Override
     public void pause() {
         if (currentScreen != null) {
@@ -56,6 +63,7 @@ public class MainBk extends ApplicationAdapter {
         }
     }
 
+    // Diese Methode wird aufgerufen, wenn die Anwendung fortgesetzt wird.
     @Override
     public void resume() {
         if (currentScreen != null) {
@@ -63,6 +71,7 @@ public class MainBk extends ApplicationAdapter {
         }
     }
 
+    // Diese Methode wird aufgerufen, wenn die Anwendung beendet wird.
     @Override
     public void dispose() {
         super.dispose();

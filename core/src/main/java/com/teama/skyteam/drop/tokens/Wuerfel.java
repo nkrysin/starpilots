@@ -13,12 +13,14 @@ public class Wuerfel {
         return wert;
     }
 
+    // Private Methode: Würfelt einen neuen Wert (1 bis 6) und speichert ihn.
     private void wuerfeln() {
         Random random = new Random();
         int randomNumber = random.nextInt(6) + 1;
         this.wert = randomNumber;
     }
 
+    // Methode, um den Wert des Würfels basierend auf einer Aktion zu ändern.
     void wertAendern(KaffeeTokenAktion aktion) {
         switch (aktion) {
             case PLUS:

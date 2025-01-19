@@ -5,6 +5,11 @@ import com.teama.skyteam.drop.tokens.KaffeeToken;
 import com.teama.skyteam.drop.tokens.Wuerfel;
 
 
+/**
+ * Die Klasse Pilot erweitert die abstrakte Klasse Spieler.
+ * Sie implementiert spezifische Logiken, die einem Piloten im Spiel zugeordnet sind,
+ * wie das Platzieren von Würfeln auf verschiedenen Spielfeldern.
+ */
 
 public class Pilot extends Spieler{
 
@@ -15,6 +20,15 @@ public class Pilot extends Spieler{
         this.spiel = spiel;
     }
 
+    /**
+     * Platziert einen Würfel auf einem Spielfeld des Piloten.
+     * Falls das Feld Kaffee ist, wird es gleichzeitig für den Copiloten blockiert.
+     *
+     * @param feldName Der Name des Zielfeldes.
+     * @param wuerfel  Der zu platzierende Würfel.
+     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
+     * @throws IllegalArgumentException Wenn das Feld bereits belegt ist.
+     */
     private void wuerfelAufFeldPlatzieren(String feldName, Wuerfel wuerfel, int indexWuerfel) {
         Feld feld = spiel.getFeldPilot(feldName);
 
@@ -29,7 +43,15 @@ public class Pilot extends Spieler{
         }
     }
 
-
+    /**
+     * Überprüft, ob das Kaffee-Feld für beide Spieler frei ist,
+     * und platziert einen Würfel darauf, falls es verfügbar ist.
+     * Zusätzlich wird die Anzahl der Kaffee-Tokens erhöht.
+     *
+     * @param feldName Der Name des Zielfeldes.
+     * @param wuerfel  Der zu platzierende Würfel.
+     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
+     */
     private void kaffeeAufFeldPruefenUndPlatzieren(String feldName, Wuerfel wuerfel, int indexWuerfel) {
         if (!spiel.getFeldPilot(feldName).isBelegt() && !spiel.getFeldCopilot(feldName).isBelegt()) {
             wuerfelAufFeldPlatzieren(feldName, wuerfel, indexWuerfel);
@@ -38,6 +60,13 @@ public class Pilot extends Spieler{
         }
     }
 
+    /**
+     * Implementiert die Logik zum Platzieren eines Würfels auf einem Kaffee-Feld.
+     * @param wuerfel Der zu platzierende Würfel.
+     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
+     * @param kaffeeFeld Der Name des Kaffee-Feldes.
+     * @throws IllegalArgumentException Wenn die maximale Anzahl an Kaffee-Tokens erreicht ist.
+     */
     @Override
     public void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel, String kaffeeFeld) {
         if (spiel.getKaffeeTokenCount() >= 3) {
@@ -48,21 +77,42 @@ public class Pilot extends Spieler{
 
     }
 
+    /**
+     * Platziert einen Würfel auf dem Radio-Feld.
+     * @param wuerfel Der zu platzierende Würfel.
+     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
+     */
     @Override
     public void radioWaehlen(Wuerfel wuerfel, int indexWuerfel) {
         wuerfelAufFeldPlatzieren("radioFeld", wuerfel, indexWuerfel);
     }
 
+    /**
+     * Platziert einen Würfel auf dem Speed-Feld.
+     * @param wuerfel Der zu platzierende Würfel.
+     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
+     */
     @Override
     public void speedWaehlen(Wuerfel wuerfel, int indexWuerfel) {
         wuerfelAufFeldPlatzieren("speedFeld", wuerfel, indexWuerfel);
     }
 
+    /**
+     * Platziert einen Würfel auf dem Neigungs-Feld.
+     * @param wuerfel Der zu platzierende Würfel.
+     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
+     */
     @Override
     public void neigenWaehlen(Wuerfel wuerfel, int indexWuerfel) {
         wuerfelAufFeldPlatzieren("neigenFeld", wuerfel, indexWuerfel);
     }
 
+    /**
+     * Platziert einen Würfel auf einem spezifischen Bremsen-Feld basierend auf dem Wert des Würfels.
+     * @param wuerfel Der zu platzierende Würfel.
+     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
+     * @throws IllegalArgumentException Wenn der Würfelwert nicht zu einem Bremsen-Feld passt.
+     */
     public void bremsenWaehlen(Wuerfel wuerfel, int indexWuerfel) {
 
         switch (wuerfel.getWert()) {
@@ -80,6 +130,12 @@ public class Pilot extends Spieler{
         }
     }
 
+    /**
+     * Platziert einen Würfel auf einem spezifischen Fahrgestell-Feld basierend auf dem Wert des Würfels.
+     * @param wuerfel Der zu platzierende Würfel.
+     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
+     * @throws IllegalArgumentException Wenn der Würfelwert nicht zu einem Fahrgestell-Feld passt.
+     */
     public void fahrgestellWaehlen(Wuerfel wuerfel, int indexWuerfel) {
 
         switch (wuerfel.getWert()) {

@@ -11,7 +11,10 @@ import com.teama.skyteam.drop.spieler.Pilot;
 import com.teama.skyteam.drop.spieler.Spieler;
 
 import java.util.ArrayList;
-
+/**
+ * Die Klasse SpielControllerGUI steuert den Spielfluss und die Interaktion mit der Benutzeroberfläche.
+ * Sie verwendet die Zustandsmaschine, um den Spielverlauf zu organisieren und zwischen verschiedenen Spielphasen zu wechseln.
+ */
 public class SpielControllerGUI {
 
     private final Spiel spiel;
@@ -34,6 +37,7 @@ public class SpielControllerGUI {
         this.szenarioHoeheManager = szenarioHoeheManager;
         this.spielLogik = new SpielLogik(spiel, stage, skin, spielGUI.getSchalterGUI(), spielGUI.getRuder(), szenarioHoeheManager);
 
+        // Setzt die Callback-Funktion für Spieleraktionen.
         this.spielGUI.setPlayerActionCallback(new PlayerActionCallback() {
             @Override
             public void onPlayerActionCompleted(Spieler spieler) {
@@ -44,6 +48,10 @@ public class SpielControllerGUI {
         spielenSchritt();
     }
 
+
+    /**
+     * Aufzählung von Zuständen für die Zustandsmaschine des Spiels.
+     */
     private enum State {
         CHECK_END,
         PREPARE_ROUND,
@@ -58,6 +66,10 @@ public class SpielControllerGUI {
         END
     }
 
+    /**
+     * Bereitet eine neue Runde vor, indem die Spieler und ihre Würfel initialisiert werden.
+     * Wird auch berechnet, wer einen ersten Zug in der Runde macht
+     */
     private void prepareRound() {
         neigungErledigt = false;
         reiseFeldAktualisiert = false;
@@ -74,6 +86,9 @@ public class SpielControllerGUI {
         spielGUI.createWuerfelForSpieler(zweiterSpieler);
     }
 
+    /**
+     * Beendet die aktuelle Runde, aktualisiert die Spielfelder und prüft auf Ausfallbedingungen.
+     */
     private void finishRound() {
         ArrayList<Feld> oneUseFelds = spielLogik.getOneUseFelds();
         spielLogik.removeDiceFromOneUseFelds(oneUseFelds);
@@ -87,6 +102,50 @@ public class SpielControllerGUI {
         spielGUI.removeAllHideImages();
     }
 
+    /**
+     * Die Methode spielenSchritt steuert den Spielfluss basierend auf einer Zustandsmaschine.
+     * Sie wechselt zwischen den verschiedenen Zuständen des Spiels und verwaltet die Aktionen der Spieler,
+     * die Prüfung von Spielfeldern und das Ende des Spiels.
+     *
+     * Der Ablauf wird in mehreren Zuständen organisiert:
+     *
+     * 1. CHECK_END: Prüft, ob eine Ausfallbedingung erreicht wurde.
+     *    Wenn ja, endet das Spiel. Ansonsten wird zur Vorbereitung der nächsten Runde gewechselt.
+     *
+     * 2. PREPARE_ROUND: Initialisiert die Runde, setzt Würfel und Spieler für die aktuelle Runde.
+     *
+     * 3. PLAY_TURN_FIRST: Führt die Aktionen des ersten Spielers aus.
+     *    Der Spieler kann Würfel auf Feldern platzieren, spezielle Aktionen wie Kaffee- oder NeuWurf-Tokens ausführen.
+     *    Nach dem Zug des ersten Spielers wird die Neigung geprüft.
+     *
+     * 4. CHECK_NEIGUNG: Überprüft und aktualisiert die Neigung des Flugzeugs, falls erforderlich.
+     *    Anschließend wird der Zustand des Spielfelds geprüft.
+     *
+     * 5. CHECK_REISEFELD: Aktualisiert den Zustand des aktuellen Reisefelds basierend auf der Geschwindigkeit.
+     *    Danach wird der Zug des zweiten Spielers eingeleitet.
+     *
+     * 6. PLAY_TURN_SECOND: Führt die Aktionen des zweiten Spielers aus.
+     *    Analog zum ersten Spieler können Würfel platziert und spezielle Aktionen ausgeführt werden.
+     *    Nach dem Zug des zweiten Spielers wird die Neigung erneut geprüft.
+     *
+     * 7. CHECK_NEIGUNG_AGAIN: Prüft die Neigung erneut nach dem Zug des zweiten Spielers.
+     *    Danach wird der Zustand des Spielfelds erneut überprüft.
+     *
+     * 8. CHECK_REISEFELD_AGAIN: Führt eine erneute Prüfung des Spielfelds durch.
+     *    Falls noch Würfel übrig sind, wird der Zug des ersten Spielers wiederholt.
+     *    Andernfalls wird die Runde beendet.
+     *
+     * 9. ROUND_FINISH: Beendet die Runde, bereinigt Spielfelder und prüft erneut auf Ausfallbedingungen.
+     *    Wenn die letzte Runde erreicht wurde, wird zur finalen Überprüfung gewechselt.
+     *
+     * 10. FINAL_CHECK: Prüft, ob die Gewinnbedingungen erfüllt sind.
+     *     Zeigt ein finales Fenster an, das entweder den Sieg oder die Niederlage signalisiert.
+     *
+     * 11. END: Zeigt das Endfenster an und beendet das Spiel.
+     *
+     * Die Methode verwendet eine Schleife, um den aktuellen Zustand kontinuierlich zu überprüfen und in den nächsten zu wechseln.
+     * Die Zustände definieren dabei klar die logische Abfolge der Spielaktionen.
+     */
     public void spielenSchritt() {
         if (spielEnde) {
             return;
@@ -235,15 +294,27 @@ public class SpielControllerGUI {
         }
     }
 
+    /**
+     * Zeichnet die GUI-Komponenten und führt Aktionen aus.
+     */
     public void render() {
         spielGUI.stage.act(Gdx.graphics.getDeltaTime());
         spielGUI.stage.draw();
     }
 
+    /**
+     * Aktualisiert die Größenanpassung der GUI bei Änderung der Fenstergröße.
+     *
+     * @param width  Neue Breite des Fensters.
+     * @param height Neue Höhe des Fensters.
+     */
     public void resize(int width, int height) {
         spielGUI.stage.getViewport().update(width, height, true);
     }
 
+    /**
+     * Gibt alle Ressourcen der GUI frei.
+     */
     public void dispose() {
         if (spielGUI != null) {
             spielGUI.dispose();
