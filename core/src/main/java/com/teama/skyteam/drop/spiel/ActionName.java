@@ -27,4 +27,19 @@ public enum ActionName {
     COPILOT_KAFFEE_1,
     COPILOT_KAFFEE_2,
     COPILOT_KAFFEE_3,
-}
+
+    // Gemeinsame
+    USE_KAFFEE_1,
+    USE_KAFFEE_2,
+    USE_KAFFEE_3,
+    NEUWURF;
+
+    public static ActionName useKaffee(int i) {
+        return switch (i) {
+            case 1 -> USE_KAFFEE_1;
+            case 2 -> USE_KAFFEE_2;
+            case 3 -> USE_KAFFEE_3;
+            default -> throw new IllegalArgumentException("Ungültiger Kaffee-Index: " + i);
+        };
+    }
+    }

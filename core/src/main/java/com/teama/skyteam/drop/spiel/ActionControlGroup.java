@@ -11,4 +11,7 @@ public enum ActionControlGroup {
     COPILOT_CONTROLS,
     COPILOT_KAFFEE_CONTROLS,
     COPILOT_USE_KAFFEE_CONTROL_GROUP,
+
+    // Gemeinsame
+    REQUIRED_CONTROLS
 }

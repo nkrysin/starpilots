@@ -8,26 +8,27 @@
 package com.teama.skyteam.drop.gui.buttons;
 
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.teama.skyteam.drop.spiel.ActionName;
 
 public class ControlField {
-    private String name;
+    private ActionName action;
     private ImageButton button;
     private boolean occupied;
 
     /**
      * Konstruktor zur Erstellung eines GUI-Spielfelds.
      *
-     * @param name der Name des Spielfelds.
+     * @param action der Name des Spielfelds.
      * @param button der Button, der mit diesem Spielfeld verknüpft ist.
      */
-    public ControlField(String name, ImageButton button) {
-        this.name = name;
+    public ControlField(ActionName action, ImageButton button) {
+        this.action = action;
         this.button = button;
         this.occupied = false;
     }
 
-    public String getName() {
-        return name;
+    public ActionName getAction() {
+        return action;
     }
 
     public ImageButton getButton() {

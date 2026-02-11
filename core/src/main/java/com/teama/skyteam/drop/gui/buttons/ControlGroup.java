@@ -7,34 +7,34 @@
  */
 package com.teama.skyteam.drop.gui.buttons;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.teama.skyteam.drop.spiel.ActionControlGroup;
+import com.teama.skyteam.drop.spiel.ActionName;
+
+import java.util.*;
 
 public class ControlGroup {
-    private String name;
-    private Map<String, ControlField> fields;
+    private ActionControlGroup controlGroup;
+    private EnumMap<ActionName, ControlField> fields;
 
     /**
      * Konstruktor zur Erstellung einer Gruppe von `ControlField`-Elementen.
-     * @param name der Name der Gruppe.
+     * @param controlGroup der Name der Gruppe.
      * @param fieldList eine Liste der Spielfelder, die zur Gruppe gehören.
      */
-    public ControlGroup(String name, List<ControlField> fieldList) {
-        this.name = name;
-        this.fields = new HashMap<>();
+    public ControlGroup(ActionControlGroup controlGroup, List<ControlField> fieldList) {
+        this.controlGroup = controlGroup;
+        this.fields = new EnumMap<>(ActionName.class);
         for (ControlField field : fieldList) {
-            fields.put(field.getName(), field);
+            fields.put(field.getAction(), field);
         }
     }
 
-    public String getName() {
-        return name;
+    public ActionControlGroup getControlGroup() {
+        return controlGroup;
     }
 
-    public ControlField getFieldByName(String fieldName) {
-        return fields.get(fieldName);
+    public ControlField getFieldByAction(ActionName action) {
+        return fields.get(action);
     }
 
     /**

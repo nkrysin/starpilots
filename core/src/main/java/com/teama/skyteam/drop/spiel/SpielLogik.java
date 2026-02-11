@@ -102,22 +102,22 @@ public class SpielLogik {
      * @param indexWuerfel    Der Index des Würfels.
      * @return true, wenn die Aktion erfolgreich war, sonst false.
      */
-    public boolean pilotSchritt(Spieler spieler, String auswahl, Wuerfel gewaehlterWuerfel, int indexWuerfel) {
+    public boolean pilotSchritt(Spieler spieler, ActionName auswahl, Wuerfel gewaehlterWuerfel, int indexWuerfel) {
         Pilot pilot = (Pilot) spieler;
         switch (auswahl) {
-            case "PRadio":
+            case ActionName.PILOT_RADIO:
                 if (!spiel.getFeldPilot(FeldName.RADIO_PILOT).isBelegt()) {
                     radio(gewaehlterWuerfel);
                     pilot.radioWaehlen(gewaehlterWuerfel, indexWuerfel);
                 }
                 return true;
-            case "PSpeed":
+            case ActionName.PILOT_SPEED:
                 pilot.speedWaehlen(gewaehlterWuerfel, indexWuerfel);
                 return true;
-            case "PNeigung":
+            case ActionName.PILOT_NEIGUNG:
                 pilot.neigenWaehlen(gewaehlterWuerfel, indexWuerfel);
                 return true;
-            case "PBremsen2":
+            case ActionName.PILOT_BREMSEN_2:
                 if (spiel.getFlugzeug().bremsen(gewaehlterWuerfel)) {
                     pilot.bremsenWaehlen(gewaehlterWuerfel, indexWuerfel);
                     schalterGUI.activateBremsenSchalter(0);
@@ -127,7 +127,7 @@ public class SpielLogik {
                     createMessage("Fehler", "Fehler beim Bremsen! Würfel nicht passend.");
                     return false;
                 }
-            case "PBremsen4":
+            case ActionName.PILOT_BREMSEN_4:
                 if (gewaehlterWuerfel.getWert() == 4 && spiel.getFlugzeug().bremsen(gewaehlterWuerfel)) {
                     pilot.bremsenWaehlen(gewaehlterWuerfel, indexWuerfel);
                     schalterGUI.activateBremsenSchalter(1);
@@ -137,7 +137,7 @@ public class SpielLogik {
                     createMessage("Fehler", "Bremsen nicht möglich!");
                     return false;
                 }
-            case "PBremsen6":
+            case ActionName.PILOT_BREMSEN_6:
                 if (gewaehlterWuerfel.getWert() == 6 && spiel.getFlugzeug().bremsen(gewaehlterWuerfel)) {
                     pilot.bremsenWaehlen(gewaehlterWuerfel, indexWuerfel);
                     schalterGUI.activateBremsenSchalter(2);
@@ -147,7 +147,7 @@ public class SpielLogik {
                     createMessage("Fehler", "Bremsen nicht möglich!");
                     return false;
                 }
-            case "PFahrgestell12":
+            case ActionName.PILOT_FAHRGESTELL_1_2:
                 if ((gewaehlterWuerfel.getWert() == 1 || gewaehlterWuerfel.getWert() == 2) && spiel.getFlugzeug().fahrgestellAusfahren(gewaehlterWuerfel)) {
                     pilot.fahrgestellWaehlen(gewaehlterWuerfel, indexWuerfel);
                     schalterGUI.activateFahrgestellSchalter(0);
@@ -157,7 +157,7 @@ public class SpielLogik {
                     createMessage("Fehler", "Fahrgestell nicht möglich!");
                     return false;
                 }
-            case "PFahrgestell34":
+            case ActionName.PILOT_FAHRGESTELL_3_4:
                 if ((gewaehlterWuerfel.getWert() == 3 || gewaehlterWuerfel.getWert() == 4) && spiel.getFlugzeug().fahrgestellAusfahren(gewaehlterWuerfel)) {
                     pilot.fahrgestellWaehlen(gewaehlterWuerfel, indexWuerfel);
                     schalterGUI.activateFahrgestellSchalter(1);
@@ -167,7 +167,7 @@ public class SpielLogik {
                     createMessage("Fehler", "Fahrgestell nicht möglich!");
                     return false;
                 }
-            case "PFahrgestell56":
+            case ActionName.PILOT_FAHRGESTELL_5_6:
                 if ((gewaehlterWuerfel.getWert() == 5 || gewaehlterWuerfel.getWert() == 6) && spiel.getFlugzeug().fahrgestellAusfahren(gewaehlterWuerfel)) {
                     pilot.fahrgestellWaehlen(gewaehlterWuerfel, indexWuerfel);
                     schalterGUI.activateFahrgestellSchalter(2);
@@ -177,13 +177,13 @@ public class SpielLogik {
                     createMessage("Fehler", "Fahrgestell nicht möglich!");
                     return false;
                 }
-            case "PilotKaffee1":
+            case ActionName.PILOT_KAFFEE_1:
                 pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, FeldName.KAFFEE_1);
                 return true;
-            case "PilotKaffee2":
+            case ActionName.PILOT_KAFFEE_2:
                 pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, FeldName.KAFFEE_2);
                 return true;
-            case "PilotKaffee3":
+            case ActionName.PILOT_KAFFEE_3:
                 pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, FeldName.KAFFEE_3);
                 return true;
 
@@ -202,31 +202,32 @@ public class SpielLogik {
      * @param indexWuerfel    Der Index des Würfels.
      * @return true, wenn die Aktion erfolgreich war, sonst false.
      */
-    public boolean copilotSchritt(Spieler spieler, String auswahl, Wuerfel gewaehlterWuerfel, int indexWuerfel) {
+    public boolean copilotSchritt(Spieler spieler, ActionName auswahl, Wuerfel gewaehlterWuerfel, int indexWuerfel) {
         Copilot copilot = (Copilot) spieler;
         switch (auswahl) {
-            case "CRadio1":
+            case ActionName.COPILOT_RADIO_1:
                 if (!spiel.getFeldCopilot(FeldName.RADIO_COPILOT_1).isBelegt()) {
                     radio(gewaehlterWuerfel);
                     copilot.radioWaehlen(gewaehlterWuerfel, indexWuerfel);
                 }
                 return true;
-            case "CRadio2":
+            case ActionName.COPILOT_RADIO_2:
                 if (!spiel.getFeldCopilot(FeldName.RADIO_COPILOT_2).isBelegt()) {
                     radio(gewaehlterWuerfel);
                     copilot.radioWaehlen(gewaehlterWuerfel, indexWuerfel);
                 }
                 return true;
-            case "CSpeed":
+            case ActionName.COPILOT_SPEED:
                 copilot.speedWaehlen(gewaehlterWuerfel, indexWuerfel);
                 return true;
-            case "CNeigung":
+            case ActionName.COPILOT_NEIGUNG:
                 copilot.neigenWaehlen(gewaehlterWuerfel, indexWuerfel);
                 return true;
-            case "CKlappen12":
-            case "CKlappen23":
-            case "CKlappen45":
-            case "CKlappen56":
+            // TODO: WTF IS THIS?????
+            case ActionName.COPILOT_KLAPPEN_1_2:
+            case ActionName.COPILOT_KLAPPEN_2_3:
+            case ActionName.COPILOT_KLAPPEN_4_5:
+            case ActionName.COPILOT_KLAPPEN_5_6:
                 if (spiel.getFlugzeug().klappenOeffnen(gewaehlterWuerfel)) {
                     copilot.klappenWaehlen(gewaehlterWuerfel, indexWuerfel);
                     if (gewaehlterWuerfel.getWert() <= 2) {
@@ -244,13 +245,13 @@ public class SpielLogik {
                     createMessage("Fehler", "Klappen nicht möglich!");
                     return false;
                 }
-            case "CopilotKaffee1":
+            case ActionName.COPILOT_KAFFEE_1:
                 copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, FeldName.KAFFEE_1);
                 return true;
-            case "CopilotKaffee2":
+            case ActionName.COPILOT_KAFFEE_2:
                 copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, FeldName.KAFFEE_2);
                 return true;
-            case "CopilotKaffee3":
+            case ActionName.COPILOT_KAFFEE_3:
                 copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, FeldName.KAFFEE_3);
                 return true;
             default:

@@ -179,7 +179,7 @@ public class SpielLogikTest {
         when(spiel.getRouteSzenario()).thenReturn(routeSzenario);
         when(spiel.getCurrentPosition()).thenReturn(0);
 
-        spielLogik.pilotSchritt(pilot, "PRadio", gewaehlterWuerfel, 0);
+        spielLogik.pilotSchritt(pilot, ActionName.PILOT_RADIO, gewaehlterWuerfel, 0);
 
         verify(pilot).radioWaehlen(gewaehlterWuerfel, 0);
         verify(spiel, atLeastOnce()).getFeldPilot(FeldName.RADIO_PILOT);
@@ -208,7 +208,7 @@ public class SpielLogikTest {
         when(spiel.getRouteSzenario()).thenReturn(routeSzenario);
         when(spiel.getCurrentPosition()).thenReturn(0);
 
-        spielLogik.copilotSchritt(copilot, "CRadio1", gewaehlterWuerfel, 0);
+        spielLogik.copilotSchritt(copilot, ActionName.COPILOT_RADIO_1, gewaehlterWuerfel, 0);
 
         verify(copilot).radioWaehlen(gewaehlterWuerfel, 0);
         verify(spiel, atLeastOnce()).getFeldCopilot(FeldName.RADIO_COPILOT_1);

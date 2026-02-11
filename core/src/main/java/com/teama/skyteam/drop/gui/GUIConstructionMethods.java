@@ -14,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.teama.skyteam.drop.gui.buttons.ControlField;
 import com.teama.skyteam.drop.gui.buttons.ControlGroup;
+import com.teama.skyteam.drop.spiel.ActionControlGroup;
+import com.teama.skyteam.drop.spiel.ActionName;
 
 import java.util.ArrayList;
 
@@ -44,23 +46,23 @@ public class GUIConstructionMethods {
     /**
      * Erstellt eine neue Kontrollgruppe mit mehreren Feldern und Buttons.
      *
-     * @param groupName der Name der Kontrollgruppe.
-     * @param fieldNames die Namen der Felder in der Gruppe.
+     * @param controlGroup der Name der Kontrollgruppe.
+     * @param actions die Namen der Felder in der Gruppe.
      * @param positions die Positionen der Felder (Array von [x, y]-Koordinaten).
      * @param stage die `Stage`, auf der die Buttons hinzugefügt werden.
      * @param sizeX die Breite der Buttons.
      * @param sizeY die Höhe der Buttons.
      * @return die erstellte `ControlGroup`.
      */
-    public ControlGroup createControlGroup(String groupName, String[] fieldNames, int[][] positions, Stage stage, int sizeX, int sizeY) {
+    public ControlGroup createControlGroup(ActionControlGroup controlGroup, ActionName[] actions, int[][] positions, Stage stage, int sizeX, int sizeY) {
         ArrayList<ControlField> fields = new ArrayList<>();
-        for (int i = 0; i < fieldNames.length; i++) {
+        for (int i = 0; i < actions.length; i++) {
             ImageButton button = createButton(TexturePaths.WITHOUT_HIGHLIGHT_PATH, positions[i][0], positions[i][1], sizeX, sizeY);
-            ControlField field = new ControlField(fieldNames[i], button);
+            ControlField field = new ControlField(actions[i], button);
             fields.add(field);
             stage.addActor(button);
         }
-        return new ControlGroup(groupName, fields);
+        return new ControlGroup(controlGroup, fields);
     }
 
     /**
@@ -71,8 +73,8 @@ public class GUIConstructionMethods {
      * @param stage die `Stage`, auf der die Buttons hinzugefügt werden.
      * @return die erstellte `ControlGroup` für Kaffee-Aktionen.
      */
-    public ControlGroup createUseKaffeeButtons(String groupName, int[][] positions, Stage stage) {
-        String[] kaffeeFieldNames = {"UseKaffee1", "UseKaffee2", "UseKaffee3"};
+    public ControlGroup createUseKaffeeButtons(ActionControlGroup groupName, int[][] positions, Stage stage) {
+        ActionName[] kaffeeFieldNames = {ActionName.USE_KAFFEE_1, ActionName.USE_KAFFEE_2, ActionName.USE_KAFFEE_3};
         ArrayList<ControlField> fields = new ArrayList<>();
         for (int i = 0; i < kaffeeFieldNames.length; i++) {
             ImageButton button = createButton(TexturePaths.WITHOUT_HIGHLIGHT_PATH,
@@ -102,7 +104,7 @@ public class GUIConstructionMethods {
             UILayout.NEUWURF_BUTTON_SIZE[0],
             UILayout.NEUWURF_BUTTON_SIZE[1]
         );
-        ControlField field = new ControlField("neuWurf", button);
+        ControlField field = new ControlField(ActionName.NEUWURF, button);
         stage.addActor(button);
         return field;
     }
