@@ -341,7 +341,6 @@ public class SpielLogik {
      * @return true, wenn die Neigung erfolgreich gesetzt wurde, sonst false (z. B. wenn nicht beide Neigungsfelder belegt sind).
      */
     boolean neigenSetzen() {
-        float angle = 25f;
         boolean neigenFeldPilotBelegt = spiel.getFeldPilot(FeldName.NEIGEN).isBelegt();
         boolean neigenFeldCopilotBelegt = spiel.getFeldCopilot(FeldName.NEIGEN).isBelegt();
         if (neigenFeldPilotBelegt && neigenFeldCopilotBelegt) {
@@ -352,7 +351,7 @@ public class SpielLogik {
             if (spiel.getFlugzeug().getNeigung() == 0) {
                 targetRotation = 0;
             } else {
-                targetRotation = angle * spiel.getFlugzeug().getNeigung();
+                targetRotation = SpielConstants.WHEEL_ANGLE * spiel.getFlugzeug().getNeigung();
             }
             ruder.addAction(Actions.rotateTo(targetRotation, 1f));
             return true;

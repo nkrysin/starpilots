@@ -9,11 +9,11 @@ package com.teama.skyteam.drop.gui.szenario;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.teama.skyteam.drop.gui.UILayout;
 import com.teama.skyteam.drop.spiel.Spiel;
 import com.teama.skyteam.drop.szenario.HoeheSzenarioTypes;
 
 public class HoeheGUI {
-    private final int MOVE_STEP = 96; // Der Schrittwert, um die Karte zu bewegen. Gilt für FUllHD-Bildschirme
     private Texture hoeheTexture;
     private float cardX, cardY;
     private Spiel spiel;
@@ -27,8 +27,8 @@ public class HoeheGUI {
     public HoeheGUI(Spiel spiel) {
         this.spiel = spiel;
         setHoeheTexture(spiel);
-        cardX = 989;
-        cardY = 841;
+        cardX = UILayout.HOEHE_FULL_HD_X_SIZE;
+        cardY = UILayout.HOEHE_FULL_HD_Y_SIZE;
     }
 
     /**
@@ -56,6 +56,6 @@ public class HoeheGUI {
      * Bewegt die Höhenkarte um einen festen Schritt nach unten.
      */
     public void moveStep() {
-        cardY -= MOVE_STEP;
+        cardY -= UILayout.MOVE_STEP;
     }
 }

@@ -3,6 +3,7 @@ package com.teama.skyteam.drop.spieler;
 import com.teama.skyteam.drop.feld.Feld;
 import com.teama.skyteam.drop.feld.FeldName;
 import com.teama.skyteam.drop.spiel.Spiel;
+import com.teama.skyteam.drop.spiel.SpielConstants;
 import com.teama.skyteam.drop.tokens.KaffeeToken;
 import com.teama.skyteam.drop.tokens.Wuerfel;
 
@@ -72,7 +73,7 @@ public class Pilot extends Spieler{
      */
     @Override
     public void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel, FeldName kaffeeFeld) {
-        if (spiel.getKaffeeTokenCount() >= 3) {
+        if (spiel.getKaffeeTokenCount() >= SpielConstants.MAX_KAFFEE_TOKENS) {
             throw new IllegalArgumentException("Sie können nicht mehr als 3 KaffeeTokens haben!");
         }
 

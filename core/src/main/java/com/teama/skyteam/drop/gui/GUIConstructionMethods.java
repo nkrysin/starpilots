@@ -78,8 +78,8 @@ public class GUIConstructionMethods {
             ImageButton button = createButton("images/spiel/main/empty.png",
                 positions[i][0],
                 positions[i][1],
-                39,
-                39
+                UILayout.KAFFEE_BUTTON_SIZE[0],
+                UILayout.KAFFEE_BUTTON_SIZE[1]
             );
             ControlField field = new ControlField(kaffeeFieldNames[i], button);
             fields.add(field);
@@ -95,7 +95,13 @@ public class GUIConstructionMethods {
      * @return das erstellte `ControlField`, das den Button enthält.
      */
     ControlField createNeuWurfButton(Stage stage) {
-        ImageButton button = createButton("images/spiel/main/empty.png", 681, 873, 60, 60);
+        ImageButton button = createButton(
+            "images/spiel/main/empty.png",
+            UILayout.NEUWURF_BUTTON_COORDINATES[0],
+            UILayout.NEUWURF_BUTTON_COORDINATES[1],
+            UILayout.NEUWURF_BUTTON_SIZE[0],
+            UILayout.NEUWURF_BUTTON_SIZE[1]
+        );
         ControlField field = new ControlField("neuWurf", button);
         stage.addActor(button);
         return field;

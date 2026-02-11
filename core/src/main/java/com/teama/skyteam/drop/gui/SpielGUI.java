@@ -41,9 +41,6 @@ public class SpielGUI {
 
     public final Stage stage;
     private final Spiel spiel;
-    // Koordinaten von Wuerfeln. Diese gelten nur für FUllHD-Bildschirme
-    private final int[][] pilotWuerfelsCoordinates = {{411, 553}, {491, 553}, {411, 473}, {491, 473}};
-    private final int[][] copilotWuerfelsCoordinates = {{1367, 553}, {1448, 553}, {1367, 473}, {1448, 473}};
     private final GUIConstructionMethods guiConstructionMethods;
     private ArrayList<ImageButton> pilotWuerfelActors = new ArrayList<>();
     private ArrayList<ImageButton> copilotWuerfelActors = new ArrayList<>();
@@ -89,7 +86,7 @@ public class SpielGUI {
     private void setRuder() {
         Texture ruderTexture = new Texture("images/spiel/main/axis.png");
         ruder = new Image(ruderTexture);
-        ruder.setPosition(868, 630);
+        ruder.setPosition(UILayout.RUDER_COORDINATES[0], UILayout.RUDER_COORDINATES[1]);
         ruder.setOrigin(ruder.getWidth() / 2, ruder.getHeight() / 2 - 5);
         this.stage.addActor(ruder);
     }
@@ -126,14 +123,14 @@ public class SpielGUI {
             int x, y;
             if (spieler instanceof Pilot) {
                 textureName = "images/spiel/dices/blue/blue_" + wert + ".png";
-                x = pilotWuerfelsCoordinates[i][0];
-                y = pilotWuerfelsCoordinates[i][1];
+                x = UILayout.PILOT_WUERFEL_COORDINATES[i][0];
+                y = UILayout.PILOT_WUERFEL_COORDINATES[i][1];
             } else {
                 textureName = "images/spiel/dices/orange/orange_" + wert + ".png";
-                x = copilotWuerfelsCoordinates[i][0];
-                y = copilotWuerfelsCoordinates[i][1];
+                x = UILayout.COPILOT_WUERFEL_COORDINATES[i][0];
+                y = UILayout.COPILOT_WUERFEL_COORDINATES[i][1];
             }
-            ImageButton wuerfelButton = guiConstructionMethods.createButton(textureName, x, y, 55, 55);
+            ImageButton wuerfelButton = guiConstructionMethods.createButton(textureName, x, y, UILayout.WUERFEL_SIZE[0], UILayout.WUERFEL_SIZE[1]);
             wuerfelActors.add(wuerfelButton);
             stage.addActor(wuerfelButton);
         }
@@ -208,52 +205,32 @@ public class SpielGUI {
     private void createFieldActors() {
         controlGroups.add(guiConstructionMethods.createControlGroup("Pilot Controls", new String[]{
             "PRadio", "PNeigung", "PSpeed", "PFahrgestell12", "PFahrgestell34", "PFahrgestell56", "PBremsen2", "PBremsen4", "PBremsen6"
-        }, new int[][]{
-            {679, 791}, {773, 777}, {838, 475}, {679, 598}, {679, 464}, {679, 327}, {842, 293}, {933, 293}, {1025, 293}
-        }, stage, 55, 55));
+        }, UILayout.PILOT_ACTOR_COORDINATES, stage, UILayout.WUERFEL_SIZE[0], UILayout.WUERFEL_SIZE[1]));
 
         controlGroups.add(guiConstructionMethods.createControlGroup("Copilot Controls", new String[]{
             "CNeigung", "CSpeed", "CRadio1", "CRadio2", "CKlappen12", "CKlappen23", "CKlappen45", "CKlappen56"
-        }, new int[][]{
-            {1091, 777}, {1027, 475}, {1185, 791}, {1185, 883}, {1185, 598}, {1185, 464}, {1185, 327}, {1185, 191}
-        }, stage, 55, 55));
+        }, UILayout.COPILOT_ACTOR_COORDINATES, stage, UILayout.WUERFEL_SIZE[0], UILayout.WUERFEL_SIZE[1]));
 
         pilotKaffeeControlGroup = guiConstructionMethods.createControlGroup(
             "Pilot Kaffee Controls",
             new String[]{"PilotKaffee1", "PilotKaffee2", "PilotKaffee3"},
-            new int[][]{
-                {842, 142},
-                {933, 142},
-                {1025, 142}
-            },
-            stage,
-            55,
-            55
-        );
+            UILayout.KAFFEE_COORDINATES, stage, UILayout.WUERFEL_SIZE[0], UILayout.WUERFEL_SIZE[1]);
         copilotKaffeeControlGroup = guiConstructionMethods.createControlGroup(
             "Copilot Kaffee Controls",
             new String[]{"CopilotKaffee1", "CopilotKaffee2", "CopilotKaffee3"},
-            new int[][]{
-                {842, 142},
-                {933, 142},
-                {1025, 142}
-            },
-            stage,
-            55,
-            55
-        );
+            UILayout.KAFFEE_COORDINATES, stage, UILayout.WUERFEL_SIZE[0], UILayout.WUERFEL_SIZE[1]);
 
         controlGroups.add(pilotKaffeeControlGroup);
         controlGroups.add(copilotKaffeeControlGroup);
 
         pilotUseKaffeeControlGroup = guiConstructionMethods.createUseKaffeeButtons(
             "Pilot UseKaffeeControlGroup",
-            new int[][]{{711, 201}, {711, 143}, {772, 143}},
+            UILayout.KAFFEE_CONTROL_COORDINATES,
             stage
         );
         copilotUseKaffeeControlGroup = guiConstructionMethods.createUseKaffeeButtons(
             "Copilot UseKaffeeControlGroup",
-            new int[][]{{711, 201}, {711, 143}, {772, 143}},
+            UILayout.KAFFEE_CONTROL_COORDINATES,
             stage
         );
 
@@ -1075,18 +1052,12 @@ public class SpielGUI {
      * @param spieler Der aktuelle Spieler, dessen Würfel sichtbar bleiben sollen.
      */
     public void hideWuerfel(Spieler spieler) {
-        float pilotX = 330;
-        float pilotY = 390;
-
-        float copilotX = 1290;
-        float copilotY = 390;
-
         if (spieler instanceof Pilot) {
-            renderHideImage(copilotX, copilotY);
-            removeHideImage(pilotX, pilotY);
+            renderHideImage(UILayout.COPILOT_HIDING_SCREEN_COORDINATES[0], UILayout.COPILOT_HIDING_SCREEN_COORDINATES[1]);
+            removeHideImage(UILayout.PILOT_HIDING_SCREEN_COORDINATES[0], UILayout.PILOT_HIDING_SCREEN_COORDINATES[1]);
         } else {
-            renderHideImage(pilotX, pilotY);
-            removeHideImage(copilotX, copilotY);
+            renderHideImage(UILayout.PILOT_HIDING_SCREEN_COORDINATES[0], UILayout.PILOT_HIDING_SCREEN_COORDINATES[1]);
+            removeHideImage(UILayout.COPILOT_HIDING_SCREEN_COORDINATES[0], UILayout.COPILOT_HIDING_SCREEN_COORDINATES[1]);
         }
     }
 
@@ -1121,13 +1092,7 @@ public class SpielGUI {
      * Entfernt alle Bilder, die die Würfel verbergen.
      */
     public void removeAllHideImages() {
-        float pilotX = 330;
-        float pilotY = 390;
-
-        float copilotX = 1290;
-        float copilotY = 390;
-
-        removeHideImage(pilotX, pilotY);
-        removeHideImage(copilotX, copilotY);
+        removeHideImage(UILayout.PILOT_HIDING_SCREEN_COORDINATES[0], UILayout.PILOT_HIDING_SCREEN_COORDINATES[1]);
+        removeHideImage(UILayout.COPILOT_HIDING_SCREEN_COORDINATES[0], UILayout.COPILOT_HIDING_SCREEN_COORDINATES[1]);
     }
 }
