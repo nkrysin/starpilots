@@ -8,11 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.teama.skyteam.drop.feld.FeldName;
 import com.teama.skyteam.drop.flugzeug.Klappen;
 import com.teama.skyteam.drop.gui.SchalterGUI;
 import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
 import com.teama.skyteam.drop.spieler.Copilot;
-import com.teama.skyteam.drop.spieler.Feld;
+import com.teama.skyteam.drop.feld.Feld;
 import com.teama.skyteam.drop.spieler.Pilot;
 import com.teama.skyteam.drop.spieler.Spieler;
 import com.teama.skyteam.drop.szenario.ReiseFeld;
@@ -104,7 +105,7 @@ public class SpielLogik {
         Pilot pilot = (Pilot) spieler;
         switch (auswahl) {
             case "PRadio":
-                if (!spiel.getFeldPilot("radioFeld").isBelegt()) {
+                if (!spiel.getFeldPilot(FeldName.RADIO_PILOT).isBelegt()) {
                     radio(gewaehlterWuerfel);
                     pilot.radioWaehlen(gewaehlterWuerfel, indexWuerfel);
                 }
@@ -176,13 +177,13 @@ public class SpielLogik {
                     return false;
                 }
             case "PilotKaffee1":
-                pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, "Kaffee1");
+                pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, FeldName.KAFFEE_1);
                 return true;
             case "PilotKaffee2":
-                pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, "Kaffee2");
+                pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, FeldName.KAFFEE_2);
                 return true;
             case "PilotKaffee3":
-                pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, "Kaffee3");
+                pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, FeldName.KAFFEE_3);
                 return true;
 
             default:
@@ -204,13 +205,13 @@ public class SpielLogik {
         Copilot copilot = (Copilot) spieler;
         switch (auswahl) {
             case "CRadio1":
-                if (!spiel.getFeldCopilot("radioFeld1").isBelegt()) {
+                if (!spiel.getFeldCopilot(FeldName.RADIO_COPILOT_1).isBelegt()) {
                     radio(gewaehlterWuerfel);
                     copilot.radioWaehlen(gewaehlterWuerfel, indexWuerfel);
                 }
                 return true;
             case "CRadio2":
-                if (!spiel.getFeldCopilot("radioFeld2").isBelegt()) {
+                if (!spiel.getFeldCopilot(FeldName.RADIO_COPILOT_2).isBelegt()) {
                     radio(gewaehlterWuerfel);
                     copilot.radioWaehlen(gewaehlterWuerfel, indexWuerfel);
                 }
@@ -243,13 +244,13 @@ public class SpielLogik {
                     return false;
                 }
             case "CopilotKaffee1":
-                copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, "Kaffee1");
+                copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, FeldName.KAFFEE_1);
                 return true;
             case "CopilotKaffee2":
-                copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, "Kaffee2");
+                copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, FeldName.KAFFEE_2);
                 return true;
             case "CopilotKaffee3":
-                copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, "Kaffee3");
+                copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, FeldName.KAFFEE_3);
                 return true;
             default:
                 createMessage("Fehler", "Falsche Auswahl für den Copiloten!");
@@ -263,11 +264,11 @@ public class SpielLogik {
      * @return true, wenn das Reisefeld erfolgreich aktualisiert wurde, sonst false.
      */
     boolean reiseFeldZustandAktualisieren() {
-        boolean speedFeldPilotBelegt = spiel.getFeldPilot("speedFeld").isBelegt();
-        boolean speedFeldCopilotBelegt = spiel.getFeldCopilot("speedFeld").isBelegt();
+        boolean speedFeldPilotBelegt = spiel.getFeldPilot(FeldName.SPEED).isBelegt();
+        boolean speedFeldCopilotBelegt = spiel.getFeldCopilot(FeldName.SPEED).isBelegt();
         if (speedFeldPilotBelegt && speedFeldCopilotBelegt) {
-            int pilotSpeed = spiel.getFeldPilot("speedFeld").getWuerfel().getWert();
-            int copilotSpeed = spiel.getFeldCopilot("speedFeld").getWuerfel().getWert();
+            int pilotSpeed = spiel.getFeldPilot(FeldName.SPEED).getWuerfel().getWert();
+            int copilotSpeed = spiel.getFeldCopilot(FeldName.SPEED).getWuerfel().getWert();
             int totalSpeed = pilotSpeed + copilotSpeed;
             spiel.getFlugzeug().setSpeedAktuell(totalSpeed);
             int speedUntereGrenze = spiel.getFlugzeug().getSpeedUntereGrenze().getValue();
@@ -341,11 +342,11 @@ public class SpielLogik {
      */
     boolean neigenSetzen() {
         float angle = 25f;
-        boolean neigenFeldPilotBelegt = spiel.getFeldPilot("neigenFeld").isBelegt();
-        boolean neigenFeldCopilotBelegt = spiel.getFeldCopilot("neigenFeld").isBelegt();
+        boolean neigenFeldPilotBelegt = spiel.getFeldPilot(FeldName.NEIGEN).isBelegt();
+        boolean neigenFeldCopilotBelegt = spiel.getFeldCopilot(FeldName.NEIGEN).isBelegt();
         if (neigenFeldPilotBelegt && neigenFeldCopilotBelegt) {
-            Wuerfel w1 = spiel.getFeldPilot("neigenFeld").getWuerfel();
-            Wuerfel w2 = spiel.getFeldCopilot("neigenFeld").getWuerfel();
+            Wuerfel w1 = spiel.getFeldPilot(FeldName.NEIGEN).getWuerfel();
+            Wuerfel w2 = spiel.getFeldCopilot(FeldName.NEIGEN).getWuerfel();
             spiel.getFlugzeug().neigen(spiel.getFlugzeug().getNeigung(), new Wuerfel[]{w1, w2});
             float targetRotation;
             if (spiel.getFlugzeug().getNeigung() == 0) {
@@ -431,13 +432,13 @@ public class SpielLogik {
      * Löscht die Würfel von den Feldern, die mehrmals in jeder Runde verwendet werden können.
      */
     void clearManyUseFelds() {
-        spiel.getFeldPilot("neigenFeld").setWuerfel(null);
-        spiel.getFeldPilot("speedFeld").setWuerfel(null);
-        spiel.getFeldPilot("radioFeld").setWuerfel(null);
-        spiel.getFeldCopilot("neigenFeld").setWuerfel(null);
-        spiel.getFeldCopilot("speedFeld").setWuerfel(null);
-        spiel.getFeldCopilot("radioFeld1").setWuerfel(null);
-        spiel.getFeldCopilot("radioFeld2").setWuerfel(null);
+        spiel.getFeldPilot(FeldName.NEIGEN).setWuerfel(null);
+        spiel.getFeldPilot(FeldName.SPEED).setWuerfel(null);
+        spiel.getFeldPilot(FeldName.RADIO_PILOT).setWuerfel(null);
+        spiel.getFeldCopilot(FeldName.NEIGEN).setWuerfel(null);
+        spiel.getFeldCopilot(FeldName.SPEED).setWuerfel(null);
+        spiel.getFeldCopilot(FeldName.RADIO_COPILOT_1).setWuerfel(null);
+        spiel.getFeldCopilot(FeldName.RADIO_COPILOT_2).setWuerfel(null);
     }
 
     /**
@@ -466,16 +467,16 @@ public class SpielLogik {
      */
     ArrayList<Feld> getOneUseFelds() {
         ArrayList<Feld> oneUseFelds = new ArrayList<>();
-        Feld fg12 = spiel.getFeldPilot("fahrgestellFeld1_2");
-        Feld fg34 = spiel.getFeldPilot("fahrgestellFeld3_4");
-        Feld fg56 = spiel.getFeldPilot("fahrgestellFeld5_6");
-        Feld b2 = spiel.getFeldPilot("bremsenFeld2");
-        Feld b4 = spiel.getFeldPilot("bremsenFeld4");
-        Feld b6 = spiel.getFeldPilot("bremsenFeld6");
-        Feld k12 = spiel.getFeldCopilot("klappenFeld1_2");
-        Feld k23 = spiel.getFeldCopilot("klappenFeld2_3");
-        Feld k45 = spiel.getFeldCopilot("klappenFeld4_5");
-        Feld k56 = spiel.getFeldCopilot("klappenFeld5_6");
+        Feld fg12 = spiel.getFeldPilot(FeldName.FAHRGESTELL_1_2);
+        Feld fg34 = spiel.getFeldPilot(FeldName.FAHRGESTELL_3_4);
+        Feld fg56 = spiel.getFeldPilot(FeldName.FAHRGESTELL_5_6);
+        Feld b2 = spiel.getFeldPilot(FeldName.BREMSEN_2);
+        Feld b4 = spiel.getFeldPilot(FeldName.BREMSEN_4);
+        Feld b6 = spiel.getFeldPilot(FeldName.BREMSEN_6);
+        Feld k12 = spiel.getFeldCopilot(FeldName.KLAPPEN_1_2);
+        Feld k23 = spiel.getFeldCopilot(FeldName.KLAPPEN_2_3);
+        Feld k45 = spiel.getFeldCopilot(FeldName.KLAPPEN_4_5);
+        Feld k56 = spiel.getFeldCopilot(FeldName.KLAPPEN_5_6);
         oneUseFelds.add(fg12);
         oneUseFelds.add(fg34);
         oneUseFelds.add(fg56);
@@ -496,22 +497,22 @@ public class SpielLogik {
         int kaffeeCount = spiel.getKaffeeTokenCount();
         switch (kaffeeCount) {
             case 0:
-                spiel.getFeldPilot("Kaffee1").setWuerfel(null);
-                spiel.getFeldCopilot("Kaffee1").setWuerfel(null);
-                spiel.getFeldPilot("Kaffee2").setWuerfel(null);
-                spiel.getFeldCopilot("Kaffee2").setWuerfel(null);
-                spiel.getFeldPilot("Kaffee3").setWuerfel(null);
-                spiel.getFeldCopilot("Kaffee3").setWuerfel(null);
+                spiel.getFeldPilot(FeldName.KAFFEE_1).setWuerfel(null);
+                spiel.getFeldCopilot(FeldName.KAFFEE_1).setWuerfel(null);
+                spiel.getFeldPilot(FeldName.KAFFEE_2).setWuerfel(null);
+                spiel.getFeldCopilot(FeldName.KAFFEE_2).setWuerfel(null);
+                spiel.getFeldPilot(FeldName.KAFFEE_3).setWuerfel(null);
+                spiel.getFeldCopilot(FeldName.KAFFEE_3).setWuerfel(null);
                 break;
             case 1:
-                spiel.getFeldPilot("Kaffee2").setWuerfel(null);
-                spiel.getFeldCopilot("Kaffee2").setWuerfel(null);
-                spiel.getFeldPilot("Kaffee3").setWuerfel(null);
-                spiel.getFeldCopilot("Kaffee3").setWuerfel(null);
+                spiel.getFeldPilot(FeldName.KAFFEE_2).setWuerfel(null);
+                spiel.getFeldCopilot(FeldName.KAFFEE_2).setWuerfel(null);
+                spiel.getFeldPilot(FeldName.KAFFEE_3).setWuerfel(null);
+                spiel.getFeldCopilot(FeldName.KAFFEE_3).setWuerfel(null);
                 break;
             case 2:
-                spiel.getFeldPilot("Kaffee3").setWuerfel(null);
-                spiel.getFeldCopilot("Kaffee3").setWuerfel(null);
+                spiel.getFeldPilot(FeldName.KAFFEE_3).setWuerfel(null);
+                spiel.getFeldCopilot(FeldName.KAFFEE_3).setWuerfel(null);
                 break;
         }
 

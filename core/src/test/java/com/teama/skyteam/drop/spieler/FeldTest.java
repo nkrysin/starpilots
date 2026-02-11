@@ -1,5 +1,6 @@
 package com.teama.skyteam.drop.spieler;
 
+import com.teama.skyteam.drop.feld.Feld;
 import com.teama.skyteam.drop.tokens.Wuerfel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

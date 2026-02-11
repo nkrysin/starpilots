@@ -1,4 +1,4 @@
-package com.teama.skyteam.drop.spieler;
+package com.teama.skyteam.drop.feld;
 
 import com.teama.skyteam.drop.tokens.Wuerfel;
 

@@ -1,5 +1,6 @@
 package com.teama.skyteam.drop.spieler;
 
+import com.teama.skyteam.drop.feld.FeldName;
 import com.teama.skyteam.drop.tokens.KaffeeToken;
 import com.teama.skyteam.drop.tokens.KaffeeTokenAktion;
 import com.teama.skyteam.drop.tokens.NeuWurfToken;
@@ -74,7 +75,7 @@ public abstract class Spieler {
 
     //Abstrakte Methoden, die weiter in den Co-/Pilot Klassen implementiert sind.
 
-    protected abstract void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel, String kaffeeFeld);
+    protected abstract void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel, FeldName kaffeeFeld);
 
     protected abstract void radioWaehlen(Wuerfel wuerfel, int indexWuerfel);
 

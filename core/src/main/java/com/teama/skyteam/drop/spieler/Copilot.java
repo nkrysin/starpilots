@@ -1,5 +1,7 @@
 package com.teama.skyteam.drop.spieler;
 
+import com.teama.skyteam.drop.feld.Feld;
+import com.teama.skyteam.drop.feld.FeldName;
 import com.teama.skyteam.drop.spiel.Spiel;
 import com.teama.skyteam.drop.tokens.KaffeeToken;
 import com.teama.skyteam.drop.tokens.Wuerfel;
@@ -27,13 +29,14 @@ public class Copilot extends Spieler {
      * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
      * @throws IllegalArgumentException Wenn das Feld bereits belegt ist.
      */
-    private void wuerfelAufFeldPlatzieren(String feldName, Wuerfel wuerfel, int indexWuerfel) {
+    private void wuerfelAufFeldPlatzieren(FeldName feldName, Wuerfel wuerfel, int indexWuerfel) {
         Feld feld = spiel.getFeldCopilot(feldName);
 
         if (feld.wuerfelPlatzieren(wuerfel)) {
             getWuerfels().remove(indexWuerfel);
-            if ("Kaffee1".equals(feldName) || "Kaffee2".equals(feldName) || "Kaffee3".equals(feldName)) {
-                spiel.getFeldPilot(feldName).setBelegt();
+            switch (feldName) {
+                case KAFFEE_1, KAFFEE_2, KAFFEE_3 ->
+                    spiel.getFeldPilot(feldName).setBelegt();
             }
         } else {
             throw new IllegalArgumentException("Feld '" + feldName + "' ist schon belegt!");
@@ -50,7 +53,7 @@ public class Copilot extends Spieler {
      * @param wuerfel Der zu platzierende Würfel.
      * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
      */
-    private void kaffeeAufFeldPruefenUndPlatzieren(String feldName, Wuerfel wuerfel, int indexWuerfel) {
+    private void kaffeeAufFeldPruefenUndPlatzieren(FeldName feldName, Wuerfel wuerfel, int indexWuerfel) {
         if (!spiel.getFeldPilot(feldName).isBelegt() && !spiel.getFeldCopilot(feldName).isBelegt()) {
             wuerfelAufFeldPlatzieren(feldName, wuerfel, indexWuerfel);
             KaffeeToken token = new KaffeeToken();
@@ -62,17 +65,17 @@ public class Copilot extends Spieler {
      * Implementiert die Logik zum Platzieren eines Würfels auf einem Kaffee-Feld.
      * @param wuerfel Der zu platzierende Würfel.
      * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
-     * @param kaffee Der Name des Kaffee-Feldes.
+     * @param kaffeeFeld Der Name des Kaffee-Feldes.
      * @throws IllegalArgumentException Wenn die maximale Anzahl an Kaffee-Tokens erreicht ist.
      */
     @Override
-    public void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel, String kaffee) {
+    public void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel, FeldName kaffeeFeld) {
 
         if (spiel.getKaffeeTokenCount() >= 3) {
             throw new IllegalArgumentException("Sie können nicht mehr als 3 KaffeeTokens haben!");
         }
 
-        kaffeeAufFeldPruefenUndPlatzieren(kaffee, wuerfel, indexWuerfel);
+        kaffeeAufFeldPruefenUndPlatzieren(kaffeeFeld, wuerfel, indexWuerfel);
 
     }
 
@@ -85,10 +88,10 @@ public class Copilot extends Spieler {
     @Override
     public void radioWaehlen(Wuerfel wuerfel, int indexWuerfel) {
 
-        if (!spiel.getFeldCopilot("radioFeld1").isBelegt()) {
-            wuerfelAufFeldPlatzieren("radioFeld1", wuerfel, indexWuerfel);
-        } else if (!spiel.getFeldCopilot("radioFeld2").isBelegt()) {
-            wuerfelAufFeldPlatzieren("radioFeld2", wuerfel, indexWuerfel);
+        if (!spiel.getFeldCopilot(FeldName.RADIO_COPILOT_1).isBelegt()) {
+            wuerfelAufFeldPlatzieren(FeldName.RADIO_COPILOT_1, wuerfel, indexWuerfel);
+        } else if (!spiel.getFeldCopilot(FeldName.RADIO_COPILOT_2).isBelegt()) {
+            wuerfelAufFeldPlatzieren(FeldName.RADIO_COPILOT_2, wuerfel, indexWuerfel);
         } else {
             throw new IllegalArgumentException("Beide Radiofelder sind bereits belegt!");
         }
@@ -101,7 +104,7 @@ public class Copilot extends Spieler {
      */
     @Override
     public void speedWaehlen(Wuerfel wuerfel, int indexWuerfel) {
-        wuerfelAufFeldPlatzieren("speedFeld", wuerfel, indexWuerfel);
+        wuerfelAufFeldPlatzieren(FeldName.SPEED, wuerfel, indexWuerfel);
     }
 
     /**
@@ -111,7 +114,7 @@ public class Copilot extends Spieler {
      */
     @Override
     public void neigenWaehlen(Wuerfel wuerfel, int indexWuerfel) {
-        wuerfelAufFeldPlatzieren("neigenFeld", wuerfel, indexWuerfel);
+        wuerfelAufFeldPlatzieren(FeldName.NEIGEN, wuerfel, indexWuerfel);
     }
 
     /**
@@ -124,30 +127,30 @@ public class Copilot extends Spieler {
 
         switch (wuerfel.getWert()) {
             case 1:
-                wuerfelAufFeldPlatzieren("klappenFeld1_2", wuerfel, indexWuerfel);
+                wuerfelAufFeldPlatzieren(FeldName.KLAPPEN_1_2, wuerfel, indexWuerfel);
                 break;
             case 2:
-                if (!spiel.getFeldCopilot("klappenFeld1_2").isBelegt()) {
-                    wuerfelAufFeldPlatzieren("klappenFeld1_2", wuerfel, indexWuerfel);
+                if (!spiel.getFeldCopilot(FeldName.KLAPPEN_1_2).isBelegt()) {
+                    wuerfelAufFeldPlatzieren(FeldName.KLAPPEN_1_2, wuerfel, indexWuerfel);
                     break;
                 }
-                wuerfelAufFeldPlatzieren("klappenFeld2_3", wuerfel, indexWuerfel);
+                wuerfelAufFeldPlatzieren(FeldName.KLAPPEN_2_3, wuerfel, indexWuerfel);
                 break;
             case 3:
-                wuerfelAufFeldPlatzieren("klappenFeld2_3", wuerfel, indexWuerfel);
+                wuerfelAufFeldPlatzieren(FeldName.KLAPPEN_2_3, wuerfel, indexWuerfel);
                 break;
             case 4:
-                wuerfelAufFeldPlatzieren("klappenFeld4_5", wuerfel, indexWuerfel);
+                wuerfelAufFeldPlatzieren(FeldName.KLAPPEN_4_5, wuerfel, indexWuerfel);
                 break;
             case 5:
-                if (!spiel.getFeldCopilot("klappenFeld4_5").isBelegt()) {
-                    wuerfelAufFeldPlatzieren("klappenFeld4_5", wuerfel, indexWuerfel);
+                if (!spiel.getFeldCopilot(FeldName.KLAPPEN_4_5).isBelegt()) {
+                    wuerfelAufFeldPlatzieren(FeldName.KLAPPEN_4_5, wuerfel, indexWuerfel);
                     break;
                 }
-                wuerfelAufFeldPlatzieren("klappenFeld5_6", wuerfel, indexWuerfel);
+                wuerfelAufFeldPlatzieren(FeldName.KLAPPEN_5_6, wuerfel, indexWuerfel);
                 break;
             case 6:
-                wuerfelAufFeldPlatzieren("klappenFeld5_6", wuerfel, indexWuerfel);
+                wuerfelAufFeldPlatzieren(FeldName.KLAPPEN_5_6, wuerfel, indexWuerfel);
                 break;
 
             default:

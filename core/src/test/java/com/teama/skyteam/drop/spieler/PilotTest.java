@@ -1,5 +1,7 @@
 package com.teama.skyteam.drop.spieler;
 
+import com.teama.skyteam.drop.feld.Feld;
+import com.teama.skyteam.drop.feld.FeldName;
 import com.teama.skyteam.drop.spiel.Spiel;
 import com.teama.skyteam.drop.tokens.KaffeeToken;
 import com.teama.skyteam.drop.tokens.KaffeeTokenAktion;
@@ -29,7 +31,7 @@ class PilotTest {
     @Test
     void testSpeedWaehlenSuccess() {
         Feld mockFeld = mock(Feld.class);
-        when(mockSpiel.getFeldPilot("speedFeld")).thenReturn(mockFeld);
+        when(mockSpiel.getFeldPilot(FeldName.SPEED)).thenReturn(mockFeld);
         when(mockFeld.wuerfelPlatzieren(mockWuerfel)).thenReturn(true);
 
         ArrayList<Wuerfel> wuerfels = new ArrayList<>();
@@ -37,14 +39,14 @@ class PilotTest {
         pilot.setWuerfels(wuerfels);
 
         pilot.speedWaehlen(mockWuerfel, 0);
-        verify(mockSpiel, times(1)).getFeldPilot("speedFeld");
+        verify(mockSpiel, times(1)).getFeldPilot(FeldName.SPEED);
         assertTrue(pilot.getWuerfels().isEmpty());
     }
 
     @Test
     void testSpeedWaehlenFail() {
         Feld mockFeld = mock(Feld.class);
-        when(mockSpiel.getFeldPilot("speedFeld")).thenReturn(mockFeld);
+        when(mockSpiel.getFeldPilot(FeldName.SPEED)).thenReturn(mockFeld);
         when(mockFeld.wuerfelPlatzieren(mockWuerfel)).thenReturn(false);
 
         ArrayList<Wuerfel> wuerfels = new ArrayList<>();
@@ -56,13 +58,13 @@ class PilotTest {
                 () -> pilot.speedWaehlen(mockWuerfel, 0)
         );
 
-        assertEquals("Feld 'speedFeld' ist schon belegt!", exception.getMessage());
+        assertEquals("Feld '" + FeldName.SPEED + "' ist schon belegt!", exception.getMessage());
     }
 
     @Test
     void testRadioWaehlenSuccess() {
         Feld mockFeld = mock(Feld.class);
-        when(mockSpiel.getFeldPilot("radioFeld")).thenReturn(mockFeld);
+        when(mockSpiel.getFeldPilot(FeldName.RADIO_PILOT)).thenReturn(mockFeld);
         when(mockFeld.wuerfelPlatzieren(mockWuerfel)).thenReturn(true);
 
         ArrayList<Wuerfel> wuerfels = new ArrayList<>();
@@ -71,14 +73,14 @@ class PilotTest {
 
         pilot.radioWaehlen(mockWuerfel, 0);
 
-        verify(mockSpiel, times(1)).getFeldPilot("radioFeld");
+        verify(mockSpiel, times(1)).getFeldPilot(FeldName.RADIO_PILOT);
         assertTrue(pilot.getWuerfels().isEmpty());
     }
 
     @Test
     void testRadioWaehlenFail() {
         Feld mockFeld = mock(Feld.class);
-        when(mockSpiel.getFeldPilot("radioFeld")).thenReturn(mockFeld);
+        when(mockSpiel.getFeldPilot(FeldName.RADIO_PILOT)).thenReturn(mockFeld);
         when(mockFeld.wuerfelPlatzieren(mockWuerfel)).thenReturn(false);
 
         ArrayList<Wuerfel> wuerfels = new ArrayList<>();
@@ -90,13 +92,13 @@ class PilotTest {
                 () -> pilot.radioWaehlen(mockWuerfel, 0)
         );
 
-        assertEquals("Feld 'radioFeld' ist schon belegt!", exception.getMessage());
+        assertEquals("Feld '" + FeldName.RADIO_PILOT + "' ist schon belegt!", exception.getMessage());
     }
 
     @Test
     void testNeigenWaehlenSuccess() {
         Feld mockFeld = mock(Feld.class);
-        when(mockSpiel.getFeldPilot("neigenFeld")).thenReturn(mockFeld);
+        when(mockSpiel.getFeldPilot(FeldName.NEIGEN)).thenReturn(mockFeld);
         when(mockFeld.wuerfelPlatzieren(mockWuerfel)).thenReturn(true);
 
         ArrayList<Wuerfel> wuerfels = new ArrayList<>();
@@ -105,14 +107,14 @@ class PilotTest {
 
         pilot.neigenWaehlen(mockWuerfel, 0);
 
-        verify(mockSpiel, times(1)).getFeldPilot("neigenFeld");
+        verify(mockSpiel, times(1)).getFeldPilot(FeldName.NEIGEN);
         assertTrue(pilot.getWuerfels().isEmpty());
     }
 
     @Test
     void testNeigenWaehlenFail() {
         Feld mockFeld = mock(Feld.class);
-        when(mockSpiel.getFeldPilot("neigenFeld")).thenReturn(mockFeld);
+        when(mockSpiel.getFeldPilot(FeldName.NEIGEN)).thenReturn(mockFeld);
         when(mockFeld.wuerfelPlatzieren(mockWuerfel)).thenReturn(false);
 
         ArrayList<Wuerfel> wuerfels = new ArrayList<>();
@@ -124,7 +126,7 @@ class PilotTest {
                 () -> pilot.neigenWaehlen(mockWuerfel, 0)
         );
 
-        assertEquals("Feld 'neigenFeld' ist schon belegt!", exception.getMessage());
+        assertEquals("Feld '" + FeldName.NEIGEN + "' ist schon belegt!", exception.getMessage());
     }
 
     @Test
@@ -137,7 +139,7 @@ class PilotTest {
 
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> pilot.kaffeeWaehlen(mockWuerfel, 0, "Kaffee1")
+                () -> pilot.kaffeeWaehlen(mockWuerfel, 0, FeldName.KAFFEE_1)
         );
 
         assertEquals("Sie können nicht mehr als 3 KaffeeTokens haben!", exception.getMessage());
@@ -148,7 +150,7 @@ class PilotTest {
         when(mockWuerfel.getWert()).thenReturn(2);
 
         Feld mockFeld = mock(Feld.class);
-        when(mockSpiel.getFeldPilot("bremsenFeld2")).thenReturn(mockFeld);
+        when(mockSpiel.getFeldPilot(FeldName.BREMSEN_2)).thenReturn(mockFeld);
         when(mockFeld.wuerfelPlatzieren(mockWuerfel)).thenReturn(true);
 
         ArrayList<Wuerfel> wuerfels = new ArrayList<>();
@@ -157,7 +159,7 @@ class PilotTest {
 
         pilot.bremsenWaehlen(mockWuerfel, 0);
 
-        verify(mockSpiel).getFeldPilot("bremsenFeld2");
+        verify(mockSpiel).getFeldPilot(FeldName.BREMSEN_2);
         assertTrue(pilot.getWuerfels().isEmpty());
     }
 
@@ -166,7 +168,7 @@ class PilotTest {
         when(mockWuerfel.getWert()).thenReturn(4);
 
         Feld mockFeld = mock(Feld.class);
-        when(mockSpiel.getFeldPilot("bremsenFeld4")).thenReturn(mockFeld);
+        when(mockSpiel.getFeldPilot(FeldName.BREMSEN_4)).thenReturn(mockFeld);
         when(mockFeld.wuerfelPlatzieren(mockWuerfel)).thenReturn(true);
 
         ArrayList<Wuerfel> wuerfels = new ArrayList<>();
@@ -175,7 +177,7 @@ class PilotTest {
 
         pilot.bremsenWaehlen(mockWuerfel, 0);
 
-        verify(mockSpiel).getFeldPilot("bremsenFeld4");
+        verify(mockSpiel).getFeldPilot(FeldName.BREMSEN_4);
         assertTrue(pilot.getWuerfels().isEmpty());
     }
 
@@ -184,7 +186,7 @@ class PilotTest {
         when(mockWuerfel.getWert()).thenReturn(6);
 
         Feld mockFeld = mock(Feld.class);
-        when(mockSpiel.getFeldPilot("bremsenFeld6")).thenReturn(mockFeld);
+        when(mockSpiel.getFeldPilot(FeldName.BREMSEN_6)).thenReturn(mockFeld);
         when(mockFeld.wuerfelPlatzieren(mockWuerfel)).thenReturn(true);
 
         ArrayList<Wuerfel> wuerfels = new ArrayList<>();
@@ -193,7 +195,7 @@ class PilotTest {
 
         pilot.bremsenWaehlen(mockWuerfel, 0);
 
-        verify(mockSpiel).getFeldPilot("bremsenFeld6");
+        verify(mockSpiel).getFeldPilot(FeldName.BREMSEN_6);
         assertTrue(pilot.getWuerfels().isEmpty());
     }
 
@@ -220,7 +222,7 @@ class PilotTest {
         when(mockWuerfel.getWert()).thenReturn(1);
 
         Feld mockFeld = mock(Feld.class);
-        when(mockSpiel.getFeldPilot("fahrgestellFeld1_2")).thenReturn(mockFeld);
+        when(mockSpiel.getFeldPilot(FeldName.FAHRGESTELL_1_2)).thenReturn(mockFeld);
         when(mockFeld.wuerfelPlatzieren(mockWuerfel)).thenReturn(true);
 
         ArrayList<Wuerfel> wuerfels = new ArrayList<>();
@@ -229,7 +231,7 @@ class PilotTest {
 
         pilot.fahrgestellWaehlen(mockWuerfel, 0);
 
-        verify(mockSpiel).getFeldPilot("fahrgestellFeld1_2");
+        verify(mockSpiel).getFeldPilot(FeldName.FAHRGESTELL_1_2);
         assertTrue(pilot.getWuerfels().isEmpty());
     }
 
@@ -238,7 +240,7 @@ class PilotTest {
         when(mockWuerfel.getWert()).thenReturn(3);
 
         Feld mockFeld = mock(Feld.class);
-        when(mockSpiel.getFeldPilot("fahrgestellFeld3_4")).thenReturn(mockFeld);
+        when(mockSpiel.getFeldPilot(FeldName.FAHRGESTELL_3_4)).thenReturn(mockFeld);
         when(mockFeld.wuerfelPlatzieren(mockWuerfel)).thenReturn(true);
 
         ArrayList<Wuerfel> wuerfels = new ArrayList<>();
@@ -247,7 +249,7 @@ class PilotTest {
 
         pilot.fahrgestellWaehlen(mockWuerfel, 0);
 
-        verify(mockSpiel).getFeldPilot("fahrgestellFeld3_4");
+        verify(mockSpiel).getFeldPilot(FeldName.FAHRGESTELL_3_4);
         assertTrue(pilot.getWuerfels().isEmpty());
     }
 
@@ -256,7 +258,7 @@ class PilotTest {
         when(mockWuerfel.getWert()).thenReturn(5);
 
         Feld mockFeld = mock(Feld.class);
-        when(mockSpiel.getFeldPilot("fahrgestellFeld5_6")).thenReturn(mockFeld);
+        when(mockSpiel.getFeldPilot(FeldName.FAHRGESTELL_5_6)).thenReturn(mockFeld);
         when(mockFeld.wuerfelPlatzieren(mockWuerfel)).thenReturn(true);
 
         ArrayList<Wuerfel> wuerfels = new ArrayList<>();
@@ -265,7 +267,7 @@ class PilotTest {
 
         pilot.fahrgestellWaehlen(mockWuerfel, 0);
 
-        verify(mockSpiel).getFeldPilot("fahrgestellFeld5_6");
+        verify(mockSpiel).getFeldPilot(FeldName.FAHRGESTELL_5_6);
         assertTrue(pilot.getWuerfels().isEmpty());
     }
 
@@ -291,7 +293,7 @@ class PilotTest {
         when(mockWuerfel.getWert()).thenReturn(1);
 
         Feld mockFeld = mock(Feld.class);
-        when(mockSpiel.getFeldPilot("fahrgestellFeld1_2")).thenReturn(mockFeld);
+        when(mockSpiel.getFeldPilot(FeldName.FAHRGESTELL_1_2)).thenReturn(mockFeld);
 
         when(mockFeld.wuerfelPlatzieren(mockWuerfel)).thenReturn(true);
 
@@ -315,7 +317,7 @@ class PilotTest {
                 () -> pilot.fahrgestellWaehlen(mockWuerfel2, 0)
         );
 
-        assertEquals("Feld 'fahrgestellFeld1_2' ist schon belegt!", exception.getMessage());
+        assertEquals("Feld '" + FeldName.FAHRGESTELL_1_2 + "' ist schon belegt!", exception.getMessage());
     }
 
     @Test
@@ -324,11 +326,11 @@ class PilotTest {
 
         Feld mockKaffeeFeld1Pilot = mock(Feld.class);
 
-        when(mockSpiel.getFeldPilot("Kaffee1")).thenReturn(mockKaffeeFeld1Pilot);
+        when(mockSpiel.getFeldPilot(FeldName.KAFFEE_1)).thenReturn(mockKaffeeFeld1Pilot);
 
         Feld mockKaffeeFeld1Copilot = mock(Feld.class);
 
-        when(mockSpiel.getFeldCopilot("Kaffee1")).thenReturn(mockKaffeeFeld1Copilot);
+        when(mockSpiel.getFeldCopilot(FeldName.KAFFEE_1)).thenReturn(mockKaffeeFeld1Copilot);
 
         when(mockKaffeeFeld1Pilot.isBelegt()).thenReturn(false);
         when(mockKaffeeFeld1Copilot.isBelegt()).thenReturn(false);
@@ -340,7 +342,7 @@ class PilotTest {
         wuerfels.add(mockWuerfel);
         pilot.setWuerfels(wuerfels);
 
-        pilot.kaffeeWaehlen(mockWuerfel, 0, "Kaffee1");
+        pilot.kaffeeWaehlen(mockWuerfel, 0, FeldName.KAFFEE_1);
 
         verify(mockSpiel, times(1)).kaffeeTokenAnzahlErhoehen(any(KaffeeToken.class));
         assertTrue(pilot.getWuerfels().isEmpty());

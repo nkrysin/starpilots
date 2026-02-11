@@ -8,9 +8,10 @@
  */
 package com.teama.skyteam.drop.spiel;
 
+import com.teama.skyteam.drop.feld.FeldName;
 import com.teama.skyteam.drop.flugzeug.Flugzeug;
 import com.teama.skyteam.drop.spieler.Copilot;
-import com.teama.skyteam.drop.spieler.Feld;
+import com.teama.skyteam.drop.feld.Feld;
 import com.teama.skyteam.drop.spieler.Pilot;
 import com.teama.skyteam.drop.szenario.ReiseFeld;
 import com.teama.skyteam.drop.szenario.Route;
@@ -20,16 +21,13 @@ import com.teama.skyteam.drop.tokens.KaffeeToken;
 import com.teama.skyteam.drop.tokens.NeuWurfToken;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Spiel {
     private Pilot pilot;
     private Copilot copilot;
-    private HashMap<String, Feld> pilotFelds;
-    private HashMap<String, Feld> copilotFelds;
+    private EnumMap<FeldName, Feld> pilotFelds;
+    private EnumMap<FeldName, Feld> copilotFelds;
     private ReiseFeld currentField;
     private int position = 0;
     private Flughoehe currentHoehe;
@@ -120,19 +118,19 @@ public class Spiel {
      * Initialisiert die Spielfelder für den Piloten
      */
     void setPilotFelds() {
-        HashMap<String, Feld> pilotFelds = new HashMap<>();
-        pilotFelds.put("radioFeld", new Feld());
-        pilotFelds.put("neigenFeld", new Feld());
-        pilotFelds.put("speedFeld", new Feld());
-        pilotFelds.put("fahrgestellFeld1_2", new Feld());
-        pilotFelds.put("fahrgestellFeld3_4", new Feld());
-        pilotFelds.put("fahrgestellFeld5_6", new Feld());
-        pilotFelds.put("bremsenFeld2", new Feld());
-        pilotFelds.put("bremsenFeld4", new Feld());
-        pilotFelds.put("bremsenFeld6", new Feld());
-        pilotFelds.put("Kaffee1", new Feld());
-        pilotFelds.put("Kaffee2", new Feld());
-        pilotFelds.put("Kaffee3", new Feld());
+        EnumMap<FeldName, Feld> pilotFelds = new EnumMap<>(FeldName.class);
+        pilotFelds.put(FeldName.RADIO_PILOT, new Feld());
+        pilotFelds.put(FeldName.NEIGEN, new Feld());
+        pilotFelds.put(FeldName.SPEED, new Feld());
+        pilotFelds.put(FeldName.FAHRGESTELL_1_2, new Feld());
+        pilotFelds.put(FeldName.FAHRGESTELL_3_4, new Feld());
+        pilotFelds.put(FeldName.FAHRGESTELL_5_6, new Feld());
+        pilotFelds.put(FeldName.BREMSEN_2, new Feld());
+        pilotFelds.put(FeldName.BREMSEN_4, new Feld());
+        pilotFelds.put(FeldName.BREMSEN_6, new Feld());
+        pilotFelds.put(FeldName.KAFFEE_1, new Feld());
+        pilotFelds.put(FeldName.KAFFEE_2, new Feld());
+        pilotFelds.put(FeldName.KAFFEE_3, new Feld());
         this.pilotFelds = pilotFelds;
 
     }
@@ -141,39 +139,39 @@ public class Spiel {
      * Initialisiert die Spielfelder für den Copiloten
      */
     void setCopilotFelds() {
-        HashMap<String, Feld> copilotFelds = new HashMap<>();
-        copilotFelds.put("radioFeld1", new Feld());
-        copilotFelds.put("radioFeld2", new Feld());
-        copilotFelds.put("neigenFeld", new Feld());
-        copilotFelds.put("speedFeld", new Feld());
-        copilotFelds.put("klappenFeld1_2", new Feld());
-        copilotFelds.put("klappenFeld2_3", new Feld());
-        copilotFelds.put("klappenFeld4_5", new Feld());
-        copilotFelds.put("klappenFeld5_6", new Feld());
-        copilotFelds.put("Kaffee1", new Feld());
-        copilotFelds.put("Kaffee2", new Feld());
-        copilotFelds.put("Kaffee3", new Feld());
+        EnumMap<FeldName, Feld> copilotFelds = new EnumMap<>(FeldName.class);
+        copilotFelds.put(FeldName.RADIO_COPILOT_1, new Feld());
+        copilotFelds.put(FeldName.RADIO_COPILOT_2, new Feld());
+        copilotFelds.put(FeldName.NEIGEN, new Feld());
+        copilotFelds.put(FeldName.SPEED, new Feld());
+        copilotFelds.put(FeldName.KLAPPEN_1_2, new Feld());
+        copilotFelds.put(FeldName.KLAPPEN_2_3, new Feld());
+        copilotFelds.put(FeldName.KLAPPEN_4_5, new Feld());
+        copilotFelds.put(FeldName.KLAPPEN_5_6, new Feld());
+        copilotFelds.put(FeldName.KAFFEE_1, new Feld());
+        copilotFelds.put(FeldName.KAFFEE_2, new Feld());
+        copilotFelds.put(FeldName.KAFFEE_3, new Feld());
         this.copilotFelds = copilotFelds;
     }
 
     /**
      * Gibt ein bestimmtes Feld des Piloten basierend auf seinem Namen zurück.
      *
-     * @param name Der Name des Spielfeldes.
+     * @param key Der Name des Spielfeldes.
      * @return Das entsprechende Spielfeld des Piloten.
      */
-    public Feld getFeldPilot(String name) {
-        return pilotFelds.get(name);
+    public Feld getFeldPilot(FeldName key) {
+        return pilotFelds.get(key);
     }
 
     /**
      * Gibt ein bestimmtes Feld des Copiloten basierend auf seinem Namen zurück.
      *
-     * @param name Der Name des Spielfeldes.
+     * @param key Der Name des Spielfeldes.
      * @return Das entsprechende Spielfeld des Copiloten.
      */
-    public Feld getFeldCopilot(String name) {
-        return copilotFelds.get(name);
+    public Feld getFeldCopilot(FeldName key) {
+        return copilotFelds.get(key);
     }
 
 

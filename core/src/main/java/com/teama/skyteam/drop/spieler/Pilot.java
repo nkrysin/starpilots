@@ -1,5 +1,7 @@
 package com.teama.skyteam.drop.spieler;
 
+import com.teama.skyteam.drop.feld.Feld;
+import com.teama.skyteam.drop.feld.FeldName;
 import com.teama.skyteam.drop.spiel.Spiel;
 import com.teama.skyteam.drop.tokens.KaffeeToken;
 import com.teama.skyteam.drop.tokens.Wuerfel;
@@ -13,7 +15,7 @@ import com.teama.skyteam.drop.tokens.Wuerfel;
 
 public class Pilot extends Spieler{
 
-    private  Spiel spiel;
+    private Spiel spiel;
 
     public Pilot(Spiel spiel) {
         super();
@@ -29,15 +31,16 @@ public class Pilot extends Spieler{
      * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
      * @throws IllegalArgumentException Wenn das Feld bereits belegt ist.
      */
-    private void wuerfelAufFeldPlatzieren(String feldName, Wuerfel wuerfel, int indexWuerfel) {
+    private void wuerfelAufFeldPlatzieren(FeldName feldName, Wuerfel wuerfel, int indexWuerfel) {
         Feld feld = spiel.getFeldPilot(feldName);
 
         if (feld.wuerfelPlatzieren(wuerfel)) {
             getWuerfels().remove(indexWuerfel);
-            if ("Kaffee1".equals(feldName) || "Kaffee2".equals(feldName) || "Kaffee3".equals(feldName)) {
-                spiel.getFeldCopilot(feldName).setBelegt();
-
+            switch (feldName) {
+                case KAFFEE_1, KAFFEE_2, KAFFEE_3 ->
+                    spiel.getFeldCopilot(feldName).setBelegt();
             }
+
         } else {
             throw new IllegalArgumentException("Feld '" + feldName + "' ist schon belegt!");
         }
@@ -52,7 +55,7 @@ public class Pilot extends Spieler{
      * @param wuerfel  Der zu platzierende Würfel.
      * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
      */
-    private void kaffeeAufFeldPruefenUndPlatzieren(String feldName, Wuerfel wuerfel, int indexWuerfel) {
+    private void kaffeeAufFeldPruefenUndPlatzieren(FeldName feldName, Wuerfel wuerfel, int indexWuerfel) {
         if (!spiel.getFeldPilot(feldName).isBelegt() && !spiel.getFeldCopilot(feldName).isBelegt()) {
             wuerfelAufFeldPlatzieren(feldName, wuerfel, indexWuerfel);
             KaffeeToken token = new KaffeeToken();
@@ -68,7 +71,7 @@ public class Pilot extends Spieler{
      * @throws IllegalArgumentException Wenn die maximale Anzahl an Kaffee-Tokens erreicht ist.
      */
     @Override
-    public void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel, String kaffeeFeld) {
+    public void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel, FeldName kaffeeFeld) {
         if (spiel.getKaffeeTokenCount() >= 3) {
             throw new IllegalArgumentException("Sie können nicht mehr als 3 KaffeeTokens haben!");
         }
@@ -84,7 +87,7 @@ public class Pilot extends Spieler{
      */
     @Override
     public void radioWaehlen(Wuerfel wuerfel, int indexWuerfel) {
-        wuerfelAufFeldPlatzieren("radioFeld", wuerfel, indexWuerfel);
+        wuerfelAufFeldPlatzieren(FeldName.RADIO_PILOT, wuerfel, indexWuerfel);
     }
 
     /**
@@ -94,7 +97,7 @@ public class Pilot extends Spieler{
      */
     @Override
     public void speedWaehlen(Wuerfel wuerfel, int indexWuerfel) {
-        wuerfelAufFeldPlatzieren("speedFeld", wuerfel, indexWuerfel);
+        wuerfelAufFeldPlatzieren(FeldName.SPEED, wuerfel, indexWuerfel);
     }
 
     /**
@@ -104,7 +107,7 @@ public class Pilot extends Spieler{
      */
     @Override
     public void neigenWaehlen(Wuerfel wuerfel, int indexWuerfel) {
-        wuerfelAufFeldPlatzieren("neigenFeld", wuerfel, indexWuerfel);
+        wuerfelAufFeldPlatzieren(FeldName.NEIGEN, wuerfel, indexWuerfel);
     }
 
     /**
@@ -117,13 +120,13 @@ public class Pilot extends Spieler{
 
         switch (wuerfel.getWert()) {
             case 2:
-                wuerfelAufFeldPlatzieren("bremsenFeld2", wuerfel, indexWuerfel);
+                wuerfelAufFeldPlatzieren(FeldName.BREMSEN_2, wuerfel, indexWuerfel);
                 break;
             case 4:
-                wuerfelAufFeldPlatzieren("bremsenFeld4", wuerfel, indexWuerfel);
+                wuerfelAufFeldPlatzieren(FeldName.BREMSEN_4, wuerfel, indexWuerfel);
                 break;
             case 6:
-                wuerfelAufFeldPlatzieren("bremsenFeld6", wuerfel, indexWuerfel);
+                wuerfelAufFeldPlatzieren(FeldName.BREMSEN_6, wuerfel, indexWuerfel);
                 break;
             default:
                 throw new IllegalArgumentException("Ein Würfel mit diesem Wert kann nicht auf diesem Feld platziert werden!");
@@ -140,13 +143,13 @@ public class Pilot extends Spieler{
 
         switch (wuerfel.getWert()) {
             case 1,2:
-                wuerfelAufFeldPlatzieren("fahrgestellFeld1_2", wuerfel, indexWuerfel);
+                wuerfelAufFeldPlatzieren(FeldName.FAHRGESTELL_1_2, wuerfel, indexWuerfel);
                 break;
             case 3,4:
-                wuerfelAufFeldPlatzieren("fahrgestellFeld3_4", wuerfel, indexWuerfel);
+                wuerfelAufFeldPlatzieren(FeldName.FAHRGESTELL_3_4, wuerfel, indexWuerfel);
                 break;
             case 5,6:
-                wuerfelAufFeldPlatzieren("fahrgestellFeld5_6", wuerfel, indexWuerfel);
+                wuerfelAufFeldPlatzieren(FeldName.FAHRGESTELL_5_6, wuerfel, indexWuerfel);
                 break;
             default:
                 throw new IllegalArgumentException("Ein Würfel mit diesem Wert kann nicht auf diesem Feld platziert werden!");

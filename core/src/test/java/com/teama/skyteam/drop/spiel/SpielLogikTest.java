@@ -3,11 +3,12 @@ package com.teama.skyteam.drop.spiel;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.teama.skyteam.drop.feld.FeldName;
 import com.teama.skyteam.drop.flugzeug.*;
 import com.teama.skyteam.drop.gui.SchalterGUI;
 import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
 import com.teama.skyteam.drop.spieler.Copilot;
-import com.teama.skyteam.drop.spieler.Feld;
+import com.teama.skyteam.drop.feld.Feld;
 import com.teama.skyteam.drop.spieler.Pilot;
 import com.teama.skyteam.drop.spieler.Spieler;
 import com.teama.skyteam.drop.szenario.ReiseFeld;
@@ -66,12 +67,12 @@ public class SpielLogikTest {
         Feld kaffeeFeld2 = mock(Feld.class);
         Feld kaffeeFeld3 = mock(Feld.class);
 
-        when(spiel.getFeldPilot("Kaffee1")).thenReturn(kaffeeFeld1);
-        when(spiel.getFeldCopilot("Kaffee1")).thenReturn(kaffeeFeld1);
-        when(spiel.getFeldPilot("Kaffee2")).thenReturn(kaffeeFeld2);
-        when(spiel.getFeldCopilot("Kaffee2")).thenReturn(kaffeeFeld2);
-        when(spiel.getFeldPilot("Kaffee3")).thenReturn(kaffeeFeld3);
-        when(spiel.getFeldCopilot("Kaffee3")).thenReturn(kaffeeFeld3);
+        when(spiel.getFeldPilot(FeldName.KAFFEE_1)).thenReturn(kaffeeFeld1);
+        when(spiel.getFeldCopilot(FeldName.KAFFEE_1)).thenReturn(kaffeeFeld1);
+        when(spiel.getFeldPilot(FeldName.KAFFEE_2)).thenReturn(kaffeeFeld2);
+        when(spiel.getFeldCopilot(FeldName.KAFFEE_2)).thenReturn(kaffeeFeld2);
+        when(spiel.getFeldPilot(FeldName.KAFFEE_3)).thenReturn(kaffeeFeld3);
+        when(spiel.getFeldCopilot(FeldName.KAFFEE_3)).thenReturn(kaffeeFeld3);
 
         spielLogik = new SpielLogik(spiel, stage, skin, schalterGUI, ruder, szenarioHoeheManager);
     }
@@ -168,7 +169,7 @@ public class SpielLogikTest {
         when(gewaehlterWuerfel.getWert()).thenReturn(3);
 
         Feld radioFeld = mock(Feld.class);
-        when(spiel.getFeldPilot("radioFeld")).thenReturn(radioFeld);
+        when(spiel.getFeldPilot(FeldName.RADIO_PILOT)).thenReturn(radioFeld);
         when(radioFeld.isBelegt()).thenReturn(false);
 
         TreeMap<Integer, ReiseFeld> routeSzenario = new TreeMap<>();
@@ -181,7 +182,7 @@ public class SpielLogikTest {
         spielLogik.pilotSchritt(pilot, "PRadio", gewaehlterWuerfel, 0);
 
         verify(pilot).radioWaehlen(gewaehlterWuerfel, 0);
-        verify(spiel, atLeastOnce()).getFeldPilot("radioFeld");
+        verify(spiel, atLeastOnce()).getFeldPilot(FeldName.RADIO_PILOT);
     }
 
 
@@ -193,8 +194,10 @@ public class SpielLogikTest {
 
         Feld radioFeld1 = mock(Feld.class);
         Feld radioFeld2 = mock(Feld.class);
-        when(spiel.getFeldCopilot("radioFeld1")).thenReturn(radioFeld1);
-        when(spiel.getFeldCopilot("radioFeld2")).thenReturn(radioFeld2);
+        when(spiel.getFeldCopilot(FeldName.RADIO_COPILOT_1))
+            .thenReturn(radioFeld1);
+        when(spiel.getFeldCopilot(FeldName.RADIO_COPILOT_2))
+            .thenReturn(radioFeld2);
         when(radioFeld1.isBelegt()).thenReturn(false);
         when(radioFeld2.isBelegt()).thenReturn(false);
 
@@ -208,7 +211,7 @@ public class SpielLogikTest {
         spielLogik.copilotSchritt(copilot, "CRadio1", gewaehlterWuerfel, 0);
 
         verify(copilot).radioWaehlen(gewaehlterWuerfel, 0);
-        verify(spiel, atLeastOnce()).getFeldCopilot("radioFeld1");
+        verify(spiel, atLeastOnce()).getFeldCopilot(FeldName.RADIO_COPILOT_1);
 
         verify(copilot).radioWaehlen(gewaehlterWuerfel, 0);
         verify(spiel).getRouteSzenario();
@@ -220,8 +223,8 @@ public class SpielLogikTest {
     void testFeldZustandAktualisieren() {
         Feld speedFeldPilot = mock(Feld.class);
         Feld speedFeldCopilot = mock(Feld.class);
-        when(spiel.getFeldPilot("speedFeld")).thenReturn(speedFeldPilot);
-        when(spiel.getFeldCopilot("speedFeld")).thenReturn(speedFeldCopilot);
+        when(spiel.getFeldPilot(FeldName.SPEED)).thenReturn(speedFeldPilot);
+        when(spiel.getFeldCopilot(FeldName.SPEED)).thenReturn(speedFeldCopilot);
         when(speedFeldPilot.isBelegt()).thenReturn(true);
         when(speedFeldCopilot.isBelegt()).thenReturn(true);
 
@@ -243,8 +246,8 @@ public class SpielLogikTest {
 
         spielLogik.reiseFeldZustandAktualisieren();
 
-        verify(spiel, atLeastOnce()).getFeldPilot("speedFeld");
-        verify(spiel, atLeastOnce()).getFeldCopilot("speedFeld");
+        verify(spiel, atLeastOnce()).getFeldPilot(FeldName.SPEED);
+        verify(spiel, atLeastOnce()).getFeldCopilot(FeldName.SPEED);
         verify(flugzeug).setSpeedAktuell(7);
         verify(spiel).setCurrentSpeed(1);
     }
@@ -274,8 +277,8 @@ public class SpielLogikTest {
     void testNeigenSetzen() {
         Feld neigenFeldPilot = mock(Feld.class);
         Feld neigenFeldCopilot = mock(Feld.class);
-        when(spiel.getFeldPilot("neigenFeld")).thenReturn(neigenFeldPilot);
-        when(spiel.getFeldCopilot("neigenFeld")).thenReturn(neigenFeldCopilot);
+        when(spiel.getFeldPilot(FeldName.NEIGEN)).thenReturn(neigenFeldPilot);
+        when(spiel.getFeldCopilot(FeldName.NEIGEN)).thenReturn(neigenFeldCopilot);
         when(neigenFeldPilot.isBelegt()).thenReturn(true);
         when(neigenFeldCopilot.isBelegt()).thenReturn(true);
 
@@ -362,14 +365,17 @@ public class SpielLogikTest {
         Feld mockRadioFeld1Copilot = mock(Feld.class);
         Feld mockRadioFeld2Copilot = mock(Feld.class);
 
-        when(spiel.getFeldPilot("neigenFeld")).thenReturn(mockNeigenFeldPilot);
-        when(spiel.getFeldPilot("speedFeld")).thenReturn(mockSpeedFeldPilot);
-        when(spiel.getFeldPilot("radioFeld")).thenReturn(mockRadioFeldPilot);
+        when(spiel.getFeldPilot(FeldName.NEIGEN)).thenReturn(mockNeigenFeldPilot);
+        when(spiel.getFeldPilot(FeldName.SPEED)).thenReturn(mockSpeedFeldPilot);
+        when(spiel.getFeldPilot(FeldName.RADIO_PILOT)).thenReturn(mockRadioFeldPilot);
 
-        when(spiel.getFeldCopilot("neigenFeld")).thenReturn(mockNeigenFeldCopilot);
-        when(spiel.getFeldCopilot("speedFeld")).thenReturn(mockSpeedFeldCopilot);
-        when(spiel.getFeldCopilot("radioFeld1")).thenReturn(mockRadioFeld1Copilot);
-        when(spiel.getFeldCopilot("radioFeld2")).thenReturn(mockRadioFeld2Copilot);
+        when(spiel.getFeldCopilot(FeldName.NEIGEN)).thenReturn(mockNeigenFeldCopilot);
+        when(spiel.getFeldCopilot(FeldName.SPEED)).thenReturn(mockSpeedFeldCopilot);
+        when(spiel.getFeldCopilot(FeldName.RADIO_COPILOT_1))
+            .thenReturn(mockRadioFeld1Copilot);
+        when(spiel.getFeldCopilot(FeldName.RADIO_COPILOT_2))
+            .thenReturn(mockRadioFeld2Copilot);
+
 
         spielLogik.clearManyUseFelds();
 
@@ -396,17 +402,17 @@ public class SpielLogikTest {
         Feld feld9 = mock(Feld.class);
         Feld feld10 = mock(Feld.class);
 
-        when(spiel.getFeldPilot("fahrgestellFeld1_2")).thenReturn(feld1);
-        when(spiel.getFeldPilot("fahrgestellFeld3_4")).thenReturn(feld2);
-        when(spiel.getFeldPilot("fahrgestellFeld5_6")).thenReturn(feld3);
-        when(spiel.getFeldPilot("bremsenFeld2")).thenReturn(feld4);
-        when(spiel.getFeldPilot("bremsenFeld4")).thenReturn(feld5);
-        when(spiel.getFeldPilot("bremsenFeld6")).thenReturn(feld6);
+        when(spiel.getFeldPilot(FeldName.FAHRGESTELL_1_2)).thenReturn(feld1);
+        when(spiel.getFeldPilot(FeldName.FAHRGESTELL_3_4)).thenReturn(feld2);
+        when(spiel.getFeldPilot(FeldName.FAHRGESTELL_5_6)).thenReturn(feld3);
+        when(spiel.getFeldPilot(FeldName.BREMSEN_2)).thenReturn(feld4);
+        when(spiel.getFeldPilot(FeldName.BREMSEN_4)).thenReturn(feld5);
+        when(spiel.getFeldPilot(FeldName.BREMSEN_6)).thenReturn(feld6);
 
-        when(spiel.getFeldCopilot("klappenFeld1_2")).thenReturn(feld7);
-        when(spiel.getFeldCopilot("klappenFeld2_3")).thenReturn(feld8);
-        when(spiel.getFeldCopilot("klappenFeld4_5")).thenReturn(feld9);
-        when(spiel.getFeldCopilot("klappenFeld5_6")).thenReturn(feld10);
+        when(spiel.getFeldCopilot(FeldName.KLAPPEN_1_2)).thenReturn(feld7);
+        when(spiel.getFeldCopilot(FeldName.KLAPPEN_2_3)).thenReturn(feld8);
+        when(spiel.getFeldCopilot(FeldName.KLAPPEN_4_5)).thenReturn(feld9);
+        when(spiel.getFeldCopilot(FeldName.KLAPPEN_5_6)).thenReturn(feld10);
 
         ArrayList<Feld> oneUseFelds = spielLogik.getOneUseFelds();
 
@@ -536,12 +542,12 @@ public class SpielLogikTest {
         Feld mockKaffeeFeld3Pilot = mock(Feld.class);
         Feld mockKaffeeFeld3Copilot = mock(Feld.class);
 
-        when(spiel.getFeldPilot("Kaffee1")).thenReturn(mockKaffeeFeld1Pilot);
-        when(spiel.getFeldCopilot("Kaffee1")).thenReturn(mockKaffeeFeld1Copilot);
-        when(spiel.getFeldPilot("Kaffee2")).thenReturn(mockKaffeeFeld2Pilot);
-        when(spiel.getFeldCopilot("Kaffee2")).thenReturn(mockKaffeeFeld2Copilot);
-        when(spiel.getFeldPilot("Kaffee3")).thenReturn(mockKaffeeFeld3Pilot);
-        when(spiel.getFeldCopilot("Kaffee3")).thenReturn(mockKaffeeFeld3Copilot);
+        when(spiel.getFeldPilot(FeldName.KAFFEE_1)).thenReturn(mockKaffeeFeld1Pilot);
+        when(spiel.getFeldCopilot(FeldName.KAFFEE_1)).thenReturn(mockKaffeeFeld1Copilot);
+        when(spiel.getFeldPilot(FeldName.KAFFEE_2)).thenReturn(mockKaffeeFeld2Pilot);
+        when(spiel.getFeldCopilot(FeldName.KAFFEE_2)).thenReturn(mockKaffeeFeld2Copilot);
+        when(spiel.getFeldPilot(FeldName.KAFFEE_3)).thenReturn(mockKaffeeFeld3Pilot);
+        when(spiel.getFeldCopilot(FeldName.KAFFEE_3)).thenReturn(mockKaffeeFeld3Copilot);
         when(spiel.getKaffeeTokenCount()).thenReturn(0);
 
         spielLogik.clearKaffeeFeld();
@@ -561,10 +567,10 @@ public class SpielLogikTest {
         Feld mockKaffeeFeld3Pilot = mock(Feld.class);
         Feld mockKaffeeFeld3Copilot = mock(Feld.class);
 
-        when(spiel.getFeldPilot("Kaffee2")).thenReturn(mockKaffeeFeld2Pilot);
-        when(spiel.getFeldCopilot("Kaffee2")).thenReturn(mockKaffeeFeld2Copilot);
-        when(spiel.getFeldPilot("Kaffee3")).thenReturn(mockKaffeeFeld3Pilot);
-        when(spiel.getFeldCopilot("Kaffee3")).thenReturn(mockKaffeeFeld3Copilot);
+        when(spiel.getFeldPilot(FeldName.KAFFEE_2)).thenReturn(mockKaffeeFeld2Pilot);
+        when(spiel.getFeldCopilot(FeldName.KAFFEE_2)).thenReturn(mockKaffeeFeld2Copilot);
+        when(spiel.getFeldPilot(FeldName.KAFFEE_3)).thenReturn(mockKaffeeFeld3Pilot);
+        when(spiel.getFeldCopilot(FeldName.KAFFEE_3)).thenReturn(mockKaffeeFeld3Copilot);
         when(spiel.getKaffeeTokenCount()).thenReturn(1);
 
         spielLogik.clearKaffeeFeld();
@@ -580,8 +586,8 @@ public class SpielLogikTest {
         Feld mockKaffeeFeld3Pilot = mock(Feld.class);
         Feld mockKaffeeFeld3Copilot = mock(Feld.class);
 
-        when(spiel.getFeldPilot("Kaffee3")).thenReturn(mockKaffeeFeld3Pilot);
-        when(spiel.getFeldCopilot("Kaffee3")).thenReturn(mockKaffeeFeld3Copilot);
+        when(spiel.getFeldPilot(FeldName.KAFFEE_3)).thenReturn(mockKaffeeFeld3Pilot);
+        when(spiel.getFeldCopilot(FeldName.KAFFEE_3)).thenReturn(mockKaffeeFeld3Copilot);
         when(spiel.getKaffeeTokenCount()).thenReturn(2);
 
         spielLogik.clearKaffeeFeld();
@@ -634,8 +640,8 @@ public class SpielLogikTest {
     void testFeldZustandAktualisierenStepsIsZero() {
         Feld speedFeldPilot = mock(Feld.class);
         Feld speedFeldCopilot = mock(Feld.class);
-        when(spiel.getFeldPilot("speedFeld")).thenReturn(speedFeldPilot);
-        when(spiel.getFeldCopilot("speedFeld")).thenReturn(speedFeldCopilot);
+        when(spiel.getFeldPilot(FeldName.SPEED)).thenReturn(speedFeldPilot);
+        when(spiel.getFeldCopilot(FeldName.SPEED)).thenReturn(speedFeldCopilot);
         when(speedFeldPilot.isBelegt()).thenReturn(true);
         when(speedFeldCopilot.isBelegt()).thenReturn(true);
 
@@ -664,8 +670,8 @@ public class SpielLogikTest {
     void testFeldZustandAktualisierenStepsIsTwo() {
         Feld speedFeldPilot = mock(Feld.class);
         Feld speedFeldCopilot = mock(Feld.class);
-        when(spiel.getFeldPilot("speedFeld")).thenReturn(speedFeldPilot);
-        when(spiel.getFeldCopilot("speedFeld")).thenReturn(speedFeldCopilot);
+        when(spiel.getFeldPilot(FeldName.SPEED)).thenReturn(speedFeldPilot);
+        when(spiel.getFeldCopilot(FeldName.SPEED)).thenReturn(speedFeldCopilot);
         when(speedFeldPilot.isBelegt()).thenReturn(true);
         when(speedFeldCopilot.isBelegt()).thenReturn(true);
 

@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.teama.skyteam.drop.feld.FeldName;
 import com.teama.skyteam.drop.gui.buttons.ControlField;
 import com.teama.skyteam.drop.gui.buttons.ControlGroup;
 import com.teama.skyteam.drop.gui.utilities.PlayerActionCallback;
@@ -26,7 +27,7 @@ import com.teama.skyteam.drop.gui.utilities.SelectedWuerfelData;
 import com.teama.skyteam.drop.gui.utilities.TextureCache;
 import com.teama.skyteam.drop.spiel.Spiel;
 import com.teama.skyteam.drop.spiel.SpielLogik;
-import com.teama.skyteam.drop.spieler.Feld;
+import com.teama.skyteam.drop.feld.Feld;
 import com.teama.skyteam.drop.spieler.Pilot;
 import com.teama.skyteam.drop.spieler.Spieler;
 import com.teama.skyteam.drop.tokens.Wuerfel;
@@ -580,13 +581,13 @@ public class SpielGUI {
         Feld feldSpeed;
         int anzahlWuerfels;
         if (spieler instanceof Pilot) {
-            feldNeigung = spiel.getFeldPilot("neigenFeld");
-            feldSpeed = spiel.getFeldPilot("speedFeld");
+            feldNeigung = spiel.getFeldPilot(FeldName.NEIGEN);
+            feldSpeed = spiel.getFeldPilot(FeldName.SPEED);
             anzahlWuerfels = spiel.getPilot().getAnzahlWuerfels();
             spieler = spiel.getPilot();
         } else {
-            feldNeigung = spiel.getFeldCopilot("neigenFeld");
-            feldSpeed = spiel.getFeldCopilot("speedFeld");
+            feldNeigung = spiel.getFeldCopilot(FeldName.NEIGEN);
+            feldSpeed = spiel.getFeldCopilot(FeldName.SPEED);
             anzahlWuerfels = spiel.getCopilot().getAnzahlWuerfels();
             spieler = spiel.getCopilot();
         }
@@ -613,16 +614,16 @@ public class SpielGUI {
         ControlGroup allFields;
         ControlGroup kaffeeFields;
         if (spieler instanceof Pilot) {
-            feldNeigung = spiel.getFeldPilot("neigenFeld");
-            feldSpeed = spiel.getFeldPilot("speedFeld");
+            feldNeigung = spiel.getFeldPilot(FeldName.NEIGEN);
+            feldSpeed = spiel.getFeldPilot(FeldName.SPEED);
             neigungField = getControlGroupByName("Pilot Controls").getFieldByName("PNeigung");
             speedField = getControlGroupByName("Pilot Controls").getFieldByName("PSpeed");
             allFields = getControlGroupByName("Pilot Controls");
             kaffeeFields = pilotKaffeeControlGroup;
             spieler = spiel.getPilot();
         } else {
-            feldNeigung = spiel.getFeldCopilot("neigenFeld");
-            feldSpeed = spiel.getFeldCopilot("speedFeld");
+            feldNeigung = spiel.getFeldCopilot(FeldName.NEIGEN);
+            feldSpeed = spiel.getFeldCopilot(FeldName.SPEED);
             neigungField = getControlGroupByName("Copilot Controls").getFieldByName("CNeigung");
             speedField = getControlGroupByName("Copilot Controls").getFieldByName("CSpeed");
             allFields = getControlGroupByName("Copilot Controls");

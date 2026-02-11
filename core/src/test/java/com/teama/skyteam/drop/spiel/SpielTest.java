@@ -3,6 +3,7 @@ package com.teama.skyteam.drop.spiel;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.teama.skyteam.drop.feld.FeldName;
 import com.teama.skyteam.drop.szenario.ReiseFeld;
 import com.teama.skyteam.drop.szenario.Route;
 import com.teama.skyteam.drop.tokens.KaffeeToken;
@@ -73,8 +74,8 @@ class SpielTest {
         Spiel spiel = new Spiel();
         spiel.setPilotFelds();
 
-        assertNotNull(spiel.getFeldPilot("radioFeld"));
-        assertNotNull(spiel.getFeldPilot("Kaffee1"));
+        assertNotNull(spiel.getFeldPilot(FeldName.RADIO_PILOT));
+        assertNotNull(spiel.getFeldPilot(FeldName.KAFFEE_1));
     }
 
     @Test
@@ -82,8 +83,8 @@ class SpielTest {
         Spiel spiel = new Spiel();
         spiel.setCopilotFelds();
 
-        assertNotNull(spiel.getFeldCopilot("radioFeld1"));
-        assertNotNull(spiel.getFeldCopilot("Kaffee2"));
+        assertNotNull(spiel.getFeldCopilot(FeldName.RADIO_COPILOT_1));
+        assertNotNull(spiel.getFeldCopilot(FeldName.KAFFEE_2));
     }
 
     @Test
