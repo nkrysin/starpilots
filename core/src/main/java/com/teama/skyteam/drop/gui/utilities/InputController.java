@@ -19,6 +19,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.teama.skyteam.drop.MainBk;
+import com.teama.skyteam.drop.gui.TexturePaths;
+import com.teama.skyteam.drop.gui.UILayout;
 import com.teama.skyteam.drop.gui.menu.ButtonStyle;
 import com.teama.skyteam.drop.gui.menu.MainMenuScreen;
 
@@ -28,8 +30,6 @@ public class InputController {
     private float tableHeight;
     private Stage stage;
     private Stage pauseStage;
-
-    private float cameraSpeed = 10f;
 
     private boolean limitCamera = true;
     private boolean isPaused = false;
@@ -62,7 +62,7 @@ public class InputController {
     private void createPauseStage(){
         pauseStage = new Stage(new ScreenViewport());
 
-        Texture backgroundTexture = new Texture("images/spiel/main/pause_background.png");
+        Texture backgroundTexture = new Texture(TexturePaths.BACKGROUND_PATH);
         pauseBackground = new Image(backgroundTexture);
         pauseBackground.setFillParent(true);
         pauseStage.addActor(pauseBackground);
@@ -132,10 +132,10 @@ public class InputController {
 
         if (!isPaused) {
             if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                camera.position.y += cameraSpeed;
+                camera.position.y += UILayout.CAMERA_SPEED;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                camera.position.y -= cameraSpeed;
+                camera.position.y -= UILayout.CAMERA_SPEED;
             }
 
             if (limitCamera) {

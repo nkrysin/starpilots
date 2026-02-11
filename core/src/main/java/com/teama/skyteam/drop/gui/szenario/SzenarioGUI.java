@@ -9,6 +9,7 @@ package com.teama.skyteam.drop.gui.szenario;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.teama.skyteam.drop.gui.TexturePaths;
 import com.teama.skyteam.drop.gui.UILayout;
 import com.teama.skyteam.drop.spiel.Spiel;
 import com.teama.skyteam.drop.szenario.ReiseFeld;
@@ -28,10 +29,10 @@ public class SzenarioGUI {
 
     public SzenarioGUI(Spiel spiel) {
         this.spiel = spiel;
-        planeTexture = new Texture("images/spiel/tokens/plane.png");
-        emptyTexture = new Texture("images/spiel/main/empty.png");
+        planeTexture = new Texture(TexturePaths.PLANE_PATH);
+        emptyTexture = new Texture(TexturePaths.WITHOUT_HIGHLIGHT_PATH);
         szenarioName = spiel.getSzenario().getSzenarioName();
-        szenarioTexture = new Texture("images/szenario/" + szenarioName + ".png");
+        szenarioTexture = new Texture(TexturePaths.ASSETS_SZENARIO_PATH + szenarioName + TexturePaths.IMG_FORMAT);
         currentPosititon = spiel.getCurrentPosition();
 
         cardX = UILayout.SZENARIO_COORDINATES[0];

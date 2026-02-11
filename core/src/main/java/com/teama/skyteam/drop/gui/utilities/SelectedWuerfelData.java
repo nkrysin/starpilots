@@ -7,6 +7,7 @@
  */
 package com.teama.skyteam.drop.gui.utilities;
 
+import com.teama.skyteam.drop.gui.TexturePaths;
 import com.teama.skyteam.drop.spieler.Pilot;
 import com.teama.skyteam.drop.spieler.Spieler;
 import com.teama.skyteam.drop.tokens.Wuerfel;
@@ -33,9 +34,9 @@ public class SelectedWuerfelData {
         int wert = wuerfel.getWert();
         boolean isPilot = spieler instanceof Pilot;
         if (isPilot) {
-            this.diceTexturePath = "images/spiel/dices/blue/blue_" + wert + ".png";
+            this.diceTexturePath = TexturePaths.WUERFEL_PATH_PILOT + wert + TexturePaths.IMG_FORMAT;
         } else {
-            this.diceTexturePath = "images/spiel/dices/orange/orange_" + wert + ".png";
+            this.diceTexturePath = TexturePaths.WUERFEL_PATH_COPILOT + wert + TexturePaths.IMG_FORMAT;
         }
     }
 

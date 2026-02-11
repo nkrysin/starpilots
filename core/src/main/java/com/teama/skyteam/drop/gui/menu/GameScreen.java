@@ -19,6 +19,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.teama.skyteam.drop.MainBk;
 import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
+import com.teama.skyteam.drop.gui.TexturePaths;
+import com.teama.skyteam.drop.gui.UILayout;
 import com.teama.skyteam.drop.gui.utilities.InputController;
 import com.teama.skyteam.drop.gui.utilities.TextureCache;
 import com.teama.skyteam.drop.spiel.Spiel;
@@ -27,8 +29,6 @@ import com.teama.skyteam.drop.spiel.SpielControllerGUI;
 public class GameScreen implements Screen {
     private final MainBk main;
     private final Spiel spiel;
-    private final float tableWidth = 1920;
-    private final float tableHeight = 1700;
     private SpriteBatch batch;
     private Texture tableTexture;
     private Texture boardTexture;
@@ -53,18 +53,18 @@ public class GameScreen implements Screen {
 
         batch = new SpriteBatch();
 
-        tableTexture = TextureCache.get("images/spiel/main/table_w_arrows.png");
-        boardTexture = TextureCache.get("images/spiel/main/board.png");
+        tableTexture = TextureCache.get(TexturePaths.TABLE_PATH);
+        boardTexture = TextureCache.get(TexturePaths.BOARD_PATH);
 
         szenarioHoeheManager = new SzenarioHoeheManager(spiel);
 
         camera = new OrthographicCamera();
-        viewport = new FitViewport(1920, 1080, camera);
+        viewport = new FitViewport(UILayout.SCREEN_SIZE[0], UILayout.SCREEN_SIZE[1], camera);
         stage = new Stage(viewport);
 
-        skin = new Skin(Gdx.files.internal("skin/flat-earth-ui.json"));
+        skin = new Skin(Gdx.files.internal(TexturePaths.SKIN_PATH));
 
-        inputController = new InputController(camera, tableHeight, stage, main);
+        inputController = new InputController(camera, UILayout.TABLE_SIZE[1], stage, main);
         Gdx.input.setInputProcessor(stage);
 
         spielControllerGUI = new SpielControllerGUI(spiel, szenarioHoeheManager, stage, skin);
@@ -79,7 +79,7 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        batch.draw(tableTexture, 0, 0, tableWidth, tableHeight);
+        batch.draw(tableTexture, 0, 0, UILayout.TABLE_SIZE[0], UILayout.TABLE_SIZE[1]);
         szenarioHoeheManager.render(batch);
         batch.draw(boardTexture, 656, 115);
         batch.end();

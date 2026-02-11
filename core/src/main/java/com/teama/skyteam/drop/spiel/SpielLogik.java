@@ -12,6 +12,7 @@ import com.teama.skyteam.drop.feld.FeldName;
 import com.teama.skyteam.drop.flugzeug.Klappen;
 import com.teama.skyteam.drop.gui.SchalterGUI;
 import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
+import com.teama.skyteam.drop.gui.TexturePaths;
 import com.teama.skyteam.drop.spieler.Copilot;
 import com.teama.skyteam.drop.feld.Feld;
 import com.teama.skyteam.drop.spieler.Pilot;
@@ -684,13 +685,13 @@ public class SpielLogik {
         float h;
         String buttonText;
         if (win) {
-            path = "images/spiel/main/dog-happy.png";
+            path = TexturePaths.WIN_PATH;
             w = 800;
             h = 550;
             buttonText = "Hurra!";
             title = "Sieg!";
         } else {
-            path = "images/spiel/main/frog-sad.png";
+            path = TexturePaths.LOOSE_PATH;
             w = 800;
             h = 450;
             buttonText = "Schade!";

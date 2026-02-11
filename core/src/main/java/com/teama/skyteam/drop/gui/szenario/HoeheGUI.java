@@ -9,6 +9,7 @@ package com.teama.skyteam.drop.gui.szenario;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.teama.skyteam.drop.gui.TexturePaths;
 import com.teama.skyteam.drop.gui.UILayout;
 import com.teama.skyteam.drop.spiel.Spiel;
 import com.teama.skyteam.drop.szenario.HoeheSzenarioTypes;
@@ -39,8 +40,8 @@ public class HoeheGUI {
     private void setHoeheTexture(Spiel spiel) {
         HoeheSzenarioTypes type = spiel.getSzenario().getHoeheSzenarioType();
         switch (type) {
-            case RED -> hoeheTexture = new Texture("images/hoehe/RED.png");
-            case GREEN -> hoeheTexture = new Texture("images/hoehe/GREEN.png");
+            case RED -> hoeheTexture = new Texture(TexturePaths.HOEHE_RED_PATH);
+            case GREEN -> hoeheTexture = new Texture(TexturePaths.HOEHE_GREEN_PATH);
         }
     }
 

@@ -20,15 +20,15 @@ public class SchalterGUI {
     Image bremsenIndicator;
     Image fahrgestellIndicator;
     Image klappenIndicator;
-    Texture texture = new Texture("images/spiel/main/plane_switch.png");
+    Texture texture = new Texture(TexturePaths.PLANE_SWITCH_PATH);
     float newX, newY;
     private Stage stage;
 
     public SchalterGUI(Stage stage) {
         this.stage = stage;
-        bremsenIndicator = new Image(TextureCache.get("images/spiel/markers/red_marker.png"));
-        fahrgestellIndicator = new Image(TextureCache.get("images/spiel/markers/blue_marker.png"));
-        klappenIndicator = new Image(TextureCache.get("images/spiel/markers/orange_marker.png"));
+        bremsenIndicator = new Image(TextureCache.get(TexturePaths.RED_MARKER));
+        fahrgestellIndicator = new Image(TextureCache.get(TexturePaths.BLUE_MARKER));
+        klappenIndicator = new Image(TextureCache.get(TexturePaths.ORANGE_MARKER));
     }
 
     /**

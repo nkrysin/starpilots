@@ -11,11 +11,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.teama.skyteam.drop.gui.TexturePaths;
 
 
 public class ButtonStyle {
     public static TextButton.TextButtonStyle style() {
-        Skin skin = new Skin(Gdx.files.internal("skin/flat-earth-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal(TexturePaths.SKIN_PATH));
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         // Setzt die Hintergründe für verschiedene Zustände (normal, gedrückt, hover).
         style.up = skin.newDrawable("button-c", Color.SLATE); // Normalzustand

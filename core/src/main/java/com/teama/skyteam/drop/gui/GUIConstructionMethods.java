@@ -55,7 +55,7 @@ public class GUIConstructionMethods {
     public ControlGroup createControlGroup(String groupName, String[] fieldNames, int[][] positions, Stage stage, int sizeX, int sizeY) {
         ArrayList<ControlField> fields = new ArrayList<>();
         for (int i = 0; i < fieldNames.length; i++) {
-            ImageButton button = createButton("images/spiel/main/empty.png", positions[i][0], positions[i][1], sizeX, sizeY);
+            ImageButton button = createButton(TexturePaths.WITHOUT_HIGHLIGHT_PATH, positions[i][0], positions[i][1], sizeX, sizeY);
             ControlField field = new ControlField(fieldNames[i], button);
             fields.add(field);
             stage.addActor(button);
@@ -75,7 +75,7 @@ public class GUIConstructionMethods {
         String[] kaffeeFieldNames = {"UseKaffee1", "UseKaffee2", "UseKaffee3"};
         ArrayList<ControlField> fields = new ArrayList<>();
         for (int i = 0; i < kaffeeFieldNames.length; i++) {
-            ImageButton button = createButton("images/spiel/main/empty.png",
+            ImageButton button = createButton(TexturePaths.WITHOUT_HIGHLIGHT_PATH,
                 positions[i][0],
                 positions[i][1],
                 UILayout.KAFFEE_BUTTON_SIZE[0],
@@ -96,7 +96,7 @@ public class GUIConstructionMethods {
      */
     ControlField createNeuWurfButton(Stage stage) {
         ImageButton button = createButton(
-            "images/spiel/main/empty.png",
+            TexturePaths.WITHOUT_HIGHLIGHT_PATH,
             UILayout.NEUWURF_BUTTON_COORDINATES[0],
             UILayout.NEUWURF_BUTTON_COORDINATES[1],
             UILayout.NEUWURF_BUTTON_SIZE[0],

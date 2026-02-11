@@ -84,7 +84,7 @@ public class SpielGUI {
      * Initialisiert und fügt das Ruder zur Bühne hinzu.
      */
     private void setRuder() {
-        Texture ruderTexture = new Texture("images/spiel/main/axis.png");
+        Texture ruderTexture = new Texture(TexturePaths.RUDER_PATH);
         ruder = new Image(ruderTexture);
         ruder.setPosition(UILayout.RUDER_COORDINATES[0], UILayout.RUDER_COORDINATES[1]);
         ruder.setOrigin(ruder.getWidth() / 2, ruder.getHeight() / 2 - 5);
@@ -122,11 +122,11 @@ public class SpielGUI {
             String textureName;
             int x, y;
             if (spieler instanceof Pilot) {
-                textureName = "images/spiel/dices/blue/blue_" + wert + ".png";
+                textureName = TexturePaths.WUERFEL_PATH_PILOT + wert + TexturePaths.IMG_FORMAT;
                 x = UILayout.PILOT_WUERFEL_COORDINATES[i][0];
                 y = UILayout.PILOT_WUERFEL_COORDINATES[i][1];
             } else {
-                textureName = "images/spiel/dices/orange/orange_" + wert + ".png";
+                textureName = TexturePaths.WUERFEL_PATH_COPILOT + wert + TexturePaths.IMG_FORMAT;
                 x = UILayout.COPILOT_WUERFEL_COORDINATES[i][0];
                 y = UILayout.COPILOT_WUERFEL_COORDINATES[i][1];
             }
@@ -162,11 +162,11 @@ public class SpielGUI {
             final String normalTextureName;
             final String selectedTextureName;
             if (isPilot) {
-                normalTextureName = "images/spiel/dices/blue/blue_" + wert + ".png";
-                selectedTextureName = "images/spiel/dices/blue/blue_" + wert + "_selected.png";
+                normalTextureName = TexturePaths.WUERFEL_PATH_PILOT + wert + TexturePaths.IMG_FORMAT;
+                selectedTextureName = TexturePaths.WUERFEL_PATH_PILOT + wert +  TexturePaths.WUERFEL_PATH_SELECTED;
             } else {
-                normalTextureName = "images/spiel/dices/orange/orange_" + wert + ".png";
-                selectedTextureName = "images/spiel/dices/orange/orange_" + wert + "_selected.png";
+                normalTextureName = TexturePaths.WUERFEL_PATH_COPILOT + wert + TexturePaths.IMG_FORMAT;
+                selectedTextureName = TexturePaths.WUERFEL_PATH_COPILOT + wert +  TexturePaths.WUERFEL_PATH_SELECTED;
             }
             final int wuerfelIndex = i;
             wuerfelButton.addListener(new ClickListener() {
@@ -273,7 +273,7 @@ public class SpielGUI {
     public void highlightAvailableFields(ControlGroup group) {
         for (ControlField field : group.getAvailableFields()) {
             ImageButton button = field.getButton();
-            switchTexture(button, "images/spiel/main/available.png");
+            switchTexture(button, TexturePaths.AVAILABLE_FIELD_PATH);
         }
     }
 
@@ -285,7 +285,7 @@ public class SpielGUI {
     public void removeHighlight(ControlGroup group) {
         for (ControlField field : group.getAvailableFields()) {
             ImageButton button = field.getButton();
-            switchTexture(button, "images/spiel/main/empty.png");
+            switchTexture(button, TexturePaths.WITHOUT_HIGHLIGHT_PATH);
         }
     }
 
@@ -521,8 +521,8 @@ public class SpielGUI {
             return;
         }
         String texturePath = isPilot
-            ? "images/spiel/dices/blue/blue_" + w.getWert() + ".png"
-            : "images/spiel/dices/orange/orange_" + w.getWert() + ".png";
+            ? TexturePaths.WUERFEL_PATH_PILOT + w.getWert() + TexturePaths.IMG_FORMAT
+            : TexturePaths.WUERFEL_PATH_COPILOT + w.getWert() + TexturePaths.IMG_FORMAT;
         removeWuerfelButtonFromHand(selectedWuerfelData);
         switchTexture(field.getButton(), texturePath);
         field.setOccupied(true);
@@ -662,7 +662,7 @@ public class SpielGUI {
             : getControlGroupByName("Copilot Controls");
         for (ControlField field : group.getAvailableFields()) {
             field.getButton().clearListeners();
-            switchTexture(field.getButton(), "images/spiel/main/empty.png");
+            switchTexture(field.getButton(), TexturePaths.WITHOUT_HIGHLIGHT_PATH);
         }
 
 
@@ -672,7 +672,7 @@ public class SpielGUI {
             }
             for (ControlField field : getPilotUseKaffeeControlGroup().getAllFields()) {
                 field.getButton().clearListeners();
-                switchTexture(field.getButton(), "images/spiel/main/empty.png");
+                switchTexture(field.getButton(), TexturePaths.WITHOUT_HIGHLIGHT_PATH);
             }
         } else {
             for (ControlField field : getCopilotKaffeeControlGroup().getAllFields()) {
@@ -680,7 +680,7 @@ public class SpielGUI {
             }
             for (ControlField field : getCopilotUseKaffeeControlGroup().getAllFields()) {
                 field.getButton().clearListeners();
-                switchTexture(field.getButton(), "images/spiel/main/empty.png");
+                switchTexture(field.getButton(), TexturePaths.WITHOUT_HIGHLIGHT_PATH);
             }
         }
     }
@@ -694,13 +694,13 @@ public class SpielGUI {
         String[] pilotManyUseFields = {"PRadio", "PNeigung", "PSpeed"};
         for (String s : pilotManyUseFields) {
             ImageButton button = pilotGroup.getFieldByName(s).getButton();
-            switchTexture(button, "images/spiel/main/empty.png");
+            switchTexture(button, TexturePaths.WITHOUT_HIGHLIGHT_PATH);
             pilotGroup.getFieldByName(s).setOccupied(false);
         }
         String[] copilotManyUseFields = {"CNeigung", "CSpeed", "CRadio1", "CRadio2"};
         for (String s : copilotManyUseFields) {
             ImageButton button = copilotGroup.getFieldByName(s).getButton();
-            switchTexture(button, "images/spiel/main/empty.png");
+            switchTexture(button, TexturePaths.WITHOUT_HIGHLIGHT_PATH);
             copilotGroup.getFieldByName(s).setOccupied(false);
         }
         showNeuWurf(false);
@@ -719,7 +719,7 @@ public class SpielGUI {
         ControlGroup pilotUseGroup = getPilotUseKaffeeControlGroup();
         if (!pilotAvailable) {
             for (ControlField field : pilotUseGroup.getAllFields()) {
-                switchTexture(field.getButton(), "images/spiel/main/empty.png");
+                switchTexture(field.getButton(), TexturePaths.WITHOUT_HIGHLIGHT_PATH);
                 field.getButton().setTouchable(Touchable.disabled);
             }
         } else {
@@ -729,10 +729,10 @@ public class SpielGUI {
                     if (i <= kaffeeCount) {
                         field.setOccupied(true);
                         field.getButton().setTouchable(Touchable.enabled);
-                        switchTexture(field.getButton(), "images/spiel/tokens/kaffee.png");
+                        switchTexture(field.getButton(), TexturePaths.KAFFEE_PATH);
                     } else {
                         field.setOccupied(false);
-                        switchTexture(field.getButton(), "images/spiel/main/empty.png");
+                        switchTexture(field.getButton(), TexturePaths.WITHOUT_HIGHLIGHT_PATH);
                         field.getButton().setTouchable(Touchable.disabled);
                     }
                 }
@@ -742,7 +742,7 @@ public class SpielGUI {
         ControlGroup copilotUseGroup = getCopilotUseKaffeeControlGroup();
         if (!copilotAvailable) {
             for (ControlField field : copilotUseGroup.getAllFields()) {
-                switchTexture(field.getButton(), "images/spiel/main/empty.png");
+                switchTexture(field.getButton(), TexturePaths.WITHOUT_HIGHLIGHT_PATH);
                 field.getButton().setTouchable(Touchable.disabled);
             }
         } else {
@@ -752,10 +752,10 @@ public class SpielGUI {
                     if (i <= kaffeeCount) {
                         field.setOccupied(true);
                         field.getButton().setTouchable(Touchable.enabled);
-                        switchTexture(field.getButton(), "images/spiel/tokens/kaffee.png");
+                        switchTexture(field.getButton(), TexturePaths.KAFFEE_PATH);
                     } else {
                         field.setOccupied(false);
-                        switchTexture(field.getButton(), "images/spiel/main/empty.png");
+                        switchTexture(field.getButton(), TexturePaths.WITHOUT_HIGHLIGHT_PATH);
                         field.getButton().setTouchable(Touchable.disabled);
                     }
                 }
@@ -778,11 +778,11 @@ public class SpielGUI {
             if (field != null && field.isOccupied()) {
                 field.getButton().clearListeners();
                 field.getButton().setTouchable(Touchable.enabled);
-                switchTexture(field.getButton(), "images/spiel/tokens/kaffee_available.png");
+                switchTexture(field.getButton(), TexturePaths.KAFFEE_AVAILABLE_PATH);
                 field.getButton().addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        switchTexture(field.getButton(), "images/spiel/tokens/kaffee_selected.png");
+                        switchTexture(field.getButton(), TexturePaths.KAFFEE_SELECTED_PATH);
                         spielLogik.createMessage("Kaffee-Token verwenden", "Bitte wählen Sie einen Würfel aus, dessen Wert Sie ändern möchten!");
                         waitForDiceSelection(s, field.getName());
                     }
@@ -791,7 +791,7 @@ public class SpielGUI {
         } else {
             for (ControlField f : useGroup.getAllFields()) {
                 f.getButton().clearListeners();
-                switchTexture(f.getButton(), "images/spiel/main/empty.png");
+                switchTexture(f.getButton(), TexturePaths.WITHOUT_HIGHLIGHT_PATH);
                 f.setOccupied(false);
             }
         }
@@ -809,8 +809,8 @@ public class SpielGUI {
             : copilotWuerfelActors;
         ArrayList<Wuerfel> wuerfels = spieler.getWuerfels();
         String path = (spieler instanceof Pilot)
-            ? "images/spiel/dices/blue/blue_"
-            : "images/spiel/dices/orange/orange_";
+            ? TexturePaths.WUERFEL_PATH_PILOT
+            : TexturePaths.WUERFEL_PATH_COPILOT;
 
         for (int i = 0; i < wuerfelActors.size(); i++) {
             final ImageButton wuerfelButton = wuerfelActors.get(i);
@@ -821,10 +821,10 @@ public class SpielGUI {
             wuerfelButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    switchTexture(wuerfelButton, path + wert + "_selected.png");
+                    switchTexture(wuerfelButton, path + wert + TexturePaths.WUERFEL_PATH_SELECTED);
                     clearDiceListeners(spieler);
                     spielLogik.createKaffeeTokenWindow(wuerfel, spieler, index, (neuerWert) -> {
-                        switchTexture(wuerfelButton, path + neuerWert + ".png");
+                        switchTexture(wuerfelButton, path + neuerWert + TexturePaths.IMG_FORMAT);
                         removeKaffeeTokenByName(name, spieler);
                         kaffeeFieldClearLastUsed(spieler);
                         checkFeldSituation(spieler);
@@ -872,17 +872,17 @@ public class SpielGUI {
 
         if (s instanceof Pilot) {
             field.setOccupied(false);
-            switchTexture(field.getButton(), "images/spiel/main/available.png");
+            switchTexture(field.getButton(), TexturePaths.AVAILABLE_FIELD_PATH);
             mirrored.setOccupied(false);
-            switchTexture(mirrored.getButton(), "images/spiel/main/available.png");
+            switchTexture(mirrored.getButton(), TexturePaths.AVAILABLE_FIELD_PATH);
             mirrored.getButton().setTouchable(Touchable.enabled);
             addKaffeeListeners(s);
 
         } else {
             field.setOccupied(false);
-            switchTexture(field.getButton(), "images/spiel/main/available.png");
+            switchTexture(field.getButton(), TexturePaths.AVAILABLE_FIELD_PATH);
             mirrored.setOccupied(false);
-            switchTexture(mirrored.getButton(), "images/spiel/main/available.png");
+            switchTexture(mirrored.getButton(), TexturePaths.AVAILABLE_FIELD_PATH);
             field.getButton().setTouchable(Touchable.enabled);
             addKaffeeListeners(s);
         }
@@ -911,7 +911,7 @@ public class SpielGUI {
         ControlField usedField = useGroup.getFieldByName(name);
         if (usedField != null) {
             usedField.setOccupied(false);
-            switchTexture(usedField.getButton(), "images/spiel/main/empty.png");
+            switchTexture(usedField.getButton(), TexturePaths.WITHOUT_HIGHLIGHT_PATH);
             usedField.getButton().setTouchable(Touchable.disabled);
         }
     }
@@ -925,14 +925,14 @@ public class SpielGUI {
         int anzahlTokens = spiel.getNeuWurfTokenCount();
         ImageButton button = neuWurf.getButton();
         if (anzahlTokens == 0) {
-            switchTexture(button, "images/spiel/main/empty.png");
+            switchTexture(button, TexturePaths.WITHOUT_HIGHLIGHT_PATH);
             button.setTouchable(Touchable.disabled);
         } else {
             if (available) {
                 button.setTouchable(Touchable.enabled);
-                switchTexture(button, "images/spiel/tokens/neuwurf_available.png");
+                switchTexture(button, TexturePaths.NEUWURF_AVAILABLE_PATH);
             } else {
-                switchTexture(button, "images/spiel/tokens/neuwurf.png");
+                switchTexture(button, TexturePaths.NEUWURF_PATH);
             }
         }
     }
@@ -949,7 +949,7 @@ public class SpielGUI {
             button.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    switchTexture(button, "images/spiel/tokens/neuwurf_selected.png");
+                    switchTexture(button, TexturePaths.NEUWURF_SELECTED_PATH);
                     spielLogik.createNeuWurfTokenWindow(spieler, (p1, p2) -> {
                         if (p1 != null) {
                             createWuerfelForSpieler(p1);
@@ -960,11 +960,11 @@ public class SpielGUI {
                             addWuerfelListenersForSpieler(p2);
                         }
                         if (spiel.getNeuWurfTokenCount() == 0) {
-                            switchTexture(button, "images/spiel/main/empty.png");
+                            switchTexture(button, TexturePaths.WITHOUT_HIGHLIGHT_PATH);
                             button.setTouchable(Touchable.disabled);
                         } else {
                             button.setTouchable(Touchable.enabled);
-                            switchTexture(button, "images/spiel/tokens/neuwurf_available.png");
+                            switchTexture(button, TexturePaths.NEUWURF_AVAILABLE_PATH);
                         }
                         removeAllHideImages();
                         if( (spieler instanceof Pilot) ){
@@ -1068,7 +1068,7 @@ public class SpielGUI {
      * @param y Die Y-Koordinate der Position.
      */
     private void renderHideImage(float x, float y) {
-        Image hideWuerfelImage = new Image(TextureCache.get("images/spiel/dices/dice_cover.png"));
+        Image hideWuerfelImage = new Image(TextureCache.get(TexturePaths.DICE_COVER_PATH));
         hideWuerfelImage.setPosition(x, y);
         stage.addActor(hideWuerfelImage);
     }

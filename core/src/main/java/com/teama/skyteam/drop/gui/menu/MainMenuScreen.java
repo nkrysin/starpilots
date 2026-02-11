@@ -17,6 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.teama.skyteam.drop.MainBk;
+import com.teama.skyteam.drop.gui.TexturePaths;
+import com.teama.skyteam.drop.gui.UILayout;
 
 public class MainMenuScreen implements Screen {
     private final MainBk main;
@@ -73,14 +75,14 @@ public class MainMenuScreen implements Screen {
         table.add(exitButton).width(buttonWidth).pad(20).row();
 
         batch = new SpriteBatch();
-        logo = new Texture("images/spiel/menu/logo.png");
-        planeBackground = new Texture("images/spiel/menu/bg_menu1.png");
+        logo = new Texture(TexturePaths.LOGO_PATH);
+        planeBackground = new Texture(TexturePaths.BACKGROUND_MENU_PATH);
     }
 
     @Override
     public void render(float delta) {
         batch.begin();
-        batch.draw(planeBackground, 0, 0, 1920, 1080);
+        batch.draw(planeBackground, 0, 0, UILayout.SCREEN_SIZE[0], UILayout.SCREEN_SIZE[1]);
         batch.draw(logo, 519, 720, 883, 220);
         batch.end();
 

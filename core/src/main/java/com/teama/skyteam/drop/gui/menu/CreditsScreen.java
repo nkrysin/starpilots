@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.teama.skyteam.drop.MainBk;
+import com.teama.skyteam.drop.gui.TexturePaths;
 
 class CreditsScreen implements Screen {
     private final MainBk main;
@@ -39,7 +40,7 @@ class CreditsScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         batch = new SpriteBatch();
-        credits = new Texture("images/spiel/menu/credits.png");
+        credits = new Texture(TexturePaths.CREDITS_PATH);
         Table table = new Table();
         table.setFillParent(true);
         table.bottom().padBottom(350);

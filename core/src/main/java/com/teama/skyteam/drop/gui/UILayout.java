@@ -3,6 +3,11 @@ package com.teama.skyteam.drop.gui;
 public class UILayout {
 
     private UILayout() {}
+
+    public static final float CAMERA_SPEED = 10f;
+    public static final int[] TABLE_SIZE = {1920, 1700};
+    public static final int[] SCREEN_SIZE = {1920, 1080};
+
     // Koordinaten der Schalter und Indikatoren. Diese gelten nur für FUllHD-Bildschirme
     public static final int[][] FAHRGESTELL_KOORDINATEN = {
         {705, 545},

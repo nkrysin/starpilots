@@ -15,6 +15,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Timer;
 import com.teama.skyteam.drop.MainBk;
+import com.teama.skyteam.drop.gui.TexturePaths;
+import com.teama.skyteam.drop.gui.UILayout;
 
 public class StartScreen implements Screen {
     private final MainBk main;
@@ -33,8 +35,8 @@ public class StartScreen implements Screen {
             main.menuMusic.play();
         }
         batch = new SpriteBatch();
-        teamATexture = new Texture("images/spiel/menu/team_a.png");
-        startScreenLogoTexture = new Texture("images/spiel/menu/start_screen_logo.png");
+        teamATexture = new Texture(TexturePaths.TEAM_A_LOGO);
+        startScreenLogoTexture = new Texture(TexturePaths.START_SCREEN_LOGO);
 
         Timer.schedule(new Timer.Task() {
             @Override
@@ -55,7 +57,7 @@ public class StartScreen implements Screen {
     public void render(float delta) {
         batch.begin();
         if (!showSecondImage) {
-            batch.draw(teamATexture, 0, 0, 1920, 1080);
+            batch.draw(teamATexture, 0, 0, UILayout.SCREEN_SIZE[0], UILayout.SCREEN_SIZE[1]);
         } else {
             batch.draw(startScreenLogoTexture, 0, 0);
         }
