@@ -24,6 +24,17 @@ public abstract class Spieler {
         return wuerfels;
     }
 
+    public Wuerfel getWuerfel(Wuerfel wuerfel) {
+        return wuerfels.stream()
+            .filter(w -> w.equals(wuerfel))
+            .findFirst()
+            .orElse(null);
+    }
+
+    public boolean removeWuerfel(Wuerfel wuerfel) {
+        return this.wuerfels.remove(wuerfel);
+    }
+
     public void setWuerfels(ArrayList<Wuerfel> wuerfels) {
         this.wuerfels = wuerfels;
     }
@@ -58,29 +69,28 @@ public abstract class Spieler {
      * Verwendet ein `KaffeeToken`, um den Wert eines Würfels zu ändern.
      *
      * @param token         Das `KaffeeToken`, das die Änderung ermöglicht.
-     * @param indexWuerfel  Der Index des zu ändernden Würfels in der Liste.
      * @param aktion        Die Aktion, die auf den Würfel angewendet werden soll (z. B. PLUS oder MINUS).
      * @throws IllegalArgumentException Wenn der Würfelwert bereits maximal (6) oder minimal (1) ist.
      */
-    public void kaffeeTokenBenutzen(KaffeeToken token, int indexWuerfel, KaffeeTokenAktion aktion) {
-        Wuerfel wuerfel = wuerfels.get(indexWuerfel);
-        if (aktion == KaffeeTokenAktion.PLUS && wuerfel.getWert() == SpielConstants.MAX_WUERFEL_VALUE) {
+    public void kaffeeTokenBenutzen(KaffeeToken token, KaffeeTokenAktion aktion, Wuerfel wuerfel) {
+        int index = wuerfels.indexOf(wuerfel);
+        Wuerfel aktueller = wuerfels.get(index);
+        if (aktion == KaffeeTokenAktion.PLUS && aktueller.getWert() == SpielConstants.MAX_WUERFEL_VALUE) {
             throw new IllegalArgumentException("Wuerfelwert ist schon maximal");
-        } else if (aktion == KaffeeTokenAktion.MINUS && wuerfel.getWert() == SpielConstants.MIN_WUERFEL_VALUE) {
+        } else if (aktion == KaffeeTokenAktion.MINUS && aktueller.getWert() == SpielConstants.MIN_WUERFEL_VALUE) {
             throw new IllegalArgumentException("Wuerfelwert ist schon minimal");
-        } else {
-            wuerfel = token.wertAendern(aktion, wuerfel);
-            wuerfels.set(indexWuerfel, wuerfel);
         }
+        Wuerfel neuer = token.wertAendern(aktion, aktueller);
+        wuerfels.set(index, neuer);
     }
 
     //Abstrakte Methoden, die weiter in den Co-/Pilot Klassen implementiert sind.
 
-    protected abstract void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel, FeldName kaffeeFeld);
+    protected abstract void kaffeeWaehlen(Wuerfel wuerfel, FeldName kaffeeFeld);
 
-    protected abstract void radioWaehlen(Wuerfel wuerfel, int indexWuerfel);
+    protected abstract void radioWaehlen(Wuerfel wuerfel);
 
-    protected abstract void speedWaehlen(Wuerfel wuerfel, int indexWuerfel);
+    protected abstract void speedWaehlen(Wuerfel wuerfel);
 
-    protected abstract void neigenWaehlen(Wuerfel wuerfel, int indexWuerfel);
+    protected abstract void neigenWaehlen(Wuerfel wuerfel);
 }

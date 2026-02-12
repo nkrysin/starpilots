@@ -471,8 +471,8 @@ public class SpielGUI {
         int index = selectedWuerfelData.getWuerfelIndex();
 
         boolean stepSuccessful = isPilot
-            ? spielLogik.pilotSchritt(spieler, field.getAction(), w, index)
-            : spielLogik.copilotSchritt(spieler, field.getAction(), w, index);
+            ? spielLogik.pilotSchritt(spieler, field.getAction(), w)
+            : spielLogik.copilotSchritt(spieler, field.getAction(), w);
 
         if (!stepSuccessful) {
             return;

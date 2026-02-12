@@ -29,14 +29,13 @@ public class Pilot extends Spieler{
      *
      * @param feldName Der Name des Zielfeldes.
      * @param wuerfel  Der zu platzierende Würfel.
-     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
      * @throws IllegalArgumentException Wenn das Feld bereits belegt ist.
      */
-    private void wuerfelAufFeldPlatzieren(FeldName feldName, Wuerfel wuerfel, int indexWuerfel) {
+    private void wuerfelAufFeldPlatzieren(FeldName feldName, Wuerfel wuerfel) {
         Feld feld = spiel.getFeldPilot(feldName);
 
         if (feld.wuerfelPlatzieren(wuerfel)) {
-            getWuerfels().remove(indexWuerfel);
+            removeWuerfel(wuerfel);
             switch (feldName) {
                 case KAFFEE_1, KAFFEE_2, KAFFEE_3 ->
                     spiel.getFeldCopilot(feldName).setBelegt();
@@ -54,11 +53,10 @@ public class Pilot extends Spieler{
      *
      * @param feldName Der Name des Zielfeldes.
      * @param wuerfel  Der zu platzierende Würfel.
-     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
      */
-    private void kaffeeAufFeldPruefenUndPlatzieren(FeldName feldName, Wuerfel wuerfel, int indexWuerfel) {
+    private void kaffeeAufFeldPruefenUndPlatzieren(FeldName feldName, Wuerfel wuerfel) {
         if (!spiel.getFeldPilot(feldName).isBelegt() && !spiel.getFeldCopilot(feldName).isBelegt()) {
-            wuerfelAufFeldPlatzieren(feldName, wuerfel, indexWuerfel);
+            wuerfelAufFeldPlatzieren(feldName, wuerfel);
             KaffeeToken token = new KaffeeToken();
             spiel.kaffeeTokenAnzahlErhoehen(token);
         }
@@ -67,67 +65,62 @@ public class Pilot extends Spieler{
     /**
      * Implementiert die Logik zum Platzieren eines Würfels auf einem Kaffee-Feld.
      * @param wuerfel Der zu platzierende Würfel.
-     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
      * @param kaffeeFeld Der Name des Kaffee-Feldes.
      * @throws IllegalArgumentException Wenn die maximale Anzahl an Kaffee-Tokens erreicht ist.
      */
     @Override
-    public void kaffeeWaehlen(Wuerfel wuerfel, int indexWuerfel, FeldName kaffeeFeld) {
+    public void kaffeeWaehlen(Wuerfel wuerfel, FeldName kaffeeFeld) {
         if (spiel.getKaffeeTokenCount() >= SpielConstants.MAX_KAFFEE_TOKENS) {
             throw new IllegalArgumentException("Sie können nicht mehr als 3 KaffeeTokens haben!");
         }
 
-        kaffeeAufFeldPruefenUndPlatzieren(kaffeeFeld, wuerfel, indexWuerfel);
+        kaffeeAufFeldPruefenUndPlatzieren(kaffeeFeld, wuerfel);
 
     }
 
     /**
      * Platziert einen Würfel auf dem Radio-Feld.
      * @param wuerfel Der zu platzierende Würfel.
-     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
      */
     @Override
-    public void radioWaehlen(Wuerfel wuerfel, int indexWuerfel) {
-        wuerfelAufFeldPlatzieren(FeldName.RADIO_PILOT, wuerfel, indexWuerfel);
+    public void radioWaehlen(Wuerfel wuerfel) {
+        wuerfelAufFeldPlatzieren(FeldName.RADIO_PILOT, wuerfel);
     }
 
     /**
      * Platziert einen Würfel auf dem Speed-Feld.
      * @param wuerfel Der zu platzierende Würfel.
-     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
      */
     @Override
-    public void speedWaehlen(Wuerfel wuerfel, int indexWuerfel) {
-        wuerfelAufFeldPlatzieren(FeldName.SPEED, wuerfel, indexWuerfel);
+    public void speedWaehlen(Wuerfel wuerfel) {
+        wuerfelAufFeldPlatzieren(FeldName.SPEED, wuerfel);
     }
 
     /**
      * Platziert einen Würfel auf dem Neigungs-Feld.
      * @param wuerfel Der zu platzierende Würfel.
-     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
      */
     @Override
-    public void neigenWaehlen(Wuerfel wuerfel, int indexWuerfel) {
-        wuerfelAufFeldPlatzieren(FeldName.NEIGEN, wuerfel, indexWuerfel);
+    public void neigenWaehlen(Wuerfel wuerfel) {
+        wuerfelAufFeldPlatzieren(FeldName.NEIGEN, wuerfel);
     }
 
     /**
      * Platziert einen Würfel auf einem spezifischen Bremsen-Feld basierend auf dem Wert des Würfels.
      * @param wuerfel Der zu platzierende Würfel.
-     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
      * @throws IllegalArgumentException Wenn der Würfelwert nicht zu einem Bremsen-Feld passt.
      */
-    public void bremsenWaehlen(Wuerfel wuerfel, int indexWuerfel) {
+    public void bremsenWaehlen(Wuerfel wuerfel) {
 
         switch (wuerfel.getWert()) {
             case 2:
-                wuerfelAufFeldPlatzieren(FeldName.BREMSEN_2, wuerfel, indexWuerfel);
+                wuerfelAufFeldPlatzieren(FeldName.BREMSEN_2, wuerfel);
                 break;
             case 4:
-                wuerfelAufFeldPlatzieren(FeldName.BREMSEN_4, wuerfel, indexWuerfel);
+                wuerfelAufFeldPlatzieren(FeldName.BREMSEN_4, wuerfel);
                 break;
             case 6:
-                wuerfelAufFeldPlatzieren(FeldName.BREMSEN_6, wuerfel, indexWuerfel);
+                wuerfelAufFeldPlatzieren(FeldName.BREMSEN_6, wuerfel);
                 break;
             default:
                 throw new IllegalArgumentException("Ein Würfel mit diesem Wert kann nicht auf diesem Feld platziert werden!");
@@ -137,20 +130,19 @@ public class Pilot extends Spieler{
     /**
      * Platziert einen Würfel auf einem spezifischen Fahrgestell-Feld basierend auf dem Wert des Würfels.
      * @param wuerfel Der zu platzierende Würfel.
-     * @param indexWuerfel Der Index des Würfels in der Liste der Würfel des Spielers.
      * @throws IllegalArgumentException Wenn der Würfelwert nicht zu einem Fahrgestell-Feld passt.
      */
-    public void fahrgestellWaehlen(Wuerfel wuerfel, int indexWuerfel) {
+    public void fahrgestellWaehlen(Wuerfel wuerfel) {
 
         switch (wuerfel.getWert()) {
             case 1,2:
-                wuerfelAufFeldPlatzieren(FeldName.FAHRGESTELL_1_2, wuerfel, indexWuerfel);
+                wuerfelAufFeldPlatzieren(FeldName.FAHRGESTELL_1_2, wuerfel);
                 break;
             case 3,4:
-                wuerfelAufFeldPlatzieren(FeldName.FAHRGESTELL_3_4, wuerfel, indexWuerfel);
+                wuerfelAufFeldPlatzieren(FeldName.FAHRGESTELL_3_4, wuerfel);
                 break;
             case 5,6:
-                wuerfelAufFeldPlatzieren(FeldName.FAHRGESTELL_5_6, wuerfel, indexWuerfel);
+                wuerfelAufFeldPlatzieren(FeldName.FAHRGESTELL_5_6, wuerfel);
                 break;
             default:
                 throw new IllegalArgumentException("Ein Würfel mit diesem Wert kann nicht auf diesem Feld platziert werden!");
