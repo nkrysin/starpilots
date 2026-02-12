@@ -10,6 +10,7 @@ package com.teama.skyteam.drop.spiel;
 
 import com.teama.skyteam.drop.feld.FeldName;
 import com.teama.skyteam.drop.flugzeug.Flugzeug;
+import com.teama.skyteam.drop.spiel.gamestate.GameStateManager;
 import com.teama.skyteam.drop.spieler.Copilot;
 import com.teama.skyteam.drop.feld.Feld;
 import com.teama.skyteam.drop.spieler.Pilot;
@@ -57,7 +58,7 @@ public class Spiel {
      *
      * @param kollision `true`, um eine Kollision anzuzeigen, sonst `false`.
      */
-    void setKollision(boolean kollision) {
+    public void setKollision(boolean kollision) {
         this.kollision = kollision;
     }
 
@@ -110,7 +111,7 @@ public class Spiel {
     /**
      * Erhöht die Anzahl der NeuWurf-Tokens durch Hinzufügen eines neuen Tokens.
      */
-    void neuWurfTokenAnzahlErhoehen() {
+    public void neuWurfTokenAnzahlErhoehen() {
         neuWurfToken.add(new NeuWurfToken());
     }
 
@@ -178,7 +179,7 @@ public class Spiel {
     /**
      * Aktualisiert das aktuelle Reisefeld basierend auf der aktuellen Position.
      */
-    void updateCurrentField() {
+    public void updateCurrentField() {
         this.currentField = getCurrentField();
     }
 
@@ -254,7 +255,7 @@ public class Spiel {
      *
      * @return Eine Liste der Höhen-Szenarien.
      */
-    List<Flughoehe> getHoeheSzenario() {
+    public List<Flughoehe> getHoeheSzenario() {
         return szenario.getHoeheSzenario();
     }
 
@@ -373,7 +374,7 @@ public class Spiel {
      *
      * @param currentSpeed Die neue Geschwindigkeit.
      */
-    void setCurrentSpeed(int currentSpeed) {
+    public void setCurrentSpeed(int currentSpeed) {
         this.currentSpeed = currentSpeed;
     }
 }

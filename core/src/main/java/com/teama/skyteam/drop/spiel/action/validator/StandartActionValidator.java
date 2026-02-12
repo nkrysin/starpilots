@@ -1,9 +1,8 @@
-package com.teama.skyteam.drop.spiel.actionValidator;
+package com.teama.skyteam.drop.spiel.action.validator;
 
 import com.teama.skyteam.drop.feld.FeldName;
 import com.teama.skyteam.drop.spiel.Spiel;
-import com.teama.skyteam.drop.spiel.aktion.ActionName;
-import com.teama.skyteam.drop.spieler.Pilot;
+import com.teama.skyteam.drop.spiel.action.type.ActionName;
 import com.teama.skyteam.drop.tokens.Wuerfel;
 
 public class StandartActionValidator implements ActionValidator {

@@ -8,7 +8,7 @@
 package com.teama.skyteam.drop.gui.buttons;
 
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.teama.skyteam.drop.spiel.aktion.ActionName;
+import com.teama.skyteam.drop.spiel.action.type.ActionName;
 
 public class ControlField {
     private ActionName action;

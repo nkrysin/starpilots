@@ -12,10 +12,15 @@ import com.teama.skyteam.drop.feld.FeldName;
 import com.teama.skyteam.drop.gui.SchalterGUI;
 import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
 import com.teama.skyteam.drop.gui.TexturePaths;
-import com.teama.skyteam.drop.spiel.actionValidator.ActionValidator;
-import com.teama.skyteam.drop.spiel.actionValidator.StandartActionValidator;
-import com.teama.skyteam.drop.spiel.actionValidator.ValidationResult;
-import com.teama.skyteam.drop.spiel.aktion.ActionName;
+import com.teama.skyteam.drop.spiel.action.command.ActionResult;
+import com.teama.skyteam.drop.spiel.action.command.PlayerAction;
+import com.teama.skyteam.drop.spiel.action.factory.ActionFactory;
+import com.teama.skyteam.drop.spiel.action.validator.ActionValidator;
+import com.teama.skyteam.drop.spiel.action.validator.StandartActionValidator;
+import com.teama.skyteam.drop.spiel.action.validator.ValidationResult;
+import com.teama.skyteam.drop.spiel.action.type.ActionName;
+import com.teama.skyteam.drop.spiel.gamestate.GameStateManager;
+import com.teama.skyteam.drop.spiel.gamestate.StandardGameStateManager;
 import com.teama.skyteam.drop.spiel.logik.GameRules;
 import com.teama.skyteam.drop.spieler.Copilot;
 import com.teama.skyteam.drop.feld.Feld;
@@ -50,6 +55,8 @@ public class SpielLogik {
     private SzenarioHoeheManager szenarioHoeheManager;
     private final GameRules gameRules;
     private final ActionValidator validator;
+    private final ActionFactory actionFactory;
+    private final GameStateManager gameStateManager;
 
     public SpielLogik(Spiel spiel, Stage stage, Skin skin, SchalterGUI schalterGUI, Image ruder, SzenarioHoeheManager szenarioHoeheManager, GameRules gameRules) {
         this.spiel = spiel;
@@ -59,7 +66,11 @@ public class SpielLogik {
         this.ruder = ruder;
         this.szenarioHoeheManager = szenarioHoeheManager;
         this.gameRules = gameRules;
+
         this.validator = new StandartActionValidator(); // TODO: Check this? Move to constr?
+        this.gameStateManager = new StandardGameStateManager(spiel);
+        this.actionFactory = new ActionFactory(spiel, gameStateManager);
+
     }
 
     /**
@@ -90,16 +101,7 @@ public class SpielLogik {
     }
 
 
-    /**
-     * Führt eine Aktion für den Piloten basierend auf der Auswahl aus.
-     *
-     * @param spieler         Der Spieler (Pilot).
-     * @param auswahl         Die Auswahl des Piloten.
-     * @param gewaehlterWuerfel Der gewählte Würfel.
-     * @param indexWuerfel    Der Index des Würfels.
-     * @return true, wenn die Aktion erfolgreich war, sonst false.
-     */
-    public boolean pilotSchritt(Spieler spieler, ActionName auswahl, Wuerfel gewaehlterWuerfel, int indexWuerfel) {
+    public boolean pilotSchritt(Spieler spieler, ActionName auswahl, Wuerfel gewaehlterWuerfel) {
         ValidationResult validation = validator.validatePilotAction(spiel, auswahl, gewaehlterWuerfel);
         if (validation.isValid()) {
             createMessage("Fehler", validation.getErrorMsg());
@@ -107,105 +109,17 @@ public class SpielLogik {
         }
 
         Pilot pilot = (Pilot) spieler;
-        switch (auswahl) {
-            case ActionName.PILOT_RADIO:
-                if (!spiel.getFeldPilot(FeldName.RADIO_PILOT).isBelegt()) {
-                    radio(gewaehlterWuerfel);
-                    pilot.radioWaehlen(gewaehlterWuerfel, indexWuerfel);
-                }
-                return true;
-            case ActionName.PILOT_SPEED:
-                pilot.speedWaehlen(gewaehlterWuerfel, indexWuerfel);
-                return true;
-            case ActionName.PILOT_NEIGUNG:
-                pilot.neigenWaehlen(gewaehlterWuerfel, indexWuerfel);
-                return true;
-            case ActionName.PILOT_BREMSEN_2:
-                if (spiel.getFlugzeug().bremsen(gewaehlterWuerfel)) {
-                    pilot.bremsenWaehlen(gewaehlterWuerfel, indexWuerfel);
-                    schalterGUI.activateBremsenSchalter(0);
-                    schalterGUI.moveBremsenIndicator(spiel.getFlugzeug().getBremsenZustand().getValue());
-                    return true;
-                } else {
-                    createMessage("Fehler", "Fehler beim Bremsen! Würfel nicht passend.");
-                    return false;
-                }
-            case ActionName.PILOT_BREMSEN_4:
-                if (gewaehlterWuerfel.getWert() == 4 && spiel.getFlugzeug().bremsen(gewaehlterWuerfel)) {
-                    pilot.bremsenWaehlen(gewaehlterWuerfel, indexWuerfel);
-                    schalterGUI.activateBremsenSchalter(1);
-                    schalterGUI.moveBremsenIndicator(spiel.getFlugzeug().getBremsenZustand().getValue());
-                    return true;
-                } else {
-                    createMessage("Fehler", "Bremsen nicht möglich!");
-                    return false;
-                }
-            case ActionName.PILOT_BREMSEN_6:
-                if (gewaehlterWuerfel.getWert() == 6 && spiel.getFlugzeug().bremsen(gewaehlterWuerfel)) {
-                    pilot.bremsenWaehlen(gewaehlterWuerfel, indexWuerfel);
-                    schalterGUI.activateBremsenSchalter(2);
-                    schalterGUI.moveBremsenIndicator(spiel.getFlugzeug().getBremsenZustand().getValue());
-                    return true;
-                } else {
-                    createMessage("Fehler", "Bremsen nicht möglich!");
-                    return false;
-                }
-            case ActionName.PILOT_FAHRGESTELL_1_2:
-                if ((gewaehlterWuerfel.getWert() == 1 || gewaehlterWuerfel.getWert() == 2) && spiel.getFlugzeug().fahrgestellAusfahren(gewaehlterWuerfel)) {
-                    pilot.fahrgestellWaehlen(gewaehlterWuerfel, indexWuerfel);
-                    schalterGUI.activateFahrgestellSchalter(0);
-                    schalterGUI.moveFahrgestellIndicator(spiel.getFlugzeug().getFahrgestellZustand().getAkrivierteFahrgestelle());
-                    return true;
-                } else {
-                    createMessage("Fehler", "Fahrgestell nicht möglich!");
-                    return false;
-                }
-            case ActionName.PILOT_FAHRGESTELL_3_4:
-                if ((gewaehlterWuerfel.getWert() == 3 || gewaehlterWuerfel.getWert() == 4) && spiel.getFlugzeug().fahrgestellAusfahren(gewaehlterWuerfel)) {
-                    pilot.fahrgestellWaehlen(gewaehlterWuerfel, indexWuerfel);
-                    schalterGUI.activateFahrgestellSchalter(1);
-                    schalterGUI.moveFahrgestellIndicator(spiel.getFlugzeug().getFahrgestellZustand().getAkrivierteFahrgestelle());
-                    return true;
-                } else {
-                    createMessage("Fehler", "Fahrgestell nicht möglich!");
-                    return false;
-                }
-            case ActionName.PILOT_FAHRGESTELL_5_6:
-                if ((gewaehlterWuerfel.getWert() == 5 || gewaehlterWuerfel.getWert() == 6) && spiel.getFlugzeug().fahrgestellAusfahren(gewaehlterWuerfel)) {
-                    pilot.fahrgestellWaehlen(gewaehlterWuerfel, indexWuerfel);
-                    schalterGUI.activateFahrgestellSchalter(2);
-                    schalterGUI.moveFahrgestellIndicator(spiel.getFlugzeug().getFahrgestellZustand().getAkrivierteFahrgestelle());
-                    return true;
-                } else {
-                    createMessage("Fehler", "Fahrgestell nicht möglich!");
-                    return false;
-                }
-            case ActionName.PILOT_KAFFEE_1:
-                pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, FeldName.KAFFEE_1);
-                return true;
-            case ActionName.PILOT_KAFFEE_2:
-                pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, FeldName.KAFFEE_2);
-                return true;
-            case ActionName.PILOT_KAFFEE_3:
-                pilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, FeldName.KAFFEE_3);
-                return true;
+        PlayerAction action = actionFactory.createPilotAction(auswahl, pilot, gewaehlterWuerfel);
+        ActionResult result = action.execute();
 
-            default:
-                createMessage("Fehler", "Falsche Auswahl für den Piloten!");
-                return false;
+        if (!result.isValid()) {
+            createMessage("Fehler", result.getErrorMsg());
+            return false;
         }
+        return true;
     }
 
-    /**
-     * Führt eine Aktion für den CoPiloten basierend auf der Auswahl aus.
-     *
-     * @param spieler         Der Spieler (CoPilot).
-     * @param auswahl         Die Auswahl des Co-Piloten.
-     * @param gewaehlterWuerfel Der gewählte Würfel.
-     * @param indexWuerfel    Der Index des Würfels.
-     * @return true, wenn die Aktion erfolgreich war, sonst false.
-     */
-    public boolean copilotSchritt(Spieler spieler, ActionName auswahl, Wuerfel gewaehlterWuerfel, int indexWuerfel) {
+    public boolean copilotSchritt(Spieler spieler, ActionName auswahl, Wuerfel gewaehlterWuerfel) {
         ValidationResult validation = validator.validateCopilotAction(spiel, auswahl, gewaehlterWuerfel);
         if (validation.isValid()) {
             createMessage("Fehler", validation.getErrorMsg());
@@ -213,230 +127,41 @@ public class SpielLogik {
         }
 
         Copilot copilot = (Copilot) spieler;
-        switch (auswahl) {
-            case ActionName.COPILOT_RADIO_1:
-                if (!spiel.getFeldCopilot(FeldName.RADIO_COPILOT_1).isBelegt()) {
-                    radio(gewaehlterWuerfel);
-                    copilot.radioWaehlen(gewaehlterWuerfel, indexWuerfel);
-                }
-                return true;
-            case ActionName.COPILOT_RADIO_2:
-                if (!spiel.getFeldCopilot(FeldName.RADIO_COPILOT_2).isBelegt()) {
-                    radio(gewaehlterWuerfel);
-                    copilot.radioWaehlen(gewaehlterWuerfel, indexWuerfel);
-                }
-                return true;
-            case ActionName.COPILOT_SPEED:
-                copilot.speedWaehlen(gewaehlterWuerfel, indexWuerfel);
-                return true;
-            case ActionName.COPILOT_NEIGUNG:
-                copilot.neigenWaehlen(gewaehlterWuerfel, indexWuerfel);
-                return true;
-            // TODO: WTF IS THIS?????
-            case ActionName.COPILOT_KLAPPEN_1_2:
-            case ActionName.COPILOT_KLAPPEN_2_3:
-            case ActionName.COPILOT_KLAPPEN_4_5:
-            case ActionName.COPILOT_KLAPPEN_5_6:
-                if (spiel.getFlugzeug().klappenOeffnen(gewaehlterWuerfel)) {
-                    copilot.klappenWaehlen(gewaehlterWuerfel, indexWuerfel);
-                    if (gewaehlterWuerfel.getWert() <= 2) {
-                        schalterGUI.activateKlappenSchalter(0);
-                    } else if (gewaehlterWuerfel.getWert() <= 3) {
-                        schalterGUI.activateKlappenSchalter(1);
-                    } else if (gewaehlterWuerfel.getWert() <= 5) {
-                        schalterGUI.activateKlappenSchalter(2);
-                    } else {
-                        schalterGUI.activateKlappenSchalter(3);
-                    }
-                    schalterGUI.moveKlappenIndicator(spiel.getFlugzeug().getKlappenZustand().getValue());
-                    return true;
-                } else {
-                    createMessage("Fehler", "Klappen nicht möglich!");
-                    return false;
-                }
-            case ActionName.COPILOT_KAFFEE_1:
-                copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, FeldName.KAFFEE_1);
-                return true;
-            case ActionName.COPILOT_KAFFEE_2:
-                copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, FeldName.KAFFEE_2);
-                return true;
-            case ActionName.COPILOT_KAFFEE_3:
-                copilot.kaffeeWaehlen(gewaehlterWuerfel, indexWuerfel, FeldName.KAFFEE_3);
-                return true;
-            default:
-                createMessage("Fehler", "Falsche Auswahl für den Copiloten!");
-                return false;
+
+        PlayerAction action = actionFactory.createCopilotAction(auswahl, copilot, gewaehlterWuerfel);
+        ActionResult result = action.execute();
+
+        if (!result.isValid()) {
+            createMessage("Fehler", result.getErrorMsg());
+            return false;
         }
+        return true;
     }
 
-    /**
-     * Aktualisiert den Zustand des aktuellen Reisefelds, basierend auf der Summe der Geschwindigkeit.
-     *
-     * @return true, wenn das Reisefeld erfolgreich aktualisiert wurde, sonst false.
-     */
-    boolean reiseFeldZustandAktualisieren() {
-        boolean speedFeldPilotBelegt = spiel.getFeldPilot(FeldName.SPEED).isBelegt();
-        boolean speedFeldCopilotBelegt = spiel.getFeldCopilot(FeldName.SPEED).isBelegt();
-        if (speedFeldPilotBelegt && speedFeldCopilotBelegt) {
-            int pilotSpeed = spiel.getFeldPilot(FeldName.SPEED).getWuerfel().getWert();
-            int copilotSpeed = spiel.getFeldCopilot(FeldName.SPEED).getWuerfel().getWert();
-            int totalSpeed = pilotSpeed + copilotSpeed;
-            spiel.getFlugzeug().setSpeedAktuell(totalSpeed);
-            int speedUntereGrenze = spiel.getFlugzeug().getSpeedUntereGrenze().getValue();
-            int speedObereGrenze = spiel.getFlugzeug().getSpeedObereGrenze().getValue();
-            int steps;
-            if (totalSpeed < speedUntereGrenze) {
-                steps = 0;
-            } else if (totalSpeed <= speedObereGrenze) {
-                steps = 1;
-            } else {
-                steps = 2;
-            }
-            vorwaertsBewegen(steps);
-            spiel.setCurrentSpeed(steps);
-            return true;
-        }
-        return false;
-    }
 
-    /**
-     * Liefert das erste verfügbare KaffeeToken aus der Liste der KaffeeTokens und entfernt es aus der Liste.
-     *
-     * @return Das erste verfügbare KaffeeToken.
-     */
-    KaffeeToken kaffeeToken() {
-        ArrayList<KaffeeToken> kaffeeTokens = spiel.getKaffeeTokens();
-        KaffeeToken token = kaffeeTokens.getFirst();
-        kaffeeTokens.removeFirst();
-        return token;
-    }
+    // Changed to updateTravelFieldState
+    //boolean reiseFeldZustandAktualisieren() {};
 
-    /**
-     * Liefert das erste verfügbare NeuWurfToken aus der Liste der NeuWurfTokens und entfernt es aus der Liste.
-     *
-     * @return Das erste verfügbare NeuWurfToken.
-     */
-    NeuWurfToken neuWurfToken() {
-        ArrayList<NeuWurfToken> neuWurfTokens = spiel.getNeuWurfTokens();
-        NeuWurfToken token = neuWurfTokens.getFirst();
-        neuWurfTokens.removeFirst();
-        return token;
-    }
+    // Changed to handleRadio
+    //void radio(Wuerfel gewaehlterWuerfel) {}
 
-    /**
-     * Behandelt eine Radioaktion basierend auf dem Wert des gegebenen Würfels.
-     * Der Zielort wird basierend auf dem Würfelwert berechnet, und wenn dort ein Flugzeug existiert,
-     * wird dieses entfernt.
-     *
-     * @param gewaehlterWuerfel Der Würfel, dessen Wert verwendet wird, um die Zielposition zu berechnen.
-     */
-    void radio(Wuerfel gewaehlterWuerfel) {
-        int wert = gewaehlterWuerfel.getWert();
-        TreeMap<Integer, ReiseFeld> routeSzenario = spiel.getRouteSzenario();
-        int currentFieldIndex = spiel.getCurrentPosition();
-        int targetField = wert + currentFieldIndex - 1;
-        if (!routeSzenario.containsKey(targetField)) {
-            createMessage("Fehler", "Die Zielposition liegt außerhalb des Szenarios.");
-        } else {
-            ReiseFeld zielFeld = routeSzenario.get(targetField);
-            if (zielFeld.getAnzahlFlugzeug() > 0) {
-                zielFeld.removeFlugzeug();
-            }
-        }
-    }
+    // Changed to updateTilt
+    //boolean neigenSetzen() {}
 
-    /**
-     * Setzt die Neigung des Flugzeugs basierend auf den Neigungsfeldern platzierten Würfeln.
-     * Berechnet die Zielrotation des Ruders entsprechend der neuen Neigung und animiert die Rotation.
-     *
-     * @return true, wenn die Neigung erfolgreich gesetzt wurde, sonst false (z. B. wenn nicht beide Neigungsfelder belegt sind).
-     */
-    boolean neigenSetzen() {
-        boolean neigenFeldPilotBelegt = spiel.getFeldPilot(FeldName.NEIGEN).isBelegt();
-        boolean neigenFeldCopilotBelegt = spiel.getFeldCopilot(FeldName.NEIGEN).isBelegt();
-        if (neigenFeldPilotBelegt && neigenFeldCopilotBelegt) {
-            Wuerfel w1 = spiel.getFeldPilot(FeldName.NEIGEN).getWuerfel();
-            Wuerfel w2 = spiel.getFeldCopilot(FeldName.NEIGEN).getWuerfel();
-            spiel.getFlugzeug().neigen(spiel.getFlugzeug().getNeigung(), new Wuerfel[]{w1, w2});
-            float targetRotation;
-            if (spiel.getFlugzeug().getNeigung() == 0) {
-                targetRotation = 0;
-            } else {
-                targetRotation = SpielConstants.WHEEL_ANGLE * spiel.getFlugzeug().getNeigung();
-            }
-            ruder.addAction(Actions.rotateTo(targetRotation, 1f));
-            return true;
-        }
-        return false;
-    }
+    // Changed to moveForward
+    //void vorwaertsBewegen(int steps) {}
 
-    /**
-     * Bewegt das Flugzeug vorwärts um die angegebene Anzahl an Schritten.
-     *
-     * @param steps Die Anzahl der Schritte, um die das Flugzeug bewegt werden soll.
-     */
-    void vorwaertsBewegen(int steps) {
-        int position = spiel.getCurrentPosition();
-        TreeMap<Integer, ReiseFeld> routeSzenario = spiel.getRouteSzenario();
-        int newPosition = position + steps;
-        if (newPosition >= routeSzenario.size()) {
-            spiel.setKollision(true);
-        } else if (steps > 2) {
-            createMessage("Fehler", "Der Schritt ist zu groß!");
-        } else {
-            for (int i = position; i <= newPosition; i++) {
-                ReiseFeld currentField = routeSzenario.get(i);
-                if (currentField.getAnzahlFlugzeug() > 0) {
-                    spiel.setKollision(true);
-                }
-            }
-            spiel.setPosition(newPosition);
-            spiel.updateCurrentField();
-            szenarioHoeheManager.updateScenario(steps);
-        }
-    }
 
-    /**
-     * Fügt NeuWurf-Tokens hinzu, wenn die auf aktuelle Flughöhe vorhanden sind.
-     */
-    void addNeuWurfTokens() {
-        Flughoehe currentHoehe = spiel.getCurrentHoehe();
-        if (currentHoehe.hatErneuWerfen()) {
-            spiel.neuWurfTokenAnzahlErhoehen();
-        }
-    }
+    //Changed to addNeuWurfTokens
+    // void addNeuWurfTokens() {}
 
-    /**
-     * Reduziert die Flughöhe, indem das erste Element aus der Höhenroute entfernt wird.
-     */
-    void hoeheReduzieren() {
-        List<Flughoehe> hoeheRoute = spiel.getHoeheSzenario();
-        if (hoeheRoute.size() > 1) {
-            hoeheRoute.removeFirst();
-        }
-    }
 
-    /**
-     * Setzt neue Würfel für den Spieler, indem ein neuer Wurf generiert wird.
-     *
-     * @param spieler Der Spieler, dessen Würfel neu gesetzt werden sollen.
-     */
-    void setNeuWuerfels(Spieler spieler) {
-        spieler.setWuerfels(werfen());
-    }
+    // Changed to reduceAltitude
+    //void hoeheReduzieren() {}
 
-    /**
-     * Generiert eine Liste neuer Würfel mit zufälligen Werten.
-     *
-     * @return Eine Liste mit vier neu generierten Würfeln.
-     */
-    private ArrayList<Wuerfel> werfen() {
-        ArrayList<Wuerfel> wurfe = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            wurfe.add(new Wuerfel());
-        }
-        return wurfe;
-    }
+    //void setNeuWuerfels(Spieler spieler) {}
+
+    //private ArrayList<Wuerfel> werfen() {}
 
     /**
      * Löscht die Würfel von den Feldern, die mehrmals in jeder Runde verwendet werden können.

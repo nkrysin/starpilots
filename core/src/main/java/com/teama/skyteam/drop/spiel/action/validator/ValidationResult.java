@@ -1,8 +1,4 @@
-package com.teama.skyteam.drop.spiel.actionValidator;
-
-import com.teama.skyteam.drop.spiel.Spiel;
-import com.teama.skyteam.drop.spiel.aktion.ActionName;
-import com.teama.skyteam.drop.tokens.Wuerfel;
+package com.teama.skyteam.drop.spiel.action.validator;
 
 public class ValidationResult {
     private final boolean valid;

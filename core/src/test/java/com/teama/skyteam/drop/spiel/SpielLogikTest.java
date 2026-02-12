@@ -7,7 +7,7 @@ import com.teama.skyteam.drop.feld.FeldName;
 import com.teama.skyteam.drop.flugzeug.*;
 import com.teama.skyteam.drop.gui.SchalterGUI;
 import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
-import com.teama.skyteam.drop.spiel.aktion.ActionName;
+import com.teama.skyteam.drop.spiel.action.type.ActionName;
 import com.teama.skyteam.drop.spieler.Copilot;
 import com.teama.skyteam.drop.feld.Feld;
 import com.teama.skyteam.drop.spieler.Pilot;
