@@ -48,7 +48,7 @@ public class Spiel {
      *
      * @return `true`, wenn eine Kollision aufgetreten ist, sonst `false`.
      */
-    boolean isKollision() {
+    public boolean isKollision() {
         return kollision;
     }
 
@@ -187,7 +187,7 @@ public class Spiel {
      *
      * @return Das aktuelle Reisefeld.
      */
-    ReiseFeld getCurrentField() {
+    public ReiseFeld getCurrentField() {
         return szenario.getCurrentField(getCurrentPosition());
     }
 
@@ -222,7 +222,7 @@ public class Spiel {
      *
      * @return Die aktuelle Flughöhe.
      */
-    Flughoehe getCurrentHoehe() {
+    public Flughoehe getCurrentHoehe() {
         return szenario.getCurrentFlughoehe();
     }
 

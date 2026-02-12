@@ -1,4 +1,4 @@
-package com.teama.skyteam.drop.spiel;
+package com.teama.skyteam.drop.spiel.aktion;
 
 public enum ActionName {
     // Pilot Controls

@@ -9,10 +9,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.teama.skyteam.drop.feld.FeldName;
-import com.teama.skyteam.drop.flugzeug.Klappen;
 import com.teama.skyteam.drop.gui.SchalterGUI;
 import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
 import com.teama.skyteam.drop.gui.TexturePaths;
+import com.teama.skyteam.drop.spiel.actionValidator.ActionValidator;
+import com.teama.skyteam.drop.spiel.actionValidator.StandartActionValidator;
+import com.teama.skyteam.drop.spiel.actionValidator.ValidationResult;
+import com.teama.skyteam.drop.spiel.aktion.ActionName;
+import com.teama.skyteam.drop.spiel.logik.GameRules;
 import com.teama.skyteam.drop.spieler.Copilot;
 import com.teama.skyteam.drop.feld.Feld;
 import com.teama.skyteam.drop.spieler.Pilot;
@@ -44,14 +48,18 @@ public class SpielLogik {
     private Image ruder;
     private int neuerWert;
     private SzenarioHoeheManager szenarioHoeheManager;
+    private final GameRules gameRules;
+    private final ActionValidator validator;
 
-    public SpielLogik(Spiel spiel, Stage stage, Skin skin, SchalterGUI schalterGUI, Image ruder, SzenarioHoeheManager szenarioHoeheManager) {
+    public SpielLogik(Spiel spiel, Stage stage, Skin skin, SchalterGUI schalterGUI, Image ruder, SzenarioHoeheManager szenarioHoeheManager, GameRules gameRules) {
         this.spiel = spiel;
         this.stage = stage;
         this.skin = skin;
         this.schalterGUI = schalterGUI;
         this.ruder = ruder;
         this.szenarioHoeheManager = szenarioHoeheManager;
+        this.gameRules = gameRules;
+        this.validator = new StandartActionValidator(); // TODO: Check this? Move to constr?
     }
 
     /**
@@ -60,11 +68,7 @@ public class SpielLogik {
      * @return true, wenn eine Ausfallbedingung erfüllt ist, sonst false.
      */
     boolean checkAusfallBedingung() {
-        boolean bedingungKollision = spiel.isKollision();
-        boolean bedingungWenigerAlsSzenarioLange = spiel.getCurrentPosition() > spiel.getRouteSzenario().size();
-        boolean bedingungHoehe = !spiel.getCurrentField().istFlughafen() && (spiel.getCurrentHoehe().getHoehe() == 0);
-        boolean bedingungNeigung = (spiel.getFlugzeug().getNeigung() > 2 || spiel.getFlugzeug().getNeigung() < -2);
-        return bedingungKollision || bedingungWenigerAlsSzenarioLange || bedingungHoehe || bedingungNeigung;
+        return gameRules.checkAusfallBedingung(spiel);
     }
 
     /**
@@ -73,9 +77,7 @@ public class SpielLogik {
      * @return true, wenn die finale Runde erfüllt ist, sonst false.
      */
     boolean checkFinalRound() {
-        boolean bedingungFlughafen = spiel.getCurrentField().istFlughafen();
-        boolean bedingungHoehe = (spiel.getCurrentHoehe().getHoehe() == 0);
-        return bedingungFlughafen && bedingungHoehe;
+        return gameRules.checkFinalRound(spiel);
     }
 
     /**
@@ -84,12 +86,7 @@ public class SpielLogik {
      * @return true, wenn die Gewinnbedingungen erfüllt sind, sonst false.
      */
     boolean checkGewinnBedingung() {
-        boolean bedingungIstFrei = (spiel.getCurrentField().getAnzahlFlugzeug() == 0);
-        boolean bedingungNeigung = (spiel.getFlugzeug().getNeigung() == 0);
-        boolean bedingungKlappen = (spiel.getFlugzeug().getKlappenZustand() == Klappen.LEVEL4);
-        boolean bedingungFahrgestelle = (spiel.getFlugzeug().getFahrgestellZustand().getAkrivierteFahrgestelle() == 3);
-        boolean bedingungSpeed = (spiel.getFlugzeug().getSpeedAktuell() < spiel.getFlugzeug().getBremsenZustand().getValue());
-        return bedingungIstFrei && bedingungNeigung && bedingungKlappen && bedingungFahrgestelle && bedingungSpeed;
+        return gameRules.checkGewinnBedingung(spiel);
     }
 
 
@@ -103,6 +100,12 @@ public class SpielLogik {
      * @return true, wenn die Aktion erfolgreich war, sonst false.
      */
     public boolean pilotSchritt(Spieler spieler, ActionName auswahl, Wuerfel gewaehlterWuerfel, int indexWuerfel) {
+        ValidationResult validation = validator.validatePilotAction(spiel, auswahl, gewaehlterWuerfel);
+        if (validation.isValid()) {
+            createMessage("Fehler", validation.getErrorMsg());
+            return false;
+        }
+
         Pilot pilot = (Pilot) spieler;
         switch (auswahl) {
             case ActionName.PILOT_RADIO:
@@ -203,6 +206,12 @@ public class SpielLogik {
      * @return true, wenn die Aktion erfolgreich war, sonst false.
      */
     public boolean copilotSchritt(Spieler spieler, ActionName auswahl, Wuerfel gewaehlterWuerfel, int indexWuerfel) {
+        ValidationResult validation = validator.validateCopilotAction(spiel, auswahl, gewaehlterWuerfel);
+        if (validation.isValid()) {
+            createMessage("Fehler", validation.getErrorMsg());
+            return false;
+        }
+
         Copilot copilot = (Copilot) spieler;
         switch (auswahl) {
             case ActionName.COPILOT_RADIO_1:
