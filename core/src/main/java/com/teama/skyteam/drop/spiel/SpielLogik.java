@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
@@ -16,26 +15,21 @@ import com.teama.skyteam.drop.spiel.action.command.ActionResult;
 import com.teama.skyteam.drop.spiel.action.command.PlayerAction;
 import com.teama.skyteam.drop.spiel.action.factory.ActionFactory;
 import com.teama.skyteam.drop.spiel.action.validator.ActionValidator;
-import com.teama.skyteam.drop.spiel.action.validator.StandartActionValidator;
+import com.teama.skyteam.drop.spiel.action.validator.StandardActionValidator;
 import com.teama.skyteam.drop.spiel.action.validator.ValidationResult;
 import com.teama.skyteam.drop.spiel.action.type.ActionName;
 import com.teama.skyteam.drop.spiel.gamestate.GameStateManager;
 import com.teama.skyteam.drop.spiel.gamestate.StandardGameStateManager;
-import com.teama.skyteam.drop.spiel.logik.GameRules;
+import com.teama.skyteam.drop.spiel.logik.rules.GameRules;
 import com.teama.skyteam.drop.spieler.Copilot;
 import com.teama.skyteam.drop.feld.Feld;
 import com.teama.skyteam.drop.spieler.Pilot;
 import com.teama.skyteam.drop.spieler.Spieler;
-import com.teama.skyteam.drop.szenario.ReiseFeld;
-import com.teama.skyteam.drop.szenario.flughoehe.Flughoehe;
-import com.teama.skyteam.drop.tokens.KaffeeToken;
 import com.teama.skyteam.drop.tokens.KaffeeTokenAktion;
 import com.teama.skyteam.drop.tokens.NeuWurfToken;
 import com.teama.skyteam.drop.tokens.Wuerfel;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -67,7 +61,7 @@ public class SpielLogik {
         this.szenarioHoeheManager = szenarioHoeheManager;
         this.gameRules = gameRules;
 
-        this.validator = new StandartActionValidator(); // TODO: Check this? Move to constr?
+        this.validator = new StandardActionValidator(); // TODO: Check this? Move to constr?
         this.gameStateManager = new StandardGameStateManager(spiel);
         this.actionFactory = new ActionFactory(spiel, gameStateManager);
 
@@ -139,119 +133,46 @@ public class SpielLogik {
     }
 
 
-    // Changed to updateTravelFieldState
+    // Changed/Moved to StandardGameStateManager/updateTravelFieldState
     //boolean reiseFeldZustandAktualisieren() {};
 
-    // Changed to handleRadio
+    // Changed/Moved to StandardGameStateManager/handleRadio
     //void radio(Wuerfel gewaehlterWuerfel) {}
 
-    // Changed to updateTilt
+    // Changed/Moved to StandardGameStateManager/updateTilt
     //boolean neigenSetzen() {}
 
-    // Changed to moveForward
+    // Changed/Moved to StandardGameStateManager/moveForward
     //void vorwaertsBewegen(int steps) {}
 
 
-    //Changed to addNeuWurfTokens
+    //Changed/Moved to StandardGameStateManager/addNeuWurfTokens
     // void addNeuWurfTokens() {}
 
 
-    // Changed to reduceAltitude
+    // Changed/Moved to StandardGameStateManager/reduceAltitude
     //void hoeheReduzieren() {}
 
     //void setNeuWuerfels(Spieler spieler) {}
 
     //private ArrayList<Wuerfel> werfen() {}
 
-    /**
-     * Löscht die Würfel von den Feldern, die mehrmals in jeder Runde verwendet werden können.
-     */
-    void clearManyUseFelds() {
-        spiel.getFeldPilot(FeldName.NEIGEN).setWuerfel(null);
-        spiel.getFeldPilot(FeldName.SPEED).setWuerfel(null);
-        spiel.getFeldPilot(FeldName.RADIO_PILOT).setWuerfel(null);
-        spiel.getFeldCopilot(FeldName.NEIGEN).setWuerfel(null);
-        spiel.getFeldCopilot(FeldName.SPEED).setWuerfel(null);
-        spiel.getFeldCopilot(FeldName.RADIO_COPILOT_1).setWuerfel(null);
-        spiel.getFeldCopilot(FeldName.RADIO_COPILOT_2).setWuerfel(null);
-    }
-
-    /**
-     * Entfernt die Würfel von den Feldern, die nur einmal genutzt werden können.
-     *
-     * @param oneUseFelds Die Liste der Felder, die einmal genutzt werden können.
-     */
-    void removeDiceFromOneUseFelds(ArrayList<Feld> oneUseFelds) {
-        int i = 0;
-        while (i < oneUseFelds.size()) {
-            Feld f = oneUseFelds.get(i);
-            if (f.isBelegt()) {
-                f.clearOneUseFeld();
-                oneUseFelds.remove(i);
-            } else {
-                i++;
-            }
-        }
-    }
 
 
-    /**
-     * Liefert eine Liste aller Felder, die nur einmal genutzt werden können.
-     *
-     * @return Eine Liste der Felder, die nur einmal genutzt werden können.
-     */
-    ArrayList<Feld> getOneUseFelds() {
-        ArrayList<Feld> oneUseFelds = new ArrayList<>();
-        Feld fg12 = spiel.getFeldPilot(FeldName.FAHRGESTELL_1_2);
-        Feld fg34 = spiel.getFeldPilot(FeldName.FAHRGESTELL_3_4);
-        Feld fg56 = spiel.getFeldPilot(FeldName.FAHRGESTELL_5_6);
-        Feld b2 = spiel.getFeldPilot(FeldName.BREMSEN_2);
-        Feld b4 = spiel.getFeldPilot(FeldName.BREMSEN_4);
-        Feld b6 = spiel.getFeldPilot(FeldName.BREMSEN_6);
-        Feld k12 = spiel.getFeldCopilot(FeldName.KLAPPEN_1_2);
-        Feld k23 = spiel.getFeldCopilot(FeldName.KLAPPEN_2_3);
-        Feld k45 = spiel.getFeldCopilot(FeldName.KLAPPEN_4_5);
-        Feld k56 = spiel.getFeldCopilot(FeldName.KLAPPEN_5_6);
-        oneUseFelds.add(fg12);
-        oneUseFelds.add(fg34);
-        oneUseFelds.add(fg56);
-        oneUseFelds.add(b2);
-        oneUseFelds.add(b4);
-        oneUseFelds.add(b6);
-        oneUseFelds.add(k12);
-        oneUseFelds.add(k23);
-        oneUseFelds.add(k45);
-        oneUseFelds.add(k56);
-        return oneUseFelds;
-    }
+    // Changed/Moved to StandardFieldManager
+    //void clearManyUseFelds() {}
 
-    /**
-     * Entfernt die Würfel von den Kaffee-Feldern, basierend auf der Anzahl Kaffee-Tokens, die beide Spieler haben.
-     */
-    void clearKaffeeFeld() {
-        int kaffeeCount = spiel.getKaffeeTokenCount();
-        switch (kaffeeCount) {
-            case 0:
-                spiel.getFeldPilot(FeldName.KAFFEE_1).setWuerfel(null);
-                spiel.getFeldCopilot(FeldName.KAFFEE_1).setWuerfel(null);
-                spiel.getFeldPilot(FeldName.KAFFEE_2).setWuerfel(null);
-                spiel.getFeldCopilot(FeldName.KAFFEE_2).setWuerfel(null);
-                spiel.getFeldPilot(FeldName.KAFFEE_3).setWuerfel(null);
-                spiel.getFeldCopilot(FeldName.KAFFEE_3).setWuerfel(null);
-                break;
-            case 1:
-                spiel.getFeldPilot(FeldName.KAFFEE_2).setWuerfel(null);
-                spiel.getFeldCopilot(FeldName.KAFFEE_2).setWuerfel(null);
-                spiel.getFeldPilot(FeldName.KAFFEE_3).setWuerfel(null);
-                spiel.getFeldCopilot(FeldName.KAFFEE_3).setWuerfel(null);
-                break;
-            case 2:
-                spiel.getFeldPilot(FeldName.KAFFEE_3).setWuerfel(null);
-                spiel.getFeldCopilot(FeldName.KAFFEE_3).setWuerfel(null);
-                break;
-        }
+    // Changed/Moved to StandardFieldManager
+    //void removeDiceFromOneUseFelds(ArrayList<Feld> oneUseFelds) {}
 
-    }
+
+    // Changed/Moved to StandardFieldManager
+    //ArrayList<Feld> getOneUseFelds() {}
+
+    // Changed/Moved to StandardFieldManager
+    //void clearKaffeeFeld() { }
+
+
 
     /**
      * Zeigt ein modales Fenster mit einer Nachricht an.

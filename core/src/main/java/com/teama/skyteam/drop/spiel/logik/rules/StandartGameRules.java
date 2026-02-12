@@ -1,4 +1,4 @@
-package com.teama.skyteam.drop.spiel.logik;
+package com.teama.skyteam.drop.spiel.logik.rules;
 
 import com.teama.skyteam.drop.flugzeug.Klappen;
 import com.teama.skyteam.drop.spiel.Spiel;

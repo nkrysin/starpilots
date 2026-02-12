@@ -5,7 +5,7 @@ import com.teama.skyteam.drop.spiel.Spiel;
 import com.teama.skyteam.drop.spiel.action.type.ActionName;
 import com.teama.skyteam.drop.tokens.Wuerfel;
 
-public class StandartActionValidator implements ActionValidator {
+public class StandardActionValidator implements ActionValidator {
     @Override
     public ValidationResult validatePilotAction(Spiel spiel, ActionName actionName, Wuerfel wuerfel){
         return switch (actionName) {
