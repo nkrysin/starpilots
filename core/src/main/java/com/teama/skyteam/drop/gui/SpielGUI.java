@@ -8,38 +8,47 @@
  */
 package com.teama.skyteam.drop.gui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.teama.skyteam.drop.feld.FeldName;
 import com.teama.skyteam.drop.gui.buttons.ControlField;
 import com.teama.skyteam.drop.gui.buttons.ControlGroup;
 import com.teama.skyteam.drop.gui.utilities.PlayerActionCallback;
 import com.teama.skyteam.drop.gui.utilities.SelectedWuerfelData;
 import com.teama.skyteam.drop.gui.utilities.TextureCache;
+import com.teama.skyteam.drop.spiel.SpielConstants;
 import com.teama.skyteam.drop.spiel.action.type.ActionControlGroup;
 import com.teama.skyteam.drop.spiel.action.type.ActionName;
 import com.teama.skyteam.drop.spiel.Spiel;
 import com.teama.skyteam.drop.spiel.SpielLogik;
 import com.teama.skyteam.drop.feld.Feld;
+import com.teama.skyteam.drop.spiel.gamestate.GameStateManager;
+import com.teama.skyteam.drop.spiel.logik.fields.FieldManager;
+import com.teama.skyteam.drop.spiel.logik.observer.GameStateObserver;
 import com.teama.skyteam.drop.spieler.Pilot;
 import com.teama.skyteam.drop.spieler.Spieler;
+import com.teama.skyteam.drop.tokens.KaffeeTokenAktion;
+import com.teama.skyteam.drop.tokens.NeuWurfToken;
 import com.teama.skyteam.drop.tokens.Wuerfel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
-public class SpielGUI {
+public class SpielGUI implements DialogManager, GameStateObserver {
 
     public final Stage stage;
     private final Spiel spiel;
@@ -1134,4 +1143,264 @@ public class SpielGUI {
         removeHideImage(UILayout.PILOT_HIDING_SCREEN_COORDINATES[0], UILayout.PILOT_HIDING_SCREEN_COORDINATES[1]);
         removeHideImage(UILayout.COPILOT_HIDING_SCREEN_COORDINATES[0], UILayout.COPILOT_HIDING_SCREEN_COORDINATES[1]);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private Window window;
+    private GameStateManager gameStateManager;
+    private FieldManager fieldManager;
+    /**
+     * Zeigt ein modales Fenster mit einer Nachricht an.
+     *
+     * @param title Der Titel des Fensters.
+     * @param text  Der Inhalt der Nachricht.
+     */
+    public void createMessage(String title, String text) {
+        if (window == null) {
+            window = new Window(title, skin);
+            window.setModal(true);
+            window.setMovable(false);
+            window.add(text).pad(20).row();
+            TextButton closeButton = new TextButton("OK", skin);
+            closeButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    window.remove();
+                    window = null;
+                }
+            });
+            window.add(closeButton).pad(10).row();
+            window.pack();
+            window.setPosition((Gdx.graphics.getWidth() - window.getWidth()) / 2f, (Gdx.graphics.getHeight() - window.getHeight()) / 2f);
+            stage.addActor(window);
+        }
+    }
+
+    /**
+     * Erstellt ein modales Fenster, um den Wert eines Würfels mit einem Kaffee-Token zu ändern.
+     * Der Spieler kann den Wert des Würfels entweder erhöhen oder verringern, solange die Grenzen eingehalten werden.
+     *
+     * @param wuerfel  Der Würfel, dessen Wert geändert werden soll.
+     * @param spieler  Der Spieler, der das Kaffee-Token verwendet.
+     * @param index    Der Index des Würfels in der Würfelliste des Spielers.
+     * @param callback Eine Callback-Funktion, die den neuen Wert des Würfels verarbeitet.
+     */
+    public void createKaffeeTokenWindow(Wuerfel wuerfel, Spieler spieler, int index, Consumer<Integer> callback) {
+        if (window == null) {
+            window = new Window("Wert aendern", skin);
+            window.setModal(true);
+            window.getTitleLabel().setAlignment(Align.center);
+
+            window.add("Wie moechten Sie den Wert des Wuerfels aendern?").pad(20).center().row();
+
+            Table buttonTable = new Table();
+            buttonTable.center();
+
+            TextButton plusButton = new TextButton("Plus", skin);
+            plusButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    if (wuerfel.getWert() < 6) {
+                        spieler.kaffeeTokenBenutzen(gameStateManager.kaffeeToken(), KaffeeTokenAktion.PLUS, wuerfel);
+                        int neuerWert = spieler.getWuerfel(wuerfel).getWert();
+                        fieldManager.clearKaffeeFields(spiel, spiel.getKaffeeTokenCount());
+                        window.remove();
+                        window = null;
+                        callback.accept(neuerWert);
+                    } else {
+                        window.remove();
+                        window = null;
+                        createMessage("Fehler", "Das Würfel-Ergebnis kann nicht höher sein!");
+                    }
+                }
+            });
+            TextButton minusButton = new TextButton("Minus", skin);
+            minusButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    if (wuerfel.getWert() > 1) {
+                        spieler.kaffeeTokenBenutzen(gameStateManager.kaffeeToken(), KaffeeTokenAktion.MINUS, wuerfel);
+                        int neuerWert = spieler.getWuerfels().get(index).getWert();
+                        fieldManager.clearKaffeeFields(spiel, spiel.getKaffeeTokenCount());
+                        window.remove();
+                        window = null;
+                        callback.accept(neuerWert);
+                    } else {
+                        window.remove();
+                        window = null;
+                        createMessage("Fehler", "Das Würfel-Ergebnis kann nicht niedriger sein!");
+                    }
+                }
+            });
+            buttonTable.add(plusButton).padRight(20);
+            buttonTable.add(minusButton).padLeft(20);
+            window.add(buttonTable).center().pad(20).row();
+            window.pack();
+            window.setPosition((Gdx.graphics.getWidth() - window.getWidth()) / 2f, (Gdx.graphics.getHeight() - window.getHeight()) / 2f);
+            stage.addActor(window);
+        }
+    }
+
+    /**
+     * Erstellt ein modales Fenster, um ein NeuWurf-Token zu verwenden.
+     * Der Spieler kann entscheiden, ob er neue Würfel einem Spieler oder beiden Spielern gleichzeitig gibt.
+     *
+     * @param spieler  Der Spieler, der das NeuWurf-Token verwendet.
+     * @param callback Eine Callback-Funktion, die die Spieler aktualisiert, die neue Würfel erhalten haben.
+     */
+    public void createNeuWurfTokenWindow(Spieler spieler, BiConsumer<Spieler, Spieler> callback) {
+        if (window == null) {
+            window = new Window("Neu werfen", skin);
+            window.setModal(true);
+            window.setMovable(false);
+            Label label = new Label("Wem möchten Sie neue Würfel geben?", skin);
+            window.add(label).pad(20).row();
+            Table buttonTable = new Table();
+            NeuWurfToken token = gameStateManager.neuWurfToken();
+            Spieler pilot = spiel.getPilot();
+            Spieler copilot = spiel.getCopilot();
+            TextButton pilotButton = new TextButton("Pilot", skin);
+            pilotButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    spieler.neuWurfTokenBenutzen(token, pilot);
+                    window.remove();
+                    window = null;
+                    callback.accept(pilot, null);
+                }
+            });
+            TextButton copilotButton = new TextButton("Copilot", skin);
+            copilotButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    spieler.neuWurfTokenBenutzen(token, copilot);
+                    window.remove();
+                    window = null;
+                    callback.accept(null, copilot);
+                }
+            });
+            TextButton beideButton = new TextButton("Beide", skin);
+            beideButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    spieler.neuWurfTokenBenutzen(token, pilot, copilot);
+                    window.remove();
+                    window = null;
+                    callback.accept(pilot, copilot);
+                }
+            });
+            buttonTable.add(pilotButton).pad(5);
+            buttonTable.add(copilotButton).pad(5);
+            buttonTable.add(beideButton).pad(5);
+            window.add(buttonTable).center().pad(10).row();
+            window.pack();
+            window.setPosition((Gdx.graphics.getWidth() - window.getWidth()) / 2f, (Gdx.graphics.getHeight() - window.getHeight()) / 2f);
+            stage.addActor(window);
+        }
+    }
+
+    /**
+     * Erstellt ein Fenster, das anzeigt, dass das Spiel gewonnen oder verloren wurde.
+     *
+     * @param win true, wenn das Spiel gewonnen wurde; false, wenn es verloren wurde,
+     * das Bild im Fenster ist davon abhängig
+     */
+    public void createFinalWindow(boolean win) {
+        if (window != null) {
+            window.remove();
+            window = null;
+        }
+        String path;
+        String title;
+        float w;
+        float h;
+        String buttonText;
+        if (win) {
+            path = TexturePaths.WIN_PATH;
+            w = 800;
+            h = 550;
+            buttonText = "Hurra!";
+            title = "Sieg!";
+        } else {
+            path = TexturePaths.LOOSE_PATH;
+            w = 800;
+            h = 450;
+            buttonText = "Schade!";
+            title = "Verloren!";
+        }
+        window = new Window(title, skin);
+        window.setModal(true);
+        Texture texture = new Texture(path);
+        Image image = new Image(texture);
+        window.add(image).pad(10).row();
+        TextButton closeButton = new TextButton(buttonText, skin);
+        closeButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                window.remove();
+                window = null;
+                Gdx.app.exit();
+            }
+        });
+        window.add(closeButton).pad(10).row();
+        window.setSize(w, h);
+        window.setPosition((Gdx.graphics.getWidth() - window.getWidth()) / 2f, (Gdx.graphics.getHeight() - window.getHeight()) / 2f);
+        stage.addActor(window);
+    }
+
+
+    /*
+    * GameStateObserver
+    * */
+
+    @Override
+    public void onBrakesActivated(int schalterIndex, int indicatorValue) {
+        schalterGUI.activateBremsenSchalter(schalterIndex);
+        schalterGUI.moveBremsenIndicator(indicatorValue);
+    }
+
+    @Override
+    public void onChassisActivated(int schalterIndex, int count) {
+        schalterGUI.activateFahrgestellSchalter(schalterIndex);
+        schalterGUI.moveFahrgestellIndicator(count);
+    }
+
+    @Override
+    public void onFlapsActivated(int schalterIndex, int state) {
+        schalterGUI.activateKlappenSchalter(schalterIndex);
+        schalterGUI.moveKlappenIndicator(state);
+    }
+
+    @Override
+    public void onTiltChanged(float targetRotation) {
+        if (spiel.getFlugzeug().getNeigung() == 0) {
+            targetRotation = 0;
+        } else {
+            targetRotation = SpielConstants.WHEEL_ANGLE * spiel.getFlugzeug().getNeigung();
+        }
+        ruder.addAction(Actions.rotateTo(targetRotation, 1f));
+
+    }
+
+    @Override
+    public void onSpeedChanged(int steps) {
+        szenarioHoeheManager.updateScenario(steps);
+    }
+
+
+
 }

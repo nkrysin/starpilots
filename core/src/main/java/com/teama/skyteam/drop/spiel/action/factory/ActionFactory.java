@@ -32,12 +32,12 @@ public class ActionFactory {
                 case ActionName.PILOT_BREMSEN_2:
             case ActionName.PILOT_BREMSEN_4:
             case ActionName.PILOT_BREMSEN_6:
-                return new PilotBrakeAction(pilot, wuerfel);
+                return new PilotBrakeAction(spiel, pilot, wuerfel);
 
             case ActionName.PILOT_FAHRGESTELL_1_2:
             case ActionName.PILOT_FAHRGESTELL_3_4:
             case ActionName.PILOT_FAHRGESTELL_5_6:
-                return new PilotChassisAction(pilot, wuerfel);
+                return new PilotChassisAction(spiel, pilot, wuerfel);
 
             case ActionName.PILOT_KAFFEE_1:
                 return new PilotCaffeAction(pilot, wuerfel, FeldName.KAFFEE_1);

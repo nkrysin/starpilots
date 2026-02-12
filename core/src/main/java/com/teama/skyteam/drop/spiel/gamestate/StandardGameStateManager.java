@@ -50,14 +50,6 @@ public class StandardGameStateManager implements GameStateManager{
             Wuerfel w1 = spiel.getFeldPilot(FeldName.NEIGEN).getWuerfel();
             Wuerfel w2 = spiel.getFeldCopilot(FeldName.NEIGEN).getWuerfel();
             spiel.getFlugzeug().neigen(spiel.getFlugzeug().getNeigung(), new Wuerfel[]{w1, w2});
-            // TODO: move to gui
-//            float targetRotation;
-//            if (spiel.getFlugzeug().getNeigung() == 0) {
-//                targetRotation = 0;
-//            } else {
-//                targetRotation = SpielConstants.WHEEL_ANGLE * spiel.getFlugzeug().getNeigung();
-//            }
-//            ruder.addAction(Actions.rotateTo(targetRotation, 1f));
             return ValidationResult.success();
         }
         return ValidationResult.fail("Error bei der Setzung der Neigung");
