@@ -10,7 +10,8 @@ public class StandardActionValidator implements ActionValidator {
     public ValidationResult validatePilotAction(Spiel spiel, ActionName actionName, Wuerfel wuerfel){
         return switch (actionName) {
             case ActionName.PILOT_RADIO -> {
-                if (!spiel.getFeldPilot(FeldName.RADIO_PILOT).isBelegt()) {
+                if (spiel.getFeldPilot(FeldName.RADIO_PILOT).isBelegt()) {
+
                     yield ValidationResult.fail("Fehler beim Radio der Piloten!");
                 }
                 yield ValidationResult.success();
@@ -59,14 +60,14 @@ public class StandardActionValidator implements ActionValidator {
     public ValidationResult validateCopilotAction(Spiel spiel, ActionName actionName, Wuerfel wuerfel){
         return switch (actionName) {
             case ActionName.COPILOT_RADIO_1 -> {
-                if (!spiel.getFeldPilot(FeldName.RADIO_COPILOT_1).isBelegt()) {
-                    yield ValidationResult.fail("Fehler beim Radio 1 der Piloten!");
+                if (spiel.getFeldCopilot(FeldName.RADIO_COPILOT_1).isBelegt()) {
+                    yield ValidationResult.fail("Fehler beim Radio 1 der Copiloten!");
                 }
                 yield ValidationResult.success();
             }
             case ActionName.COPILOT_RADIO_2 -> {
-                if (!spiel.getFeldPilot(FeldName.RADIO_COPILOT_2).isBelegt()) {
-                    yield ValidationResult.fail("Fehler beim Radio 2 der Piloten!");
+                if (spiel.getFeldCopilot(FeldName.RADIO_COPILOT_2).isBelegt()) {
+                    yield ValidationResult.fail("Fehler beim Radio 2 der Copiloten!");
                 }
                 yield ValidationResult.success();
             }
