@@ -23,7 +23,7 @@ public class PilotChassisAction implements PlayerAction {
         if (spiel.getFlugzeug().fahrgestellAusfahren(wuerfel)) {
             pilot.fahrgestellWaehlen(wuerfel);
             int count = spiel.getFlugzeug().getFahrgestellZustand().getAkrivierteFahrgestelle();
-            int schalterIndex = (count - 1) / 2 + 1;
+            int schalterIndex = (count - 1);
             return ActionResult.success()
                 .withEvent(new ChassisActivatedEvent(schalterIndex, count));
         }
