@@ -63,7 +63,7 @@ public class ActionFactory {
             case ActionName.COPILOT_KLAPPEN_2_3:
             case ActionName.COPILOT_KLAPPEN_4_5:
             case ActionName.COPILOT_KLAPPEN_5_6:
-                return new CopilotFlapsAction(copilot, wuerfel);
+                return new CopilotFlapsAction(spiel, copilot, wuerfel);
             case ActionName.COPILOT_KAFFEE_1:
                 return new CopilotCaffeAction(copilot, wuerfel, FeldName.KAFFEE_1);
             case ActionName.COPILOT_KAFFEE_2:

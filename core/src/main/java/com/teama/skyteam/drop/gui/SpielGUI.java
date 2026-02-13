@@ -33,10 +33,12 @@ import com.teama.skyteam.drop.spiel.Spiel;
 import com.teama.skyteam.drop.spiel.SpielLogik;
 import com.teama.skyteam.drop.feld.Feld;
 import com.teama.skyteam.drop.spiel.gamestate.GameStateManager;
+import com.teama.skyteam.drop.spiel.logik.events.CoffeTokenUsedEvent;
 import com.teama.skyteam.drop.spiel.logik.fields.FieldManager;
 import com.teama.skyteam.drop.spiel.logik.observer.GameStateObserver;
 import com.teama.skyteam.drop.spieler.Pilot;
 import com.teama.skyteam.drop.spieler.Spieler;
+import com.teama.skyteam.drop.tokens.KaffeeToken;
 import com.teama.skyteam.drop.tokens.KaffeeTokenAktion;
 import com.teama.skyteam.drop.tokens.NeuWurfToken;
 import com.teama.skyteam.drop.tokens.Wuerfel;
@@ -871,7 +873,7 @@ public class SpielGUI implements DialogManager, GameStateObserver {
                 public void clicked(InputEvent event, float x, float y) {
                     switchTexture(wuerfelButton, path + wert + TexturePaths.WUERFEL_PATH_SELECTED);
                     clearDiceListeners(spieler);
-                    spielLogik.createKaffeeTokenWindow(wuerfel, spieler, index, (neuerWert) -> {
+                    createKaffeeTokenWindow(wuerfel, spieler, index, (neuerWert) -> {
                         switchTexture(wuerfelButton, path + neuerWert + TexturePaths.IMG_FORMAT);
                         removeKaffeeTokenByName(name, spieler);
                         kaffeeFieldClearLastUsed(spieler);
@@ -1387,19 +1389,15 @@ public class SpielGUI implements DialogManager, GameStateObserver {
 
     @Override
     public void onTiltChanged(float targetRotation) {
-        if (spiel.getFlugzeug().getNeigung() == 0) {
-            targetRotation = 0;
-        } else {
-            targetRotation = SpielConstants.WHEEL_ANGLE * spiel.getFlugzeug().getNeigung();
-        }
         ruder.addAction(Actions.rotateTo(targetRotation, 1f));
-
     }
 
     @Override
     public void onSpeedChanged(int steps) {
         szenarioHoeheManager.updateScenario(steps);
     }
+
+
 
 
 

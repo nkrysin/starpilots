@@ -7,6 +7,8 @@ import com.teama.skyteam.drop.spiel.Spiel;
 import com.teama.skyteam.drop.spiel.SpielConstants;
 import com.teama.skyteam.drop.spiel.action.command.ActionResult;
 import com.teama.skyteam.drop.spiel.action.validator.ValidationResult;
+import com.teama.skyteam.drop.spiel.logik.events.SpeedChangedEvent;
+import com.teama.skyteam.drop.spiel.logik.events.TiltChangedEvent;
 import com.teama.skyteam.drop.spieler.Spieler;
 import com.teama.skyteam.drop.szenario.ReiseFeld;
 import com.teama.skyteam.drop.szenario.flughoehe.Flughoehe;
@@ -25,38 +27,49 @@ public class StandardGameStateManager implements GameStateManager{
         this.spiel = spiel;
     }
     @Override
-    public ValidationResult handleRadio(Wuerfel wuerfel){
+    public ActionResult handleRadio(Wuerfel wuerfel){
         int wert = wuerfel.getWert();
         TreeMap<Integer, ReiseFeld> routeSzenario = spiel.getRouteSzenario();
         int currentFieldIndex = spiel.getCurrentPosition();
         int targetField = wert + currentFieldIndex - 1;
+
         if (!routeSzenario.containsKey(targetField)) {
-            return ValidationResult.fail("Die Zielposition liegt außerhalb des Szenarios.");
-        } else {
-            ReiseFeld zielFeld = routeSzenario.get(targetField);
-            if (zielFeld.getAnzahlFlugzeug() > 0) {
-                zielFeld.removeFlugzeug();
-            }
-            return ValidationResult.success();
+            return ActionResult.fail("Die Zielposition liegt außerhalb des Szenarios.");
         }
 
+        ReiseFeld zielFeld = routeSzenario.get(targetField);
+        if (zielFeld.getAnzahlFlugzeug() > 0) {
+            zielFeld.removeFlugzeug();
+        }
+        return ActionResult.success();
     }
 
     @Override
-    public ValidationResult updateTilt(){
+    public ActionResult updateTilt(){
         boolean neigenFeldPilotBelegt = spiel.getFeldPilot(FeldName.NEIGEN).isBelegt();
         boolean neigenFeldCopilotBelegt = spiel.getFeldCopilot(FeldName.NEIGEN).isBelegt();
-        if (neigenFeldPilotBelegt && neigenFeldCopilotBelegt) {
-            Wuerfel w1 = spiel.getFeldPilot(FeldName.NEIGEN).getWuerfel();
-            Wuerfel w2 = spiel.getFeldCopilot(FeldName.NEIGEN).getWuerfel();
-            spiel.getFlugzeug().neigen(spiel.getFlugzeug().getNeigung(), new Wuerfel[]{w1, w2});
-            return ValidationResult.success();
+
+        if (!neigenFeldPilotBelegt || !neigenFeldCopilotBelegt) {
+            return ActionResult.success();
         }
-        return ValidationResult.fail("Error bei der Setzung der Neigung");
+
+        Wuerfel w1 = spiel.getFeldPilot(FeldName.NEIGEN).getWuerfel();
+        Wuerfel w2 = spiel.getFeldCopilot(FeldName.NEIGEN).getWuerfel();
+        spiel.getFlugzeug().neigen(spiel.getFlugzeug().getNeigung(), new Wuerfel[]{w1, w2});
+
+        float targetRotation;
+        if (spiel.getFlugzeug().getNeigung() == 0) {
+            targetRotation = 0;
+        } else {
+            targetRotation = SpielConstants.WHEEL_ANGLE * spiel.getFlugzeug().getNeigung();
+        }
+
+        return ActionResult.success()
+            .withEvent(new TiltChangedEvent(targetRotation));
     }
 
     @Override
-    public ValidationResult updateTravelFieldState (SzenarioHoeheManager szenarioHoeheManager){
+    public ActionResult updateTravelFieldState (){
         boolean speedFeldPilotBelegt = spiel.getFeldPilot(FeldName.SPEED).isBelegt();
         boolean speedFeldCopilotBelegt = spiel.getFeldCopilot(FeldName.SPEED).isBelegt();
         if (speedFeldPilotBelegt && speedFeldCopilotBelegt) {
@@ -74,22 +87,22 @@ public class StandardGameStateManager implements GameStateManager{
             } else {
                 steps = 2;
             }
-            moveForward(steps, szenarioHoeheManager);
+            moveForward(steps);
             spiel.setCurrentSpeed(steps);
-            return ValidationResult.success();
+            return ActionResult.success();
         }
-        return ValidationResult.fail("Error bei der Setzung der Speed");
+        return ActionResult.fail("Error bei der Setzung der Speed");
     }
 
     @Override
-    public ValidationResult moveForward(int steps, SzenarioHoeheManager szenarioHoeheManager){
+    public ActionResult moveForward(int steps){
         int position = spiel.getCurrentPosition();
         TreeMap<Integer, ReiseFeld> routeSzenario = spiel.getRouteSzenario();
         int newPosition = position + steps;
         if (newPosition >= routeSzenario.size()) {
             spiel.setKollision(true);
         } else if (steps > 2) {
-            return ValidationResult.fail("Der Schritt ist zu groß!");
+            return ActionResult.fail("Der Schritt ist zu groß!");
         } else {
             for (int i = position; i <= newPosition; i++) {
                 ReiseFeld currentField = routeSzenario.get(i);
@@ -99,9 +112,9 @@ public class StandardGameStateManager implements GameStateManager{
             }
             spiel.setPosition(newPosition);
             spiel.updateCurrentField();
-            szenarioHoeheManager.updateScenario(steps);
+            // szenarioHoeheManager.updateScenario(steps);
         }
-        return ValidationResult.success();
+        return ActionResult.success();
     }
 
     @Override
@@ -148,6 +161,40 @@ public class StandardGameStateManager implements GameStateManager{
             wurfe.add(new Wuerfel());
         }
         return wurfe;
+    }
+
+    @Override
+    public ActionResult checkAndUpdateSpeed() {
+        boolean speedFeldPilotBelegt = spiel.getFeldPilot(FeldName.SPEED).isBelegt();
+        boolean speedFeldCopilotBelegt = spiel.getFeldCopilot(FeldName.SPEED).isBelegt();
+
+        if (!speedFeldPilotBelegt || !speedFeldCopilotBelegt) {
+            return ActionResult.success();
+        }
+
+        int pilotSpeed = spiel.getFeldPilot(FeldName.SPEED).getWuerfel().getWert();
+        int copilotSpeed = spiel.getFeldCopilot(FeldName.SPEED).getWuerfel().getWert();
+        int totalSpeed = pilotSpeed + copilotSpeed;
+
+        spiel.getFlugzeug().setSpeedAktuell(totalSpeed);
+
+        int speedUntereGrenze = spiel.getFlugzeug().getSpeedUntereGrenze().getValue();
+        int speedObereGrenze = spiel.getFlugzeug().getSpeedObereGrenze().getValue();
+
+        int steps;
+        if (totalSpeed < speedUntereGrenze) {
+            steps = 0;
+        } else if (totalSpeed <= speedObereGrenze) {
+            steps = 1;
+        } else {
+            steps = 2;
+        }
+
+        moveForward(steps);
+        spiel.setCurrentSpeed(steps);
+
+        return ActionResult.success()
+            .withEvent(new SpeedChangedEvent(steps));
     }
 
 }

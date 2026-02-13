@@ -1,22 +1,35 @@
 package com.teama.skyteam.drop.spiel.action.command.copilot;
 
+import com.teama.skyteam.drop.spiel.Spiel;
 import com.teama.skyteam.drop.spiel.action.command.ActionResult;
 import com.teama.skyteam.drop.spiel.action.command.PlayerAction;
+import com.teama.skyteam.drop.spiel.logik.events.FlapsActivatedEvent;
 import com.teama.skyteam.drop.spieler.Copilot;
 import com.teama.skyteam.drop.tokens.Wuerfel;
 
 public class CopilotFlapsAction implements PlayerAction {
+    private final Spiel spiel;
     private final Copilot copilot;
     private final Wuerfel wuerfel;
 
-    public CopilotFlapsAction(Copilot copilot, Wuerfel wuerfel) {
+    public CopilotFlapsAction(Spiel spiel, Copilot copilot, Wuerfel wuerfel) {
+        this.spiel = spiel;
         this.copilot = copilot;
         this.wuerfel = wuerfel;
     }
 
     @Override
     public ActionResult execute(){
-        copilot.klappenWaehlen(wuerfel);
+        if (spiel.getFlugzeug().klappenOeffnen(wuerfel)) {
+            copilot.klappenWaehlen(wuerfel);
+            int count = spiel.getFlugzeug().getKlappenZustand().getValue();
+            int schalterIndex = count - 9;
+            return ActionResult.success()
+                .withEvent(new FlapsActivatedEvent(schalterIndex, count));
+        }
+        return ActionResult.fail("Klappen nicht möglich!");
+
+
 //        if (gewaehlterWuerfel.getWert() <= 2) {
 //            schalterGUI.activateKlappenSchalter(0);
 //        } else if (gewaehlterWuerfel.getWert() <= 3) {

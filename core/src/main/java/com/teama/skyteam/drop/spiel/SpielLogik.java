@@ -12,6 +12,7 @@ import com.teama.skyteam.drop.spiel.action.validator.ValidationResult;
 import com.teama.skyteam.drop.spiel.action.type.ActionName;
 import com.teama.skyteam.drop.spiel.gamestate.GameStateManager;
 import com.teama.skyteam.drop.spiel.gamestate.StandardGameStateManager;
+import com.teama.skyteam.drop.spiel.logik.events.*;
 import com.teama.skyteam.drop.spiel.logik.observer.GameStateObserver;
 import com.teama.skyteam.drop.spiel.logik.rules.GameRules;
 import com.teama.skyteam.drop.spieler.Copilot;
@@ -81,11 +82,16 @@ public class SpielLogik {
         if (!validation.isValid()) {
             return ActionResult.fail(validation.getErrorMsg());
         }
-
-
         Pilot pilot = (Pilot) spieler;
         PlayerAction action = actionFactory.createPilotAction(auswahl, pilot, wuerfel);
-        return action.execute();
+        ActionResult result = action.execute();
+        for (GameEvent event : result.getEvents()) {
+            handleEvent(event);
+        }
+        checkSpeed();
+        checkTilt();
+
+        return result;
     }
 
     public ActionResult copilotSchritt(Spieler spieler, ActionName auswahl, Wuerfel wuerfel) {
@@ -93,11 +99,16 @@ public class SpielLogik {
         if (!validation.isValid()) {
             return ActionResult.fail(validation.getErrorMsg());
         }
-
-
         Copilot copilot = (Copilot) spieler;
         PlayerAction action = actionFactory.createCopilotAction(auswahl, copilot, wuerfel);
-        return action.execute();
+        ActionResult result = action.execute();
+        for (GameEvent event : result.getEvents()) {
+            handleEvent(event);
+        }
+        checkSpeed();
+        checkTilt();
+
+        return result;
     }
 
     public void addObserver(GameStateObserver observer) {
@@ -133,6 +144,45 @@ public class SpielLogik {
             observer.onSpeedChanged(step);
         }
     }
+
+    private void handleEvent(GameEvent event) {
+        if (event instanceof BrakesActivatedEvent) {
+            BrakesActivatedEvent e = (BrakesActivatedEvent) event;
+            notifyBrakesActivated(e.getSchalterIndex(), e.getIndicatorValue());
+        } else if (event instanceof ChassisActivatedEvent) {
+            ChassisActivatedEvent e = (ChassisActivatedEvent) event;
+            notifyChassisActivated(e.getSchalterIndex(), e.getAnzahl());
+        } else if (event instanceof FlapsActivatedEvent) {
+            FlapsActivatedEvent e = (FlapsActivatedEvent) event;
+            notifyFlapsActivated(e.getSchalterIndex(), e.getState());
+        }
+    }
+
+    public ActionResult checkSpeed() {
+        ActionResult result = gameStateManager.checkAndUpdateSpeed();
+        for (GameEvent event : result.getEvents()) {
+            if (event instanceof SpeedChangedEvent) {
+                SpeedChangedEvent e = (SpeedChangedEvent) event;
+                notifySpeedChanged(e.getSteps());
+            }
+        }
+        return result;
+    }
+
+    public ActionResult checkTilt() {
+        ActionResult result = gameStateManager.updateTilt();
+
+        for (GameEvent event : result.getEvents()) {
+            if (event instanceof TiltChangedEvent) {
+                TiltChangedEvent e = (TiltChangedEvent) event;
+                notifyTiltChanged(e.getTargetRotation());
+            }
+        }
+        return result;
+    }
+
+
+
 
 
 

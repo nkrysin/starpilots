@@ -8,7 +8,5 @@ import java.util.function.Consumer;
 
 public interface DialogManager {
     void showMessage(String title, String message);
-    void showKaffeeTokenWindow(Wuerfel wuerfel, Spieler spieler, Consumer<Integer> callback);
-    void showNeuWurfTokenWindow(Spieler spieler, BiConsumer<Spieler, Spieler> callback);
     void showFinalWindow(boolean win);
 }

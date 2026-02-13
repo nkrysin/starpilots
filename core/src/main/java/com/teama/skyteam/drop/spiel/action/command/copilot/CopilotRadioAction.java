@@ -22,9 +22,14 @@ public class CopilotRadioAction implements PlayerAction {
 
     @Override
     public ActionResult execute() {
-        gameStateManager.handleRadio(wuerfel);
+        ActionResult radioResult = gameStateManager.handleRadio(wuerfel);
+
+        if (!radioResult.isSuccess()) {
+            return radioResult;
+        }
+
         copilot.radioWaehlen(wuerfel);
-        return ActionResult.success();
+        return radioResult;
     }
 
 

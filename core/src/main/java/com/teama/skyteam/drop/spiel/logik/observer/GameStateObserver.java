@@ -11,9 +11,4 @@ public interface GameStateObserver {
     void onFlapsActivated(int schalterIndex, int state);
     void onTiltChanged(float targetRotation);
     void onSpeedChanged(int steps);
-    void onCoffeTokenUsed(Spieler spieler, int wuerfelIndex, int newValue, int remainingTokens);
-    void onDiceRerolled(Spieler spieler, List<Wuerfel> newDice);
-    void onPilotRadioActivated();
-    void onCopilotRadioActivated();
-
 }

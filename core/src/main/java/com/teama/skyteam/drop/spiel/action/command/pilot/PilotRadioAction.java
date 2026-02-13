@@ -23,9 +23,14 @@ public class PilotRadioAction implements PlayerAction {
 
     @Override
     public ActionResult execute() {
-        gameStateManager.handleRadio(wuerfel);
+        ActionResult radioResult = gameStateManager.handleRadio(wuerfel);
+
+        if (!radioResult.isSuccess()) {
+            return radioResult;
+        }
+
         pilot.radioWaehlen(wuerfel);
-        return ActionResult.success();
+        return radioResult;
     }
 
 

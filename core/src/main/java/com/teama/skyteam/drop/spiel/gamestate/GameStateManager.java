@@ -1,6 +1,7 @@
 package com.teama.skyteam.drop.spiel.gamestate;
 
 import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
+import com.teama.skyteam.drop.spiel.action.command.ActionResult;
 import com.teama.skyteam.drop.spiel.action.validator.ValidationResult;
 import com.teama.skyteam.drop.spieler.Spieler;
 import com.teama.skyteam.drop.tokens.KaffeeToken;
@@ -13,24 +14,24 @@ public interface GameStateManager {
     /**
      * Обрабатывает радио-действие
      */
-    ValidationResult handleRadio(Wuerfel wuerfel);
+    ActionResult handleRadio(Wuerfel wuerfel);
 
     /**
      * Устанавливает наклон самолета на основе кубиков на полях NEIGEN
      * @return true, если наклон установлен (оба поля заняты)
      */
-    ValidationResult updateTilt();
+    ActionResult updateTilt();
 
     /**
      * Обновляет состояние поля маршрута на основе скорости
      * @return true, если состояние обновлено (оба поля SPEED заняты)
      */
-    ValidationResult updateTravelFieldState(SzenarioHoeheManager szenarioHoeheManager);
+    ActionResult updateTravelFieldState();
 
     /**
      * Двигает самолет вперед
      */
-    ValidationResult moveForward(int steps, SzenarioHoeheManager szenarioHoeheManager);
+    ActionResult moveForward(int steps);
 
     /**
      * Уменьшает высоту полета
@@ -69,5 +70,12 @@ public interface GameStateManager {
      * @return Eine Liste mit vier neu generierten Würfeln.
      */
     ArrayList<Wuerfel> werfen();
+
+    /**
+     * Проверяет и обновляет скорость, если оба поля SPEED заняты
+     * @return ActionResult с событием SpeedChangedEvent, если скорость обновлена
+     */
+    ActionResult checkAndUpdateSpeed();
+
 
 }
