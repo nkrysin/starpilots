@@ -1,34 +1,34 @@
 package com.teama.skyteam.drop.domain.action.command.pilot;
 
-import com.teama.skyteam.drop.domain.model.game.Spiel;
+import com.teama.skyteam.drop.domain.model.game.Game;
 import com.teama.skyteam.drop.domain.action.command.ActionResult;
 import com.teama.skyteam.drop.domain.action.command.PlayerAction;
 import com.teama.skyteam.drop.application.logic.events.BrakesActivatedEvent;
-import com.teama.skyteam.drop.domain.model.spieler.Pilot;
-import com.teama.skyteam.drop.domain.model.tokens.Wuerfel;
+import com.teama.skyteam.drop.domain.model.player.Pilot;
+import com.teama.skyteam.drop.domain.model.tokens.Dice;
 
 public class PilotBrakeAction implements PlayerAction {
-    private final Spiel spiel;
+    private final Game game;
     private final Pilot pilot;
-    private final Wuerfel wuerfel;
+    private final Dice dice;
 
-    public PilotBrakeAction(Spiel spiel, Pilot pilot, Wuerfel wuerfel) {
-        this.spiel = spiel;
+    public PilotBrakeAction(Game game, Pilot pilot, Dice dice) {
+        this.game = game;
         this.pilot = pilot;
-        this.wuerfel = wuerfel;
+        this.dice = dice;
     }
 
     @Override
     public ActionResult execute() {
-        if (spiel.getFlugzeug().bremsen(wuerfel)) {
-            pilot.bremsenWaehlen(wuerfel);
-            int indicatorValue = spiel.getFlugzeug().getBremsenZustand().getValue();
+        if (game.getFlugzeug().bremsen(dice)) {
+            pilot.bremsenWaehlen(dice);
+            int indicatorValue = game.getFlugzeug().getBrakesState().getValue();
             int schalterIndex = (indicatorValue - 2) / 2;
 
             return ActionResult.success()
                 .withEvent(new BrakesActivatedEvent(schalterIndex, indicatorValue));
         }
-        return ActionResult.fail("Bremsen nicht möglich!");
+        return ActionResult.fail("Brakes nicht möglich!");
 
     }
 }

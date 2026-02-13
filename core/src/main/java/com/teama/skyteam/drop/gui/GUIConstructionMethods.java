@@ -2,7 +2,7 @@
  * Stellt Methoden zur Konstruktion von GUI-Elementen bereit.
  *
  * Die Klasse `GUIConstructionMethods` bietet Hilfsmethoden, um GUI-Elemente wie Buttons und Kontrollgruppen
- * zu erstellen. Diese Elemente können auf einer `Stage` hinzugefügt werden, um sie im Spiel darzustellen.
+ * zu erstellen. Diese Elemente können auf einer `Stage` hinzugefügt werden, um sie im Game darzustellen.
  * Außerdem wird eine Methode bereitgestellt, um die erstellten Ressourcen freizugeben.
  */
 package com.teama.skyteam.drop.gui;

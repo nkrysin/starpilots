@@ -12,7 +12,7 @@ public final class TexturePaths {
     // Formats
     public static final String IMG_FORMAT = ".png";
 
-    // Spiel folders
+    // Game folders
     private static final String MAIN = ASSETS_SPIEL_PATH + "/main";
     private static final String DICES = ASSETS_SPIEL_PATH + "/dices";
     private static final String TOKENS = ASSETS_SPIEL_PATH + "/tokens";

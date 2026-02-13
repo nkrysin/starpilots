@@ -97,7 +97,7 @@ public class UILayout {
     public static final int[] NEUWURF_BUTTON_SIZE = {60,60};
     public static final int[] NEUWURF_BUTTON_COORDINATES = {681,873};
 
-    // Koordinaten von Szenario
+    // Koordinaten von Campaign
     public static final int[] SZENARIO_COORDINATES = {758,845};
     public static final int[] SZENARIO_PLANE_SIZE = {39,39};
     public static final int SZENARIO_PLANE_Y_COORDINATE = 886;

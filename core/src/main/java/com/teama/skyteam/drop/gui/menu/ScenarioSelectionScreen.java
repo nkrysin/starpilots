@@ -1,13 +1,13 @@
 /**
- * Repräsentiert den Szenarioauswahl-Bildschirm im Spiel.
+ * Repräsentiert den Szenarioauswahl-Bildschirm im Game.
  *
- * Die Klasse `ScenarioSelectionScreen` ermöglicht es dem Spieler, ein Szenario auszuwählen,
- * mit dem das Spiel gestartet wird. Jedes Szenario wird durch eine Tastet dargestellt,
+ * Die Klasse `ScenarioSelectionScreen` ermöglicht es dem Player, ein Campaign auszuwählen,
+ * mit dem das Game gestartet wird. Jedes Campaign wird durch eine Tastet dargestellt,
  * und es wird eine spezifische Route initialisiert. Der Bildschirm enthält außerdem eine Option,
  * zum Hauptmenü zurückzukehren.
  *
  * **Wichtig:** Beim Hinzufügen eines neuen Szenarios muss eine entsprechende Taste
- * mit einer Zuordnung zu diesem Szenario in diese Klasse aufgenommen werden.
+ * mit einer Zuordnung zu diesem Campaign in diese Klasse aufgenommen werden.
  */
 package com.teama.skyteam.drop.gui.menu;
 
@@ -22,11 +22,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.teama.skyteam.drop.MainBk;
+import com.teama.skyteam.drop.domain.model.game.Game;
 import com.teama.skyteam.drop.gui.TexturePaths;
 import com.teama.skyteam.drop.gui.UILayout;
-import com.teama.skyteam.drop.domain.model.game.Spiel;
-import com.teama.skyteam.drop.domain.model.game.SpielConstructor;
-import com.teama.skyteam.drop.domain.model.szenario.Route;
+import com.teama.skyteam.drop.domain.model.game.GameConstructor;
+import com.teama.skyteam.drop.domain.model.campaign.Route;
 
 class ScenarioSelectionScreen implements Screen {
     private final MainBk main;
@@ -99,13 +99,13 @@ class ScenarioSelectionScreen implements Screen {
     }
 
     /**
-     * Startet das Spiel mit dem ausgewählten Szenario.
+     * Startet das Game mit dem ausgewählten Campaign.
      *
-     * @param scenario Das Szenario, mit dem das Spiel initialisiert werden soll.
+     * @param scenario Das Campaign, mit dem das Game initialisiert werden soll.
      */
     private void startGameWithScenario(Route scenario) {
-        Spiel spiel = SpielConstructor.createSpiel(scenario);
-        main.setScreen(new GameScreen(main, spiel));
+        Game game = GameConstructor.createSpiel(scenario);
+        main.setScreen(new GameScreen(main, game));
     }
 
     @Override

@@ -6,7 +6,7 @@
  * 2. Ein Startbildschirm-Logo.
  *
  * Nach einer festgelegten Zeit wechselt der Bildschirm automatisch zum Hauptmenü.
- * Der Startbildschirm dient als Einführung, bevor der Spieler in das Menü gelangt.
+ * Der Startbildschirm dient als Einführung, bevor der Player in das Menü gelangt.
  */
 package com.teama.skyteam.drop.gui.menu;
 

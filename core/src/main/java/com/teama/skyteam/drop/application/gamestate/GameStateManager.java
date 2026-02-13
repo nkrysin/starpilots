@@ -1,10 +1,10 @@
 package com.teama.skyteam.drop.application.gamestate;
 
 import com.teama.skyteam.drop.domain.action.command.ActionResult;
-import com.teama.skyteam.drop.domain.model.spieler.Spieler;
-import com.teama.skyteam.drop.domain.model.tokens.KaffeeToken;
-import com.teama.skyteam.drop.domain.model.tokens.NeuWurfToken;
-import com.teama.skyteam.drop.domain.model.tokens.Wuerfel;
+import com.teama.skyteam.drop.domain.model.player.Player;
+import com.teama.skyteam.drop.domain.model.tokens.CoffeeToken;
+import com.teama.skyteam.drop.domain.model.tokens.Dice;
+import com.teama.skyteam.drop.domain.model.tokens.RerollToken;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ public interface GameStateManager {
     /**
      * Обрабатывает радио-действие
      */
-    ActionResult handleRadio(Wuerfel wuerfel);
+    ActionResult handleRadio(Dice dice);
 
     /**
      * Устанавливает наклон самолета на основе кубиков на полях NEIGEN
@@ -42,32 +42,32 @@ public interface GameStateManager {
     void addNeuWurfTokens();
 
     /**
-     * Liefert das erste verfügbare KaffeeToken aus der Liste der KaffeeTokens und entfernt es aus der Liste.
+     * Liefert das erste verfügbare CoffeeToken aus der Liste der KaffeeTokens und entfernt es aus der Liste.
      *
-     * @return Das erste verfügbare KaffeeToken.
+     * @return Das erste verfügbare CoffeeToken.
      */
-    KaffeeToken kaffeeToken();
+    CoffeeToken kaffeeToken();
 
     /**
-     * Liefert das erste verfügbare NeuWurfToken aus der Liste der NeuWurfTokens und entfernt es aus der Liste.
+     * Liefert das erste verfügbare RerollToken aus der Liste der NeuWurfTokens und entfernt es aus der Liste.
      *
-     * @return Das erste verfügbare NeuWurfToken.
+     * @return Das erste verfügbare RerollToken.
      */
-    NeuWurfToken neuWurfToken();
+    RerollToken neuWurfToken();
 
     /**
-     * Setzt neue Würfel für den Spieler, indem ein neuer Wurf generiert wird.
+     * Setzt neue Würfel für den Player, indem ein neuer Wurf generiert wird.
      *
-     * @param spieler Der Spieler, dessen Würfel neu gesetzt werden sollen.
+     * @param player Der Player, dessen Würfel neu gesetzt werden sollen.
      */
-    void setNeuWuerfels(Spieler spieler);
+    void setNeuWuerfels(Player player);
 
     /**
      * Generiert eine Liste neuer Würfel mit zufälligen Werten.
      *
      * @return Eine Liste mit vier neu generierten Würfeln.
      */
-    ArrayList<Wuerfel> werfen();
+    ArrayList<Dice> werfen();
 
     /**
      * Проверяет и обновляет скорость, если оба поля SPEED заняты

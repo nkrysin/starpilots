@@ -43,7 +43,7 @@ public class InputController {
      *
      * @param camera Die Kamera, die das Spielfeld anzeigt.
      * @param tableHeight Die Höhe des Spielfelds.
-     * @param stage Die Bühne für das Spiel.
+     * @param stage Die Bühne für das Game.
      * @param main Die Hauptinstanz des Spiels.
      */
     public InputController(OrthographicCamera camera, float tableHeight, Stage stage, MainBk main){
@@ -164,7 +164,7 @@ public class InputController {
     }
 
     /**
-     * Beendet den Pausenmodus und setzt das Spiel fort.
+     * Beendet den Pausenmodus und setzt das Game fort.
      */
     private void resumeGame(){
         isPaused = false;
@@ -181,7 +181,7 @@ public class InputController {
     }
 
     /**
-     * Beendet das Spiel.
+     * Beendet das Game.
      */
     private void exitGame(){
         Gdx.app.exit();

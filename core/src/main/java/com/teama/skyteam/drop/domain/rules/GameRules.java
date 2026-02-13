@@ -1,21 +1,21 @@
 package com.teama.skyteam.drop.domain.rules;
 
-import com.teama.skyteam.drop.domain.model.game.Spiel;
+import com.teama.skyteam.drop.domain.model.game.Game;
 
 public interface GameRules {
     /**
-     * Überprüft, ob eine Ausfallbedingung im Spiel erreicht wurde.
+     * Überprüft, ob eine Ausfallbedingung im Game erreicht wurde.
      */
-    boolean checkAusfallBedingung(Spiel spiel);
+    boolean checkAusfallBedingung(Game game);
 
 
     /**
      * Überprüft, ob die finale Runde des Spiels erreicht wurde.
      */
-    boolean checkFinalRound(Spiel spiel);
+    boolean checkFinalRound(Game game);
 
     /**
      * Überprüft, ob die Gewinnbedingungen erfüllt sind.
      */
-    boolean checkGewinnBedingung(Spiel spiel);
+    boolean checkGewinnBedingung(Game game);
 }

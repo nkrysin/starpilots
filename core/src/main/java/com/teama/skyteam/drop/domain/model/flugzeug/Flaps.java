@@ -1,0 +1,20 @@
+package com.teama.skyteam.drop.domain.model.flugzeug;
+
+public enum Flaps {
+    NONE(8),
+    LEVEL1(9),
+    LEVEL2(10),
+    LEVEL3(11),
+    LEVEL4(12);
+
+    private final int value;
+
+    Flaps
+        (int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
+}

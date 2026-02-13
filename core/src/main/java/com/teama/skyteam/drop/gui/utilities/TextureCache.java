@@ -1,5 +1,5 @@
 /**
- * Verwaltet die Caching-Logik für Texturen im Spiel.
+ * Verwaltet die Caching-Logik für Texturen im Game.
  *
  * Die Klasse `TextureCache` sorgt dafür, dass Texturen nur einmal geladen und
  * wiederverwendet werden, um Speicher- und Performanceprobleme zu minimieren.

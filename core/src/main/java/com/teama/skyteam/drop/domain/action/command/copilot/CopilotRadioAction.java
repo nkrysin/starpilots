@@ -3,29 +3,29 @@ package com.teama.skyteam.drop.domain.action.command.copilot;
 import com.teama.skyteam.drop.domain.action.command.ActionResult;
 import com.teama.skyteam.drop.domain.action.command.PlayerAction;
 import com.teama.skyteam.drop.application.gamestate.GameStateManager;
-import com.teama.skyteam.drop.domain.model.spieler.Copilot;
-import com.teama.skyteam.drop.domain.model.tokens.Wuerfel;
+import com.teama.skyteam.drop.domain.model.player.Copilot;
+import com.teama.skyteam.drop.domain.model.tokens.Dice;
 
 public class CopilotRadioAction implements PlayerAction {
     private final Copilot copilot;
-    private final Wuerfel wuerfel;
+    private final Dice dice;
     private final GameStateManager gameStateManager;
 
-    public CopilotRadioAction(Copilot copilot, Wuerfel wuerfel, GameStateManager gameStateManager) {
+    public CopilotRadioAction(Copilot copilot, Dice dice, GameStateManager gameStateManager) {
         this.copilot = copilot;
-        this.wuerfel = wuerfel;
+        this.dice = dice;
         this.gameStateManager = gameStateManager;
     }
 
     @Override
     public ActionResult execute() {
-        ActionResult radioResult = gameStateManager.handleRadio(wuerfel);
+        ActionResult radioResult = gameStateManager.handleRadio(dice);
 
         if (!radioResult.isSuccess()) {
             return radioResult;
         }
 
-        copilot.radioWaehlen(wuerfel);
+        copilot.radioWaehlen(dice);
         return radioResult;
     }
 

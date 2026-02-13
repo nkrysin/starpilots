@@ -2,21 +2,21 @@ package com.teama.skyteam.drop.domain.action.command.copilot;
 
 import com.teama.skyteam.drop.domain.action.command.ActionResult;
 import com.teama.skyteam.drop.domain.action.command.PlayerAction;
-import com.teama.skyteam.drop.domain.model.spieler.Copilot;
-import com.teama.skyteam.drop.domain.model.tokens.Wuerfel;
+import com.teama.skyteam.drop.domain.model.player.Copilot;
+import com.teama.skyteam.drop.domain.model.tokens.Dice;
 
 public class CopilotSpeedAction implements PlayerAction {
     private final Copilot copilot;
-    private final Wuerfel wuerfel;
+    private final Dice dice;
 
-    public CopilotSpeedAction(Copilot copilot, Wuerfel wuerfel) {
+    public CopilotSpeedAction(Copilot copilot, Dice dice) {
         this.copilot = copilot;
-        this.wuerfel = wuerfel;
+        this.dice = dice;
     }
 
     @Override
     public ActionResult execute() {
-        copilot.speedWaehlen(wuerfel);
+        copilot.speedWaehlen(dice);
         return ActionResult.success();
     }
 }

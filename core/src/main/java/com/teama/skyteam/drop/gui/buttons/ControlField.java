@@ -1,9 +1,9 @@
 /**
- * Repräsentiert ein GUI-Spielfeld, auf dem Spieler Würfel platzieren können.
+ * Repräsentiert ein GUI-Spielfeld, auf dem Player Würfel platzieren können.
  *
  * Die Klasse `ControlField` wird verwendet, um interaktive Spielfelder für das GUI zu erstellen,
- * auf denen Spieler ihre Würfel ablegen können. Jedes Spielfeld hat einen einzigartigen Namen,
- * einen zugehörigen Button zur Interaktion und einen Status, der angibt, ob das Feld bereits belegt ist.
+ * auf denen Player ihre Würfel ablegen können. Jedes Spielfeld hat einen einzigartigen Namen,
+ * einen zugehörigen Button zur Interaktion und einen Status, der angibt, ob das Field bereits belegt ist.
  */
 package com.teama.skyteam.drop.gui.buttons;
 

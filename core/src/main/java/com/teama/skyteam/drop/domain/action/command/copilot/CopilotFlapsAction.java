@@ -1,33 +1,33 @@
 package com.teama.skyteam.drop.domain.action.command.copilot;
 
-import com.teama.skyteam.drop.domain.model.game.Spiel;
+import com.teama.skyteam.drop.domain.model.game.Game;
 import com.teama.skyteam.drop.domain.action.command.ActionResult;
 import com.teama.skyteam.drop.domain.action.command.PlayerAction;
 import com.teama.skyteam.drop.application.logic.events.FlapsActivatedEvent;
-import com.teama.skyteam.drop.domain.model.spieler.Copilot;
-import com.teama.skyteam.drop.domain.model.tokens.Wuerfel;
+import com.teama.skyteam.drop.domain.model.player.Copilot;
+import com.teama.skyteam.drop.domain.model.tokens.Dice;
 
 public class CopilotFlapsAction implements PlayerAction {
-    private final Spiel spiel;
+    private final Game game;
     private final Copilot copilot;
-    private final Wuerfel wuerfel;
+    private final Dice dice;
 
-    public CopilotFlapsAction(Spiel spiel, Copilot copilot, Wuerfel wuerfel) {
-        this.spiel = spiel;
+    public CopilotFlapsAction(Game game, Copilot copilot, Dice dice) {
+        this.game = game;
         this.copilot = copilot;
-        this.wuerfel = wuerfel;
+        this.dice = dice;
     }
 
     @Override
     public ActionResult execute(){
-        if (spiel.getFlugzeug().klappenOeffnen(wuerfel)) {
-            copilot.klappenWaehlen(wuerfel);
-            int count = spiel.getFlugzeug().getKlappenZustand().getValue();
+        if (game.getFlugzeug().klappenOeffnen(dice)) {
+            copilot.klappenWaehlen(dice);
+            int count = game.getFlugzeug().getKlappenZustand().getValue();
             int schalterIndex = count - 9;
             return ActionResult.success()
                 .withEvent(new FlapsActivatedEvent(schalterIndex, count));
         }
-        return ActionResult.fail("Klappen nicht möglich!");
+        return ActionResult.fail("Flaps nicht möglich!");
 
 
 //        if (gewaehlterWuerfel.getWert() <= 2) {
@@ -39,6 +39,6 @@ public class CopilotFlapsAction implements PlayerAction {
 //        } else {
 //            schalterGUI.activateKlappenSchalter(3);
 //        }
-//        schalterGUI.moveKlappenIndicator(spiel.getFlugzeug().getKlappenZustand().getValue());
+//        schalterGUI.moveKlappenIndicator(game.getFlugzeug().getKlappenZustand().getValue());
     }
 }

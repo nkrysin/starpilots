@@ -1,28 +1,28 @@
 package com.teama.skyteam.drop.application.logic.fields;
 
-import com.teama.skyteam.drop.domain.model.feld.Feld;
-import com.teama.skyteam.drop.domain.model.feld.FeldName;
-import com.teama.skyteam.drop.domain.model.game.Spiel;
+import com.teama.skyteam.drop.domain.model.field.Field;
+import com.teama.skyteam.drop.domain.model.field.FieldName;
+import com.teama.skyteam.drop.domain.model.game.Game;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StandardFieldManager implements FieldManager {
     @Override
-    public void clearManyUseFields(Spiel spiel) {
-        spiel.getFeldPilot(FeldName.NEIGEN).setWuerfel(null);
-        spiel.getFeldPilot(FeldName.SPEED).setWuerfel(null);
-        spiel.getFeldPilot(FeldName.RADIO_PILOT).setWuerfel(null);
-        spiel.getFeldCopilot(FeldName.NEIGEN).setWuerfel(null);
-        spiel.getFeldCopilot(FeldName.SPEED).setWuerfel(null);
-        spiel.getFeldCopilot(FeldName.RADIO_COPILOT_1).setWuerfel(null);
-        spiel.getFeldCopilot(FeldName.RADIO_COPILOT_2).setWuerfel(null);
+    public void clearManyUseFields(Game game) {
+        game.getFeldPilot(FieldName.NEIGEN).setWuerfel(null);
+        game.getFeldPilot(FieldName.SPEED).setWuerfel(null);
+        game.getFeldPilot(FieldName.RADIO_PILOT).setWuerfel(null);
+        game.getFeldCopilot(FieldName.NEIGEN).setWuerfel(null);
+        game.getFeldCopilot(FieldName.SPEED).setWuerfel(null);
+        game.getFeldCopilot(FieldName.RADIO_COPILOT_1).setWuerfel(null);
+        game.getFeldCopilot(FieldName.RADIO_COPILOT_2).setWuerfel(null);
     }
     @Override
-    public void removeDiceFromOneUseFields(List<Feld> oneUseFields) {
+    public void removeDiceFromOneUseFields(List<Field> oneUseFields) {
         int i = 0;
         while (i < oneUseFields.size()) {
-            Feld f = oneUseFields.get(i);
+            Field f = oneUseFields.get(i);
             if (f.isBelegt()) {
                 f.clearOneUseFeld();
                 oneUseFields.remove(i);
@@ -32,52 +32,52 @@ public class StandardFieldManager implements FieldManager {
         }
     }
     @Override
-    public List<Feld> getOneUseFields(Spiel spiel) {
-        ArrayList<Feld> oneUseFelds = new ArrayList<>();
-        Feld fg12 = spiel.getFeldPilot(FeldName.FAHRGESTELL_1_2);
-        Feld fg34 = spiel.getFeldPilot(FeldName.FAHRGESTELL_3_4);
-        Feld fg56 = spiel.getFeldPilot(FeldName.FAHRGESTELL_5_6);
-        Feld b2 = spiel.getFeldPilot(FeldName.BREMSEN_2);
-        Feld b4 = spiel.getFeldPilot(FeldName.BREMSEN_4);
-        Feld b6 = spiel.getFeldPilot(FeldName.BREMSEN_6);
-        Feld k12 = spiel.getFeldCopilot(FeldName.KLAPPEN_1_2);
-        Feld k23 = spiel.getFeldCopilot(FeldName.KLAPPEN_2_3);
-        Feld k45 = spiel.getFeldCopilot(FeldName.KLAPPEN_4_5);
-        Feld k56 = spiel.getFeldCopilot(FeldName.KLAPPEN_5_6);
-        oneUseFelds.add(fg12);
-        oneUseFelds.add(fg34);
-        oneUseFelds.add(fg56);
-        oneUseFelds.add(b2);
-        oneUseFelds.add(b4);
-        oneUseFelds.add(b6);
-        oneUseFelds.add(k12);
-        oneUseFelds.add(k23);
-        oneUseFelds.add(k45);
-        oneUseFelds.add(k56);
-        return oneUseFelds;
+    public List<Field> getOneUseFields(Game game) {
+        ArrayList<Field> oneUseFields = new ArrayList<>();
+        Field fg12 = game.getFeldPilot(FieldName.FAHRGESTELL_1_2);
+        Field fg34 = game.getFeldPilot(FieldName.FAHRGESTELL_3_4);
+        Field fg56 = game.getFeldPilot(FieldName.FAHRGESTELL_5_6);
+        Field b2 = game.getFeldPilot(FieldName.BREMSEN_2);
+        Field b4 = game.getFeldPilot(FieldName.BREMSEN_4);
+        Field b6 = game.getFeldPilot(FieldName.BREMSEN_6);
+        Field k12 = game.getFeldCopilot(FieldName.KLAPPEN_1_2);
+        Field k23 = game.getFeldCopilot(FieldName.KLAPPEN_2_3);
+        Field k45 = game.getFeldCopilot(FieldName.KLAPPEN_4_5);
+        Field k56 = game.getFeldCopilot(FieldName.KLAPPEN_5_6);
+        oneUseFields.add(fg12);
+        oneUseFields.add(fg34);
+        oneUseFields.add(fg56);
+        oneUseFields.add(b2);
+        oneUseFields.add(b4);
+        oneUseFields.add(b6);
+        oneUseFields.add(k12);
+        oneUseFields.add(k23);
+        oneUseFields.add(k45);
+        oneUseFields.add(k56);
+        return oneUseFields;
     }
 
     @Override
-    public void clearKaffeeFields(Spiel spiel, int kaffeeTokenCount) {
-        int kaffeeCount = spiel.getKaffeeTokenCount();
+    public void clearKaffeeFields(Game game, int kaffeeTokenCount) {
+        int kaffeeCount = game.getKaffeeTokenCount();
         switch (kaffeeCount) {
             case 0:
-                spiel.getFeldPilot(FeldName.KAFFEE_1).setWuerfel(null);
-                spiel.getFeldCopilot(FeldName.KAFFEE_1).setWuerfel(null);
-                spiel.getFeldPilot(FeldName.KAFFEE_2).setWuerfel(null);
-                spiel.getFeldCopilot(FeldName.KAFFEE_2).setWuerfel(null);
-                spiel.getFeldPilot(FeldName.KAFFEE_3).setWuerfel(null);
-                spiel.getFeldCopilot(FeldName.KAFFEE_3).setWuerfel(null);
+                game.getFeldPilot(FieldName.KAFFEE_1).setWuerfel(null);
+                game.getFeldCopilot(FieldName.KAFFEE_1).setWuerfel(null);
+                game.getFeldPilot(FieldName.KAFFEE_2).setWuerfel(null);
+                game.getFeldCopilot(FieldName.KAFFEE_2).setWuerfel(null);
+                game.getFeldPilot(FieldName.KAFFEE_3).setWuerfel(null);
+                game.getFeldCopilot(FieldName.KAFFEE_3).setWuerfel(null);
                 break;
             case 1:
-                spiel.getFeldPilot(FeldName.KAFFEE_2).setWuerfel(null);
-                spiel.getFeldCopilot(FeldName.KAFFEE_2).setWuerfel(null);
-                spiel.getFeldPilot(FeldName.KAFFEE_3).setWuerfel(null);
-                spiel.getFeldCopilot(FeldName.KAFFEE_3).setWuerfel(null);
+                game.getFeldPilot(FieldName.KAFFEE_2).setWuerfel(null);
+                game.getFeldCopilot(FieldName.KAFFEE_2).setWuerfel(null);
+                game.getFeldPilot(FieldName.KAFFEE_3).setWuerfel(null);
+                game.getFeldCopilot(FieldName.KAFFEE_3).setWuerfel(null);
                 break;
             case 2:
-                spiel.getFeldPilot(FeldName.KAFFEE_3).setWuerfel(null);
-                spiel.getFeldCopilot(FeldName.KAFFEE_3).setWuerfel(null);
+                game.getFeldPilot(FieldName.KAFFEE_3).setWuerfel(null);
+                game.getFeldCopilot(FieldName.KAFFEE_3).setWuerfel(null);
                 break;
         }
     }

@@ -1,25 +1,25 @@
 package com.teama.skyteam.drop.domain.action.command.copilot;
 
-import com.teama.skyteam.drop.domain.model.feld.FeldName;
+import com.teama.skyteam.drop.domain.model.field.FieldName;
 import com.teama.skyteam.drop.domain.action.command.ActionResult;
 import com.teama.skyteam.drop.domain.action.command.PlayerAction;
-import com.teama.skyteam.drop.domain.model.spieler.Copilot;
-import com.teama.skyteam.drop.domain.model.tokens.Wuerfel;
+import com.teama.skyteam.drop.domain.model.player.Copilot;
+import com.teama.skyteam.drop.domain.model.tokens.Dice;
 
 public class CopilotCaffeAction implements PlayerAction {
     private final Copilot copilot;
-    private final Wuerfel wuerfel;
-    private final FeldName feldName;
+    private final Dice dice;
+    private final FieldName fieldName;
 
-    public CopilotCaffeAction(Copilot copilot, Wuerfel wuerfel, FeldName feldName) {
+    public CopilotCaffeAction(Copilot copilot, Dice dice, FieldName fieldName) {
         this.copilot = copilot;
-        this.wuerfel = wuerfel;
-        this.feldName = feldName;
+        this.dice = dice;
+        this.fieldName = fieldName;
     }
 
     @Override
     public ActionResult execute() {
-        copilot.kaffeeWaehlen(wuerfel, feldName);
+        copilot.kaffeeWaehlen(dice, fieldName);
         return ActionResult.success();
     }
 }

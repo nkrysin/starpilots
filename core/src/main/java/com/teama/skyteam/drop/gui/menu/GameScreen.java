@@ -18,31 +18,31 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.teama.skyteam.drop.MainBk;
-import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
+import com.teama.skyteam.drop.domain.model.game.Game;
+import com.teama.skyteam.drop.gui.CampaignAltitudeManager;
+import com.teama.skyteam.drop.gui.GameControllerGUI;
 import com.teama.skyteam.drop.gui.TexturePaths;
 import com.teama.skyteam.drop.gui.UILayout;
 import com.teama.skyteam.drop.gui.utilities.InputController;
 import com.teama.skyteam.drop.gui.utilities.TextureCache;
-import com.teama.skyteam.drop.domain.model.game.Spiel;
-import com.teama.skyteam.drop.gui.SpielControllerGUI;
 
 public class GameScreen implements Screen {
     private final MainBk main;
-    private final Spiel spiel;
+    private final Game game;
     private SpriteBatch batch;
     private Texture tableTexture;
     private Texture boardTexture;
     private OrthographicCamera camera;
     private Viewport viewport;
-    private SzenarioHoeheManager szenarioHoeheManager;
-    private SpielControllerGUI spielControllerGUI;
+    private CampaignAltitudeManager campaignAltitudeManager;
+    private GameControllerGUI gameControllerGUI;
     private Stage stage;
     private InputController inputController;
     private Skin skin;
 
-    public GameScreen(MainBk main, Spiel spiel) {
+    public GameScreen(MainBk main, Game game) {
         this.main = main;
-        this.spiel = spiel;
+        this.game = game;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class GameScreen implements Screen {
         tableTexture = TextureCache.get(TexturePaths.TABLE_PATH);
         boardTexture = TextureCache.get(TexturePaths.BOARD_PATH);
 
-        szenarioHoeheManager = new SzenarioHoeheManager(spiel);
+        campaignAltitudeManager = new CampaignAltitudeManager(game);
 
         camera = new OrthographicCamera();
         viewport = new FitViewport(UILayout.SCREEN_SIZE[0], UILayout.SCREEN_SIZE[1], camera);
@@ -67,7 +67,7 @@ public class GameScreen implements Screen {
         inputController = new InputController(camera, UILayout.TABLE_SIZE[1], stage, main);
         Gdx.input.setInputProcessor(stage);
 
-        spielControllerGUI = new SpielControllerGUI(spiel, szenarioHoeheManager, stage, skin);
+        gameControllerGUI = new GameControllerGUI(game, campaignAltitudeManager, stage, skin);
     }
 
     @Override
@@ -80,18 +80,18 @@ public class GameScreen implements Screen {
 
         batch.begin();
         batch.draw(tableTexture, 0, 0, UILayout.TABLE_SIZE[0], UILayout.TABLE_SIZE[1]);
-        szenarioHoeheManager.render(batch);
+        campaignAltitudeManager.render(batch);
         batch.draw(boardTexture, 656, 115);
         batch.end();
 
-        spielControllerGUI.render();
+        gameControllerGUI.render();
         inputController.updateAndRender(delta);
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-        spielControllerGUI.resize(width, height);
+        gameControllerGUI.resize(width, height);
     }
 
     @Override
@@ -113,14 +113,14 @@ public class GameScreen implements Screen {
             batch = null;
         }
 
-        if (szenarioHoeheManager != null) {
-            szenarioHoeheManager.dispose();
-            szenarioHoeheManager = null;
+        if (campaignAltitudeManager != null) {
+            campaignAltitudeManager.dispose();
+            campaignAltitudeManager = null;
         }
 
-        if (spielControllerGUI != null) {
-            spielControllerGUI.dispose();
-            spielControllerGUI = null;
+        if (gameControllerGUI != null) {
+            gameControllerGUI.dispose();
+            gameControllerGUI = null;
         }
 
         if (skin != null) {

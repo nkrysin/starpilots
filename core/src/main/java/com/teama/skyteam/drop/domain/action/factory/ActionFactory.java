@@ -2,74 +2,74 @@ package com.teama.skyteam.drop.domain.action.factory;
 
 import com.teama.skyteam.drop.domain.action.command.copilot.*;
 import com.teama.skyteam.drop.domain.action.command.pilot.*;
-import com.teama.skyteam.drop.domain.model.feld.FeldName;
-import com.teama.skyteam.drop.domain.model.game.Spiel;
+import com.teama.skyteam.drop.domain.model.field.FieldName;
+import com.teama.skyteam.drop.domain.model.game.Game;
 import com.teama.skyteam.drop.domain.action.command.PlayerAction;
 import com.teama.skyteam.drop.domain.action.type.ActionName;
 import com.teama.skyteam.drop.application.gamestate.GameStateManager;
-import com.teama.skyteam.drop.domain.model.spieler.Copilot;
-import com.teama.skyteam.drop.domain.model.spieler.Pilot;
-import com.teama.skyteam.drop.domain.model.tokens.Wuerfel;
+import com.teama.skyteam.drop.domain.model.player.Copilot;
+import com.teama.skyteam.drop.domain.model.player.Pilot;
+import com.teama.skyteam.drop.domain.model.tokens.Dice;
 
 public class ActionFactory {
-    private final Spiel spiel;
+    private final Game game;
     private final GameStateManager gameStateManager;
 
-    public ActionFactory(Spiel spiel, GameStateManager gameStateManager) {
-        this.spiel = spiel;
+    public ActionFactory(Game game, GameStateManager gameStateManager) {
+        this.game = game;
         this.gameStateManager = gameStateManager;
     }
 
-    public PlayerAction createPilotAction(ActionName action, Pilot pilot, Wuerfel wuerfel) {
+    public PlayerAction createPilotAction(ActionName action, Pilot pilot, Dice dice) {
         switch (action) {
             case ActionName.PILOT_RADIO:
-                return new PilotRadioAction(pilot, wuerfel, gameStateManager);
+                return new PilotRadioAction(pilot, dice, gameStateManager);
             case ActionName.PILOT_SPEED:
-                return new PilotSpeedAction(pilot, wuerfel);
+                return new PilotSpeedAction(pilot, dice);
             case ActionName.PILOT_NEIGUNG:
-                return new PilotTiltAction(pilot, wuerfel);
+                return new PilotTiltAction(pilot, dice);
 
             case ActionName.PILOT_BREMSEN_2:
             case ActionName.PILOT_BREMSEN_4:
             case ActionName.PILOT_BREMSEN_6:
-                return new PilotBrakeAction(spiel, pilot, wuerfel);
+                return new PilotBrakeAction(game, pilot, dice);
 
             case ActionName.PILOT_FAHRGESTELL_1_2:
             case ActionName.PILOT_FAHRGESTELL_3_4:
             case ActionName.PILOT_FAHRGESTELL_5_6:
-                return new PilotChassisAction(spiel, pilot, wuerfel);
+                return new PilotLandingGearAction(game, pilot, dice);
 
             case ActionName.PILOT_KAFFEE_1:
-                return new PilotCaffeAction(pilot, wuerfel, FeldName.KAFFEE_1);
+                return new PilotCaffeAction(pilot, dice, FieldName.KAFFEE_1);
             case ActionName.PILOT_KAFFEE_2:
-                return new PilotCaffeAction(pilot, wuerfel, FeldName.KAFFEE_2);
+                return new PilotCaffeAction(pilot, dice, FieldName.KAFFEE_2);
             case ActionName.PILOT_KAFFEE_3:
-                return new PilotCaffeAction(pilot, wuerfel, FeldName.KAFFEE_3);
+                return new PilotCaffeAction(pilot, dice, FieldName.KAFFEE_3);
             default:
                 throw new IllegalArgumentException("Illegal action: " + action);
         }
     };
 
-    public PlayerAction createCopilotAction(ActionName action, Copilot copilot, Wuerfel wuerfel) {
+    public PlayerAction createCopilotAction(ActionName action, Copilot copilot, Dice dice) {
         switch (action) {
             case ActionName.COPILOT_RADIO_1:
             case ActionName.COPILOT_RADIO_2:
-                return new CopilotRadioAction(copilot, wuerfel, gameStateManager);
+                return new CopilotRadioAction(copilot, dice, gameStateManager);
             case ActionName.COPILOT_SPEED:
-                return new CopilotSpeedAction(copilot, wuerfel);
+                return new CopilotSpeedAction(copilot, dice);
             case ActionName.COPILOT_NEIGUNG:
-                return new CopilotTiltAction(copilot, wuerfel);
+                return new CopilotTiltAction(copilot, dice);
             case ActionName.COPILOT_KLAPPEN_1_2:
             case ActionName.COPILOT_KLAPPEN_2_3:
             case ActionName.COPILOT_KLAPPEN_4_5:
             case ActionName.COPILOT_KLAPPEN_5_6:
-                return new CopilotFlapsAction(spiel, copilot, wuerfel);
+                return new CopilotFlapsAction(game, copilot, dice);
             case ActionName.COPILOT_KAFFEE_1:
-                return new CopilotCaffeAction(copilot, wuerfel, FeldName.KAFFEE_1);
+                return new CopilotCaffeAction(copilot, dice, FieldName.KAFFEE_1);
             case ActionName.COPILOT_KAFFEE_2:
-                return new CopilotCaffeAction(copilot, wuerfel, FeldName.KAFFEE_2);
+                return new CopilotCaffeAction(copilot, dice, FieldName.KAFFEE_2);
             case ActionName.COPILOT_KAFFEE_3:
-                return new CopilotCaffeAction(copilot, wuerfel, FeldName.KAFFEE_3);
+                return new CopilotCaffeAction(copilot, dice, FieldName.KAFFEE_3);
             default:
                 throw new IllegalArgumentException("Illegal action: " + action);
         }

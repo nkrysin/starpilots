@@ -1,40 +1,40 @@
 package com.teama.skyteam.drop.application.gamestate;
 
-import com.teama.skyteam.drop.domain.model.feld.FeldName;
-import com.teama.skyteam.drop.domain.model.game.Spiel;
-import com.teama.skyteam.drop.domain.model.game.SpielConstants;
+import com.teama.skyteam.drop.domain.model.campaign.RouteField;
+import com.teama.skyteam.drop.domain.model.field.FieldName;
+import com.teama.skyteam.drop.domain.model.game.Game;
+import com.teama.skyteam.drop.domain.model.game.GameConstants;
 import com.teama.skyteam.drop.domain.action.command.ActionResult;
 import com.teama.skyteam.drop.application.logic.events.SpeedChangedEvent;
 import com.teama.skyteam.drop.application.logic.events.TiltChangedEvent;
-import com.teama.skyteam.drop.domain.model.spieler.Spieler;
-import com.teama.skyteam.drop.domain.model.szenario.ReiseFeld;
-import com.teama.skyteam.drop.domain.model.szenario.flughoehe.Flughoehe;
-import com.teama.skyteam.drop.domain.model.tokens.KaffeeToken;
-import com.teama.skyteam.drop.domain.model.tokens.NeuWurfToken;
-import com.teama.skyteam.drop.domain.model.tokens.Wuerfel;
+import com.teama.skyteam.drop.domain.model.player.Player;
+import com.teama.skyteam.drop.domain.model.campaign.altitude.Altitude;
+import com.teama.skyteam.drop.domain.model.tokens.CoffeeToken;
+import com.teama.skyteam.drop.domain.model.tokens.Dice;
+import com.teama.skyteam.drop.domain.model.tokens.RerollToken;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
 public class StandardGameStateManager implements GameStateManager{
-    private final Spiel spiel;
+    private final Game game;
 
-    public StandardGameStateManager(Spiel spiel) {
-        this.spiel = spiel;
+    public StandardGameStateManager(Game game) {
+        this.game = game;
     }
     @Override
-    public ActionResult handleRadio(Wuerfel wuerfel){
-        int wert = wuerfel.getWert();
-        TreeMap<Integer, ReiseFeld> routeSzenario = spiel.getRouteSzenario();
-        int currentFieldIndex = spiel.getCurrentPosition();
+    public ActionResult handleRadio(Dice dice){
+        int wert = dice.getWert();
+        TreeMap<Integer, RouteField> routeSzenario = game.getRouteSzenario();
+        int currentFieldIndex = game.getCurrentPosition();
         int targetField = wert + currentFieldIndex - 1;
 
         if (!routeSzenario.containsKey(targetField)) {
             return ActionResult.fail("Die Zielposition liegt außerhalb des Szenarios.");
         }
 
-        ReiseFeld zielFeld = routeSzenario.get(targetField);
+        RouteField zielFeld = routeSzenario.get(targetField);
         if (zielFeld.getAnzahlFlugzeug() > 0) {
             zielFeld.removeFlugzeug();
         }
@@ -43,22 +43,22 @@ public class StandardGameStateManager implements GameStateManager{
 
     @Override
     public ActionResult updateTilt(){
-        boolean neigenFeldPilotBelegt = spiel.getFeldPilot(FeldName.NEIGEN).isBelegt();
-        boolean neigenFeldCopilotBelegt = spiel.getFeldCopilot(FeldName.NEIGEN).isBelegt();
+        boolean neigenFeldPilotBelegt = game.getFeldPilot(FieldName.NEIGEN).isBelegt();
+        boolean neigenFeldCopilotBelegt = game.getFeldCopilot(FieldName.NEIGEN).isBelegt();
 
         if (!neigenFeldPilotBelegt || !neigenFeldCopilotBelegt) {
             return ActionResult.success();
         }
 
-        Wuerfel w1 = spiel.getFeldPilot(FeldName.NEIGEN).getWuerfel();
-        Wuerfel w2 = spiel.getFeldCopilot(FeldName.NEIGEN).getWuerfel();
-        spiel.getFlugzeug().neigen(spiel.getFlugzeug().getNeigung(), new Wuerfel[]{w1, w2});
+        Dice w1 = game.getFeldPilot(FieldName.NEIGEN).getWuerfel();
+        Dice w2 = game.getFeldCopilot(FieldName.NEIGEN).getWuerfel();
+        game.getFlugzeug().neigen(game.getFlugzeug().getTilt(), new Dice[]{w1, w2});
 
         float targetRotation;
-        if (spiel.getFlugzeug().getNeigung() == 0) {
+        if (game.getFlugzeug().getTilt() == 0) {
             targetRotation = 0;
         } else {
-            targetRotation = SpielConstants.WHEEL_ANGLE * spiel.getFlugzeug().getNeigung();
+            targetRotation = GameConstants.WHEEL_ANGLE * game.getFlugzeug().getTilt();
         }
 
         return ActionResult.success()
@@ -67,15 +67,15 @@ public class StandardGameStateManager implements GameStateManager{
 
     @Override
     public ActionResult updateTravelFieldState (){
-        boolean speedFeldPilotBelegt = spiel.getFeldPilot(FeldName.SPEED).isBelegt();
-        boolean speedFeldCopilotBelegt = spiel.getFeldCopilot(FeldName.SPEED).isBelegt();
+        boolean speedFeldPilotBelegt = game.getFeldPilot(FieldName.SPEED).isBelegt();
+        boolean speedFeldCopilotBelegt = game.getFeldCopilot(FieldName.SPEED).isBelegt();
         if (speedFeldPilotBelegt && speedFeldCopilotBelegt) {
-            int pilotSpeed = spiel.getFeldPilot(FeldName.SPEED).getWuerfel().getWert();
-            int copilotSpeed = spiel.getFeldCopilot(FeldName.SPEED).getWuerfel().getWert();
+            int pilotSpeed = game.getFeldPilot(FieldName.SPEED).getWuerfel().getWert();
+            int copilotSpeed = game.getFeldCopilot(FieldName.SPEED).getWuerfel().getWert();
             int totalSpeed = pilotSpeed + copilotSpeed;
-            spiel.getFlugzeug().setSpeedAktuell(totalSpeed);
-            int speedUntereGrenze = spiel.getFlugzeug().getSpeedUntereGrenze().getValue();
-            int speedObereGrenze = spiel.getFlugzeug().getSpeedObereGrenze().getValue();
+            game.getFlugzeug().setCurrentSpeed(totalSpeed);
+            int speedUntereGrenze = game.getFlugzeug().getSpeedLowerLimit().getValue();
+            int speedObereGrenze = game.getFlugzeug().getSpeedUpperLimit().getValue();
             int steps;
             if (totalSpeed < speedUntereGrenze) {
                 steps = 0;
@@ -85,7 +85,7 @@ public class StandardGameStateManager implements GameStateManager{
                 steps = 2;
             }
             moveForward(steps);
-            spiel.setCurrentSpeed(steps);
+            game.setCurrentSpeed(steps);
             return ActionResult.success();
         }
         return ActionResult.fail("Error bei der Setzung der Speed");
@@ -93,22 +93,22 @@ public class StandardGameStateManager implements GameStateManager{
 
     @Override
     public ActionResult moveForward(int steps){
-        int position = spiel.getCurrentPosition();
-        TreeMap<Integer, ReiseFeld> routeSzenario = spiel.getRouteSzenario();
+        int position = game.getCurrentPosition();
+        TreeMap<Integer, RouteField> routeSzenario = game.getRouteSzenario();
         int newPosition = position + steps;
         if (newPosition >= routeSzenario.size()) {
-            spiel.setKollision(true);
+            game.setKollision(true);
         } else if (steps > 2) {
             return ActionResult.fail("Der Schritt ist zu groß!");
         } else {
             for (int i = position; i <= newPosition; i++) {
-                ReiseFeld currentField = routeSzenario.get(i);
+                RouteField currentField = routeSzenario.get(i);
                 if (currentField.getAnzahlFlugzeug() > 0) {
-                    spiel.setKollision(true);
+                    game.setKollision(true);
                 }
             }
-            spiel.setPosition(newPosition);
-            spiel.updateCurrentField();
+            game.setPosition(newPosition);
+            game.updateCurrentField();
             // szenarioHoeheManager.updateScenario(steps);
         }
         return ActionResult.success();
@@ -116,7 +116,7 @@ public class StandardGameStateManager implements GameStateManager{
 
     @Override
     public void reduceAltitude(){
-        List<Flughoehe> hoeheRoute = spiel.getHoeheSzenario();
+        List<Altitude> hoeheRoute = game.getHoeheSzenario();
         if (hoeheRoute.size() > 1) {
             hoeheRoute.removeFirst();
         }
@@ -124,59 +124,59 @@ public class StandardGameStateManager implements GameStateManager{
 
     @Override
     public void addNeuWurfTokens(){
-        Flughoehe currentHoehe = spiel.getCurrentHoehe();
+        Altitude currentHoehe = game.getCurrentHoehe();
         if (currentHoehe.hatErneuWerfen()) {
-            spiel.neuWurfTokenAnzahlErhoehen();
+            game.neuWurfTokenAnzahlErhoehen();
         }
     }
 
     @Override
-    public KaffeeToken kaffeeToken() {
-        ArrayList<KaffeeToken> kaffeeTokens = spiel.getKaffeeTokens();
-        KaffeeToken token = kaffeeTokens.getFirst();
-        kaffeeTokens.removeFirst();
+    public CoffeeToken kaffeeToken() {
+        ArrayList<CoffeeToken> coffeeTokens = game.getKaffeeTokens();
+        CoffeeToken token = coffeeTokens.getFirst();
+        coffeeTokens.removeFirst();
         return token;
     }
 
     @Override
-    public NeuWurfToken neuWurfToken() {
-        ArrayList<NeuWurfToken> neuWurfTokens = spiel.getNeuWurfTokens();
-        NeuWurfToken token = neuWurfTokens.getFirst();
-        neuWurfTokens.removeFirst();
+    public RerollToken neuWurfToken() {
+        ArrayList<RerollToken> rerollTokens = game.getNeuWurfTokens();
+        RerollToken token = rerollTokens.getFirst();
+        rerollTokens.removeFirst();
         return token;
     }
 
     @Override
-    public void setNeuWuerfels(Spieler spieler) {
-        spieler.setWuerfels(werfen());
+    public void setNeuWuerfels(Player player) {
+        player.setWuerfels(werfen());
     }
 
     @Override
-    public ArrayList<Wuerfel> werfen() {
-        ArrayList<Wuerfel> wurfe = new ArrayList<>();
+    public ArrayList<Dice> werfen() {
+        ArrayList<Dice> wurfe = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            wurfe.add(new Wuerfel());
+            wurfe.add(new Dice());
         }
         return wurfe;
     }
 
     @Override
     public ActionResult checkAndUpdateSpeed() {
-        boolean speedFeldPilotBelegt = spiel.getFeldPilot(FeldName.SPEED).isBelegt();
-        boolean speedFeldCopilotBelegt = spiel.getFeldCopilot(FeldName.SPEED).isBelegt();
+        boolean speedFeldPilotBelegt = game.getFeldPilot(FieldName.SPEED).isBelegt();
+        boolean speedFeldCopilotBelegt = game.getFeldCopilot(FieldName.SPEED).isBelegt();
 
         if (!speedFeldPilotBelegt || !speedFeldCopilotBelegt) {
             return ActionResult.success();
         }
 
-        int pilotSpeed = spiel.getFeldPilot(FeldName.SPEED).getWuerfel().getWert();
-        int copilotSpeed = spiel.getFeldCopilot(FeldName.SPEED).getWuerfel().getWert();
+        int pilotSpeed = game.getFeldPilot(FieldName.SPEED).getWuerfel().getWert();
+        int copilotSpeed = game.getFeldCopilot(FieldName.SPEED).getWuerfel().getWert();
         int totalSpeed = pilotSpeed + copilotSpeed;
 
-        spiel.getFlugzeug().setSpeedAktuell(totalSpeed);
+        game.getFlugzeug().setCurrentSpeed(totalSpeed);
 
-        int speedUntereGrenze = spiel.getFlugzeug().getSpeedUntereGrenze().getValue();
-        int speedObereGrenze = spiel.getFlugzeug().getSpeedObereGrenze().getValue();
+        int speedUntereGrenze = game.getFlugzeug().getSpeedLowerLimit().getValue();
+        int speedObereGrenze = game.getFlugzeug().getSpeedUpperLimit().getValue();
 
         int steps;
         if (totalSpeed < speedUntereGrenze) {
@@ -188,7 +188,7 @@ public class StandardGameStateManager implements GameStateManager{
         }
 
         moveForward(steps);
-        spiel.setCurrentSpeed(steps);
+        game.setCurrentSpeed(steps);
 
         return ActionResult.success()
             .withEvent(new SpeedChangedEvent(steps));
