@@ -27,15 +27,17 @@ import com.teama.skyteam.drop.gui.utilities.PlayerActionCallback;
 import com.teama.skyteam.drop.gui.utilities.SelectedWuerfelData;
 import com.teama.skyteam.drop.gui.utilities.TextureCache;
 import com.teama.skyteam.drop.spiel.SpielConstants;
+import com.teama.skyteam.drop.spiel.action.command.ActionResult;
 import com.teama.skyteam.drop.spiel.action.type.ActionControlGroup;
 import com.teama.skyteam.drop.spiel.action.type.ActionName;
 import com.teama.skyteam.drop.spiel.Spiel;
 import com.teama.skyteam.drop.spiel.SpielLogik;
 import com.teama.skyteam.drop.feld.Feld;
 import com.teama.skyteam.drop.spiel.gamestate.GameStateManager;
-import com.teama.skyteam.drop.spiel.logik.events.CoffeTokenUsedEvent;
 import com.teama.skyteam.drop.spiel.logik.fields.FieldManager;
 import com.teama.skyteam.drop.spiel.logik.observer.GameStateObserver;
+import com.teama.skyteam.drop.spiel.logik.rules.GameRules;
+import com.teama.skyteam.drop.spiel.logik.rules.StandartGameRules;
 import com.teama.skyteam.drop.spieler.Pilot;
 import com.teama.skyteam.drop.spieler.Spieler;
 import com.teama.skyteam.drop.tokens.KaffeeToken;
@@ -50,14 +52,14 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class SpielGUI implements DialogManager, GameStateObserver {
+public class SpielGUI implements GameStateObserver {
 
     public final Stage stage;
     private final Spiel spiel;
     private final GUIConstructionMethods guiConstructionMethods;
     private ArrayList<ImageButton> pilotWuerfelActors = new ArrayList<>();
     private ArrayList<ImageButton> copilotWuerfelActors = new ArrayList<>();
-    private ArrayList<ControlGroup> controlGroups = new ArrayList<>();
+    private ArrayList<ControlGroup>  controlGroups = new ArrayList<>();
     private ControlGroup pilotKaffeeControlGroup;
     private ControlGroup copilotKaffeeControlGroup;
     private ControlGroup pilotUseKaffeeControlGroup;
@@ -71,6 +73,8 @@ public class SpielGUI implements DialogManager, GameStateObserver {
     private SzenarioHoeheManager szenarioHoeheManager;
     private ControlField neuWurf;
     private Map<ControlField, ControlField> mirroredFields = new HashMap<>();
+    private GameRules gameRules = new StandartGameRules();
+
 
     /**
      * Konstruktor zur Initialisierung der Spiel-GUI.
@@ -80,7 +84,7 @@ public class SpielGUI implements DialogManager, GameStateObserver {
      * @param skin Das Skin-Objekt für die Gestaltung der GUI-Elemente.
      * @param szenarioHoeheManager Der Manager zur Verwaltung der Szenariohöhe.
      */
-    public SpielGUI(Spiel spiel, Stage stage, Skin skin, SzenarioHoeheManager szenarioHoeheManager) {
+    public SpielGUI(Spiel spiel, Stage stage, Skin skin, SzenarioHoeheManager szenarioHoeheManager, SpielLogik spielLogik) {
         this.spiel = spiel;
         this.stage = stage;
         this.skin = skin;
@@ -89,7 +93,8 @@ public class SpielGUI implements DialogManager, GameStateObserver {
         schalterGUI = new SchalterGUI(stage);
         schalterGUI.addToStage();
         this.szenarioHoeheManager = szenarioHoeheManager;
-        spielLogik = new SpielLogik(spiel, stage, skin, schalterGUI, ruder, szenarioHoeheManager);
+        this.spielLogik = spielLogik;
+        spielLogik.addObserver(this);
         createFieldActors();
     }
 
@@ -466,6 +471,14 @@ public class SpielGUI implements DialogManager, GameStateObserver {
         mirroredFields.put(copilotK3, pilotK3);
     }
 
+    private boolean executeStep(ControlField field, Spieler spieler, Wuerfel w){
+        boolean isPilot = (spieler instanceof Pilot);
+        ActionResult result = isPilot
+            ? spielLogik.pilotSchritt(spieler, field.getAction(), w)
+            : spielLogik.copilotSchritt(spieler, field.getAction(), w);
+        return result.isSuccess();
+    }
+
     /**
      * Behandelt die Aktion beim Klicken auf ein Kaffee-Kontrollfeld.
      *
@@ -477,15 +490,10 @@ public class SpielGUI implements DialogManager, GameStateObserver {
             return;
         }
 
-        boolean isPilot = (spieler instanceof Pilot);
         Wuerfel w = selectedWuerfelData.getWuerfel();
-        int index = selectedWuerfelData.getWuerfelIndex();
+        boolean result = executeStep(field, spieler, w);
 
-        boolean stepSuccessful = isPilot
-            ? spielLogik.pilotSchritt(spieler, field.getAction(), w)
-            : spielLogik.copilotSchritt(spieler, field.getAction(), w);
-
-        if (!stepSuccessful) {
+        if (!result) {
             return;
         }
 
@@ -555,13 +563,12 @@ public class SpielGUI implements DialogManager, GameStateObserver {
         }
         boolean isPilot = spieler instanceof Pilot;
         Wuerfel w = selectedWuerfelData.getWuerfel();
-        int index = selectedWuerfelData.getWuerfelIndex();
-        boolean stepSuccessful = isPilot
-            ? spielLogik.pilotSchritt(spieler, field.getAction(), w, index)
-            : spielLogik.copilotSchritt(spieler, field.getAction(), w, index);
-        if (!stepSuccessful) {
+
+        boolean result = executeStep(field, spieler, w);
+        if (!result) {
             return;
         }
+
         String texturePath = isPilot
             ? TexturePaths.WUERFEL_PATH_PILOT + w.getWert() + TexturePaths.IMG_FORMAT
             : TexturePaths.WUERFEL_PATH_COPILOT + w.getWert() + TexturePaths.IMG_FORMAT;
@@ -650,7 +657,7 @@ public class SpielGUI implements DialogManager, GameStateObserver {
             spieler = spiel.getCopilot();
         }
         if (!feldSpeed.isBelegt() && !feldNeigung.isBelegt()) {
-            spielLogik.createMessage("Achtung!", "Bitte setzen Sie die Würfel auf die Pflichtfelder");
+            createMessage("Achtung!", "Bitte setzen Sie die Würfel auf die Pflichtfelder");
             verpflichteteGroup = new ControlGroup(ActionControlGroup.REQUIRED_CONTROLS, List.of(neigungField, speedField));
             removeHighlight(allFields);
             removeHighlight(getPilotKaffeeControlGroup());
@@ -659,14 +666,14 @@ public class SpielGUI implements DialogManager, GameStateObserver {
             disableFields(kaffeeFields, verpflichteteGroup);
             addListenersToGroupFields(verpflichteteGroup, spieler);
         } else if (!feldSpeed.isBelegt()) {
-            spielLogik.createMessage("Achtung!", "Bitte setzen Sie den Würfel auf das Pflichtfeld");
+            createMessage("Achtung!", "Bitte setzen Sie den Würfel auf das Pflichtfeld");
             verpflichteteGroup = new ControlGroup(ActionControlGroup.REQUIRED_CONTROLS, List.of(speedField));
             removeHighlight(allFields);
             removeHighlight(getPilotKaffeeControlGroup());
             removeHighlight(getCopilotKaffeeControlGroup());
             addListenersToGroupFields(verpflichteteGroup, spieler);
         } else {
-            spielLogik.createMessage("Achtung!", "Bitte setzen Sie den Würfel auf das Pflichtfeld");
+            createMessage("Achtung!", "Bitte setzen Sie den Würfel auf das Pflichtfeld");
             verpflichteteGroup = new ControlGroup(ActionControlGroup.REQUIRED_CONTROLS, List.of(neigungField));
             removeHighlight(allFields);
             removeHighlight(getPilotKaffeeControlGroup());
@@ -833,7 +840,7 @@ public class SpielGUI implements DialogManager, GameStateObserver {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         switchTexture(field.getButton(), TexturePaths.KAFFEE_SELECTED_PATH);
-                        spielLogik.createMessage("Kaffee-Token verwenden", "Bitte wählen Sie einen Würfel aus, dessen Wert Sie ändern möchten!");
+                        createMessage("Kaffee-Token verwenden", "Bitte wählen Sie einen Würfel aus, dessen Wert Sie ändern möchten!");
                         waitForDiceSelection(s, field.getAction());
                     }
                 });
@@ -1000,7 +1007,7 @@ public class SpielGUI implements DialogManager, GameStateObserver {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     switchTexture(button, TexturePaths.NEUWURF_SELECTED_PATH);
-                    spielLogik.createNeuWurfTokenWindow(spieler, (p1, p2) -> {
+                    createNeuWurfTokenWindow(spieler, (p1, p2) -> {
                         if (p1 != null) {
                             createWuerfelForSpieler(p1);
                             addWuerfelListenersForSpieler(p1);

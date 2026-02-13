@@ -1,16 +1,26 @@
-package com.teama.skyteam.drop.spiel;
+package com.teama.skyteam.drop.gui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.teama.skyteam.drop.gui.SpielGUI;
-import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
-import com.teama.skyteam.drop.gui.utilities.PlayerActionCallback;
 import com.teama.skyteam.drop.feld.Feld;
+import com.teama.skyteam.drop.gui.utilities.PlayerActionCallback;
+import com.teama.skyteam.drop.spiel.Spiel;
+import com.teama.skyteam.drop.spiel.SpielLogik;
+import com.teama.skyteam.drop.spiel.action.factory.ActionFactory;
+import com.teama.skyteam.drop.spiel.action.validator.ActionValidator;
+import com.teama.skyteam.drop.spiel.action.validator.StandardActionValidator;
+import com.teama.skyteam.drop.spiel.gamestate.GameStateManager;
+import com.teama.skyteam.drop.spiel.gamestate.StandardGameStateManager;
+import com.teama.skyteam.drop.spiel.logik.fields.FieldManager;
+import com.teama.skyteam.drop.spiel.logik.fields.StandardFieldManager;
+import com.teama.skyteam.drop.spiel.logik.rules.GameRules;
+import com.teama.skyteam.drop.spiel.logik.rules.StandartGameRules;
 import com.teama.skyteam.drop.spieler.Pilot;
 import com.teama.skyteam.drop.spieler.Spieler;
 
 import java.util.ArrayList;
+
 /**
  * Die Klasse SpielControllerGUI steuert den Spielfluss und die Interaktion mit der Benutzeroberfläche.
  * Sie verwendet die Zustandsmaschine, um den Spielverlauf zu organisieren und zwischen verschiedenen Spielphasen zu wechseln.
@@ -30,12 +40,23 @@ public class SpielControllerGUI {
     private boolean reiseFeldAktualisiert = false;
     private boolean letzteRunde = false;
     private boolean spielEnde = false;
+    private final GameStateManager gameStateManager;
+    private final FieldManager fieldManager;
 
     public SpielControllerGUI(Spiel spiel, SzenarioHoeheManager szenarioHoeheManager, Stage stage, Skin skin) {
         this.spiel = spiel;
-        this.spielGUI = new SpielGUI(spiel, stage, skin, szenarioHoeheManager);
         this.szenarioHoeheManager = szenarioHoeheManager;
-        this.spielLogik = new SpielLogik(spiel, stage, skin, spielGUI.getSchalterGUI(), spielGUI.getRuder(), szenarioHoeheManager);
+        this.fieldManager = new StandardFieldManager();
+
+        this.gameStateManager = new StandardGameStateManager(spiel);
+        ActionValidator validator = new StandardActionValidator();
+        ActionFactory actionFactory = new ActionFactory(spiel, gameStateManager);
+        GameRules gameRules = new StandartGameRules();
+
+        spielLogik = new SpielLogik(spiel, gameRules, validator, actionFactory, gameStateManager);
+
+        this.spielGUI = new SpielGUI(spiel, stage, skin, szenarioHoeheManager, spielLogik);
+
 
         // Setzt die Callback-Funktion für Spieleraktionen.
         this.spielGUI.setPlayerActionCallback(new PlayerActionCallback() {
@@ -74,13 +95,13 @@ public class SpielControllerGUI {
         neigungErledigt = false;
         reiseFeldAktualisiert = false;
 
-        spielLogik.addNeuWurfTokens();
+        gameStateManager.addNeuWurfTokens();
         boolean isEvenRound = (spiel.getRunde() + 1) % 2 == 0;
         ersterSpieler = isEvenRound ? spiel.getPilot() : spiel.getCopilot();
         zweiterSpieler = isEvenRound ? spiel.getCopilot() : spiel.getPilot();
 
-        spielLogik.setNeuWuerfels(ersterSpieler);
-        spielLogik.setNeuWuerfels(zweiterSpieler);
+        gameStateManager.setNeuWuerfels(ersterSpieler);
+        gameStateManager.setNeuWuerfels(zweiterSpieler);
 
         spielGUI.createWuerfelForSpieler(ersterSpieler);
         spielGUI.createWuerfelForSpieler(zweiterSpieler);
@@ -90,14 +111,14 @@ public class SpielControllerGUI {
      * Beendet die aktuelle Runde, aktualisiert die Spielfelder und prüft auf Ausfallbedingungen.
      */
     private void finishRound() {
-        ArrayList<Feld> oneUseFelds = spielLogik.getOneUseFelds();
-        spielLogik.removeDiceFromOneUseFelds(oneUseFelds);
-        spielLogik.clearManyUseFelds();
+        ArrayList<Feld> oneUseFelds = (ArrayList<Feld>) fieldManager.getOneUseFields(spiel);
+        fieldManager.removeDiceFromOneUseFields(oneUseFelds);
+        fieldManager.clearManyUseFields(spiel);
         spielGUI.clearManyUseFields();
         szenarioHoeheManager.updateHoehe();
 
         spiel.setRunde(spiel.getRunde() + 1);
-        spielLogik.hoeheReduzieren();
+        gameStateManager.reduceAltitude();
         spiel.setEndBedingung(spielLogik.checkAusfallBedingung());
         spielGUI.removeAllHideImages();
     }
@@ -200,7 +221,7 @@ public class SpielControllerGUI {
                     break;
 
                 case CHECK_NEIGUNG:
-                    if (!neigungErledigt && spielLogik.neigenSetzen()) {
+                    if (!neigungErledigt && gameStateManager.updateTilt().isSuccess()) {
                         neigungErledigt = true;
                     }
 
@@ -208,7 +229,7 @@ public class SpielControllerGUI {
                     break;
 
                 case CHECK_REISEFELD:
-                    if (!reiseFeldAktualisiert && spielLogik.reiseFeldZustandAktualisieren()) {
+                    if (!reiseFeldAktualisiert && gameStateManager.updateTravelFieldState().isSuccess()) {
                         reiseFeldAktualisiert = true;
                     }
 
@@ -242,14 +263,14 @@ public class SpielControllerGUI {
                     break;
 
                 case CHECK_NEIGUNG_AGAIN:
-                    if (!neigungErledigt && spielLogik.neigenSetzen()) {
+                    if (!neigungErledigt && gameStateManager.updateTilt().isSuccess()) {
                         neigungErledigt = true;
                     }
                     state = State.CHECK_REISEFELD_AGAIN;
                     break;
 
                 case CHECK_REISEFELD_AGAIN:
-                    if (!reiseFeldAktualisiert && spielLogik.reiseFeldZustandAktualisieren()) {
+                    if (!reiseFeldAktualisiert && gameStateManager.updateTravelFieldState().isSuccess()) {
                         reiseFeldAktualisiert = true;
                     }
                     if (!spielLogik.checkAusfallBedingung() &&
@@ -264,7 +285,7 @@ public class SpielControllerGUI {
                     finishRound();
                     if (spielLogik.checkAusfallBedingung()) {
                         spielEnde = true;
-                        spielLogik.createFinalWindow(false);
+                        spielGUI.createFinalWindow(false);
                         state = State.END;
                     } else if (letzteRunde) {
                         state = State.FINAL_CHECK;
@@ -275,16 +296,16 @@ public class SpielControllerGUI {
 
                 case FINAL_CHECK:
                     if (spielLogik.checkGewinnBedingung()) {
-                        spielLogik.createFinalWindow(true);
+                        spielGUI.createFinalWindow(true);
                     } else {
-                        spielLogik.createFinalWindow(false);
+                        spielGUI.createFinalWindow(false);
                     }
                     spielEnde = true;
                     state = State.END;
                     break;
 
                 case END:
-                    spielLogik.createFinalWindow(false);
+                    spielGUI.createFinalWindow(false);
                     spielEnde = true;
                     break;
             }

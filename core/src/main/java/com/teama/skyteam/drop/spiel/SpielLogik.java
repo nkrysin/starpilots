@@ -38,13 +38,17 @@ public class SpielLogik {
     private final GameStateManager gameStateManager;
     private final List<GameStateObserver> observers = new ArrayList<>();
 
-    public SpielLogik(Spiel spiel, GameRules gameRules) {
+    public SpielLogik(Spiel spiel, GameRules gameRules, ActionValidator validator, ActionFactory actionFactory, GameStateManager gameStateManager) {
         this.spiel = spiel;
         this.gameRules = gameRules;
 
-        this.validator = new StandardActionValidator(); // TODO: Check this? Move to constr?
-        this.gameStateManager = new StandardGameStateManager(spiel);
-        this.actionFactory = new ActionFactory(spiel, gameStateManager);
+//        this.validator = new StandardActionValidator(); // TODO: Check this? Move to constr?
+//        this.gameStateManager = new StandardGameStateManager(spiel);
+//        this.actionFactory = new ActionFactory(spiel, gameStateManager);
+
+        this.validator = validator;
+        this.gameStateManager = gameStateManager;
+        this.actionFactory = actionFactory;
 
     }
 
@@ -53,7 +57,7 @@ public class SpielLogik {
      *
      * @return true, wenn eine Ausfallbedingung erfüllt ist, sonst false.
      */
-    boolean checkAusfallBedingung() {
+    public boolean checkAusfallBedingung() {
         return gameRules.checkAusfallBedingung(spiel);
     }
 
@@ -62,7 +66,7 @@ public class SpielLogik {
      *
      * @return true, wenn die finale Runde erfüllt ist, sonst false.
      */
-    boolean checkFinalRound() {
+    public boolean checkFinalRound() {
         return gameRules.checkFinalRound(spiel);
     }
 
@@ -71,7 +75,7 @@ public class SpielLogik {
      *
      * @return true, wenn die Gewinnbedingungen erfüllt sind, sonst false.
      */
-    boolean checkGewinnBedingung() {
+    public boolean checkGewinnBedingung() {
         return gameRules.checkGewinnBedingung(spiel);
     }
 
