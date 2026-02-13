@@ -29,7 +29,7 @@ public class ActionFactory {
             case ActionName.PILOT_NEIGUNG:
                 return new PilotTiltAction(pilot, wuerfel);
 
-                case ActionName.PILOT_BREMSEN_2:
+            case ActionName.PILOT_BREMSEN_2:
             case ActionName.PILOT_BREMSEN_4:
             case ActionName.PILOT_BREMSEN_6:
                 return new PilotBrakeAction(spiel, pilot, wuerfel);

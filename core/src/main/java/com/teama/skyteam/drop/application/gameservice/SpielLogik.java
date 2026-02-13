@@ -1,6 +1,7 @@
 package com.teama.skyteam.drop.application.gameservice;
 
 
+import com.badlogic.gdx.Gdx;
 import com.teama.skyteam.drop.application.logic.events.*;
 import com.teama.skyteam.drop.domain.action.command.ActionResult;
 import com.teama.skyteam.drop.domain.action.command.PlayerAction;
@@ -79,13 +80,17 @@ public class SpielLogik {
 
 
     public ActionResult pilotSchritt(Spieler spieler, ActionName auswahl, Wuerfel wuerfel) {
+        System.err.println("=== pilotSchritt called: action=" + auswahl + " wuerfel=" + wuerfel.getWert());
+
         ValidationResult validation = validator.validatePilotAction(spiel, auswahl, wuerfel);
         if (!validation.isValid()) {
+            System.err.println("=== Validation failed: " + validation.getErrorMsg());
             return ActionResult.fail(validation.getErrorMsg());
         }
         Pilot pilot = (Pilot) spieler;
         PlayerAction action = actionFactory.createPilotAction(auswahl, pilot, wuerfel);
         ActionResult result = action.execute();
+        System.err.println("=== Action executed, events count: " + result.getEvents().size());
         for (GameEvent event : result.getEvents()) {
             handleEvent(event);
         }
@@ -147,15 +152,25 @@ public class SpielLogik {
     }
 
     private void handleEvent(GameEvent event) {
+        System.err.println("=== handleEvent called with: " + event.getClass().getSimpleName());
+        Gdx.app.log("SpielLogik", "handleEvent called with: " + event.getClass().getSimpleName());
+
         if (event instanceof BrakesActivatedEvent) {
             BrakesActivatedEvent e = (BrakesActivatedEvent) event;
+            System.err.println("=== Brakes: schalterIndex=" + e.getSchalterIndex() + " indicatorValue=" + e.getIndicatorValue());
             notifyBrakesActivated(e.getSchalterIndex(), e.getIndicatorValue());
+            Gdx.app.log("SpielLogik", "Brakes activated: schalterIndex=" + e.getSchalterIndex() + " indicatorValue=" + e.getIndicatorValue());
         } else if (event instanceof ChassisActivatedEvent) {
             ChassisActivatedEvent e = (ChassisActivatedEvent) event;
+            System.err.println("=== Chassis: schalterIndex=" + e.getSchalterIndex() + " anzahl=" + e.getAnzahl());
             notifyChassisActivated(e.getSchalterIndex(), e.getAnzahl());
+            Gdx.app.log("SpielLogik", "Chassis activated: schalterIndex=" + e.getSchalterIndex() + " anzahl=" + e.getAnzahl());
         } else if (event instanceof FlapsActivatedEvent) {
             FlapsActivatedEvent e = (FlapsActivatedEvent) event;
+            System.err.println("=== Flaps: schalterIndex=" + e.getSchalterIndex() + " state=" + e.getState());
             notifyFlapsActivated(e.getSchalterIndex(), e.getState());
+            Gdx.app.log("SpielLogik", "Flaps activated: schalterIndex=" + e.getSchalterIndex() + " state=" + e.getState());
+
         }
     }
 
