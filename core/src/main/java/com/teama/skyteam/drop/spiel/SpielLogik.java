@@ -2,7 +2,6 @@ package com.teama.skyteam.drop.spiel;
 
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
 import com.teama.skyteam.drop.spiel.action.command.ActionResult;
 import com.teama.skyteam.drop.spiel.action.command.PlayerAction;
 import com.teama.skyteam.drop.spiel.action.factory.ActionFactory;

@@ -5,7 +5,6 @@ import com.teama.skyteam.drop.spiel.action.command.ActionResult;
 import com.teama.skyteam.drop.spiel.action.command.PlayerAction;
 import com.teama.skyteam.drop.spiel.logik.events.BrakesActivatedEvent;
 import com.teama.skyteam.drop.spieler.Pilot;
-import com.teama.skyteam.drop.spieler.Spieler;
 import com.teama.skyteam.drop.tokens.Wuerfel;
 
 public class PilotBrakeAction implements PlayerAction {

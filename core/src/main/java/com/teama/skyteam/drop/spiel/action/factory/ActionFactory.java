@@ -23,7 +23,7 @@ public class ActionFactory {
     public PlayerAction createPilotAction(ActionName action, Pilot pilot, Wuerfel wuerfel) {
         switch (action) {
             case ActionName.PILOT_RADIO:
-                return new PilotRadioAction(spiel, pilot, wuerfel, gameStateManager);
+                return new PilotRadioAction(pilot, wuerfel, gameStateManager);
             case ActionName.PILOT_SPEED:
                 return new PilotSpeedAction(pilot, wuerfel);
             case ActionName.PILOT_NEIGUNG:
@@ -54,7 +54,7 @@ public class ActionFactory {
         switch (action) {
             case ActionName.COPILOT_RADIO_1:
             case ActionName.COPILOT_RADIO_2:
-                return new CopilotRadioAction(spiel, copilot, wuerfel, gameStateManager);
+                return new CopilotRadioAction(copilot, wuerfel, gameStateManager);
             case ActionName.COPILOT_SPEED:
                 return new CopilotSpeedAction(copilot, wuerfel);
             case ActionName.COPILOT_NEIGUNG:

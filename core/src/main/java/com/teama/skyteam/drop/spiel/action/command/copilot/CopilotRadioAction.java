@@ -8,13 +8,11 @@ import com.teama.skyteam.drop.spieler.Copilot;
 import com.teama.skyteam.drop.tokens.Wuerfel;
 
 public class CopilotRadioAction implements PlayerAction {
-    private final Spiel spiel;
     private final Copilot copilot;
     private final Wuerfel wuerfel;
     private final GameStateManager gameStateManager;
 
-    public CopilotRadioAction(Spiel spiel, Copilot copilot, Wuerfel wuerfel, GameStateManager gameStateManager) {
-        this.spiel = spiel;
+    public CopilotRadioAction(Copilot copilot, Wuerfel wuerfel, GameStateManager gameStateManager) {
         this.copilot = copilot;
         this.wuerfel = wuerfel;
         this.gameStateManager = gameStateManager;

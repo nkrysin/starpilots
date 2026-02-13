@@ -1,8 +1,6 @@
 package com.teama.skyteam.drop.spiel.gamestate;
 
-import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
 import com.teama.skyteam.drop.spiel.action.command.ActionResult;
-import com.teama.skyteam.drop.spiel.action.validator.ValidationResult;
 import com.teama.skyteam.drop.spieler.Spieler;
 import com.teama.skyteam.drop.tokens.KaffeeToken;
 import com.teama.skyteam.drop.tokens.NeuWurfToken;

@@ -1,12 +1,9 @@
 package com.teama.skyteam.drop.spiel.gamestate;
 
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.teama.skyteam.drop.feld.FeldName;
-import com.teama.skyteam.drop.gui.SzenarioHoeheManager;
 import com.teama.skyteam.drop.spiel.Spiel;
 import com.teama.skyteam.drop.spiel.SpielConstants;
 import com.teama.skyteam.drop.spiel.action.command.ActionResult;
-import com.teama.skyteam.drop.spiel.action.validator.ValidationResult;
 import com.teama.skyteam.drop.spiel.logik.events.SpeedChangedEvent;
 import com.teama.skyteam.drop.spiel.logik.events.TiltChangedEvent;
 import com.teama.skyteam.drop.spieler.Spieler;
