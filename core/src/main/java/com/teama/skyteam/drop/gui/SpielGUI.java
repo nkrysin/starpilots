@@ -71,7 +71,8 @@ public class SpielGUI implements GameStateObserver {
     private SzenarioHoeheManager szenarioHoeheManager;
     private ControlField neuWurf;
     private Map<ControlField, ControlField> mirroredFields = new HashMap<>();
-    private GameRules gameRules = new StandartGameRules();
+    private GameStateManager gameStateManager;
+    private FieldManager fieldManager;
 
 
     /**
@@ -82,7 +83,7 @@ public class SpielGUI implements GameStateObserver {
      * @param skin Das Skin-Objekt für die Gestaltung der GUI-Elemente.
      * @param szenarioHoeheManager Der Manager zur Verwaltung der Szenariohöhe.
      */
-    public SpielGUI(Spiel spiel, Stage stage, Skin skin, SzenarioHoeheManager szenarioHoeheManager, SpielLogik spielLogik) {
+    public SpielGUI(Spiel spiel, Stage stage, Skin skin, SzenarioHoeheManager szenarioHoeheManager, SpielLogik spielLogik, GameStateManager gameStateManager, FieldManager fieldManager) {
         this.spiel = spiel;
         this.stage = stage;
         this.skin = skin;
@@ -94,6 +95,8 @@ public class SpielGUI implements GameStateObserver {
         this.spielLogik = spielLogik;
         spielLogik.addObserver(this);
         createFieldActors();
+        this.gameStateManager = gameStateManager;
+        this.fieldManager = fieldManager;
     }
 
     /**
@@ -1168,8 +1171,7 @@ public class SpielGUI implements GameStateObserver {
 
 
     private Window window;
-    private GameStateManager gameStateManager;
-    private FieldManager fieldManager;
+
     /**
      * Zeigt ein modales Fenster mit einer Nachricht an.
      *

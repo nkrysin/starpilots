@@ -55,7 +55,7 @@ public class SpielControllerGUI {
 
         spielLogik = new SpielLogik(spiel, gameRules, validator, actionFactory, gameStateManager);
 
-        this.spielGUI = new SpielGUI(spiel, stage, skin, szenarioHoeheManager, spielLogik);
+        this.spielGUI = new SpielGUI(spiel, stage, skin, szenarioHoeheManager, spielLogik, gameStateManager, fieldManager);
 
 
         // Setzt die Callback-Funktion für Spieleraktionen.
