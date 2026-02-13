@@ -14,8 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.teama.skyteam.drop.gui.buttons.ControlField;
 import com.teama.skyteam.drop.gui.buttons.ControlGroup;
-import com.teama.skyteam.drop.spiel.action.type.ActionControlGroup;
-import com.teama.skyteam.drop.spiel.action.type.ActionName;
+import com.teama.skyteam.drop.domain.action.type.ActionControlGroup;
+import com.teama.skyteam.drop.domain.action.type.ActionName;
 
 import java.util.ArrayList;
 

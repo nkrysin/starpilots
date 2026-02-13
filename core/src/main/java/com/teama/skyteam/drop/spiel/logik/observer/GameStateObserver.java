@@ -1,9 +1,0 @@
-package com.teama.skyteam.drop.spiel.logik.observer;
-
-public interface GameStateObserver {
-    void onBrakesActivated(int schalterIndex, int indicatorValue);
-    void onChassisActivated(int schalterIndex, int count);
-    void onFlapsActivated(int schalterIndex, int state);
-    void onTiltChanged(float targetRotation);
-    void onSpeedChanged(int steps);
-}

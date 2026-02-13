@@ -7,8 +7,8 @@
  */
 package com.teama.skyteam.drop.gui.buttons;
 
-import com.teama.skyteam.drop.spiel.action.type.ActionControlGroup;
-import com.teama.skyteam.drop.spiel.action.type.ActionName;
+import com.teama.skyteam.drop.domain.action.type.ActionControlGroup;
+import com.teama.skyteam.drop.domain.action.type.ActionName;
 
 import java.util.*;
 

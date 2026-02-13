@@ -24,9 +24,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.teama.skyteam.drop.MainBk;
 import com.teama.skyteam.drop.gui.TexturePaths;
 import com.teama.skyteam.drop.gui.UILayout;
-import com.teama.skyteam.drop.spiel.Spiel;
-import com.teama.skyteam.drop.spiel.SpielConstructor;
-import com.teama.skyteam.drop.szenario.Route;
+import com.teama.skyteam.drop.domain.model.game.Spiel;
+import com.teama.skyteam.drop.domain.model.game.SpielConstructor;
+import com.teama.skyteam.drop.domain.model.szenario.Route;
 
 class ScenarioSelectionScreen implements Screen {
     private final MainBk main;

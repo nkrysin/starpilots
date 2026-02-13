@@ -23,7 +23,7 @@ import com.teama.skyteam.drop.gui.TexturePaths;
 import com.teama.skyteam.drop.gui.UILayout;
 import com.teama.skyteam.drop.gui.utilities.InputController;
 import com.teama.skyteam.drop.gui.utilities.TextureCache;
-import com.teama.skyteam.drop.spiel.Spiel;
+import com.teama.skyteam.drop.domain.model.game.Spiel;
 import com.teama.skyteam.drop.gui.SpielControllerGUI;
 
 public class GameScreen implements Screen {

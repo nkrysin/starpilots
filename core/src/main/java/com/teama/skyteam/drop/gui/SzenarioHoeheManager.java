@@ -10,7 +10,7 @@ package com.teama.skyteam.drop.gui;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.teama.skyteam.drop.gui.szenario.HoeheGUI;
 import com.teama.skyteam.drop.gui.szenario.SzenarioGUI;
-import com.teama.skyteam.drop.spiel.Spiel;
+import com.teama.skyteam.drop.domain.model.game.Spiel;
 
 public class SzenarioHoeheManager {
     private SzenarioGUI szenarioGUI;

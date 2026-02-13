@@ -7,7 +7,7 @@
  * und denjenigen, die auf den Abschluss dieser Aktionen reagieren müssen.
  */
 package com.teama.skyteam.drop.gui.utilities;
-import com.teama.skyteam.drop.spieler.Spieler;
+import com.teama.skyteam.drop.domain.model.spieler.Spieler;
 
 public interface PlayerActionCallback {
     /**

@@ -11,8 +11,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.teama.skyteam.drop.gui.TexturePaths;
 import com.teama.skyteam.drop.gui.UILayout;
-import com.teama.skyteam.drop.spiel.Spiel;
-import com.teama.skyteam.drop.szenario.ReiseFeld;
+import com.teama.skyteam.drop.domain.model.game.Spiel;
+import com.teama.skyteam.drop.domain.model.szenario.ReiseFeld;
 
 import java.util.TreeMap;
 

@@ -8,9 +8,9 @@
 package com.teama.skyteam.drop.gui.utilities;
 
 import com.teama.skyteam.drop.gui.TexturePaths;
-import com.teama.skyteam.drop.spieler.Pilot;
-import com.teama.skyteam.drop.spieler.Spieler;
-import com.teama.skyteam.drop.tokens.Wuerfel;
+import com.teama.skyteam.drop.domain.model.spieler.Pilot;
+import com.teama.skyteam.drop.domain.model.spieler.Spieler;
+import com.teama.skyteam.drop.domain.model.tokens.Wuerfel;
 
 public class SelectedWuerfelData {
 
