@@ -19,7 +19,7 @@ public class PilotCaffeAction implements PlayerAction {
 
     @Override
     public ActionResult execute() {
-        pilot.kaffeeWaehlen(dice, fieldName);
+        pilot.assignToCoffee(dice, fieldName);
         return ActionResult.success();
     }
 }

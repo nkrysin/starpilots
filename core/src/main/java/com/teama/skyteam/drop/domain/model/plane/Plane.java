@@ -6,7 +6,7 @@
  * Aktualisierung dieser Eigenschaften zur Verfügung, die im Game verwendet werden, um das Plane
  * zu steuern und zu verändern.
  */
-package com.teama.skyteam.drop.domain.model.flugzeug;
+package com.teama.skyteam.drop.domain.model.plane;
 
 import com.teama.skyteam.drop.domain.model.tokens.Dice;
 
@@ -16,8 +16,8 @@ public class Plane {
     private Speed speedUpperLimit;
     private int tilt;
     private Brakes brakesState;
-    private Flaps flapsZustand;
-    private LandingGear landingGearZustand;
+    private Flaps flapsState;
+    private LandingGear landingGearState;
 
 
     /**
@@ -38,8 +38,8 @@ public class Plane {
         setSpeedUpperLimit(Speed.EIGHT);
         setTilt(0);
         setBremsenZustand(Brakes.NONE);
-        setKlappenZustand(Flaps.NONE);
-        setFahrgestellZustand(new LandingGear());
+        setFlapsState(Flaps.NONE);
+        setLandingGearState(new LandingGear());
     }
 
     /*Getters and Setters*/
@@ -84,20 +84,20 @@ public class Plane {
         this.brakesState = brakesState;
     }
 
-    public Flaps getKlappenZustand() {
-        return flapsZustand;
+    public Flaps getFlapsState() {
+        return flapsState;
     }
 
-    void setKlappenZustand(Flaps flapsZustand) {
-        this.flapsZustand = flapsZustand;
+    void setFlapsState(Flaps FlapsState) {
+        this.flapsState = FlapsState;
     }
 
-    public LandingGear getFahrgestellZustand() {
-        return landingGearZustand;
+    public LandingGear getLandingGearState() {
+        return landingGearState;
     }
 
-    void setFahrgestellZustand(LandingGear landingGearZustand) {
-        this.landingGearZustand = landingGearZustand;
+    void setLandingGearState(LandingGear landingGearState) {
+        this.landingGearState = landingGearState;
     }
 
 
@@ -108,23 +108,23 @@ public class Plane {
      * @return die Differenz zwischen den Werten der beiden Würfel.
      * @throws IllegalArgumentException wenn das Array null ist oder nicht genau zwei Würfel enthält.
      */
-    private int zweiWuerfelWertSubtrahieren(Dice[] dice) {
+    private int subtractDiceValues(Dice[] dice) {
         if (dice == null || dice.length != 2) {
             throw new IllegalArgumentException("Falsche Anzahl von Würfeln wurden gegeben");
         }
-        int sub = dice[0].getWert() - dice[1].getWert();
+        int sub = dice[0].getValue() - dice[1].getValue();
         return sub;
     }
 
     /**
      * Ändert die Neigung des Flugzeugs basierend auf einem gegebenen Wert und den Würfelwerten.
      *
-     * @param neigung die Basisneigung, die geändert werden soll.
+     * @param tilt die Basisneigung, die geändert werden soll.
      * @param dice ein Array von zwei Würfeln, deren Wertunterschied zur Neigung addiert wird.
      */
-    public void neigen(int neigung, Dice[] dice) {
-        int sub = zweiWuerfelWertSubtrahieren(dice);
-        setTilt(neigung + sub);
+    public void tilt(int tilt, Dice[] dice) {
+        int sub = subtractDiceValues(dice);
+        setTilt(tilt + sub);
     }
 
     /**
@@ -134,24 +134,24 @@ public class Plane {
      * @return true, wenn der Bremszustand erfolgreich geändert wurde; false, wenn keine Änderung möglich war.
      */
     public boolean bremsen(Dice dice) {
-        int wert = dice.getWert();
+        int value = dice.getValue();
         Brakes aktuellerZustand = getBrakesState();
 
         switch (aktuellerZustand) {
             case NONE:
-                if (wert == 2) {
+                if (value == 2) {
                     setBremsenZustand(Brakes.LEVEL1);
                     return true;
                 }
                 break;
             case LEVEL1:
-                if (wert == 4) {
+                if (value == 4) {
                     setBremsenZustand(Brakes.LEVEL2);
                     return true;
                 }
                 break;
             case LEVEL2:
-                if (wert == 6) {
+                if (value == 6) {
                     setBremsenZustand(Brakes.LEVEL3);
                     return true;
                 }
@@ -168,35 +168,35 @@ public class Plane {
      * @param dice ein Würfel, dessen Wert die nächste Klappenstufe bestimmt.
      * @return true, wenn der Klappenzustand erfolgreich geändert wurde; false, wenn keine Änderung möglich war.
      */
-    public boolean klappenOeffnen(Dice dice) {
-        int wert = dice.getWert();
-        Flaps aktuellerZustand = getKlappenZustand();
+    public boolean deployFlaps(Dice dice) {
+        int value = dice.getValue();
+        Flaps currentState = getFlapsState();
 
-        switch (aktuellerZustand) {
+        switch (currentState) {
             case NONE:
-                if (wert == 1 || wert == 2) {
-                    setKlappenZustand(Flaps.LEVEL1);
+                if (value == 1 || value == 2) {
+                    setFlapsState(Flaps.LEVEL1);
                     setSpeedUpperLimit(Speed.NINE);
                     return true;
                 }
                 break;
             case LEVEL1:
-                if (wert == 2 || wert == 3) {
-                    setKlappenZustand(Flaps.LEVEL2);
+                if (value == 2 || value == 3) {
+                    setFlapsState(Flaps.LEVEL2);
                     setSpeedUpperLimit(Speed.TEN);
                     return true;
                 }
                 break;
             case LEVEL2:
-                if (wert == 4 || wert == 5) {
-                    setKlappenZustand(Flaps.LEVEL3);
+                if (value == 4 || value == 5) {
+                    setFlapsState(Flaps.LEVEL3);
                     setSpeedUpperLimit(Speed.ELEVEN);
                     return true;
                 }
                 break;
             case LEVEL3:
-                if (wert == 5 || wert == 6) {
-                    setKlappenZustand(Flaps.LEVEL4);
+                if (value == 5 || value == 6) {
+                    setFlapsState(Flaps.LEVEL4);
                     setSpeedUpperLimit(Speed.TWELVE);
                     return true;
                 }
@@ -213,20 +213,20 @@ public class Plane {
      * @param dice ein Würfel, dessen Wert das zu aktivierende LandingGear bestimmt.
      * @return true, wenn das LandingGear erfolgreich aktiviert wurde; false, wenn keine Änderung möglich war.
      */
-    public boolean fahrgestellAusfahren(Dice dice) {
-        int wert = dice.getWert();
-        switch (wert) {
+    public boolean deployLandingGear(Dice dice) {
+        int value = dice.getValue();
+        switch (value) {
             case 1, 2:
-                getFahrgestellZustand().fahrgestellAktivieren(1);
-                speedUntereGrenzeAktualisieren();
+                getLandingGearState().activateLandingGear(1);
+                updateSpeedLowerLimit();
                 return true;
             case 3, 4:
-                getFahrgestellZustand().fahrgestellAktivieren(2);
-                speedUntereGrenzeAktualisieren();
+                getLandingGearState().activateLandingGear(2);
+                updateSpeedLowerLimit();
                 return true;
             case 5, 6:
-                getFahrgestellZustand().fahrgestellAktivieren(3);
-                speedUntereGrenzeAktualisieren();
+                getLandingGearState().activateLandingGear(3);
+                updateSpeedLowerLimit();
                 return true;
             default:
                 break;
@@ -237,8 +237,8 @@ public class Plane {
     /**
      * Aktualisiert die untere Geschwindigkeitsgrenze basierend auf der Anzahl der aktivierten Fahrgestelle.
      */
-    private void speedUntereGrenzeAktualisieren() {
-        int akrivierteFahrgestelle = getFahrgestellZustand().getAkrivierteFahrgestelle();
+    private void updateSpeedLowerLimit() {
+        int akrivierteFahrgestelle = getLandingGearState().getActivatedLandingGearCount();
         switch (akrivierteFahrgestelle) {
             case 1 -> setSpeedLowerLimit(Speed.FIVE);
             case 2 -> setSpeedLowerLimit(Speed.SIX);

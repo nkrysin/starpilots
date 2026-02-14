@@ -74,7 +74,7 @@ public class GUIConstructionMethods {
      * @return die erstellte `ControlGroup` für Kaffee-Aktionen.
      */
     public ControlGroup createUseKaffeeButtons(ActionControlGroup groupName, int[][] positions, Stage stage) {
-        ActionName[] kaffeeFieldNames = {ActionName.USE_KAFFEE_1, ActionName.USE_KAFFEE_2, ActionName.USE_KAFFEE_3};
+        ActionName[] kaffeeFieldNames = {ActionName.USE_COFFEE_1, ActionName.USE_COFFEE_2, ActionName.USE_COFFEE_3};
         ArrayList<ControlField> fields = new ArrayList<>();
         for (int i = 0; i < kaffeeFieldNames.length; i++) {
             ImageButton button = createButton(TexturePaths.WITHOUT_HIGHLIGHT_PATH,
@@ -104,7 +104,7 @@ public class GUIConstructionMethods {
             UILayout.NEUWURF_BUTTON_SIZE[0],
             UILayout.NEUWURF_BUTTON_SIZE[1]
         );
-        ControlField field = new ControlField(ActionName.NEUWURF, button);
+        ControlField field = new ControlField(ActionName.REROLL, button);
         stage.addActor(button);
         return field;
     }

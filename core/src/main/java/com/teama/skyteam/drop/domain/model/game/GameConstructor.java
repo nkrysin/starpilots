@@ -7,14 +7,14 @@
  */
 package com.teama.skyteam.drop.domain.model.game;
 
-import com.teama.skyteam.drop.domain.model.flugzeug.Plane;
+import com.teama.skyteam.drop.domain.model.plane.Plane;
 import com.teama.skyteam.drop.domain.model.player.Copilot;
 import com.teama.skyteam.drop.domain.model.player.Pilot;
 import com.teama.skyteam.drop.domain.model.campaign.Route;
 
 
 public class GameConstructor {
-    private static Game game; // Statische Variable zur Speicherung der einzigen Instanz des Spiels.
+    private static Game instance; // Statische Variable zur Speicherung der einzigen Instanz des Spiels.
 
     // Privater Konstruktor, um die direkte Instanziierung dieser Klasse zu verhindern.
     private GameConstructor() {
@@ -26,41 +26,41 @@ public class GameConstructor {
      * @param route Die Route, die als Campaign für das neue Game verwendet wird.
      * @return Die einzige Instanz des Spiels.
      */
-    public static Game createSpiel(Route route) {
+    public static Game getInstance(Route route) {
         // Setzt das Game zurück, falls bereits eine Instanz existiert.
-        if (game != null) {
-            game = null;
+        if (instance != null) {
+            instance = null;
         }
         // Erstellt eine neue Instanz des Spiels und initialisiert alle Komponenten.
-        if (game == null) {
-            game = new Game();
-            game.setFlugzeug(new Plane()); // Initialisierung des Flugzeugs.
+        if (instance == null) {
+            instance = new Game();
+            instance.setPlane(new Plane()); // Initialisierung des Flugzeugs.
 
             // Erstellen und Zuweisen des Piloten.
-            Pilot pilot = new Pilot(game);
-            game.setPilot(pilot);
+            Pilot pilot = new Pilot(instance);
+            instance.setPilot(pilot);
 
             // Erstellen und Zuweisen des Copiloten.
-            Copilot copilot = new Copilot(game);
-            game.setCopilot(copilot);
+            Copilot copilot = new Copilot(instance);
+            instance.setCopilot(copilot);
 
             // Initialisierung der Spielfelder für Pilot und Copilot.
-            game.setPilotFelds();
-            game.setCopilotFelds();
+            instance.setPilotFields();
+            instance.setCopilotFields();
 
             // Festlegen des Szenarios basierend auf der gegebenen Route.
-            game.setSzenario(route);
+            instance.setCampaign(route);
 
             // Aktualisierung des aktuellen Feldes und der Flughöhe.
-            game.updateCurrentField();
-            game.updateCurrentHoehe();
+            instance.updateCurrentField();
+            instance.updateCurrentAltitude();
 
             // Initialisierung des Routen- und Höhen-Szenarios.
-            game.setRouteSzenario();
-            game.setHoeheSzenario();
+            instance.setRouteCampaign();
+            instance.setAltitudeCampaign();
         }
 
         // Rückgabe der einzigen Spielinstanz.
-        return game;
+        return instance;
     }
 }

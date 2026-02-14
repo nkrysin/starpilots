@@ -19,7 +19,7 @@ public class CopilotCaffeAction implements PlayerAction {
 
     @Override
     public ActionResult execute() {
-        copilot.kaffeeWaehlen(dice, fieldName);
+        copilot.assignToCoffee(dice, fieldName);
         return ActionResult.success();
     }
 }

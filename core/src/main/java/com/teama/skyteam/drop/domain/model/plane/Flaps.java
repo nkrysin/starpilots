@@ -1,4 +1,4 @@
-package com.teama.skyteam.drop.domain.model.flugzeug;
+package com.teama.skyteam.drop.domain.model.plane;
 
 public enum Flaps {
     NONE(8),

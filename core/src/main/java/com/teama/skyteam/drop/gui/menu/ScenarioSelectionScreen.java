@@ -104,7 +104,7 @@ class ScenarioSelectionScreen implements Screen {
      * @param scenario Das Campaign, mit dem das Game initialisiert werden soll.
      */
     private void startGameWithScenario(Route scenario) {
-        Game game = GameConstructor.createSpiel(scenario);
+        Game game = GameConstructor.getInstance(scenario);
         main.setScreen(new GameScreen(main, game));
     }
 

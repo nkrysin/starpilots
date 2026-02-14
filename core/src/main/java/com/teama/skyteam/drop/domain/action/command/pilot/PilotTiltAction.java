@@ -16,7 +16,7 @@ public class PilotTiltAction implements PlayerAction {
 
     @Override
     public ActionResult execute() {
-        pilot.neigenWaehlen(dice);
+        pilot.assignToTilt(dice);
         return ActionResult.success();
     }
 }

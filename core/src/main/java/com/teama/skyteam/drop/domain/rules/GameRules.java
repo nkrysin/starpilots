@@ -6,7 +6,7 @@ public interface GameRules {
     /**
      * Überprüft, ob eine Ausfallbedingung im Game erreicht wurde.
      */
-    boolean checkAusfallBedingung(Game game);
+    boolean checkFailCondition(Game game);
 
 
     /**
@@ -17,5 +17,5 @@ public interface GameRules {
     /**
      * Überprüft, ob die Gewinnbedingungen erfüllt sind.
      */
-    boolean checkGewinnBedingung(Game game);
+    boolean checkWinCondition(Game game);
 }

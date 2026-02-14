@@ -38,7 +38,7 @@ public class AltitudeGUI {
      * @param game Das aktuelle Spielobjekt, das den Typ des Höhen-Szenarios enthält.
      */
     private void setHoeheTexture(Game game) {
-        AltitudeCampaignTypes type = game.getSzenario().getHoeheSzenarioType();
+        AltitudeCampaignTypes type = game.getCampaign().getAltitudeCampaignType();
         switch (type) {
             case RED -> hoeheTexture = new Texture(TexturePaths.HOEHE_RED_PATH);
             case GREEN -> hoeheTexture = new Texture(TexturePaths.HOEHE_GREEN_PATH);

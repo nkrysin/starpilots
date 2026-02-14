@@ -26,25 +26,25 @@ public class ActionFactory {
                 return new PilotRadioAction(pilot, dice, gameStateManager);
             case ActionName.PILOT_SPEED:
                 return new PilotSpeedAction(pilot, dice);
-            case ActionName.PILOT_NEIGUNG:
+            case ActionName.PILOT_TILT:
                 return new PilotTiltAction(pilot, dice);
 
-            case ActionName.PILOT_BREMSEN_2:
-            case ActionName.PILOT_BREMSEN_4:
-            case ActionName.PILOT_BREMSEN_6:
+            case ActionName.PILOT_BRAKES_2:
+            case ActionName.PILOT_BRAKES_4:
+            case ActionName.PILOT_BRAKES_6:
                 return new PilotBrakeAction(game, pilot, dice);
 
-            case ActionName.PILOT_FAHRGESTELL_1_2:
-            case ActionName.PILOT_FAHRGESTELL_3_4:
-            case ActionName.PILOT_FAHRGESTELL_5_6:
+            case ActionName.PILOT_LANDING_GEAR_1_2:
+            case ActionName.PILOT_LANDING_GEAR_3_4:
+            case ActionName.PILOT_LANDING_GEAR_5_6:
                 return new PilotLandingGearAction(game, pilot, dice);
 
-            case ActionName.PILOT_KAFFEE_1:
-                return new PilotCaffeAction(pilot, dice, FieldName.KAFFEE_1);
-            case ActionName.PILOT_KAFFEE_2:
-                return new PilotCaffeAction(pilot, dice, FieldName.KAFFEE_2);
-            case ActionName.PILOT_KAFFEE_3:
-                return new PilotCaffeAction(pilot, dice, FieldName.KAFFEE_3);
+            case ActionName.PILOT_COFFEE_1:
+                return new PilotCaffeAction(pilot, dice, FieldName.COFFEE_1);
+            case ActionName.PILOT_COFFEE_2:
+                return new PilotCaffeAction(pilot, dice, FieldName.COFFEE_2);
+            case ActionName.PILOT_COFFEE_3:
+                return new PilotCaffeAction(pilot, dice, FieldName.COFFEE_3);
             default:
                 throw new IllegalArgumentException("Illegal action: " + action);
         }
@@ -57,19 +57,19 @@ public class ActionFactory {
                 return new CopilotRadioAction(copilot, dice, gameStateManager);
             case ActionName.COPILOT_SPEED:
                 return new CopilotSpeedAction(copilot, dice);
-            case ActionName.COPILOT_NEIGUNG:
+            case ActionName.COPILOT_TILT:
                 return new CopilotTiltAction(copilot, dice);
-            case ActionName.COPILOT_KLAPPEN_1_2:
-            case ActionName.COPILOT_KLAPPEN_2_3:
-            case ActionName.COPILOT_KLAPPEN_4_5:
-            case ActionName.COPILOT_KLAPPEN_5_6:
+            case ActionName.COPILOT_FLAPS_1_2:
+            case ActionName.COPILOT_FLAPS_2_3:
+            case ActionName.COPILOT_FLAPS_4_5:
+            case ActionName.COPILOT_FLAPS_5_6:
                 return new CopilotFlapsAction(game, copilot, dice);
-            case ActionName.COPILOT_KAFFEE_1:
-                return new CopilotCaffeAction(copilot, dice, FieldName.KAFFEE_1);
-            case ActionName.COPILOT_KAFFEE_2:
-                return new CopilotCaffeAction(copilot, dice, FieldName.KAFFEE_2);
-            case ActionName.COPILOT_KAFFEE_3:
-                return new CopilotCaffeAction(copilot, dice, FieldName.KAFFEE_3);
+            case ActionName.COPILOT_COFFEE_1:
+                return new CopilotCaffeAction(copilot, dice, FieldName.COFFEE_1);
+            case ActionName.COPILOT_COFFEE_2:
+                return new CopilotCaffeAction(copilot, dice, FieldName.COFFEE_2);
+            case ActionName.COPILOT_COFFEE_3:
+                return new CopilotCaffeAction(copilot, dice, FieldName.COFFEE_3);
             default:
                 throw new IllegalArgumentException("Illegal action: " + action);
         }

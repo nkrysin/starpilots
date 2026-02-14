@@ -29,14 +29,14 @@ public class Copilot extends Player {
      * @param dice Der zu platzierende Würfel.
      * @throws IllegalArgumentException Wenn das Field bereits belegt ist.
      */
-    private void wuerfelAufFeldPlatzieren(FieldName fieldName, Dice dice) {
-        Field field = game.getFeldCopilot(fieldName);
+    private void placeDiceOnField(FieldName fieldName, Dice dice) {
+        Field field = game.getFieldCopilot(fieldName);
 
-        if (field.wuerfelPlatzieren(dice)) {
-            removeWuerfel(dice);
+        if (field.placeDice(dice)) {
+            removeDice(dice);
             switch (fieldName) {
-                case KAFFEE_1, KAFFEE_2, KAFFEE_3 ->
-                    game.getFeldPilot(fieldName).setBelegt();
+                case COFFEE_1, COFFEE_2, COFFEE_3 ->
+                    game.getFieldPilot(fieldName).setIsOccupied();
             }
         } else {
             throw new IllegalArgumentException("Field '" + fieldName + "' ist schon belegt!");
@@ -52,11 +52,11 @@ public class Copilot extends Player {
      * @param fieldName Der Name des Zielfeldes.
      * @param dice Der zu platzierende Würfel.
      */
-    private void kaffeeAufFeldPruefenUndPlatzieren(FieldName fieldName, Dice dice) {
-        if (!game.getFeldPilot(fieldName).isBelegt() && !game.getFeldCopilot(fieldName).isBelegt()) {
-            wuerfelAufFeldPlatzieren(fieldName, dice);
+    private void validateAndPlaceCoffeOnField(FieldName fieldName, Dice dice) {
+        if (!game.getFieldPilot(fieldName).isOccupied() && !game.getFieldCopilot(fieldName).isOccupied()) {
+            placeDiceOnField(fieldName, dice);
             CoffeeToken token = new CoffeeToken();
-            game.kaffeeTokenAnzahlErhoehen(token);
+            game.incrementCoffeeTokenCount(token);
         }
     }
 
@@ -67,13 +67,13 @@ public class Copilot extends Player {
      * @throws IllegalArgumentException Wenn die maximale Anzahl an Kaffee-Tokens erreicht ist.
      */
     @Override
-    public void kaffeeWaehlen(Dice dice, FieldName kaffeeFeld) {
+    public void assignToCoffee(Dice dice, FieldName kaffeeFeld) {
 
-        if (game.getKaffeeTokenCount() >= GameConstants.MAX_KAFFEE_TOKENS) {
+        if (game.getCoffeeTokenCount() >= GameConstants.MAX_COFFEE_TOKENS) {
             throw new IllegalArgumentException("Sie können nicht mehr als 3 KaffeeTokens haben!");
         }
 
-        kaffeeAufFeldPruefenUndPlatzieren(kaffeeFeld, dice);
+        validateAndPlaceCoffeOnField(kaffeeFeld, dice);
 
     }
 
@@ -83,12 +83,12 @@ public class Copilot extends Player {
      * @throws IllegalArgumentException Wenn beide Radio-Felder bereits belegt sind.
      */
     @Override
-    public void radioWaehlen(Dice dice) {
+    public void assignToRadio(Dice dice) {
 
-        if (!game.getFeldCopilot(FieldName.RADIO_COPILOT_1).isBelegt()) {
-            wuerfelAufFeldPlatzieren(FieldName.RADIO_COPILOT_1, dice);
-        } else if (!game.getFeldCopilot(FieldName.RADIO_COPILOT_2).isBelegt()) {
-            wuerfelAufFeldPlatzieren(FieldName.RADIO_COPILOT_2, dice);
+        if (!game.getFieldCopilot(FieldName.RADIO_COPILOT_1).isOccupied()) {
+            placeDiceOnField(FieldName.RADIO_COPILOT_1, dice);
+        } else if (!game.getFieldCopilot(FieldName.RADIO_COPILOT_2).isOccupied()) {
+            placeDiceOnField(FieldName.RADIO_COPILOT_2, dice);
         } else {
             throw new IllegalArgumentException("Beide Radiofelder sind bereits belegt!");
         }
@@ -99,8 +99,8 @@ public class Copilot extends Player {
      * @param dice Der zu platzierende Würfel.
      */
     @Override
-    public void speedWaehlen(Dice dice) {
-        wuerfelAufFeldPlatzieren(FieldName.SPEED, dice);
+    public void assignToSpeed(Dice dice) {
+        placeDiceOnField(FieldName.SPEED, dice);
     }
 
     /**
@@ -108,8 +108,8 @@ public class Copilot extends Player {
      * @param dice Der zu platzierende Würfel.
      */
     @Override
-    public void neigenWaehlen(Dice dice) {
-        wuerfelAufFeldPlatzieren(FieldName.NEIGEN, dice);
+    public void assignToTilt(Dice dice) {
+        placeDiceOnField(FieldName.TILT, dice);
     }
 
     /**
@@ -117,34 +117,34 @@ public class Copilot extends Player {
      * @param dice Der zu platzierende Würfel.
      * @throws IllegalArgumentException Wenn der Würfelwert nicht zu einem Flaps-Field passt.
      */
-    public void klappenWaehlen(Dice dice) {
+    public void assignToFlaps(Dice dice) {
 
-        switch (dice.getWert()) {
+        switch (dice.getValue()) {
             case 1:
-                wuerfelAufFeldPlatzieren(FieldName.KLAPPEN_1_2, dice);
+                placeDiceOnField(FieldName.FLIPS_1_2, dice);
                 break;
             case 2:
-                if (!game.getFeldCopilot(FieldName.KLAPPEN_1_2).isBelegt()) {
-                    wuerfelAufFeldPlatzieren(FieldName.KLAPPEN_1_2, dice);
+                if (!game.getFieldCopilot(FieldName.FLIPS_1_2).isOccupied()) {
+                    placeDiceOnField(FieldName.FLIPS_1_2, dice);
                     break;
                 }
-                wuerfelAufFeldPlatzieren(FieldName.KLAPPEN_2_3, dice);
+                placeDiceOnField(FieldName.FLIPS_2_3, dice);
                 break;
             case 3:
-                wuerfelAufFeldPlatzieren(FieldName.KLAPPEN_2_3, dice);
+                placeDiceOnField(FieldName.FLIPS_2_3, dice);
                 break;
             case 4:
-                wuerfelAufFeldPlatzieren(FieldName.KLAPPEN_4_5, dice);
+                placeDiceOnField(FieldName.FLIPS_4_5, dice);
                 break;
             case 5:
-                if (!game.getFeldCopilot(FieldName.KLAPPEN_4_5).isBelegt()) {
-                    wuerfelAufFeldPlatzieren(FieldName.KLAPPEN_4_5, dice);
+                if (!game.getFieldCopilot(FieldName.FLIPS_4_5).isOccupied()) {
+                    placeDiceOnField(FieldName.FLIPS_4_5, dice);
                     break;
                 }
-                wuerfelAufFeldPlatzieren(FieldName.KLAPPEN_5_6, dice);
+                placeDiceOnField(FieldName.FLIPS_5_6, dice);
                 break;
             case 6:
-                wuerfelAufFeldPlatzieren(FieldName.KLAPPEN_5_6, dice);
+                placeDiceOnField(FieldName.FLIPS_5_6, dice);
                 break;
 
             default:

@@ -16,7 +16,7 @@ public class PilotSpeedAction implements PlayerAction {
 
     @Override
     public ActionResult execute() {
-        pilot.speedWaehlen(dice);
+        pilot.assignToSpeed(dice);
         return ActionResult.success();
     }
 }

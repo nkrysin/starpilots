@@ -1,6 +1,6 @@
 package com.teama.skyteam.drop.domain.rules;
 
-import com.teama.skyteam.drop.domain.model.flugzeug.Flaps;
+import com.teama.skyteam.drop.domain.model.plane.Flaps;
 import com.teama.skyteam.drop.domain.model.game.Game;
 
 public class StandartGameRules implements GameRules {
@@ -9,11 +9,11 @@ public class StandartGameRules implements GameRules {
      *
      * @return true, wenn eine Ausfallbedingung erfüllt ist, sonst false.
      */
-    public boolean checkAusfallBedingung(Game game) {
-        boolean bedingungKollision = game.isKollision();
-        boolean bedingungWenigerAlsSzenarioLange = game.getCurrentPosition() > game.getRouteSzenario().size();
-        boolean bedingungHoehe = !game.getCurrentField().istFlughafen() && (game.getCurrentHoehe().getHoehe() == 0);
-        boolean bedingungNeigung = (game.getFlugzeug().getTilt() > 2 || game.getFlugzeug().getTilt() < -2);
+    public boolean checkFailCondition(Game game) {
+        boolean bedingungKollision = game.isCollision();
+        boolean bedingungWenigerAlsSzenarioLange = game.getCurrentPosition() > game.getRouteCampaign().size();
+        boolean bedingungHoehe = !game.getCurrentField().isAirport() && (game.getCurrentAltitude().getAltitude() == 0);
+        boolean bedingungNeigung = (game.getPlane().getTilt() > 2 || game.getPlane().getTilt() < -2);
         return bedingungKollision || bedingungWenigerAlsSzenarioLange || bedingungHoehe || bedingungNeigung;
     }
 
@@ -23,8 +23,8 @@ public class StandartGameRules implements GameRules {
      * @return true, wenn die finale Runde erfüllt ist, sonst false.
      */
     public boolean checkFinalRound(Game game) {
-        boolean bedingungFlughafen = game.getCurrentField().istFlughafen();
-        boolean bedingungHoehe = (game.getCurrentHoehe().getHoehe() == 0);
+        boolean bedingungFlughafen = game.getCurrentField().isAirport();
+        boolean bedingungHoehe = (game.getCurrentAltitude().getAltitude() == 0);
         return bedingungFlughafen && bedingungHoehe;
     }
 
@@ -33,12 +33,12 @@ public class StandartGameRules implements GameRules {
      *
      * @return true, wenn die Gewinnbedingungen erfüllt sind, sonst false.
      */
-    public boolean checkGewinnBedingung(Game game) {
-        boolean bedingungIstFrei = (game.getCurrentField().getAnzahlFlugzeug() == 0);
-        boolean bedingungNeigung = (game.getFlugzeug().getTilt() == 0);
-        boolean bedingungKlappen = (game.getFlugzeug().getKlappenZustand() == Flaps.LEVEL4);
-        boolean bedingungFahrgestelle = (game.getFlugzeug().getFahrgestellZustand().getAkrivierteFahrgestelle() == 3);
-        boolean bedingungSpeed = (game.getFlugzeug().getCurrentSpeed() < game.getFlugzeug().getBrakesState().getValue());
+    public boolean checkWinCondition(Game game) {
+        boolean bedingungIstFrei = (game.getCurrentField().getPlaneCount() == 0);
+        boolean bedingungNeigung = (game.getPlane().getTilt() == 0);
+        boolean bedingungKlappen = (game.getPlane().getFlapsState() == Flaps.LEVEL4);
+        boolean bedingungFahrgestelle = (game.getPlane().getLandingGearState().getActivatedLandingGearCount() == 3);
+        boolean bedingungSpeed = (game.getPlane().getCurrentSpeed() < game.getPlane().getBrakesState().getValue());
         return bedingungIstFrei && bedingungNeigung && bedingungKlappen && bedingungFahrgestelle && bedingungSpeed;
     }
 }

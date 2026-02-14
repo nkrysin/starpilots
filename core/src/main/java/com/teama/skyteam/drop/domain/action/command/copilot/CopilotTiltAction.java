@@ -16,7 +16,7 @@ public class CopilotTiltAction implements PlayerAction {
 
     @Override
     public ActionResult execute() {
-        copilot.neigenWaehlen(dice);
+        copilot.assignToTilt(dice);
         return ActionResult.success();
     }
 }

@@ -31,7 +31,7 @@ public class SelectedWuerfelData {
         this.wuerfelIndex = wuerfelIndex;
         this.dice = dice;
 
-        int wert = dice.getWert();
+        int wert = dice.getValue();
         boolean isPilot = player instanceof Pilot;
         if (isPilot) {
             this.diceTexturePath = TexturePaths.WUERFEL_PATH_PILOT + wert + TexturePaths.IMG_FORMAT;

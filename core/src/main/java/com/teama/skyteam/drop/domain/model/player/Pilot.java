@@ -31,14 +31,14 @@ public class Pilot extends Player {
      * @param dice  Der zu platzierende Würfel.
      * @throws IllegalArgumentException Wenn das Field bereits belegt ist.
      */
-    private void wuerfelAufFeldPlatzieren(FieldName fieldName, Dice dice) {
-        Field field = game.getFeldPilot(fieldName);
+    private void placeDiceOnField(FieldName fieldName, Dice dice) {
+        Field field = game.getFieldPilot(fieldName);
 
-        if (field.wuerfelPlatzieren(dice)) {
-            removeWuerfel(dice);
+        if (field.placeDice(dice)) {
+            removeDice(dice);
             switch (fieldName) {
-                case KAFFEE_1, KAFFEE_2, KAFFEE_3 ->
-                    game.getFeldCopilot(fieldName).setBelegt();
+                case COFFEE_1, COFFEE_2, COFFEE_3 ->
+                    game.getFieldCopilot(fieldName).setIsOccupied();
             }
 
         } else {
@@ -54,11 +54,11 @@ public class Pilot extends Player {
      * @param fieldName Der Name des Zielfeldes.
      * @param dice  Der zu platzierende Würfel.
      */
-    private void kaffeeAufFeldPruefenUndPlatzieren(FieldName fieldName, Dice dice) {
-        if (!game.getFeldPilot(fieldName).isBelegt() && !game.getFeldCopilot(fieldName).isBelegt()) {
-            wuerfelAufFeldPlatzieren(fieldName, dice);
+    private void validateAndPlaceCoffeOnField(FieldName fieldName, Dice dice) {
+        if (!game.getFieldPilot(fieldName).isOccupied() && !game.getFieldCopilot(fieldName).isOccupied()) {
+            placeDiceOnField(fieldName, dice);
             CoffeeToken token = new CoffeeToken();
-            game.kaffeeTokenAnzahlErhoehen(token);
+            game.incrementCoffeeTokenCount(token);
         }
     }
 
@@ -69,12 +69,12 @@ public class Pilot extends Player {
      * @throws IllegalArgumentException Wenn die maximale Anzahl an Kaffee-Tokens erreicht ist.
      */
     @Override
-    public void kaffeeWaehlen(Dice dice, FieldName kaffeeFeld) {
-        if (game.getKaffeeTokenCount() >= GameConstants.MAX_KAFFEE_TOKENS) {
+    public void assignToCoffee(Dice dice, FieldName kaffeeFeld) {
+        if (game.getCoffeeTokenCount() >= GameConstants.MAX_COFFEE_TOKENS) {
             throw new IllegalArgumentException("Sie können nicht mehr als 3 KaffeeTokens haben!");
         }
 
-        kaffeeAufFeldPruefenUndPlatzieren(kaffeeFeld, dice);
+        validateAndPlaceCoffeOnField(kaffeeFeld, dice);
 
     }
 
@@ -83,8 +83,8 @@ public class Pilot extends Player {
      * @param dice Der zu platzierende Würfel.
      */
     @Override
-    public void radioWaehlen(Dice dice) {
-        wuerfelAufFeldPlatzieren(FieldName.RADIO_PILOT, dice);
+    public void assignToRadio(Dice dice) {
+        placeDiceOnField(FieldName.RADIO_PILOT, dice);
     }
 
     /**
@@ -92,8 +92,8 @@ public class Pilot extends Player {
      * @param dice Der zu platzierende Würfel.
      */
     @Override
-    public void speedWaehlen(Dice dice) {
-        wuerfelAufFeldPlatzieren(FieldName.SPEED, dice);
+    public void assignToSpeed(Dice dice) {
+        placeDiceOnField(FieldName.SPEED, dice);
     }
 
     /**
@@ -101,8 +101,8 @@ public class Pilot extends Player {
      * @param dice Der zu platzierende Würfel.
      */
     @Override
-    public void neigenWaehlen(Dice dice) {
-        wuerfelAufFeldPlatzieren(FieldName.NEIGEN, dice);
+    public void assignToTilt(Dice dice) {
+        placeDiceOnField(FieldName.TILT, dice);
     }
 
     /**
@@ -110,17 +110,17 @@ public class Pilot extends Player {
      * @param dice Der zu platzierende Würfel.
      * @throws IllegalArgumentException Wenn der Würfelwert nicht zu einem Brakes-Field passt.
      */
-    public void bremsenWaehlen(Dice dice) {
+    public void assignToBrakes(Dice dice) {
 
-        switch (dice.getWert()) {
+        switch (dice.getValue()) {
             case 2:
-                wuerfelAufFeldPlatzieren(FieldName.BREMSEN_2, dice);
+                placeDiceOnField(FieldName.BRAKES_2, dice);
                 break;
             case 4:
-                wuerfelAufFeldPlatzieren(FieldName.BREMSEN_4, dice);
+                placeDiceOnField(FieldName.BRAKES_4, dice);
                 break;
             case 6:
-                wuerfelAufFeldPlatzieren(FieldName.BREMSEN_6, dice);
+                placeDiceOnField(FieldName.BRAKES_6, dice);
                 break;
             default:
                 throw new IllegalArgumentException("Ein Würfel mit diesem Wert kann nicht auf diesem Field platziert werden!");
@@ -132,17 +132,17 @@ public class Pilot extends Player {
      * @param dice Der zu platzierende Würfel.
      * @throws IllegalArgumentException Wenn der Würfelwert nicht zu einem LandingGear-Field passt.
      */
-    public void fahrgestellWaehlen(Dice dice) {
+    public void assignToLandingGear(Dice dice) {
 
-        switch (dice.getWert()) {
+        switch (dice.getValue()) {
             case 1,2:
-                wuerfelAufFeldPlatzieren(FieldName.FAHRGESTELL_1_2, dice);
+                placeDiceOnField(FieldName.LANDING_GEAR_1_2, dice);
                 break;
             case 3,4:
-                wuerfelAufFeldPlatzieren(FieldName.FAHRGESTELL_3_4, dice);
+                placeDiceOnField(FieldName.LANDING_GEAR_3_4, dice);
                 break;
             case 5,6:
-                wuerfelAufFeldPlatzieren(FieldName.FAHRGESTELL_5_6, dice);
+                placeDiceOnField(FieldName.LANDING_GEAR_5_6, dice);
                 break;
             default:
                 throw new IllegalArgumentException("Ein Würfel mit diesem Wert kann nicht auf diesem Field platziert werden!");

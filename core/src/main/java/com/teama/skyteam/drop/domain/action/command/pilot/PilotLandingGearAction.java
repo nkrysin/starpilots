@@ -20,9 +20,9 @@ public class PilotLandingGearAction implements PlayerAction {
 
     @Override
     public ActionResult execute() {
-        if (game.getFlugzeug().fahrgestellAusfahren(dice)) {
-            pilot.fahrgestellWaehlen(dice);
-            int count = game.getFlugzeug().getFahrgestellZustand().getAkrivierteFahrgestelle();
+        if (game.getPlane().deployLandingGear(dice)) {
+            pilot.assignToLandingGear(dice);
+            int count = game.getPlane().getLandingGearState().getActivatedLandingGearCount();
             int schalterIndex = (count - 1);
             return ActionResult.success()
                 .withEvent(new LandingGearActivatedEvent(schalterIndex, count));
@@ -31,7 +31,7 @@ public class PilotLandingGearAction implements PlayerAction {
 
 
         //schalterGUI.activateFahrgestellSchalter(0); // 1-2 - 0, 3-4 - 1, 5-6 - 2,
-        //schalterGUI.moveFahrgestellIndicator(game.getFlugzeug().getFahrgestellZustand().getAkrivierteFahrgestelle());
+        //schalterGUI.moveFahrgestellIndicator(game.getPlane().getLandingGearState().getAkrivierteFahrgestelle());
 
     }
 }

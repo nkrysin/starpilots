@@ -4,20 +4,20 @@
  * Die Klasse stellt sicher, dass jedes LandingGear nur einmal aktiviert werden kann
  * und gibt die Anzahl der aktivierten Fahrgestelle zurück.
  */
-package com.teama.skyteam.drop.domain.model.flugzeug;
+package com.teama.skyteam.drop.domain.model.plane;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class LandingGear {
 
-    private final Map<Integer, Boolean> aktivierteFahrgestelle = new HashMap<>();
+    private final Map<Integer, Boolean> activatedLandingGear = new HashMap<>();
 
-    private int akrivierteFahrgestelle = 0;
+    private int activatedLandingGearCount = 0;
 
     public LandingGear() {
         for (int i = 1; i <= 3; i++) {
-            aktivierteFahrgestelle.put(i, false);
+            activatedLandingGear.put(i, false);
         }
     }
     /**
@@ -30,17 +30,17 @@ public class LandingGear {
      * Falls es bereits aktiviert ist, wird false zurückgegeben.
      * Andernfalls wird das LandingGear aktiviert, der Zähler der aktivierten Fahrgestelle erhöht und true zurückgegeben.
      */
-    public boolean fahrgestellAktivieren(int fahrgestellNummer) {
-        if (aktivierteFahrgestelle.get(fahrgestellNummer)) {
+    public boolean activateLandingGear(int fahrgestellNummer) {
+        if (activatedLandingGear.get(fahrgestellNummer)) {
             return false;
         }
 
-        aktivierteFahrgestelle.put(fahrgestellNummer, true);
-        akrivierteFahrgestelle++;
+        activatedLandingGear.put(fahrgestellNummer, true);
+        activatedLandingGearCount++;
         return true;
     }
 
-    public int getAkrivierteFahrgestelle() {
-        return akrivierteFahrgestelle;
+    public int getActivatedLandingGearCount() {
+        return activatedLandingGearCount;
     }
 }

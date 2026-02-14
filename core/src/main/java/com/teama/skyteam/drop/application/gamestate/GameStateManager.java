@@ -39,35 +39,35 @@ public interface GameStateManager {
     /**
      * Добавляет токены перебросов, если они есть на текущей высоте
      */
-    void addNeuWurfTokens();
+    void addRerollTokens();
 
     /**
      * Liefert das erste verfügbare CoffeeToken aus der Liste der KaffeeTokens und entfernt es aus der Liste.
      *
      * @return Das erste verfügbare CoffeeToken.
      */
-    CoffeeToken kaffeeToken();
+    CoffeeToken takeCoffeeToken();
 
     /**
      * Liefert das erste verfügbare RerollToken aus der Liste der NeuWurfTokens und entfernt es aus der Liste.
      *
      * @return Das erste verfügbare RerollToken.
      */
-    RerollToken neuWurfToken();
+    RerollToken takeRerollToken();
 
     /**
      * Setzt neue Würfel für den Player, indem ein neuer Wurf generiert wird.
      *
      * @param player Der Player, dessen Würfel neu gesetzt werden sollen.
      */
-    void setNeuWuerfels(Player player);
+    void setNewDices(Player player);
 
     /**
      * Generiert eine Liste neuer Würfel mit zufälligen Werten.
      *
      * @return Eine Liste mit vier neu generierten Würfeln.
      */
-    ArrayList<Dice> werfen();
+    ArrayList<Dice> createRandomDice();
 
     /**
      * Проверяет и обновляет скорость, если оба поля SPEED заняты

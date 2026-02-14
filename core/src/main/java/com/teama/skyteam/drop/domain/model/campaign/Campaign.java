@@ -16,13 +16,13 @@ import java.util.TreeMap;
  */
 
 public class Campaign {
-    private String szenarioName;
+    private String campaignName;
     private TreeMap<Integer, RouteField> currentRoute;
-    private List<Altitude> hoeheSzenario;
-    private AltitudeCampaignTypes hoeheSzenarioType;
+    private List<Altitude> altitudeCampaign;
+    private AltitudeCampaignTypes altitudeCampaignType;
 
-    public Campaign(Route szenarioName) throws IOException {
-        scenarioImport(szenarioName);
+    public Campaign(Route campaignName) throws IOException {
+        campaignImport(campaignName);
     }
 
     /**
@@ -78,7 +78,7 @@ public class Campaign {
      * @return Der Typ des Höhen-Szenarios als String.
      * @throws IOException Wenn ein Fehler beim Lesen der Datei auftritt.
      */
-    private static String readHoeheSzenario(Route route, String fileContent) throws IOException {
+    private static String readAltitudeCampaign(Route route, String fileContent) throws IOException {
         BufferedReader reader = new BufferedReader(new StringReader(fileContent));
         String line;
 
@@ -101,12 +101,12 @@ public class Campaign {
         return type.trim().toUpperCase();
     }
 
-    public String getSzenarioName() {
-        return szenarioName;
+    public String getCampaignName() {
+        return campaignName;
     }
 
-    private void setSzenarioName(String szenarioName) {
-        this.szenarioName = szenarioName;
+    private void setCampaignName(String campaignName) {
+        this.campaignName = campaignName;
     }
 
     public TreeMap<Integer, RouteField> getCurrentRoute() {
@@ -117,25 +117,25 @@ public class Campaign {
         this.currentRoute = currentRoute;
     }
 
-    public AltitudeCampaignTypes getHoeheSzenarioType() {
-        return hoeheSzenarioType;
+    public AltitudeCampaignTypes getAltitudeCampaignType() {
+        return altitudeCampaignType;
     }
 
-    void setHoeheSzenarioType(String hoeheSzenarioType) {
+    void setAltitudeCampaignType(String altitudeCampaignType) {
         try {
-            this.hoeheSzenarioType = AltitudeCampaignTypes.valueOf(hoeheSzenarioType);
+            this.altitudeCampaignType = AltitudeCampaignTypes.valueOf(altitudeCampaignType);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Fehler: Campaign hat keine gültigen Werte: " + hoeheSzenarioType, e);
+            throw new IllegalArgumentException("Fehler: Campaign hat keine gültigen Werte: " + altitudeCampaignType, e);
         }
     }
 
-    public List<Altitude> getHoeheSzenario() {
-        return hoeheSzenario;
+    public List<Altitude> getAltitudeCampaign() {
+        return altitudeCampaign;
     }
 
-    private void setHoeheSzenario(List<Altitude> hoeheSzenario) {
-        int szenarioRouteLength = currentRoute.size();
-        this.hoeheSzenario = adjustHoeheRoute(hoeheSzenario, szenarioRouteLength);
+    private void setAltitudeCampaign(List<Altitude> altitudeCampaign) {
+        int campaignRouteLength = currentRoute.size();
+        this.altitudeCampaign = adjustAltitudeRoute(altitudeCampaign, campaignRouteLength);
     }
 
     /**
@@ -144,11 +144,11 @@ public class Campaign {
      * @param route Die Route, die importiert werden soll.
      * @throws IOException Wenn die Datei nicht gelesen werden kann.
      */
-    private void scenarioImport(Route route) throws IOException {
+    private void campaignImport(Route route) throws IOException {
         if (route == null) {
             throw new IOException("Ungültige Route. Route kann nicht null sein.");
         }
-        setSzenarioName(route.getRouteName());
+        setCampaignName(route.getRouteName());
 
         FileHandle routesFile = Gdx.files.internal("routes.txt");
 
@@ -158,9 +158,9 @@ public class Campaign {
 
         setCurrentRoute(readRoute(route, routesFile.readString()));
 
-        String hoeheSzenarioType = readHoeheSzenario(route, routesFile.readString());
-        setHoeheSzenarioType(hoeheSzenarioType);
-        setHoeheSzenario(Altitude.createHoeheSzenario(hoeheSzenarioType));
+        String altitudeCampaignType = readAltitudeCampaign(route, routesFile.readString());
+        setAltitudeCampaignType(altitudeCampaignType);
+        setAltitudeCampaign(Altitude.createAltitudeCampaign(altitudeCampaignType));
     }
 
     /**
@@ -182,30 +182,30 @@ public class Campaign {
     }
 
 
-    public Altitude getCurrentFlughoehe() {
-        List<Altitude> hoeheRoute = getHoeheSzenario();
-        if (hoeheRoute.isEmpty()) {
-            throw new IllegalStateException("Die hoeheRoute-Liste ist leer. Keine Altitude vorhanden");
+    public Altitude getCurrentAltitude() {
+        List<Altitude> altitudeCampaign = getAltitudeCampaign();
+        if (altitudeCampaign.isEmpty()) {
+            throw new IllegalStateException("Die altitudeCampaign-Liste ist leer. Keine Altitude vorhanden");
         }
-        return hoeheRoute.getFirst();
+        return altitudeCampaign.getFirst();
     }
 
     /**
      * Passt die Liste der Flughöhen an die Länge der Campaign-Route an.
      *
-     * @param hoeheRoute Die Liste der Flughöhen.
-     * @param szenarioRouteLength Die Länge der Route.
+     * @param altitudeRoute Die Liste der Flughöhen.
+     * @param campaignRouteLength Die Länge der Route.
      * @return Die angepasste Liste der Flughöhen.
      */
-    List<Altitude> adjustHoeheRoute(List<Altitude> hoeheRoute, int szenarioRouteLength) {
-        int l = hoeheRoute.size();
-        if (szenarioRouteLength < l) {
-            int difference = l - szenarioRouteLength;
+    List<Altitude> adjustAltitudeRoute(List<Altitude> altitudeRoute, int campaignRouteLength) {
+        int l = altitudeRoute.size();
+        if (campaignRouteLength < l) {
+            int difference = l - campaignRouteLength;
             for (int i = 0; i < difference; i++) {
-                hoeheRoute.removeFirst();
+                altitudeRoute.removeFirst();
             }
         }
-        return hoeheRoute;
+        return altitudeRoute;
     }
 
 }

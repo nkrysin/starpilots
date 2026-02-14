@@ -3,7 +3,7 @@ package com.teama.skyteam.drop.domain.model.player;
 import com.teama.skyteam.drop.domain.model.field.FieldName;
 import com.teama.skyteam.drop.domain.model.game.GameConstants;
 import com.teama.skyteam.drop.domain.model.tokens.CoffeeToken;
-import com.teama.skyteam.drop.domain.model.tokens.CoffeeTokenAktion;
+import com.teama.skyteam.drop.domain.model.tokens.CoffeeTokenAction;
 import com.teama.skyteam.drop.domain.model.tokens.Dice;
 import com.teama.skyteam.drop.domain.model.tokens.RerollToken;
 
@@ -15,82 +15,82 @@ import java.util.ArrayList;
 
 public abstract class Player {
 
-    private ArrayList<Dice> dice = new ArrayList<Dice>(GameConstants.MAX_WUERFEL);
+    private ArrayList<Dice> allDice = new ArrayList<Dice>(GameConstants.MAX_DICE);
 
     public Player() {
     }
 
-    public ArrayList<Dice> getWuerfels() {
-        return dice;
+    public ArrayList<Dice> getAllDice() {
+        return allDice;
     }
 
-    public Dice getWuerfel(Dice dice) {
-        return this.dice.stream()
+    public Dice getDice(Dice dice) {
+        return this.allDice.stream()
             .filter(w -> w.equals(dice))
             .findFirst()
             .orElse(null);
     }
 
-    public boolean removeWuerfel(Dice dice) {
-        return this.dice.remove(dice);
+    public boolean removeDice(Dice dice) {
+        return this.allDice.remove(dice);
     }
 
-    public void setWuerfels(ArrayList<Dice> dice) {
-        this.dice = dice;
+    public void setAllDice(ArrayList<Dice> dice) {
+        this.allDice = dice;
     }
 
-    public int getAnzahlWuerfels() {
-        return dice.size();
+    public int getAllDiceCount() {
+        return allDice.size();
     }
 
     /**
      * Führt ein erneutes Würfeln für einen Zielspieler mithilfe eines RerollToken durch.
      *
-     * @param token  Das Token, das das erneute Würfeln erlaubt.
+     * @param rerollToken  Das Token, das das erneute Würfeln erlaubt.
      * @param target Der Zielspieler, dessen Würfel neu geworfen werden sollen.
      */
-    public void neuWurfTokenBenutzen(RerollToken token, Player target) {
-        target.setWuerfels(token.erneutWerfen(target));
+    public void useRerollToken(RerollToken rerollToken, Player target) {
+        target.setAllDice(rerollToken.reroll(target));
     }
 
     /**
      * Führt ein erneutes Würfeln für zwei Zielspieler mithilfe eines `RerollToken` durch.
      *
-     * @param token   Das Token, das das erneute Würfeln erlaubt.
+     * @param rerollToken   Das Token, das das erneute Würfeln erlaubt.
      * @param target1 Der erste Zielspieler.
      * @param target2 Der zweite Zielspieler.
      */
-    public void neuWurfTokenBenutzen(RerollToken token, Player target1, Player target2) {
-        target1.setWuerfels(token.erneutWerfen(target1));
-        target2.setWuerfels(token.erneutWerfen(target2));
+    public void useRerollToken(RerollToken rerollToken, Player target1, Player target2) {
+        target1.setAllDice(rerollToken.reroll(target1));
+        target2.setAllDice(rerollToken.reroll(target2));
     }
 
     /**
      * Verwendet ein `CoffeeToken`, um den Wert eines Würfels zu ändern.
      *
-     * @param token         Das `CoffeeToken`, das die Änderung ermöglicht.
-     * @param aktion        Die Aktion, die auf den Würfel angewendet werden soll (z. B. PLUS oder MINUS).
+     * @param coffeeToken         Das `CoffeeToken`, das die Änderung ermöglicht.
+     * @param action        Die Aktion, die auf den Würfel angewendet werden soll (z. B. PLUS oder MINUS).
      * @throws IllegalArgumentException Wenn der Würfelwert bereits maximal (6) oder minimal (1) ist.
      */
-    public void kaffeeTokenBenutzen(CoffeeToken token, CoffeeTokenAktion aktion, Dice dice) {
-        int index = this.dice.indexOf(dice);
-        Dice aktueller = this.dice.get(index);
-        if (aktion == CoffeeTokenAktion.PLUS && aktueller.getWert() == GameConstants.MAX_WUERFEL_VALUE) {
+    public void useCoffeToken(CoffeeToken coffeeToken, CoffeeTokenAction action, Dice dice) {
+        int index = this.allDice.indexOf(dice);
+        Dice currentDice = this.allDice.get(index);
+        if (action == CoffeeTokenAction.PLUS && currentDice.getValue() == GameConstants.MAX_DICE_VALUE) {
             throw new IllegalArgumentException("Wuerfelwert ist schon maximal");
-        } else if (aktion == CoffeeTokenAktion.MINUS && aktueller.getWert() == GameConstants.MIN_WUERFEL_VALUE) {
+        } else if (action == CoffeeTokenAction.MINUS && currentDice.getValue() == GameConstants.MIN_DICE_VALUE) {
             throw new IllegalArgumentException("Wuerfelwert ist schon minimal");
         }
-        Dice neuer = token.wertAendern(aktion, aktueller);
-        this.dice.set(index, neuer);
+        Dice newDice = coffeeToken.modifyValue(action, currentDice);
+        this.allDice.set(index, newDice);
     }
 
     //Abstrakte Methoden, die weiter in den Co-/Pilot Klassen implementiert sind.
 
-    protected abstract void kaffeeWaehlen(Dice dice, FieldName kaffeeFeld);
+    protected abstract void assignToCoffee(Dice dice, FieldName kaffeeFeld);
 
-    protected abstract void radioWaehlen(Dice dice);
+    protected abstract void assignToRadio(Dice dice);
 
-    protected abstract void speedWaehlen(Dice dice);
+    protected abstract void assignToSpeed(Dice dice);
 
-    protected abstract void neigenWaehlen(Dice dice);
+    protected abstract void assignToTilt(Dice dice);
 }

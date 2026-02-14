@@ -9,12 +9,12 @@ import java.util.List;
  */
 
 public class Altitude {
-    private int hoehe;
-    private boolean hatErneuWerfen;
+    private int altitude;
+    private boolean hasRerollToken;
 
-    private Altitude(int hoehe, boolean hatErneuWerfen) {
-        this.hoehe = hoehe;
-        this.hatErneuWerfen = hatErneuWerfen;
+    private Altitude(int altitude, boolean hasRerollToken) {
+        this.altitude = altitude;
+        this.hasRerollToken = hasRerollToken;
     }
 
     /**
@@ -25,12 +25,12 @@ public class Altitude {
      * @throws IllegalArgumentException Wenn der Typ ungültig ist.
      */
 
-    public static List<Altitude> createHoeheSzenario(String type) {
+    public static List<Altitude> createAltitudeCampaign(String type) {
         switch (type.toUpperCase()) {
             case "GREEN":
-                return createGreenSzenario();
+                return createGreenCampaign();
             case "RED":
-                return createRedSzenario();
+                return createRedCampaign();
             default:
                 throw new IllegalArgumentException("Ungültiger Typ: " + type + ". Gültige Typen sind ‚GREEN‘ oder ‚RED‘");
         }
@@ -41,12 +41,12 @@ public class Altitude {
      *
      * @return Eine Liste von Flughöhen für das "GREEN"-Campaign.
      */
-    private static List<Altitude> createGreenSzenario() {
-        List<Altitude> greenSzenario = new ArrayList<>();
+    private static List<Altitude> createGreenCampaign() {
+        List<Altitude> greenCampaign = new ArrayList<>();
         for (Green green : Green.values()) {
-            greenSzenario.add(new Altitude(green.getHoehe(), green.hatErneuWerfen()));
+            greenCampaign.add(new Altitude(green.getAltitude(), green.hasRerollToken()));
         }
-        return greenSzenario;
+        return greenCampaign;
     }
 
     /**
@@ -54,19 +54,19 @@ public class Altitude {
      *
      * @return Eine Liste von Flughöhen für das "RED"-Campaign.
      */
-    private static List<Altitude> createRedSzenario() {
-        List<Altitude> redSzenario = new ArrayList<>();
+    private static List<Altitude> createRedCampaign() {
+        List<Altitude> redCampaign = new ArrayList<>();
         for (Red red : Red.values()) {
-            redSzenario.add(new Altitude(red.getHoehe(), red.hatErneuWerfen()));
+            redCampaign.add(new Altitude(red.getAltitude(), red.hasRerollToken()));
         }
-        return redSzenario;
+        return redCampaign;
     }
 
-    public int getHoehe() {
-        return hoehe;
+    public int getAltitude() {
+        return altitude;
     }
 
-    public boolean hatErneuWerfen() {
-        return hatErneuWerfen;
+    public boolean hasRerollToken() {
+        return hasRerollToken;
     }
 }

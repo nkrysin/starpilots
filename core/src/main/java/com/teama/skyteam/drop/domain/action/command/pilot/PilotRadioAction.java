@@ -25,7 +25,7 @@ public class PilotRadioAction implements PlayerAction {
             return radioResult;
         }
 
-        pilot.radioWaehlen(dice);
+        pilot.assignToRadio(dice);
         return radioResult;
     }
 

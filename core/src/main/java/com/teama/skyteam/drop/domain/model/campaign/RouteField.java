@@ -8,13 +8,13 @@ package com.teama.skyteam.drop.domain.model.campaign;
  */
 
 public class RouteField {
-    private final boolean istFlughafen;
-    private int planes;
+    private final boolean isAirport;
+    private int planeCount;
 
-    RouteField(int planes, boolean istFlughafen) {
+    RouteField(int planeCount, boolean isAirport) {
 
-        this.planes = planes;
-        this.istFlughafen = istFlughafen;
+        this.planeCount = planeCount;
+        this.isAirport = isAirport;
     }
 
 
@@ -22,16 +22,16 @@ public class RouteField {
      * Entfernt ein Plane vom Field beim Radionutzen,
      * indem die Anzahl der Flugzeuge um eins verringert wird.
      */
-    public void removeFlugzeug() {
-        setAnzahlFlugzeug(getAnzahlFlugzeug() - 1);
+    public void removePlane() {
+        setPlaneCount(getPlaneCount() - 1);
     }
 
-    public int getAnzahlFlugzeug() {
-        return planes;
+    public int getPlaneCount() {
+        return planeCount;
     }
 
-    public void setAnzahlFlugzeug(int planes) {
-        this.planes = planes;
+    public void setPlaneCount(int planes) {
+        this.planeCount = planes;
     }
 
     /**
@@ -39,8 +39,8 @@ public class RouteField {
      *
      * @return true, wenn das Field ein Flughafen ist, sonst false.
      */
-    public boolean istFlughafen() {
-        return istFlughafen;
+    public boolean isAirport() {
+        return isAirport;
     }
 }
 

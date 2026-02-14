@@ -25,8 +25,8 @@ public class StandardGameStateManager implements GameStateManager{
     }
     @Override
     public ActionResult handleRadio(Dice dice){
-        int wert = dice.getWert();
-        TreeMap<Integer, RouteField> routeSzenario = game.getRouteSzenario();
+        int wert = dice.getValue();
+        TreeMap<Integer, RouteField> routeSzenario = game.getRouteCampaign();
         int currentFieldIndex = game.getCurrentPosition();
         int targetField = wert + currentFieldIndex - 1;
 
@@ -35,30 +35,30 @@ public class StandardGameStateManager implements GameStateManager{
         }
 
         RouteField zielFeld = routeSzenario.get(targetField);
-        if (zielFeld.getAnzahlFlugzeug() > 0) {
-            zielFeld.removeFlugzeug();
+        if (zielFeld.getPlaneCount() > 0) {
+            zielFeld.removePlane();
         }
         return ActionResult.success();
     }
 
     @Override
     public ActionResult updateTilt(){
-        boolean neigenFeldPilotBelegt = game.getFeldPilot(FieldName.NEIGEN).isBelegt();
-        boolean neigenFeldCopilotBelegt = game.getFeldCopilot(FieldName.NEIGEN).isBelegt();
+        boolean neigenFeldPilotBelegt = game.getFieldPilot(FieldName.TILT).isOccupied();
+        boolean neigenFeldCopilotBelegt = game.getFieldCopilot(FieldName.TILT).isOccupied();
 
         if (!neigenFeldPilotBelegt || !neigenFeldCopilotBelegt) {
             return ActionResult.success();
         }
 
-        Dice w1 = game.getFeldPilot(FieldName.NEIGEN).getWuerfel();
-        Dice w2 = game.getFeldCopilot(FieldName.NEIGEN).getWuerfel();
-        game.getFlugzeug().neigen(game.getFlugzeug().getTilt(), new Dice[]{w1, w2});
+        Dice w1 = game.getFieldPilot(FieldName.TILT).getDice();
+        Dice w2 = game.getFieldCopilot(FieldName.TILT).getDice();
+        game.getPlane().tilt(game.getPlane().getTilt(), new Dice[]{w1, w2});
 
         float targetRotation;
-        if (game.getFlugzeug().getTilt() == 0) {
+        if (game.getPlane().getTilt() == 0) {
             targetRotation = 0;
         } else {
-            targetRotation = GameConstants.WHEEL_ANGLE * game.getFlugzeug().getTilt();
+            targetRotation = GameConstants.WHEEL_ANGLE * game.getPlane().getTilt();
         }
 
         return ActionResult.success()
@@ -67,15 +67,15 @@ public class StandardGameStateManager implements GameStateManager{
 
     @Override
     public ActionResult updateTravelFieldState (){
-        boolean speedFeldPilotBelegt = game.getFeldPilot(FieldName.SPEED).isBelegt();
-        boolean speedFeldCopilotBelegt = game.getFeldCopilot(FieldName.SPEED).isBelegt();
+        boolean speedFeldPilotBelegt = game.getFieldPilot(FieldName.SPEED).isOccupied();
+        boolean speedFeldCopilotBelegt = game.getFieldCopilot(FieldName.SPEED).isOccupied();
         if (speedFeldPilotBelegt && speedFeldCopilotBelegt) {
-            int pilotSpeed = game.getFeldPilot(FieldName.SPEED).getWuerfel().getWert();
-            int copilotSpeed = game.getFeldCopilot(FieldName.SPEED).getWuerfel().getWert();
+            int pilotSpeed = game.getFieldPilot(FieldName.SPEED).getDice().getValue();
+            int copilotSpeed = game.getFieldCopilot(FieldName.SPEED).getDice().getValue();
             int totalSpeed = pilotSpeed + copilotSpeed;
-            game.getFlugzeug().setCurrentSpeed(totalSpeed);
-            int speedUntereGrenze = game.getFlugzeug().getSpeedLowerLimit().getValue();
-            int speedObereGrenze = game.getFlugzeug().getSpeedUpperLimit().getValue();
+            game.getPlane().setCurrentSpeed(totalSpeed);
+            int speedUntereGrenze = game.getPlane().getSpeedLowerLimit().getValue();
+            int speedObereGrenze = game.getPlane().getSpeedUpperLimit().getValue();
             int steps;
             if (totalSpeed < speedUntereGrenze) {
                 steps = 0;
@@ -94,17 +94,17 @@ public class StandardGameStateManager implements GameStateManager{
     @Override
     public ActionResult moveForward(int steps){
         int position = game.getCurrentPosition();
-        TreeMap<Integer, RouteField> routeSzenario = game.getRouteSzenario();
+        TreeMap<Integer, RouteField> routeSzenario = game.getRouteCampaign();
         int newPosition = position + steps;
         if (newPosition >= routeSzenario.size()) {
-            game.setKollision(true);
+            game.setCollision(true);
         } else if (steps > 2) {
             return ActionResult.fail("Der Schritt ist zu groß!");
         } else {
             for (int i = position; i <= newPosition; i++) {
                 RouteField currentField = routeSzenario.get(i);
-                if (currentField.getAnzahlFlugzeug() > 0) {
-                    game.setKollision(true);
+                if (currentField.getPlaneCount() > 0) {
+                    game.setCollision(true);
                 }
             }
             game.setPosition(newPosition);
@@ -116,43 +116,43 @@ public class StandardGameStateManager implements GameStateManager{
 
     @Override
     public void reduceAltitude(){
-        List<Altitude> hoeheRoute = game.getHoeheSzenario();
+        List<Altitude> hoeheRoute = game.getAltitudeCampaign();
         if (hoeheRoute.size() > 1) {
             hoeheRoute.removeFirst();
         }
     }
 
     @Override
-    public void addNeuWurfTokens(){
-        Altitude currentHoehe = game.getCurrentHoehe();
-        if (currentHoehe.hatErneuWerfen()) {
-            game.neuWurfTokenAnzahlErhoehen();
+    public void addRerollTokens(){
+        Altitude currentHoehe = game.getCurrentAltitude();
+        if (currentHoehe.hasRerollToken()) {
+            game.incrementRerollTokenCount();
         }
     }
 
     @Override
-    public CoffeeToken kaffeeToken() {
-        ArrayList<CoffeeToken> coffeeTokens = game.getKaffeeTokens();
+    public CoffeeToken takeCoffeeToken() {
+        ArrayList<CoffeeToken> coffeeTokens = game.getCoffeeTokens();
         CoffeeToken token = coffeeTokens.getFirst();
         coffeeTokens.removeFirst();
         return token;
     }
 
     @Override
-    public RerollToken neuWurfToken() {
-        ArrayList<RerollToken> rerollTokens = game.getNeuWurfTokens();
+    public RerollToken takeRerollToken() {
+        ArrayList<RerollToken> rerollTokens = game.getRerollTokens();
         RerollToken token = rerollTokens.getFirst();
         rerollTokens.removeFirst();
         return token;
     }
 
     @Override
-    public void setNeuWuerfels(Player player) {
-        player.setWuerfels(werfen());
+    public void setNewDices(Player player) {
+        player.setAllDice(createRandomDice());
     }
 
     @Override
-    public ArrayList<Dice> werfen() {
+    public ArrayList<Dice> createRandomDice() {
         ArrayList<Dice> wurfe = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             wurfe.add(new Dice());
@@ -162,21 +162,21 @@ public class StandardGameStateManager implements GameStateManager{
 
     @Override
     public ActionResult checkAndUpdateSpeed() {
-        boolean speedFeldPilotBelegt = game.getFeldPilot(FieldName.SPEED).isBelegt();
-        boolean speedFeldCopilotBelegt = game.getFeldCopilot(FieldName.SPEED).isBelegt();
+        boolean speedFeldPilotBelegt = game.getFieldPilot(FieldName.SPEED).isOccupied();
+        boolean speedFeldCopilotBelegt = game.getFieldCopilot(FieldName.SPEED).isOccupied();
 
         if (!speedFeldPilotBelegt || !speedFeldCopilotBelegt) {
             return ActionResult.success();
         }
 
-        int pilotSpeed = game.getFeldPilot(FieldName.SPEED).getWuerfel().getWert();
-        int copilotSpeed = game.getFeldCopilot(FieldName.SPEED).getWuerfel().getWert();
+        int pilotSpeed = game.getFieldPilot(FieldName.SPEED).getDice().getValue();
+        int copilotSpeed = game.getFieldCopilot(FieldName.SPEED).getDice().getValue();
         int totalSpeed = pilotSpeed + copilotSpeed;
 
-        game.getFlugzeug().setCurrentSpeed(totalSpeed);
+        game.getPlane().setCurrentSpeed(totalSpeed);
 
-        int speedUntereGrenze = game.getFlugzeug().getSpeedLowerLimit().getValue();
-        int speedObereGrenze = game.getFlugzeug().getSpeedUpperLimit().getValue();
+        int speedUntereGrenze = game.getPlane().getSpeedLowerLimit().getValue();
+        int speedObereGrenze = game.getPlane().getSpeedUpperLimit().getValue();
 
         int steps;
         if (totalSpeed < speedUntereGrenze) {

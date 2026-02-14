@@ -5,35 +5,35 @@ import java.util.Random;
 import java.util.UUID;
 
 public class Dice {
-    private int wert;
+    private int value;
     private final UUID id = UUID.randomUUID();
 
     public Dice() {
-        wuerfeln();
+        roll();
     }
 
-    public int getWert() {
-        return wert;
+    public int getValue() {
+        return value;
     }
 
     // Private Methode: Würfelt einen neuen Wert (1 bis 6) und speichert ihn.
-    private void wuerfeln() {
+    private void roll() {
         Random random = new Random();
         int randomNumber = random.nextInt(6) + 1;
-        this.wert = randomNumber;
+        this.value = randomNumber;
     }
 
     // Methode, um den Wert des Würfels basierend auf einer Aktion zu ändern.
-    void wertAendern(CoffeeTokenAktion aktion) {
-        switch (aktion) {
+    void modifyValue(CoffeeTokenAction action) {
+        switch (action) {
             case PLUS:
-                this.wert = getWert() + 1;
+                this.value = getValue() + 1;
                 break;
             case MINUS:
-                this.wert = getWert() - 1;
+                this.value = getValue() - 1;
                 break;
             default:
-                throw new IllegalArgumentException("Unerwartete Aktion: " + aktion);
+                throw new IllegalArgumentException("Unerwartete Aktion: " + action);
         }
     }
 

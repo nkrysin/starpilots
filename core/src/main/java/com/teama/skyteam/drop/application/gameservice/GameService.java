@@ -55,8 +55,8 @@ public class GameService {
      *
      * @return true, wenn eine Ausfallbedingung erfüllt ist, sonst false.
      */
-    public boolean checkAusfallBedingung() {
-        return gameRules.checkAusfallBedingung(game);
+    public boolean checkFailCondition() {
+        return gameRules.checkFailCondition(game);
     }
 
     /**
@@ -73,13 +73,13 @@ public class GameService {
      *
      * @return true, wenn die Gewinnbedingungen erfüllt sind, sonst false.
      */
-    public boolean checkGewinnBedingung() {
-        return gameRules.checkGewinnBedingung(game);
+    public boolean checkWinCondition() {
+        return gameRules.checkWinCondition(game);
     }
 
 
-    public ActionResult pilotSchritt(Player player, ActionName auswahl, Dice dice) {
-        System.err.println("=== pilotSchritt called: action=" + auswahl + " dice=" + dice.getWert());
+    public ActionResult pilotStep(Player player, ActionName auswahl, Dice dice) {
+        System.err.println("=== pilotStep called: action=" + auswahl + " dice=" + dice.getValue());
 
         ValidationResult validation = validator.validatePilotAction(game, auswahl, dice);
         if (!validation.isValid()) {
@@ -99,7 +99,7 @@ public class GameService {
         return result;
     }
 
-    public ActionResult copilotSchritt(Player player, ActionName auswahl, Dice dice) {
+    public ActionResult copilotStep(Player player, ActionName auswahl, Dice dice) {
         ValidationResult validation = validator.validateCopilotAction(game, auswahl, dice);
         if (!validation.isValid()) {
             return ActionResult.fail(validation.getErrorMsg());
@@ -156,19 +156,19 @@ public class GameService {
 
         if (event instanceof BrakesActivatedEvent) {
             BrakesActivatedEvent e = (BrakesActivatedEvent) event;
-            System.err.println("=== Brakes: schalterIndex=" + e.getSchalterIndex() + " indicatorValue=" + e.getIndicatorValue());
-            notifyBrakesActivated(e.getSchalterIndex(), e.getIndicatorValue());
-            Gdx.app.log("GameService", "Brakes activated: schalterIndex=" + e.getSchalterIndex() + " indicatorValue=" + e.getIndicatorValue());
+            System.err.println("=== Brakes: schalterIndex=" + e.getSwitchIndex() + " indicatorValue=" + e.getIndicatorValue());
+            notifyBrakesActivated(e.getSwitchIndex(), e.getIndicatorValue());
+            Gdx.app.log("GameService", "Brakes activated: schalterIndex=" + e.getSwitchIndex() + " indicatorValue=" + e.getIndicatorValue());
         } else if (event instanceof LandingGearActivatedEvent) {
             LandingGearActivatedEvent e = (LandingGearActivatedEvent) event;
-            System.err.println("=== LandingGear: schalterIndex=" + e.getSchalterIndex() + " anzahl=" + e.getAnzahl());
-            notifyLandingGearActivated(e.getSchalterIndex(), e.getAnzahl());
-            Gdx.app.log("GameService", "LandingGear activated: schalterIndex=" + e.getSchalterIndex() + " anzahl=" + e.getAnzahl());
+            System.err.println("=== LandingGear: schalterIndex=" + e.getSwitchIndex() + " anzahl=" + e.getCount());
+            notifyLandingGearActivated(e.getSwitchIndex(), e.getCount());
+            Gdx.app.log("GameService", "LandingGear activated: schalterIndex=" + e.getSwitchIndex() + " anzahl=" + e.getCount());
         } else if (event instanceof FlapsActivatedEvent) {
             FlapsActivatedEvent e = (FlapsActivatedEvent) event;
-            System.err.println("=== Flaps: schalterIndex=" + e.getSchalterIndex() + " state=" + e.getState());
-            notifyFlapsActivated(e.getSchalterIndex(), e.getState());
-            Gdx.app.log("GameService", "Flaps activated: schalterIndex=" + e.getSchalterIndex() + " state=" + e.getState());
+            System.err.println("=== Flaps: schalterIndex=" + e.getSwitchIndex() + " state=" + e.getState());
+            notifyFlapsActivated(e.getSwitchIndex(), e.getState());
+            Gdx.app.log("GameService", "Flaps activated: schalterIndex=" + e.getSwitchIndex() + " state=" + e.getState());
 
         }
     }
@@ -215,16 +215,16 @@ public class GameService {
     //void vorwaertsBewegen(int steps) {}
 
 
-    //Changed/Moved to StandardGameStateManager/addNeuWurfTokens
-    // void addNeuWurfTokens() {}
+    //Changed/Moved to StandardGameStateManager/addRerollTokens
+    // void addRerollTokens() {}
 
 
     // Changed/Moved to StandardGameStateManager/reduceAltitude
     //void hoeheReduzieren() {}
 
-    //void setNeuWuerfels(Player spieler) {}
+    //void setNewDices(Player spieler) {}
 
-    //private ArrayList<Dice> werfen() {}
+    //private ArrayList<Dice> createRandomDice() {}
 
 
 

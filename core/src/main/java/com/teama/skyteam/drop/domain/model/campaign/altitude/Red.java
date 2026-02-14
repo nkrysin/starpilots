@@ -9,19 +9,19 @@ enum Red {
     RED_1000(1000, false),
     RED_0(0, false);
 
-    private final int hoehe;
-    private final boolean hatErneuWerfen;
+    private final int altitude;
+    private final boolean hasRerollToken;
 
-    Red(int hoehe, boolean hatErneuWerfen) {
-        this.hoehe = hoehe;
-        this.hatErneuWerfen = hatErneuWerfen;
+    Red(int altitude, boolean hasRerollToken) {
+        this.altitude = altitude;
+        this.hasRerollToken = hasRerollToken;
     }
 
-    int getHoehe() {
-        return hoehe;
+    int getAltitude() {
+        return altitude;
     }
 
-    boolean hatErneuWerfen() {
-        return hatErneuWerfen;
+    boolean hasRerollToken() {
+        return hasRerollToken;
     }
 }

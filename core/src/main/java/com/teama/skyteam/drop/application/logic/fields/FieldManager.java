@@ -24,6 +24,6 @@ public interface FieldManager {
     /**
      * Очищает кофейные поля на основе количества токенов
      */
-    void clearKaffeeFields(Game game, int kaffeeTokenCount);
+    void clearCoffeeFields(Game game, int coffeeTokenCount);
 }
 

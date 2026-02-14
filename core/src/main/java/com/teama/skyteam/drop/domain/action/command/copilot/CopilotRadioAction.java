@@ -25,7 +25,7 @@ public class CopilotRadioAction implements PlayerAction {
             return radioResult;
         }
 
-        copilot.radioWaehlen(dice);
+        copilot.assignToRadio(dice);
         return radioResult;
     }
 

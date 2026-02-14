@@ -13,7 +13,7 @@ import com.teama.skyteam.drop.domain.model.campaign.RouteField;
 import com.teama.skyteam.drop.domain.model.campaign.altitude.Altitude;
 import com.teama.skyteam.drop.domain.model.field.FieldName;
 import com.teama.skyteam.drop.domain.model.field.Field;
-import com.teama.skyteam.drop.domain.model.flugzeug.Plane;
+import com.teama.skyteam.drop.domain.model.plane.Plane;
 import com.teama.skyteam.drop.domain.model.player.Copilot;
 import com.teama.skyteam.drop.domain.model.player.Pilot;
 import com.teama.skyteam.drop.domain.model.campaign.Route;
@@ -26,17 +26,17 @@ import java.util.*;
 public class Game {
     private Pilot pilot;
     private Copilot copilot;
-    private EnumMap<FieldName, Field> pilotFelds;
-    private EnumMap<FieldName, Field> copilotFelds;
+    private EnumMap<FieldName, Field> pilotFields;
+    private EnumMap<FieldName, Field> copilotFuelds;
     private RouteField currentField;
     private int position = 0;
-    private Altitude currentHoehe;
-    private List<Altitude> hoeheSzenario;
-    private TreeMap<Integer, RouteField> routeSzenario;
+    private Altitude currentAltitude;
+    private List<Altitude> altitudeCampaign;
+    private TreeMap<Integer, RouteField> routeCampaign;
     private Plane plane;
-    private int runde = 1;
-    private boolean endBedingung = false;
-    private boolean kollision = false;
+    private int round = 1;
+    private boolean endCondition = false;
+    private boolean collision = false;
     private ArrayList<CoffeeToken> coffeeTokens = new ArrayList<CoffeeToken>();
     private ArrayList<RerollToken> rerollToken = new ArrayList<RerollToken>();
 
@@ -48,17 +48,17 @@ public class Game {
      *
      * @return `true`, wenn eine Kollision aufgetreten ist, sonst `false`.
      */
-    public boolean isKollision() {
-        return kollision;
+    public boolean isCollision() {
+        return collision;
     }
 
     /**
      * Setzt den Kollisionsstatus des Spiels.
      *
-     * @param kollision `true`, um eine Kollision anzuzeigen, sonst `false`.
+     * @param collision `true`, um eine Kollision anzuzeigen, sonst `false`.
      */
-    public void setKollision(boolean kollision) {
-        this.kollision = kollision;
+    public void setCollision(boolean collision) {
+        this.collision = collision;
     }
 
 
@@ -67,7 +67,7 @@ public class Game {
      *
      * @return Eine Liste der Kaffee-Tokens.
      */
-    public ArrayList<CoffeeToken> getKaffeeTokens() {
+    public ArrayList<CoffeeToken> getCoffeeTokens() {
         return coffeeTokens;
     }
 
@@ -76,7 +76,7 @@ public class Game {
      *
      * @return Die Anzahl der Kaffee-Tokens.
      */
-    public int getKaffeeTokenCount() {
+    public int getCoffeeTokenCount() {
         return coffeeTokens.size();
     }
 
@@ -85,7 +85,7 @@ public class Game {
      *
      * @param token Das hinzuzufügende Kaffee-Token.
      */
-    public void kaffeeTokenAnzahlErhoehen(CoffeeToken token) {
+    public void incrementCoffeeTokenCount(CoffeeToken token) {
         coffeeTokens.add(token);
     }
 
@@ -94,7 +94,7 @@ public class Game {
      *
      * @return Eine Liste der NeuWurf-Tokens.
      */
-    public ArrayList<RerollToken> getNeuWurfTokens() {
+    public ArrayList<RerollToken> getRerollTokens() {
         return rerollToken;
     }
 
@@ -103,55 +103,55 @@ public class Game {
      *
      * @return Die Anzahl der NeuWurf-Tokens.
      */
-    public int getNeuWurfTokenCount() {
+    public int getRerollTokenCount() {
         return rerollToken.size();
     }
 
     /**
      * Erhöht die Anzahl der NeuWurf-Tokens durch Hinzufügen eines neuen Tokens.
      */
-    public void neuWurfTokenAnzahlErhoehen() {
+    public void incrementRerollTokenCount() {
         rerollToken.add(new RerollToken());
     }
 
     /**
      * Initialisiert die Spielfelder für den Piloten
      */
-    void setPilotFelds() {
-        EnumMap<FieldName, Field> pilotFelds = new EnumMap<>(FieldName.class);
-        pilotFelds.put(FieldName.RADIO_PILOT, new Field());
-        pilotFelds.put(FieldName.NEIGEN, new Field());
-        pilotFelds.put(FieldName.SPEED, new Field());
-        pilotFelds.put(FieldName.FAHRGESTELL_1_2, new Field());
-        pilotFelds.put(FieldName.FAHRGESTELL_3_4, new Field());
-        pilotFelds.put(FieldName.FAHRGESTELL_5_6, new Field());
-        pilotFelds.put(FieldName.BREMSEN_2, new Field());
-        pilotFelds.put(FieldName.BREMSEN_4, new Field());
-        pilotFelds.put(FieldName.BREMSEN_6, new Field());
-        pilotFelds.put(FieldName.KAFFEE_1, new Field());
-        pilotFelds.put(FieldName.KAFFEE_2, new Field());
-        pilotFelds.put(FieldName.KAFFEE_3, new Field());
-        this.pilotFelds = pilotFelds;
+    void setPilotFields() {
+        EnumMap<FieldName, Field> pilotFields = new EnumMap<>(FieldName.class);
+        pilotFields.put(FieldName.RADIO_PILOT, new Field());
+        pilotFields.put(FieldName.TILT, new Field());
+        pilotFields.put(FieldName.SPEED, new Field());
+        pilotFields.put(FieldName.LANDING_GEAR_1_2, new Field());
+        pilotFields.put(FieldName.LANDING_GEAR_3_4, new Field());
+        pilotFields.put(FieldName.LANDING_GEAR_5_6, new Field());
+        pilotFields.put(FieldName.BRAKES_2, new Field());
+        pilotFields.put(FieldName.BRAKES_4, new Field());
+        pilotFields.put(FieldName.BRAKES_6, new Field());
+        pilotFields.put(FieldName.COFFEE_1, new Field());
+        pilotFields.put(FieldName.COFFEE_2, new Field());
+        pilotFields.put(FieldName.COFFEE_3, new Field());
+        this.pilotFields = pilotFields;
 
     }
 
     /**
      * Initialisiert die Spielfelder für den Copiloten
      */
-    void setCopilotFelds() {
-        EnumMap<FieldName, Field> copilotFelds = new EnumMap<>(FieldName.class);
-        copilotFelds.put(FieldName.RADIO_COPILOT_1, new Field());
-        copilotFelds.put(FieldName.RADIO_COPILOT_2, new Field());
-        copilotFelds.put(FieldName.NEIGEN, new Field());
-        copilotFelds.put(FieldName.SPEED, new Field());
-        copilotFelds.put(FieldName.KLAPPEN_1_2, new Field());
-        copilotFelds.put(FieldName.KLAPPEN_2_3, new Field());
-        copilotFelds.put(FieldName.KLAPPEN_4_5, new Field());
-        copilotFelds.put(FieldName.KLAPPEN_5_6, new Field());
-        copilotFelds.put(FieldName.KAFFEE_1, new Field());
-        copilotFelds.put(FieldName.KAFFEE_2, new Field());
-        copilotFelds.put(FieldName.KAFFEE_3, new Field());
-        this.copilotFelds = copilotFelds;
+    void setCopilotFields() {
+        EnumMap<FieldName, Field> copilotFields = new EnumMap<>(FieldName.class);
+        copilotFields.put(FieldName.RADIO_COPILOT_1, new Field());
+        copilotFields.put(FieldName.RADIO_COPILOT_2, new Field());
+        copilotFields.put(FieldName.TILT, new Field());
+        copilotFields.put(FieldName.SPEED, new Field());
+        copilotFields.put(FieldName.FLIPS_1_2, new Field());
+        copilotFields.put(FieldName.FLIPS_2_3, new Field());
+        copilotFields.put(FieldName.FLIPS_4_5, new Field());
+        copilotFields.put(FieldName.FLIPS_5_6, new Field());
+        copilotFields.put(FieldName.COFFEE_1, new Field());
+        copilotFields.put(FieldName.COFFEE_2, new Field());
+        copilotFields.put(FieldName.COFFEE_3, new Field());
+        this.copilotFuelds = copilotFields;
     }
 
     /**
@@ -160,8 +160,8 @@ public class Game {
      * @param key Der Name des Spielfeldes.
      * @return Das entsprechende Spielfeld des Piloten.
      */
-    public Field getFeldPilot(FieldName key) {
-        return pilotFelds.get(key);
+    public Field getFieldPilot(FieldName key) {
+        return pilotFields.get(key);
     }
 
     /**
@@ -170,8 +170,8 @@ public class Game {
      * @param key Der Name des Spielfeldes.
      * @return Das entsprechende Spielfeld des Copiloten.
      */
-    public Field getFeldCopilot(FieldName key) {
-        return copilotFelds.get(key);
+    public Field getFieldCopilot(FieldName key) {
+        return copilotFuelds.get(key);
     }
 
 
@@ -213,8 +213,8 @@ public class Game {
     /**
      * Aktualisiert die aktuelle Flughöhe basierend auf dem Campaign.
      */
-    void updateCurrentHoehe() {
-        this.currentHoehe = getCurrentHoehe();
+    void updateCurrentAltitude() {
+        this.currentAltitude = getCurrentAltitude();
     }
 
     /**
@@ -222,15 +222,15 @@ public class Game {
      *
      * @return Die aktuelle Flughöhe.
      */
-    public Altitude getCurrentHoehe() {
-        return campaign.getCurrentFlughoehe();
+    public Altitude getCurrentAltitude() {
+        return campaign.getCurrentAltitude();
     }
 
     /**
      * Initialisiert das Routen-Campaign basierend auf dem aktuellen Campaign.
      */
-    void setRouteSzenario() {
-        this.routeSzenario = getRouteSzenario();
+    void setRouteCampaign() {
+        this.routeCampaign = getRouteCampaign();
     }
 
     /**
@@ -238,15 +238,15 @@ public class Game {
      *
      * @return Die Route des Szenarios als TreeMap.
      */
-    public TreeMap<Integer, RouteField> getRouteSzenario() {
+    public TreeMap<Integer, RouteField> getRouteCampaign() {
         return campaign.getCurrentRoute();
     }
 
     /**
      * Initialisiert das Höhen-Campaign basierend auf dem aktuellen Campaign.
      */
-    void setHoeheSzenario() {
-        this.hoeheSzenario = getHoeheSzenario();
+    void setAltitudeCampaign() {
+        this.altitudeCampaign = getAltitudeCampaign();
     }
 
     /**
@@ -254,8 +254,8 @@ public class Game {
      *
      * @return Eine Liste der Höhen-Szenarien.
      */
-    public List<Altitude> getHoeheSzenario() {
-        return campaign.getHoeheSzenario();
+    public List<Altitude> getAltitudeCampaign() {
+        return campaign.getAltitudeCampaign();
     }
 
     /**
@@ -263,18 +263,18 @@ public class Game {
      *
      * @return Die aktuelle Runde.
      */
-    public int getRunde() {
-        return runde;
+    public int getRound() {
+        return round;
     }
 
 
     /**
      * Setzt die aktuelle Runde des Spiels.
      *
-     * @param runde Die neue Runde.
+     * @param round Die neue Runde.
      */
-    public void setRunde(int runde) {
-        this.runde = runde;
+    public void setRound(int round) {
+        this.round = round;
     }
 
     /**
@@ -282,7 +282,7 @@ public class Game {
      *
      * @return Das aktuelle Campaign.
      */
-    public Campaign getSzenario() {
+    public Campaign getCampaign() {
         return campaign;
     }
 
@@ -291,7 +291,7 @@ public class Game {
      *
      * @param route Die Route, die für das Campaign verwendet werden soll.
      */
-    void setSzenario(Route route) {
+    void setCampaign(Route route) {
         try {
             switch (route) {
                 case HANEDA -> this.campaign = new Campaign(Route.HANEDA);
@@ -346,7 +346,7 @@ public class Game {
      *
      * @return Das aktuelle Plane.
      */
-    public Plane getFlugzeug() {
+    public Plane getPlane() {
         return plane;
     }
 
@@ -355,17 +355,17 @@ public class Game {
      *
      * @param plane Das neue Plane.
      */
-    public void setFlugzeug(Plane plane) {
+    public void setPlane(Plane plane) {
         this.plane = plane;
     }
 
     /**
      * Setzt die Endbedingung des Spiels.
      *
-     * @param endBedingung `true`, wenn die Endbedingung erreicht wurde, sonst `false`.
+     * @param endCondition `true`, wenn die Endbedingung erreicht wurde, sonst `false`.
      */
-    public void setEndBedingung(boolean endBedingung) {
-        this.endBedingung = endBedingung;
+    public void setEndCondition(boolean endCondition) {
+        this.endCondition = endCondition;
     }
 
     /**

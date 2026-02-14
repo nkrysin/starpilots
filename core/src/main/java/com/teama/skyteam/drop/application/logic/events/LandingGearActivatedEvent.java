@@ -1,15 +1,15 @@
 package com.teama.skyteam.drop.application.logic.events;
 
 public class LandingGearActivatedEvent implements GameEvent {
-    private final int schalterIndex;
+    private final int switchIndex;
     private final int count;
 
-    public LandingGearActivatedEvent(int schalterIndex, int count) {
-        this.schalterIndex = schalterIndex;
+    public LandingGearActivatedEvent(int switchIndex, int count) {
+        this.switchIndex = switchIndex;
         this.count = count;
     }
 
-    public int getSchalterIndex() { return schalterIndex; }
-    public int getAnzahl() { return count; }
+    public int getSwitchIndex() { return switchIndex; }
+    public int getCount() { return count; }
 
 }

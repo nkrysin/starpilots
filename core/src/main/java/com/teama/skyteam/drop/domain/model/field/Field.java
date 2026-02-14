@@ -8,31 +8,31 @@ import com.teama.skyteam.drop.domain.model.tokens.Dice;
  */
 public class Field {
 
-    private boolean belegt;
+    private boolean isOccupied;
     private Dice dice;
 
     public Field() {
-        this.belegt = false;
+        this.isOccupied = false;
         this.dice = null;
     }
 
-    public boolean isBelegt() {
-        return belegt;
+    public boolean isOccupied() {
+        return isOccupied;
     }
 
-    public Dice getWuerfel() {
+    public Dice getDice() {
         return dice;
     }
 
     /**
      * Platziert einen Würfel auf dem Field, falls es nicht belegt ist.
-     * @param w Der Würfel, der platziert werden soll.
+     * @param dice Der Würfel, der platziert werden soll.
      * @return true, wenn der Würfel erfolgreich platziert wurde, sonst false.
      */
-    public boolean wuerfelPlatzieren(Dice w) {
-        if (!belegt) {
-            this.dice = w;
-            this.belegt = true;
+    public boolean placeDice(Dice dice) {
+        if (!isOccupied) {
+            this.dice = dice;
+            this.isOccupied = true;
             return true;
         }
         return false;
@@ -40,11 +40,11 @@ public class Field {
 
     /**
      * Setzt einen Würfel direkt auf das Field und aktualisiert den Belegungsstatus.
-     * @param w Der Würfel, der auf das Field gesetzt werden soll.
+     * @param dice Der Würfel, der auf das Field gesetzt werden soll.
      */
-    public void setWuerfel(Dice w) {
-        this.dice = w;
-        this.belegt = (w!=null);
+    public void setDice(Dice dice) {
+        this.dice = dice;
+        this.isOccupied = (dice!=null);
     }
 
     /**
@@ -53,10 +53,10 @@ public class Field {
      */
     public void clearOneUseFeld() {
         this.dice = null;
-        this.belegt = true;
+        this.isOccupied = true;
     }
 
-    public void setBelegt() {
-        this.belegt = true;
+    public void setIsOccupied() {
+        this.isOccupied = true;
     }
 }

@@ -20,12 +20,12 @@ public class CopilotFlapsAction implements PlayerAction {
 
     @Override
     public ActionResult execute(){
-        if (game.getFlugzeug().klappenOeffnen(dice)) {
-            copilot.klappenWaehlen(dice);
-            int count = game.getFlugzeug().getKlappenZustand().getValue();
-            int schalterIndex = count - 9;
+        if (game.getPlane().deployFlaps(dice)) {
+            copilot.assignToFlaps(dice);
+            int count = game.getPlane().getFlapsState().getValue();
+            int switchIndex = count - 9;
             return ActionResult.success()
-                .withEvent(new FlapsActivatedEvent(schalterIndex, count));
+                .withEvent(new FlapsActivatedEvent(switchIndex, count));
         }
         return ActionResult.fail("Flaps nicht möglich!");
 
@@ -39,6 +39,6 @@ public class CopilotFlapsAction implements PlayerAction {
 //        } else {
 //            schalterGUI.activateKlappenSchalter(3);
 //        }
-//        schalterGUI.moveKlappenIndicator(game.getFlugzeug().getKlappenZustand().getValue());
+//        schalterGUI.moveKlappenIndicator(game.getPlane().getFlapsState().getValue());
     }
 }

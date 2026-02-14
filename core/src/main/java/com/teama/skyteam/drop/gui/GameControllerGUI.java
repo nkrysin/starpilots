@@ -95,20 +95,20 @@ public class GameControllerGUI {
         neigungErledigt = false;
         reiseFeldAktualisiert = false;
 
-        gameStateManager.addNeuWurfTokens();
-        boolean isEvenRound = (game.getRunde() + 1) % 2 == 0;
+        gameStateManager.addRerollTokens();
+        boolean isEvenRound = (game.getRound() + 1) % 2 == 0;
         ersterPlayer = isEvenRound ? game.getPilot() : game.getCopilot();
         zweiterPlayer = isEvenRound ? game.getCopilot() : game.getPilot();
 
-        gameStateManager.setNeuWuerfels(ersterPlayer);
-        gameStateManager.setNeuWuerfels(zweiterPlayer);
+        gameStateManager.setNewDices(ersterPlayer);
+        gameStateManager.setNewDices(zweiterPlayer);
 
         gameGUI.createWuerfelForSpieler(ersterPlayer);
         gameGUI.createWuerfelForSpieler(zweiterPlayer);
     }
 
     /**
-     * Beendet die aktuelle Runde, aktualisiert die Spielfelder und prüft auf Ausfallbedingungen.
+     * Beendet die aktuelle Runde, aktualisiert die Spielfelder und prüft auf FailCondition.
      */
     private void finishRound() {
         ArrayList<Field> oneUseFields = (ArrayList<Field>) fieldManager.getOneUseFields(game);
@@ -117,9 +117,9 @@ public class GameControllerGUI {
         gameGUI.clearManyUseFields();
         campaignAltitudeManager.updateHoehe();
 
-        game.setRunde(game.getRunde() + 1);
+        game.setRound(game.getRound() + 1);
         gameStateManager.reduceAltitude();
-        game.setEndBedingung(gameService.checkAusfallBedingung());
+        game.setEndCondition(gameService.checkFailCondition());
         gameGUI.removeAllHideImages();
     }
 
@@ -130,7 +130,7 @@ public class GameControllerGUI {
      *
      * Der Ablauf wird in mehreren Zuständen organisiert:
      *
-     * 1. CHECK_END: Prüft, ob eine Ausfallbedingung erreicht wurde.
+     * 1. CHECK_END: Prüft, ob eine FailCondition erreicht wurde.
      *    Wenn ja, endet das Game. Ansonsten wird zur Vorbereitung der nächsten Runde gewechselt.
      *
      * 2. PREPARE_ROUND: Initialisiert die Runde, setzt Würfel und Player für die aktuelle Runde.
@@ -156,7 +156,7 @@ public class GameControllerGUI {
      *    Falls noch Würfel übrig sind, wird der Zug des ersten Spielers wiederholt.
      *    Andernfalls wird die Runde beendet.
      *
-     * 9. ROUND_FINISH: Beendet die Runde, bereinigt Spielfelder und prüft erneut auf Ausfallbedingungen.
+     * 9. ROUND_FINISH: Beendet die Runde, bereinigt Spielfelder und prüft erneut auf FailConditionen.
      *    Wenn die letzte Runde erreicht wurde, wird zur finalen Überprüfung gewechselt.
      *
      * 10. FINAL_CHECK: Prüft, ob die Gewinnbedingungen erfüllt sind.
@@ -174,7 +174,7 @@ public class GameControllerGUI {
         while (!spielEnde) {
             switch (state) {
                 case CHECK_END:
-                    if (gameService.checkAusfallBedingung()) {
+                    if (gameService.checkFailCondition()) {
                         spielEnde = true;
                         state = State.END;
                         break;
@@ -193,7 +193,7 @@ public class GameControllerGUI {
                     break;
 
                 case PLAY_TURN_FIRST:
-                    if (ersterPlayer.getAnzahlWuerfels() > 0 && !gameService.checkAusfallBedingung() && nowMustBeFirst) {
+                    if (ersterPlayer.getAllDiceCount() > 0 && !gameService.checkFailCondition() && nowMustBeFirst) {
                         gameGUI.removeAllHideImages();
                         gameGUI.hideWuerfel(ersterPlayer);
                         gameGUI.addWuerfelListenersForSpieler(ersterPlayer);
@@ -237,7 +237,7 @@ public class GameControllerGUI {
                     break;
 
                 case PLAY_TURN_SECOND:
-                    if (zweiterPlayer.getAnzahlWuerfels() > 0 && !gameService.checkAusfallBedingung() && nowMustBeSecond) {
+                    if (zweiterPlayer.getAllDiceCount() > 0 && !gameService.checkFailCondition() && nowMustBeSecond) {
                         gameGUI.removeAllHideImages();
                         gameGUI.hideWuerfel(zweiterPlayer);
                         gameGUI.addWuerfelListenersForSpieler(zweiterPlayer);
@@ -273,8 +273,8 @@ public class GameControllerGUI {
                     if (!reiseFeldAktualisiert && gameStateManager.updateTravelFieldState().isSuccess()) {
                         reiseFeldAktualisiert = true;
                     }
-                    if (!gameService.checkAusfallBedingung() &&
-                        (ersterPlayer.getAnzahlWuerfels() > 0 || zweiterPlayer.getAnzahlWuerfels() > 0)) {
+                    if (!gameService.checkFailCondition() &&
+                        (ersterPlayer.getAllDiceCount() > 0 || zweiterPlayer.getAllDiceCount() > 0)) {
                         state = State.PLAY_TURN_FIRST;
                     } else {
                         state = State.ROUND_FINISH;
@@ -283,7 +283,7 @@ public class GameControllerGUI {
 
                 case ROUND_FINISH:
                     finishRound();
-                    if (gameService.checkAusfallBedingung()) {
+                    if (gameService.checkFailCondition()) {
                         spielEnde = true;
                         gameGUI.createFinalWindow(false);
                         state = State.END;
@@ -295,7 +295,7 @@ public class GameControllerGUI {
                     break;
 
                 case FINAL_CHECK:
-                    if (gameService.checkGewinnBedingung()) {
+                    if (gameService.checkWinCondition()) {
                         gameGUI.createFinalWindow(true);
                     } else {
                         gameGUI.createFinalWindow(false);

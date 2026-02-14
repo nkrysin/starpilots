@@ -16,8 +16,8 @@ public class RerollToken {
      * Für jeden Würfel des Spielers wird ein neues Dice-Objekt erstellt und zur Liste hinzugefügt.
      */
 
-    public ArrayList<Dice> erneutWerfen(Player player) {
-        int anzahlWuerfel = player.getAnzahlWuerfels();
+    public ArrayList<Dice> reroll(Player player) {
+        int anzahlWuerfel = player.getAllDiceCount();
         ArrayList<Dice> neuWurfe = new ArrayList<Dice>();
         for (int i = 0; i < anzahlWuerfel; i++) {
             neuWurfe.add(new Dice());

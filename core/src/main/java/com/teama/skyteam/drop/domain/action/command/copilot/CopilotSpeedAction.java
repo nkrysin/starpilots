@@ -16,7 +16,7 @@ public class CopilotSpeedAction implements PlayerAction {
 
     @Override
     public ActionResult execute() {
-        copilot.speedWaehlen(dice);
+        copilot.assignToSpeed(dice);
         return ActionResult.success();
     }
 }

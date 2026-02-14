@@ -12,13 +12,13 @@ public class CoffeeToken {
      * Die Methode überprüft die übergebene Aktion und ändert entsprechend den Wert
      * des Würfels um +1 oder -1. Andere Aktionen bleiben unberücksichtigt.
      */
-    public Dice wertAendern(CoffeeTokenAktion aktion, Dice dice) {
+    public Dice modifyValue(CoffeeTokenAction aktion, Dice dice) {
         switch (aktion) {
             case PLUS:
-                dice.wertAendern(CoffeeTokenAktion.PLUS);
+                dice.modifyValue(CoffeeTokenAction.PLUS);
                 return dice;
             case MINUS:
-                dice.wertAendern(CoffeeTokenAktion.MINUS);
+                dice.modifyValue(CoffeeTokenAction.MINUS);
                 return dice;
             default:
                 return dice;

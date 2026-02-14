@@ -31,7 +31,7 @@ public class CampaignGUI {
         this.game = game;
         planeTexture = new Texture(TexturePaths.PLANE_PATH);
         emptyTexture = new Texture(TexturePaths.WITHOUT_HIGHLIGHT_PATH);
-        szenarioName = game.getSzenario().getSzenarioName();
+        szenarioName = game.getCampaign().getCampaignName();
         szenarioTexture = new Texture(TexturePaths.ASSETS_SZENARIO_PATH + szenarioName + TexturePaths.IMG_FORMAT);
         currentPosititon = game.getCurrentPosition();
 
@@ -41,14 +41,14 @@ public class CampaignGUI {
 
 
     public void render(SpriteBatch batch) {
-        TreeMap<Integer, RouteField> routeSzenario = game.getRouteSzenario();
+        TreeMap<Integer, RouteField> routeSzenario = game.getRouteCampaign();
         batch.draw(szenarioTexture, cardX, cardY - offsetY);
 
         int plane_y = UILayout.SZENARIO_PLANE_Y_COORDINATE;
         for (int i = currentPosititon; i < routeSzenario.size(); i++) {
             RouteField currentField = routeSzenario.get(i);
             if (currentField != null) {
-                int planesCount = currentField.getAnzahlFlugzeug();
+                int planesCount = currentField.getPlaneCount();
                 for (int j = 0; j < 3; j++) {
                     float x = UILayout.PLANE_POSITIONS[j][0];
                     float y = plane_y - offsetY;

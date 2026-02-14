@@ -20,9 +20,9 @@ public class PilotBrakeAction implements PlayerAction {
 
     @Override
     public ActionResult execute() {
-        if (game.getFlugzeug().bremsen(dice)) {
-            pilot.bremsenWaehlen(dice);
-            int indicatorValue = game.getFlugzeug().getBrakesState().getValue();
+        if (game.getPlane().bremsen(dice)) {
+            pilot.assignToBrakes(dice);
+            int indicatorValue = game.getPlane().getBrakesState().getValue();
             int schalterIndex = (indicatorValue - 2) / 2;
 
             return ActionResult.success()
