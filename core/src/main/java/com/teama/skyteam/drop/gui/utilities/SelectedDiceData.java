@@ -1,7 +1,7 @@
 /**
  * Repräsentiert die Daten eines ausgewählten Würfels im Game.
  *
- * Die Klasse `SelectedWuerfelData` speichert Informationen über den Player, der den Würfel ausgewählt hat,
+ * Die Klasse `SelectedDiceData` speichert Informationen über den Player, der den Würfel ausgewählt hat,
  * den Index des Würfels und die zugehörige Würfelinstanz. Außerdem wird der Pfad zur Textur des Würfels
  * basierend auf dem Würfelwert und dem Spielertyp (Pilot oder Copilot) generiert.
  */
@@ -12,10 +12,10 @@ import com.teama.skyteam.drop.gui.TexturePaths;
 import com.teama.skyteam.drop.domain.model.player.Pilot;
 import com.teama.skyteam.drop.domain.model.tokens.Dice;
 
-public class SelectedWuerfelData {
+public class SelectedDiceData {
 
     private final Player player;
-    private final int wuerfelIndex;
+    private final int diceIndex;
     private final Dice dice;
     private final String diceTexturePath;
 
@@ -23,32 +23,32 @@ public class SelectedWuerfelData {
      * Konstruktor zur Initialisierung der Daten des ausgewählten Würfels.
      *
      * @param player der Player, der den Würfel ausgewählt hat.
-     * @param wuerfelIndex der Index des ausgewählten Würfels.
+     * @param diceIndex der Index des ausgewählten Würfels.
      * @param dice die Instanz des ausgewählten Würfels.
      */
-    public SelectedWuerfelData(Player player, int wuerfelIndex, Dice dice) {
+    public SelectedDiceData(Player player, int diceIndex, Dice dice) {
         this.player = player;
-        this.wuerfelIndex = wuerfelIndex;
+        this.diceIndex = diceIndex;
         this.dice = dice;
 
         int wert = dice.getValue();
         boolean isPilot = player instanceof Pilot;
         if (isPilot) {
-            this.diceTexturePath = TexturePaths.WUERFEL_PATH_PILOT + wert + TexturePaths.IMG_FORMAT;
+            this.diceTexturePath = TexturePaths.DICE_PATH_PILOT + wert + TexturePaths.IMG_FORMAT;
         } else {
-            this.diceTexturePath = TexturePaths.WUERFEL_PATH_COPILOT + wert + TexturePaths.IMG_FORMAT;
+            this.diceTexturePath = TexturePaths.DICE_PATH_COPILOT + wert + TexturePaths.IMG_FORMAT;
         }
     }
 
-    public Player getSpieler() {
+    public Player getPlayer() {
         return player;
     }
 
-    public int getWuerfelIndex() {
-        return wuerfelIndex;
+    public int getDiceIndex() {
+        return diceIndex;
     }
 
-    public Dice getWuerfel() {
+    public Dice getDice() {
         return dice;
     }
 

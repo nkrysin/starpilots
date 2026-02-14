@@ -18,33 +18,33 @@ import java.util.TreeMap;
 
 public class CampaignGUI {
 
-    private Texture szenarioTexture;
+    private Texture campaignTexture;
     private Texture planeTexture;
     private Texture emptyTexture;
     private Game game;
-    private String szenarioName;
+    private String campaignName;
     private int currentPosititon;
     private float cardX, cardY;
-    private float offsetY = UILayout.SZENARIO_PLANE_Y_OFFSET;
+    private float offsetY = UILayout.CAMPAIGN_PLANE_Y_OFFSET;
 
     public CampaignGUI(Game game) {
         this.game = game;
         planeTexture = new Texture(TexturePaths.PLANE_PATH);
         emptyTexture = new Texture(TexturePaths.WITHOUT_HIGHLIGHT_PATH);
-        szenarioName = game.getCampaign().getCampaignName();
-        szenarioTexture = new Texture(TexturePaths.ASSETS_SZENARIO_PATH + szenarioName + TexturePaths.IMG_FORMAT);
+        campaignName = game.getCampaign().getCampaignName();
+        campaignTexture = new Texture(TexturePaths.ASSETS_CAMPAIGN_PATH + campaignName + TexturePaths.IMG_FORMAT);
         currentPosititon = game.getCurrentPosition();
 
-        cardX = UILayout.SZENARIO_COORDINATES[0];
-        cardY = UILayout.SZENARIO_COORDINATES[1];
+        cardX = UILayout.CAMPAIGN_COORDINATES[0];
+        cardY = UILayout.CAMPAIGN_COORDINATES[1];
     }
 
 
     public void render(SpriteBatch batch) {
         TreeMap<Integer, RouteField> routeSzenario = game.getRouteCampaign();
-        batch.draw(szenarioTexture, cardX, cardY - offsetY);
+        batch.draw(campaignTexture, cardX, cardY - offsetY);
 
-        int plane_y = UILayout.SZENARIO_PLANE_Y_COORDINATE;
+        int plane_y = UILayout.CAMPAIGN_PLANE_Y_COORDINATE;
         for (int i = currentPosititon; i < routeSzenario.size(); i++) {
             RouteField currentField = routeSzenario.get(i);
             if (currentField != null) {
@@ -54,9 +54,9 @@ public class CampaignGUI {
                     float y = plane_y - offsetY;
 
                     if (j < planesCount) {
-                        batch.draw(planeTexture, x, y, UILayout.SZENARIO_PLANE_SIZE[0], UILayout.SZENARIO_PLANE_SIZE[1]);
+                        batch.draw(planeTexture, x, y, UILayout.CAMPAIGN_PLANE_SIZE[0], UILayout.CAMPAIGN_PLANE_SIZE[1]);
                     } else {
-                        batch.draw(emptyTexture, x, y, UILayout.SZENARIO_PLANE_SIZE[0], UILayout.SZENARIO_PLANE_SIZE[1]);
+                        batch.draw(emptyTexture, x, y, UILayout.CAMPAIGN_PLANE_SIZE[0], UILayout.CAMPAIGN_PLANE_SIZE[1]);
                     }
                 }
                 plane_y += UILayout.MOVE_STEP;
@@ -74,7 +74,7 @@ public class CampaignGUI {
     }
 
     public void dispose() {
-        szenarioTexture.dispose();
+        campaignTexture.dispose();
         planeTexture.dispose();
         emptyTexture.dispose();
     }

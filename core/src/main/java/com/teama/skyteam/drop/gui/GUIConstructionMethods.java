@@ -73,17 +73,17 @@ public class GUIConstructionMethods {
      * @param stage die `Stage`, auf der die Buttons hinzugefügt werden.
      * @return die erstellte `ControlGroup` für Kaffee-Aktionen.
      */
-    public ControlGroup createUseKaffeeButtons(ActionControlGroup groupName, int[][] positions, Stage stage) {
-        ActionName[] kaffeeFieldNames = {ActionName.USE_COFFEE_1, ActionName.USE_COFFEE_2, ActionName.USE_COFFEE_3};
+    public ControlGroup createUseCoffeeButtons(ActionControlGroup groupName, int[][] positions, Stage stage) {
+        ActionName[] coffeeFieldNames = {ActionName.USE_COFFEE_1, ActionName.USE_COFFEE_2, ActionName.USE_COFFEE_3};
         ArrayList<ControlField> fields = new ArrayList<>();
-        for (int i = 0; i < kaffeeFieldNames.length; i++) {
+        for (int i = 0; i < coffeeFieldNames.length; i++) {
             ImageButton button = createButton(TexturePaths.WITHOUT_HIGHLIGHT_PATH,
                 positions[i][0],
                 positions[i][1],
-                UILayout.KAFFEE_BUTTON_SIZE[0],
-                UILayout.KAFFEE_BUTTON_SIZE[1]
+                UILayout.COFFEE_BUTTON_SIZE[0],
+                UILayout.COFFEE_BUTTON_SIZE[1]
             );
-            ControlField field = new ControlField(kaffeeFieldNames[i], button);
+            ControlField field = new ControlField(coffeeFieldNames[i], button);
             fields.add(field);
             stage.addActor(button);
         }
@@ -96,13 +96,13 @@ public class GUIConstructionMethods {
      * @param stage die `Stage`, auf der der Button hinzugefügt wird.
      * @return das erstellte `ControlField`, das den Button enthält.
      */
-    ControlField createNeuWurfButton(Stage stage) {
+    ControlField createRerollButton(Stage stage) {
         ImageButton button = createButton(
             TexturePaths.WITHOUT_HIGHLIGHT_PATH,
-            UILayout.NEUWURF_BUTTON_COORDINATES[0],
-            UILayout.NEUWURF_BUTTON_COORDINATES[1],
-            UILayout.NEUWURF_BUTTON_SIZE[0],
-            UILayout.NEUWURF_BUTTON_SIZE[1]
+            UILayout.REROLL_BUTTON_COORDINATES[0],
+            UILayout.REROLL_BUTTON_COORDINATES[1],
+            UILayout.REROLL_BUTTON_SIZE[0],
+            UILayout.REROLL_BUTTON_SIZE[1]
         );
         ControlField field = new ControlField(ActionName.REROLL, button);
         stage.addActor(button);

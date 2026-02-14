@@ -30,8 +30,8 @@ public class PilotLandingGearAction implements PlayerAction {
         return ActionResult.fail("LandingGear nicht möglich!");
 
 
-        //schalterGUI.activateFahrgestellSchalter(0); // 1-2 - 0, 3-4 - 1, 5-6 - 2,
-        //schalterGUI.moveFahrgestellIndicator(game.getPlane().getLandingGearState().getAkrivierteFahrgestelle());
+        //schalterGUI.activateLandingGearSwitch(0); // 1-2 - 0, 3-4 - 1, 5-6 - 2,
+        //schalterGUI.moveLandingGearIndicator(game.getPlane().getLandingGearState().getAkrivierteFahrgestelle());
 
     }
 }

@@ -15,7 +15,7 @@ import com.teama.skyteam.drop.gui.UILayout;
 import com.teama.skyteam.drop.domain.model.campaign.AltitudeCampaignTypes;
 
 public class AltitudeGUI {
-    private Texture hoeheTexture;
+    private Texture altitudeTexture;
     private float cardX, cardY;
     private Game game;
 
@@ -27,9 +27,9 @@ public class AltitudeGUI {
      */
     public AltitudeGUI(Game game) {
         this.game = game;
-        setHoeheTexture(game);
-        cardX = UILayout.HOEHE_FULL_HD_X_SIZE;
-        cardY = UILayout.HOEHE_FULL_HD_Y_SIZE;
+        setAltitudeTexture(game);
+        cardX = UILayout.HEIGHT_FULL_HD_X_SIZE;
+        cardY = UILayout.HEIGHT_FULL_HD_Y_SIZE;
     }
 
     /**
@@ -37,20 +37,20 @@ public class AltitudeGUI {
      *
      * @param game Das aktuelle Spielobjekt, das den Typ des Höhen-Szenarios enthält.
      */
-    private void setHoeheTexture(Game game) {
+    private void setAltitudeTexture(Game game) {
         AltitudeCampaignTypes type = game.getCampaign().getAltitudeCampaignType();
         switch (type) {
-            case RED -> hoeheTexture = new Texture(TexturePaths.HOEHE_RED_PATH);
-            case GREEN -> hoeheTexture = new Texture(TexturePaths.HOEHE_GREEN_PATH);
+            case RED -> altitudeTexture = new Texture(TexturePaths.ALTITUDE_RED_PATH);
+            case GREEN -> altitudeTexture = new Texture(TexturePaths.ALTITUDE_GREEN_PATH);
         }
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(hoeheTexture, cardX, cardY);
+        batch.draw(altitudeTexture, cardX, cardY);
     }
 
     public void dispose() {
-        hoeheTexture.dispose();
+        altitudeTexture.dispose();
     }
 
     /**

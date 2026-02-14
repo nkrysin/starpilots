@@ -14,50 +14,50 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.teama.skyteam.drop.gui.utilities.TextureCache;
 
 public class SwitchGUI {
-    Image[] fahrgestellSchalter = new Image[3];
-    Image[] bremsenSchalter = new Image[3];
-    Image[] klappenSchalter = new Image[4];
-    Image bremsenIndicator;
-    Image fahrgestellIndicator;
-    Image klappenIndicator;
+    Image[] landingGearSwitch = new Image[3];
+    Image[] brakesSwitch = new Image[3];
+    Image[] flapsSwitch = new Image[4];
+    Image brakesIndicator;
+    Image landingGearIndicator;
+    Image flapsIndicator;
     Texture texture = new Texture(TexturePaths.PLANE_SWITCH_PATH);
     float newX, newY;
     private Stage stage;
 
     public SwitchGUI(Stage stage) {
         this.stage = stage;
-        bremsenIndicator = new Image(TextureCache.get(TexturePaths.RED_MARKER));
-        fahrgestellIndicator = new Image(TextureCache.get(TexturePaths.BLUE_MARKER));
-        klappenIndicator = new Image(TextureCache.get(TexturePaths.ORANGE_MARKER));
+        brakesIndicator = new Image(TextureCache.get(TexturePaths.RED_MARKER));
+        landingGearIndicator = new Image(TextureCache.get(TexturePaths.BLUE_MARKER));
+        flapsIndicator = new Image(TextureCache.get(TexturePaths.ORANGE_MARKER));
     }
 
     /**
      * Fügt die Schalter und Indikatoren der Bühne hinzu.
      */
     public void addToStage() {
-        for (int i = 0; i < UILayout.FAHRGESTELL_KOORDINATEN.length; i++) {
-            fahrgestellSchalter[i] = new Image(texture);
-            fahrgestellSchalter[i].setPosition(UILayout.FAHRGESTELL_KOORDINATEN[i][0], UILayout.FAHRGESTELL_KOORDINATEN[i][1]);
-            stage.addActor(fahrgestellSchalter[i]);
+        for (int i = 0; i < UILayout.LANDING_GEAR_COORDINATES.length; i++) {
+            landingGearSwitch[i] = new Image(texture);
+            landingGearSwitch[i].setPosition(UILayout.LANDING_GEAR_COORDINATES[i][0], UILayout.LANDING_GEAR_COORDINATES[i][1]);
+            stage.addActor(landingGearSwitch[i]);
         }
 
-        for (int i = 0; i < UILayout.BREMSEN_KOORDINATEN.length; i++) {
-            bremsenSchalter[i] = new Image(texture);
-            bremsenSchalter[i].setPosition(UILayout.BREMSEN_KOORDINATEN[i][0], UILayout.BREMSEN_KOORDINATEN[i][1]);
-            stage.addActor(bremsenSchalter[i]);
+        for (int i = 0; i < UILayout.BRAKES_COORDINATES.length; i++) {
+            brakesSwitch[i] = new Image(texture);
+            brakesSwitch[i].setPosition(UILayout.BRAKES_COORDINATES[i][0], UILayout.BRAKES_COORDINATES[i][1]);
+            stage.addActor(brakesSwitch[i]);
         }
 
-        for (int i = 0; i < UILayout.KLAPPEN_KOORDINATEN.length; i++) {
-            klappenSchalter[i] = new Image(texture);
-            klappenSchalter[i].setPosition(UILayout.KLAPPEN_KOORDINATEN[i][0], UILayout.KLAPPEN_KOORDINATEN[i][1]);
-            stage.addActor(klappenSchalter[i]);
+        for (int i = 0; i < UILayout.FLAPS_COORDINATES.length; i++) {
+            flapsSwitch[i] = new Image(texture);
+            flapsSwitch[i].setPosition(UILayout.FLAPS_COORDINATES[i][0], UILayout.FLAPS_COORDINATES[i][1]);
+            stage.addActor(flapsSwitch[i]);
         }
 
-        addIndicators(bremsenIndicator, UILayout.BREMSEN_INDICATOR_KOORDINATEN[0][0], UILayout.BREMSEN_INDICATOR_KOORDINATEN[0][1], UILayout.BREMSEN_INDICATOR_ANGLE);
+        addIndicators(brakesIndicator, UILayout.BRAKES_INDICATOR_COORDINATES[0][0], UILayout.BRAKES_INDICATOR_COORDINATES[0][1], UILayout.BRAKES_INDICATOR_ANGLE);
 
-        addIndicators(fahrgestellIndicator, UILayout.FAHRGESTELL_INDICATOR_KOORDINATEN[0][0], UILayout.FAHRGESTELL_INDICATOR_KOORDINATEN[0][1], UILayout.FAHRGESTELL_INDICATOR_ANGLE);
+        addIndicators(landingGearIndicator, UILayout.LANDING_GEAR_INDICATOR_COORDINATES[0][0], UILayout.LANDING_GEAR_INDICATOR_COORDINATES[0][1], UILayout.LANDING_GEAR_INDICATOR_ANGLE);
 
-        addIndicators(klappenIndicator, UILayout.KLAPPEN_INDICATOR_KOORDINATEN[0][0], UILayout.KLAPPEN_INDICATOR_KOORDINATEN[0][1], UILayout.KLAPPEN_INDICATOR_ANGLE);
+        addIndicators(flapsIndicator, UILayout.FLAPS_INDICATOR_COORDINATES[0][0], UILayout.FLAPS_INDICATOR_COORDINATES[0][1], UILayout.FLAPS_INDICATOR_ANGLE);
     }
 
     /**
@@ -81,11 +81,11 @@ public class SwitchGUI {
      *
      * @param index Der Index des Schalters.
      */
-    public void activateFahrgestellSchalter(int index) {
-        Image schalter = fahrgestellSchalter[index];
-        float currentX = schalter.getX();
-        newX = currentX - UILayout.SCHALTER_STEP;
-        schalter.addAction(Actions.moveTo(newX, schalter.getY(), UILayout.MOVE_DURATION));
+    public void activateLandingGearSwitch(int index) {
+        Image lgSwitch = landingGearSwitch[index];
+        float currentX = lgSwitch.getX();
+        newX = currentX - UILayout.SWITCH_STEP;
+        lgSwitch.addAction(Actions.moveTo(newX, lgSwitch.getY(), UILayout.MOVE_DURATION));
     }
 
     /**
@@ -93,11 +93,11 @@ public class SwitchGUI {
      *
      * @param index Der Index des Schalters.
      */
-    public void activateBremsenSchalter(int index) {
-        Image schalter = bremsenSchalter[index];
-        float currentX = schalter.getX();
-        newX = currentX - UILayout.SCHALTER_STEP;
-        schalter.addAction(Actions.moveTo(newX, schalter.getY(), UILayout.MOVE_DURATION));
+    public void activateBrakesSwitch(int index) {
+        Image bSwitch = brakesSwitch[index];
+        float currentX = bSwitch.getX();
+        newX = currentX - UILayout.SWITCH_STEP;
+        bSwitch.addAction(Actions.moveTo(newX, bSwitch.getY(), UILayout.MOVE_DURATION));
     }
 
     /**
@@ -106,10 +106,10 @@ public class SwitchGUI {
      * @param index Der Index des Schalters.
      */
     public void activateKlappenSchalter(int index) {
-        Image schalter = klappenSchalter[index];
-        float currentX = schalter.getX();
-        newX = currentX - UILayout.SCHALTER_STEP;
-        schalter.addAction(Actions.moveTo(newX, schalter.getY(), UILayout.MOVE_DURATION));
+        Image fSwitch = flapsSwitch[index];
+        float currentX = fSwitch.getX();
+        newX = currentX - UILayout.SWITCH_STEP;
+        fSwitch.addAction(Actions.moveTo(newX, fSwitch.getY(), UILayout.MOVE_DURATION));
     }
 
     /**
@@ -117,27 +117,27 @@ public class SwitchGUI {
      *
      * @param value Der Wert, der die Position bestimmt.
      */
-    public void moveBremsenIndicator(int value) {
+    public void moveBrakesIndicator(int value) {
         switch (value) {
             case 2:
-                newX = UILayout.BREMSEN_INDICATOR_KOORDINATEN[1][0];
-                newY = UILayout.BREMSEN_INDICATOR_KOORDINATEN[1][1];
-                bremsenIndicator.setRotation(UILayout.BREMSEN_ROTATION_CASE_2);
-                bremsenIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
+                newX = UILayout.BRAKES_INDICATOR_COORDINATES[1][0];
+                newY = UILayout.BRAKES_INDICATOR_COORDINATES[1][1];
+                brakesIndicator.setRotation(UILayout.BRAKES_ROTATION_CASE_2);
+                brakesIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
                 break;
 
             case 4:
-                newX = UILayout.BREMSEN_INDICATOR_KOORDINATEN[2][0];
-                newY = UILayout.BREMSEN_INDICATOR_KOORDINATEN[2][1];
-                bremsenIndicator.setRotation(UILayout.BREMSEN_ROTATION_CASE_4);
-                bremsenIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
+                newX = UILayout.BRAKES_INDICATOR_COORDINATES[2][0];
+                newY = UILayout.BRAKES_INDICATOR_COORDINATES[2][1];
+                brakesIndicator.setRotation(UILayout.BRAKES_ROTATION_CASE_4);
+                brakesIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
                 break;
 
             case 6:
-                newX = UILayout.BREMSEN_INDICATOR_KOORDINATEN[3][0];
-                newY = UILayout.BREMSEN_INDICATOR_KOORDINATEN[3][1];
-                bremsenIndicator.setRotation(UILayout.BREMSEN_ROTATION_CASE_6);
-                bremsenIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
+                newX = UILayout.BRAKES_INDICATOR_COORDINATES[3][0];
+                newY = UILayout.BRAKES_INDICATOR_COORDINATES[3][1];
+                brakesIndicator.setRotation(UILayout.BRAKES_ROTATION_CASE_6);
+                brakesIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
                 break;
         }
     }
@@ -147,27 +147,27 @@ public class SwitchGUI {
      *
      * @param value Der Wert, der die Position bestimmt.
      */
-    public void moveFahrgestellIndicator(int value) {
+    public void moveLandingGearIndicator(int value) {
         switch (value) {
             case 1:
-                newX = UILayout.FAHRGESTELL_INDICATOR_KOORDINATEN[1][0];
-                newY = UILayout.FAHRGESTELL_INDICATOR_KOORDINATEN[1][1];
-                fahrgestellIndicator.setRotation(UILayout.FAHRGESTELL_ROTATION_CASE_1);
-                fahrgestellIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
+                newX = UILayout.LANDING_GEAR_INDICATOR_COORDINATES[1][0];
+                newY = UILayout.LANDING_GEAR_INDICATOR_COORDINATES[1][1];
+                landingGearIndicator.setRotation(UILayout.LANDING_GEAR_ROTATION_CASE_1);
+                landingGearIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
                 break;
 
             case 2:
-                newX = UILayout.FAHRGESTELL_INDICATOR_KOORDINATEN[2][0];
-                newY = UILayout.FAHRGESTELL_INDICATOR_KOORDINATEN[2][1];
-                fahrgestellIndicator.setRotation(UILayout.FAHRGESTELL_ROTATION_CASE_2);
-                fahrgestellIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
+                newX = UILayout.LANDING_GEAR_INDICATOR_COORDINATES[2][0];
+                newY = UILayout.LANDING_GEAR_INDICATOR_COORDINATES[2][1];
+                landingGearIndicator.setRotation(UILayout.LANDING_GEAR_ROTATION_CASE_2);
+                landingGearIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
                 break;
 
             case 3:
-                newX = UILayout.FAHRGESTELL_INDICATOR_KOORDINATEN[3][0];
-                newY = UILayout.FAHRGESTELL_INDICATOR_KOORDINATEN[3][1];
-                fahrgestellIndicator.setRotation(UILayout.FAHRGESTELL_ROTATION_CASE_3);
-                fahrgestellIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
+                newX = UILayout.LANDING_GEAR_INDICATOR_COORDINATES[3][0];
+                newY = UILayout.LANDING_GEAR_INDICATOR_COORDINATES[3][1];
+                landingGearIndicator.setRotation(UILayout.LANDING_GEAR_ROTATION_CASE_3);
+                landingGearIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
                 break;
 
         }
@@ -178,66 +178,66 @@ public class SwitchGUI {
      *
      * @param value Der Wert, der die Position bestimmt.
      */
-    public void moveKlappenIndicator(int value) {
+    public void moveFlapsIndicator(int value) {
         switch (value) {
             case 9:
-                newX = UILayout.KLAPPEN_INDICATOR_KOORDINATEN[1][0];
-                newY = UILayout.KLAPPEN_INDICATOR_KOORDINATEN[1][1];
-                klappenIndicator.setRotation(UILayout.KLAPPEN_ROTATION_CASE_9);
-                klappenIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
+                newX = UILayout.FLAPS_INDICATOR_COORDINATES[1][0];
+                newY = UILayout.FLAPS_INDICATOR_COORDINATES[1][1];
+                flapsIndicator.setRotation(UILayout.FLAPS_ROTATION_CASE_9);
+                flapsIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
                 break;
 
             case 10:
-                newX = UILayout.KLAPPEN_INDICATOR_KOORDINATEN[2][0];
-                newY = UILayout.KLAPPEN_INDICATOR_KOORDINATEN[2][1];
-                klappenIndicator.setRotation(UILayout.KLAPPEN_ROTATION_CASE_10);
-                klappenIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
+                newX = UILayout.FLAPS_INDICATOR_COORDINATES[2][0];
+                newY = UILayout.FLAPS_INDICATOR_COORDINATES[2][1];
+                flapsIndicator.setRotation(UILayout.FLAPS_ROTATION_CASE_10);
+                flapsIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
                 break;
 
             case 11:
-                newX = UILayout.KLAPPEN_INDICATOR_KOORDINATEN[3][0];
-                newY = UILayout.KLAPPEN_INDICATOR_KOORDINATEN[3][1];
-                klappenIndicator.setRotation(UILayout.KLAPPEN_ROTATION_CASE_11);
-                klappenIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
+                newX = UILayout.FLAPS_INDICATOR_COORDINATES[3][0];
+                newY = UILayout.FLAPS_INDICATOR_COORDINATES[3][1];
+                flapsIndicator.setRotation(UILayout.FLAPS_ROTATION_CASE_11);
+                flapsIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
                 break;
 
             case 12:
-                newX = UILayout.KLAPPEN_INDICATOR_KOORDINATEN[4][0];
-                newY = UILayout.KLAPPEN_INDICATOR_KOORDINATEN[4][1];
-                klappenIndicator.setRotation(UILayout.KLAPPEN_ROTATION_CASE_12);
-                klappenIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
+                newX = UILayout.FLAPS_INDICATOR_COORDINATES[4][0];
+                newY = UILayout.FLAPS_INDICATOR_COORDINATES[4][1];
+                flapsIndicator.setRotation(UILayout.FLAPS_ROTATION_CASE_12);
+                flapsIndicator.addAction(Actions.moveTo(newX, newY, UILayout.MOVE_DURATION));
                 break;
         }
     }
 
 
     public void dispose() {
-        for (Image schalter : fahrgestellSchalter) {
+        for (Image schalter : landingGearSwitch) {
             if (schalter != null) {
                 schalter.remove();
             }
         }
 
-        for (Image schalter : bremsenSchalter) {
+        for (Image schalter : brakesSwitch) {
             if (schalter != null) {
                 schalter.remove();
             }
         }
 
-        for (Image schalter : klappenSchalter) {
+        for (Image schalter : flapsSwitch) {
             if (schalter != null) {
                 schalter.remove();
             }
         }
 
-        if (bremsenIndicator != null) {
-            bremsenIndicator.remove();
+        if (brakesIndicator != null) {
+            brakesIndicator.remove();
         }
-        if (fahrgestellIndicator != null) {
-            fahrgestellIndicator.remove();
+        if (landingGearIndicator != null) {
+            landingGearIndicator.remove();
         }
-        if (klappenIndicator != null) {
-            klappenIndicator.remove();
+        if (flapsIndicator != null) {
+            flapsIndicator.remove();
         }
     }
 }

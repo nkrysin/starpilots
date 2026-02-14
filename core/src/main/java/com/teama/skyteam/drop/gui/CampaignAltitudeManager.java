@@ -31,14 +31,14 @@ public class CampaignAltitudeManager {
      *
      * @param currentSpeed Die aktuelle Geschwindigkeit des Spiels.
      */
-    public void updateScenario(int currentSpeed) {
+    public void updateCampaign(int currentSpeed) {
         campaignGUI.moveStep(currentSpeed);
     }
 
     /**
      * Aktualisiert die Höhenanzeige.
      */
-    public void updateHoehe() {
+    public void updateAltitude() {
         altitudeGUI.moveStep();
     }
 

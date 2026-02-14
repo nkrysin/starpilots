@@ -33,13 +33,13 @@ public class GameControllerGUI {
     private final GameGUI gameGUI;
     boolean nowMustBeFirst = true;
     boolean nowMustBeSecond = false;
-    private State state = State.CHECK_END;
-    private Player ersterPlayer;
-    private Player zweiterPlayer;
-    private boolean neigungErledigt = false;
-    private boolean reiseFeldAktualisiert = false;
-    private boolean letzteRunde = false;
-    private boolean spielEnde = false;
+    private State state = State.CHECK_ENDGAME;
+    private Player firstPlayer;
+    private Player secondPlayer;
+    private boolean isTiltCompleted = false;
+    private boolean isRouteFieldUpdated = false;
+    private boolean lastRound = false;
+    private boolean endgame = false;
     private final GameStateManager gameStateManager;
     private final FieldManager fieldManager;
 
@@ -63,10 +63,10 @@ public class GameControllerGUI {
             @Override
             public void onPlayerActionCompleted(Player player) {
                 gameGUI.clearPlayerListeners(player);
-                spielenSchritt();
+                playStep();
             }
         });
-        spielenSchritt();
+        playStep();
     }
 
 
@@ -74,17 +74,17 @@ public class GameControllerGUI {
      * Aufzählung von Zuständen für die Zustandsmaschine des Spiels.
      */
     private enum State {
-        CHECK_END,
+        CHECK_ENDGAME,
         PREPARE_ROUND,
         PLAY_TURN_FIRST,
-        CHECK_NEIGUNG,
-        CHECK_REISEFELD,
+        CHECK_TILT,
+        CHECK_ROUTE_FIELD,
         PLAY_TURN_SECOND,
-        CHECK_NEIGUNG_AGAIN,
-        CHECK_REISEFELD_AGAIN,
+        CHECK_TILT_AGAIN,
+        CHECK_ROUTE_FIELD_AGAIN,
         ROUND_FINISH,
         FINAL_CHECK,
-        END
+        ENDGAME
     }
 
     /**
@@ -92,19 +92,19 @@ public class GameControllerGUI {
      * Wird auch berechnet, wer einen ersten Zug in der Runde macht
      */
     private void prepareRound() {
-        neigungErledigt = false;
-        reiseFeldAktualisiert = false;
+        isTiltCompleted = false;
+        isRouteFieldUpdated = false;
 
         gameStateManager.addRerollTokens();
         boolean isEvenRound = (game.getRound() + 1) % 2 == 0;
-        ersterPlayer = isEvenRound ? game.getPilot() : game.getCopilot();
-        zweiterPlayer = isEvenRound ? game.getCopilot() : game.getPilot();
+        firstPlayer = isEvenRound ? game.getPilot() : game.getCopilot();
+        secondPlayer = isEvenRound ? game.getCopilot() : game.getPilot();
 
-        gameStateManager.setNewDices(ersterPlayer);
-        gameStateManager.setNewDices(zweiterPlayer);
+        gameStateManager.setNewDices(firstPlayer);
+        gameStateManager.setNewDices(secondPlayer);
 
-        gameGUI.createWuerfelForSpieler(ersterPlayer);
-        gameGUI.createWuerfelForSpieler(zweiterPlayer);
+        gameGUI.createDiceForPlayer(firstPlayer);
+        gameGUI.createDiceForPlayer(secondPlayer);
     }
 
     /**
@@ -115,7 +115,7 @@ public class GameControllerGUI {
         fieldManager.removeDiceFromOneUseFields(oneUseFields);
         fieldManager.clearManyUseFields(game);
         gameGUI.clearManyUseFields();
-        campaignAltitudeManager.updateHoehe();
+        campaignAltitudeManager.updateAltitude();
 
         game.setRound(game.getRound() + 1);
         gameStateManager.reduceAltitude();
@@ -124,7 +124,7 @@ public class GameControllerGUI {
     }
 
     /**
-     * Die Methode spielenSchritt steuert den Spielfluss basierend auf einer Zustandsmaschine.
+     * Die Methode playStep steuert den Spielfluss basierend auf einer Zustandsmaschine.
      * Sie wechselt zwischen den verschiedenen Zuständen des Spiels und verwaltet die Aktionen der Player,
      * die Prüfung von Spielfeldern und das Ende des Spiels.
      *
@@ -167,20 +167,20 @@ public class GameControllerGUI {
      * Die Methode verwendet eine Schleife, um den aktuellen Zustand kontinuierlich zu überprüfen und in den nächsten zu wechseln.
      * Die Zustände definieren dabei klar die logische Abfolge der Spielaktionen.
      */
-    public void spielenSchritt() {
-        if (spielEnde) {
+    public void playStep() {
+        if (endgame) {
             return;
         }
-        while (!spielEnde) {
+        while (!endgame) {
             switch (state) {
-                case CHECK_END:
+                case CHECK_ENDGAME:
                     if (gameService.checkFailCondition()) {
-                        spielEnde = true;
-                        state = State.END;
+                        endgame = true;
+                        state = State.ENDGAME;
                         break;
                     } else {
-                        if (!letzteRunde && gameService.checkFinalRound()) {
-                            letzteRunde = true;
+                        if (!lastRound && gameService.checkFinalRound()) {
+                            lastRound = true;
                         }
                         state = State.PREPARE_ROUND;
                     }
@@ -193,88 +193,88 @@ public class GameControllerGUI {
                     break;
 
                 case PLAY_TURN_FIRST:
-                    if (ersterPlayer.getAllDiceCount() > 0 && !gameService.checkFailCondition() && nowMustBeFirst) {
+                    if (firstPlayer.getAllDiceCount() > 0 && !gameService.checkFailCondition() && nowMustBeFirst) {
                         gameGUI.removeAllHideImages();
-                        gameGUI.hideWuerfel(ersterPlayer);
-                        gameGUI.addWuerfelListenersForSpieler(ersterPlayer);
-                        gameGUI.addFieldListenersForPlacement(ersterPlayer);
-                        gameGUI.checkFeldSituation(ersterPlayer);
-                        gameGUI.setKaffeeGroupsActive(ersterPlayer);
+                        gameGUI.hideDice(firstPlayer);
+                        gameGUI.addDiceListenersForSpieler(firstPlayer);
+                        gameGUI.addFieldListenersForPlacement(firstPlayer);
+                        gameGUI.checkFieldSituation(firstPlayer);
+                        gameGUI.setCoffeeGroupsActive(firstPlayer);
 
-                        if (ersterPlayer instanceof Pilot) {
-                            gameGUI.showKaffee(true, false);
+                        if (firstPlayer instanceof Pilot) {
+                            gameGUI.showCoffee(true, false);
                         } else {
-                            gameGUI.showKaffee(false, true);
+                            gameGUI.showCoffee(false, true);
                         }
-                        gameGUI.showNeuWurf(true);
+                        gameGUI.showReroll(true);
 
-                        gameGUI.useKaffee(ersterPlayer);
+                        gameGUI.useCoffee(firstPlayer);
 
-                        gameGUI.useNeuWurf(ersterPlayer);
+                        gameGUI.useReroll(firstPlayer);
 
                         nowMustBeFirst = false;
                         nowMustBeSecond = true;
                         return;
                     } else {
-                        state = State.CHECK_NEIGUNG;
+                        state = State.CHECK_TILT;
                     }
                     break;
 
-                case CHECK_NEIGUNG:
-                    if (!neigungErledigt && gameStateManager.updateTilt().isSuccess()) {
-                        neigungErledigt = true;
+                case CHECK_TILT:
+                    if (!isTiltCompleted && gameStateManager.updateTilt().isSuccess()) {
+                        isTiltCompleted = true;
                     }
 
-                    state = State.CHECK_REISEFELD;
+                    state = State.CHECK_ROUTE_FIELD;
                     break;
 
-                case CHECK_REISEFELD:
-                    if (!reiseFeldAktualisiert && gameStateManager.updateTravelFieldState().isSuccess()) {
-                        reiseFeldAktualisiert = true;
+                case CHECK_ROUTE_FIELD:
+                    if (!isRouteFieldUpdated && gameStateManager.updateTravelFieldState().isSuccess()) {
+                        isRouteFieldUpdated = true;
                     }
 
                     state = State.PLAY_TURN_SECOND;
                     break;
 
                 case PLAY_TURN_SECOND:
-                    if (zweiterPlayer.getAllDiceCount() > 0 && !gameService.checkFailCondition() && nowMustBeSecond) {
+                    if (secondPlayer.getAllDiceCount() > 0 && !gameService.checkFailCondition() && nowMustBeSecond) {
                         gameGUI.removeAllHideImages();
-                        gameGUI.hideWuerfel(zweiterPlayer);
-                        gameGUI.addWuerfelListenersForSpieler(zweiterPlayer);
-                        gameGUI.addFieldListenersForPlacement(zweiterPlayer);
-                        gameGUI.checkFeldSituation(zweiterPlayer);
-                        gameGUI.setKaffeeGroupsActive(zweiterPlayer);
+                        gameGUI.hideDice(secondPlayer);
+                        gameGUI.addDiceListenersForSpieler(secondPlayer);
+                        gameGUI.addFieldListenersForPlacement(secondPlayer);
+                        gameGUI.checkFieldSituation(secondPlayer);
+                        gameGUI.setCoffeeGroupsActive(secondPlayer);
 
-                        if (zweiterPlayer instanceof Pilot) {
-                            gameGUI.showKaffee(true, false);
+                        if (secondPlayer instanceof Pilot) {
+                            gameGUI.showCoffee(true, false);
                         } else {
-                            gameGUI.showKaffee(false, true);
+                            gameGUI.showCoffee(false, true);
                         }
-                        gameGUI.showNeuWurf(true);
-                        gameGUI.useNeuWurf(zweiterPlayer);
-                        gameGUI.useKaffee(zweiterPlayer);
+                        gameGUI.showReroll(true);
+                        gameGUI.useReroll(secondPlayer);
+                        gameGUI.useCoffee(secondPlayer);
 
                         nowMustBeFirst = true;
                         nowMustBeSecond = false;
                         return;
                     } else {
-                        state = State.CHECK_NEIGUNG_AGAIN;
+                        state = State.CHECK_TILT_AGAIN;
                     }
                     break;
 
-                case CHECK_NEIGUNG_AGAIN:
-                    if (!neigungErledigt && gameStateManager.updateTilt().isSuccess()) {
-                        neigungErledigt = true;
+                case CHECK_TILT_AGAIN:
+                    if (!isTiltCompleted && gameStateManager.updateTilt().isSuccess()) {
+                        isTiltCompleted = true;
                     }
-                    state = State.CHECK_REISEFELD_AGAIN;
+                    state = State.CHECK_ROUTE_FIELD_AGAIN;
                     break;
 
-                case CHECK_REISEFELD_AGAIN:
-                    if (!reiseFeldAktualisiert && gameStateManager.updateTravelFieldState().isSuccess()) {
-                        reiseFeldAktualisiert = true;
+                case CHECK_ROUTE_FIELD_AGAIN:
+                    if (!isRouteFieldUpdated && gameStateManager.updateTravelFieldState().isSuccess()) {
+                        isRouteFieldUpdated = true;
                     }
                     if (!gameService.checkFailCondition() &&
-                        (ersterPlayer.getAllDiceCount() > 0 || zweiterPlayer.getAllDiceCount() > 0)) {
+                        (firstPlayer.getAllDiceCount() > 0 || secondPlayer.getAllDiceCount() > 0)) {
                         state = State.PLAY_TURN_FIRST;
                     } else {
                         state = State.ROUND_FINISH;
@@ -284,13 +284,13 @@ public class GameControllerGUI {
                 case ROUND_FINISH:
                     finishRound();
                     if (gameService.checkFailCondition()) {
-                        spielEnde = true;
+                        endgame = true;
                         gameGUI.createFinalWindow(false);
-                        state = State.END;
-                    } else if (letzteRunde) {
+                        state = State.ENDGAME;
+                    } else if (lastRound) {
                         state = State.FINAL_CHECK;
                     } else {
-                        state = State.CHECK_END;
+                        state = State.CHECK_ENDGAME;
                     }
                     break;
 
@@ -300,16 +300,16 @@ public class GameControllerGUI {
                     } else {
                         gameGUI.createFinalWindow(false);
                     }
-                    spielEnde = true;
-                    state = State.END;
+                    endgame = true;
+                    state = State.ENDGAME;
                     break;
 
-                case END:
+                case ENDGAME:
                     gameGUI.createFinalWindow(false);
-                    spielEnde = true;
+                    endgame = true;
                     break;
             }
-            if (spielEnde) {
+            if (endgame) {
                 break;
             }
         }

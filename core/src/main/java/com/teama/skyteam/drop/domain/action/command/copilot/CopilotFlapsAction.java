@@ -39,6 +39,6 @@ public class CopilotFlapsAction implements PlayerAction {
 //        } else {
 //            schalterGUI.activateKlappenSchalter(3);
 //        }
-//        schalterGUI.moveKlappenIndicator(game.getPlane().getFlapsState().getValue());
+//        schalterGUI.moveFlapsIndicator(game.getPlane().getFlapsState().getValue());
     }
 }

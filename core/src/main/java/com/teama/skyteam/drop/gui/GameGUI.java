@@ -27,7 +27,7 @@ import com.teama.skyteam.drop.domain.model.player.Player;
 import com.teama.skyteam.drop.gui.buttons.ControlField;
 import com.teama.skyteam.drop.gui.buttons.ControlGroup;
 import com.teama.skyteam.drop.gui.utilities.PlayerActionCallback;
-import com.teama.skyteam.drop.gui.utilities.SelectedWuerfelData;
+import com.teama.skyteam.drop.gui.utilities.SelectedDiceData;
 import com.teama.skyteam.drop.gui.utilities.TextureCache;
 import com.teama.skyteam.drop.domain.action.command.ActionResult;
 import com.teama.skyteam.drop.domain.action.type.ActionControlGroup;
@@ -53,21 +53,21 @@ public class GameGUI implements GameStateObserver {
     public final Stage stage;
     private final Game game;
     private final GUIConstructionMethods guiConstructionMethods;
-    private ArrayList<ImageButton> pilotWuerfelActors = new ArrayList<>();
-    private ArrayList<ImageButton> copilotWuerfelActors = new ArrayList<>();
+    private ArrayList<ImageButton> pilotDiceActors = new ArrayList<>();
+    private ArrayList<ImageButton> copilotDiceActors = new ArrayList<>();
     private ArrayList<ControlGroup>  controlGroups = new ArrayList<>();
-    private ControlGroup pilotKaffeeControlGroup;
-    private ControlGroup copilotKaffeeControlGroup;
-    private ControlGroup pilotUseKaffeeControlGroup;
-    private ControlGroup copilotUseKaffeeControlGroup;
-    private SelectedWuerfelData selectedWuerfelData = null;
+    private ControlGroup pilotCoffeeControlGroup;
+    private ControlGroup copilotCoffeeControlGroup;
+    private ControlGroup pilotUseCoffeeControlGroup;
+    private ControlGroup copilotUseCoffeeControlGroup;
+    private SelectedDiceData selectedDiceData = null;
     private GameService gameService;
     private Skin skin;
     private SwitchGUI switchGUI;
-    private Image ruder;
+    private Image rudder;
     private PlayerActionCallback callback;
     private CampaignAltitudeManager campaignAltitudeManager;
-    private ControlField neuWurf;
+    private ControlField reroll;
     private Map<ControlField, ControlField> mirroredFields = new HashMap<>();
     private GameStateManager gameStateManager;
     private FieldManager fieldManager;
@@ -85,7 +85,7 @@ public class GameGUI implements GameStateObserver {
         this.game = game;
         this.stage = stage;
         this.skin = skin;
-        setRuder();
+        setRudder();
         this.guiConstructionMethods = new GUIConstructionMethods();
         switchGUI = new SwitchGUI(stage);
         switchGUI.addToStage();
@@ -98,18 +98,18 @@ public class GameGUI implements GameStateObserver {
     }
 
     /**
-     * Initialisiert und fügt das Ruder zur Bühne hinzu.
+     * Initialisiert und fügt das Rudder zur Bühne hinzu.
      */
-    private void setRuder() {
-        Texture ruderTexture = new Texture(TexturePaths.RUDER_PATH);
-        ruder = new Image(ruderTexture);
-        ruder.setPosition(UILayout.RUDER_COORDINATES[0], UILayout.RUDER_COORDINATES[1]);
-        ruder.setOrigin(ruder.getWidth() / 2, ruder.getHeight() / 2 - 5);
-        this.stage.addActor(ruder);
+    private void setRudder() {
+        Texture rudderTexture = new Texture(TexturePaths.RUDDER_PATH);
+        rudder = new Image(rudderTexture);
+        rudder.setPosition(UILayout.RUDDER_COORDINATES[0], UILayout.RUDDER_COORDINATES[1]);
+        rudder.setOrigin(rudder.getWidth() / 2, rudder.getHeight() / 2 - 5);
+        this.stage.addActor(rudder);
     }
 
-    public Image getRuder() {
-        return ruder;
+    public Image getRudder() {
+        return rudder;
     }
 
     /**
@@ -117,47 +117,47 @@ public class GameGUI implements GameStateObserver {
      *
      * @param player Der Player, für den die Würfel erstellt werden.
      */
-    public void createWuerfelForSpieler(Player player) {
+    public void createDiceForPlayer(Player player) {
         if (player instanceof Pilot) {
-            for (ImageButton oldButton : pilotWuerfelActors) {
+            for (ImageButton oldButton : pilotDiceActors) {
                 oldButton.remove();
             }
-            pilotWuerfelActors.clear();
+            pilotDiceActors.clear();
         } else {
-            for (ImageButton oldButton : copilotWuerfelActors) {
+            for (ImageButton oldButton : copilotDiceActors) {
                 oldButton.remove();
             }
-            copilotWuerfelActors.clear();
+            copilotDiceActors.clear();
         }
 
         ArrayList<Dice> dice = player.getAllDice();
-        ArrayList<ImageButton> wuerfelActors = new ArrayList<>();
+        ArrayList<ImageButton> diceActors = new ArrayList<>();
 
         for (int i = 0; i < dice.size(); i++) {
-            Dice w = dice.get(i);
-            int wert = w.getValue();
+            Dice d = dice.get(i);
+            int value = d.getValue();
             String textureName;
             int x, y;
             if (player instanceof Pilot) {
-                textureName = TexturePaths.WUERFEL_PATH_PILOT + wert + TexturePaths.IMG_FORMAT;
-                x = UILayout.PILOT_WUERFEL_COORDINATES[i][0];
-                y = UILayout.PILOT_WUERFEL_COORDINATES[i][1];
+                textureName = TexturePaths.DICE_PATH_PILOT + value + TexturePaths.IMG_FORMAT;
+                x = UILayout.PILOT_DICE_COORDINATES[i][0];
+                y = UILayout.PILOT_DICE_COORDINATES[i][1];
             } else {
-                textureName = TexturePaths.WUERFEL_PATH_COPILOT + wert + TexturePaths.IMG_FORMAT;
-                x = UILayout.COPILOT_WUERFEL_COORDINATES[i][0];
-                y = UILayout.COPILOT_WUERFEL_COORDINATES[i][1];
+                textureName = TexturePaths.DICE_PATH_COPILOT + value + TexturePaths.IMG_FORMAT;
+                x = UILayout.COPILOT_DICE_COORDINATES[i][0];
+                y = UILayout.COPILOT_DICE_COORDINATES[i][1];
             }
-            ImageButton wuerfelButton = guiConstructionMethods.createButton(textureName, x, y, UILayout.WUERFEL_SIZE[0], UILayout.WUERFEL_SIZE[1]);
-            wuerfelActors.add(wuerfelButton);
+            ImageButton wuerfelButton = guiConstructionMethods.createButton(textureName, x, y, UILayout.DICE_SIZE[0], UILayout.DICE_SIZE[1]);
+            diceActors.add(wuerfelButton);
             stage.addActor(wuerfelButton);
         }
 
         if (player instanceof Pilot) {
-            pilotWuerfelActors = wuerfelActors;
+            pilotDiceActors = diceActors;
         } else {
-            copilotWuerfelActors = wuerfelActors;
+            copilotDiceActors = diceActors;
         }
-        hideWuerfel(player);
+        hideDice(player);
     }
 
     /**
@@ -165,27 +165,27 @@ public class GameGUI implements GameStateObserver {
      *
      * @param player Der Player, dessen Würfel interaktiv gemacht werden.
      */
-    public void addWuerfelListenersForSpieler(Player player) {
-        ArrayList<ImageButton> wuerfelActors = (player instanceof Pilot) ? pilotWuerfelActors : copilotWuerfelActors;
+    public void addDiceListenersForSpieler(Player player) {
+        ArrayList<ImageButton> wuerfelActors = (player instanceof Pilot) ? pilotDiceActors : copilotDiceActors;
         ArrayList<Dice> dice = player.getAllDice();
         final ImageButton[] prevSelectedButton = {null};
         final String[] prevNormalTextureName = {null};
 
         for (int i = 0; i < wuerfelActors.size(); i++) {
             final ImageButton wuerfelButton = wuerfelActors.get(i);
-            final Dice w = dice.get(i);
-            final int wert = w.getValue();
+            final Dice d = dice.get(i);
+            final int value = d.getValue();
             final boolean isPilot = (player instanceof Pilot);
             final String normalTextureName;
             final String selectedTextureName;
             if (isPilot) {
-                normalTextureName = TexturePaths.WUERFEL_PATH_PILOT + wert + TexturePaths.IMG_FORMAT;
-                selectedTextureName = TexturePaths.WUERFEL_PATH_PILOT + wert +  TexturePaths.WUERFEL_PATH_SELECTED;
+                normalTextureName = TexturePaths.DICE_PATH_PILOT + value + TexturePaths.IMG_FORMAT;
+                selectedTextureName = TexturePaths.DICE_PATH_PILOT + value +  TexturePaths.DICE_PATH_SELECTED;
             } else {
-                normalTextureName = TexturePaths.WUERFEL_PATH_COPILOT + wert + TexturePaths.IMG_FORMAT;
-                selectedTextureName = TexturePaths.WUERFEL_PATH_COPILOT + wert +  TexturePaths.WUERFEL_PATH_SELECTED;
+                normalTextureName = TexturePaths.DICE_PATH_COPILOT + value + TexturePaths.IMG_FORMAT;
+                selectedTextureName = TexturePaths.DICE_PATH_COPILOT + value +  TexturePaths.DICE_PATH_SELECTED;
             }
-            final int wuerfelIndex = i;
+            final int diceIndex = i;
             wuerfelButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -198,7 +198,7 @@ public class GameGUI implements GameStateObserver {
                     switchTexture(wuerfelButton, selectedTextureName);
                     prevSelectedButton[0] = wuerfelButton;
                     prevNormalTextureName[0] = normalTextureName;
-                    selectedWuerfelData = new SelectedWuerfelData(player, wuerfelIndex, w);
+                    selectedDiceData = new SelectedDiceData(player, diceIndex, d);
                 }
             });
         }
@@ -233,7 +233,7 @@ public class GameGUI implements GameStateObserver {
                 ActionName.PILOT_BRAKES_4,
                 ActionName.PILOT_BRAKES_6
             },
-            UILayout.PILOT_ACTOR_COORDINATES, stage, UILayout.WUERFEL_SIZE[0], UILayout.WUERFEL_SIZE[1]));
+            UILayout.PILOT_ACTOR_COORDINATES, stage, UILayout.DICE_SIZE[0], UILayout.DICE_SIZE[1]));
 
         controlGroups.add(guiConstructionMethods.createControlGroup(
             ActionControlGroup.COPILOT_CONTROLS,
@@ -247,44 +247,44 @@ public class GameGUI implements GameStateObserver {
                 ActionName.COPILOT_FLAPS_4_5,
                 ActionName.COPILOT_FLAPS_5_6
             },
-            UILayout.COPILOT_ACTOR_COORDINATES, stage, UILayout.WUERFEL_SIZE[0], UILayout.WUERFEL_SIZE[1]));
+            UILayout.COPILOT_ACTOR_COORDINATES, stage, UILayout.DICE_SIZE[0], UILayout.DICE_SIZE[1]));
 
-        pilotKaffeeControlGroup = guiConstructionMethods.createControlGroup(
+        pilotCoffeeControlGroup = guiConstructionMethods.createControlGroup(
             ActionControlGroup.PILOT_COFFEE_CONTROLS,
             new ActionName[]{
                 ActionName.PILOT_COFFEE_1,
                 ActionName.PILOT_COFFEE_2,
                 ActionName.PILOT_COFFEE_3
             },
-            UILayout.KAFFEE_COORDINATES, stage, UILayout.WUERFEL_SIZE[0], UILayout.WUERFEL_SIZE[1]);
-        copilotKaffeeControlGroup = guiConstructionMethods.createControlGroup(
+            UILayout.COFFEE_COORDINATES, stage, UILayout.DICE_SIZE[0], UILayout.DICE_SIZE[1]);
+        copilotCoffeeControlGroup = guiConstructionMethods.createControlGroup(
             ActionControlGroup.COPILOT_COFFEE_CONTROLS,
             new ActionName[]{
                 ActionName.COPILOT_COFFEE_1,
                 ActionName.COPILOT_COFFEE_2,
                 ActionName.COPILOT_COFFEE_3
             },
-            UILayout.KAFFEE_COORDINATES, stage, UILayout.WUERFEL_SIZE[0], UILayout.WUERFEL_SIZE[1]);
+            UILayout.COFFEE_COORDINATES, stage, UILayout.DICE_SIZE[0], UILayout.DICE_SIZE[1]);
 
-        controlGroups.add(pilotKaffeeControlGroup);
-        controlGroups.add(copilotKaffeeControlGroup);
+        controlGroups.add(pilotCoffeeControlGroup);
+        controlGroups.add(copilotCoffeeControlGroup);
 
-        pilotUseKaffeeControlGroup = guiConstructionMethods.createUseKaffeeButtons(
+        pilotUseCoffeeControlGroup = guiConstructionMethods.createUseCoffeeButtons(
             ActionControlGroup.PILOT_USE_COFFEE_CONTROL_GROUP,
-            UILayout.KAFFEE_CONTROL_COORDINATES,
+            UILayout.COFFEE_CONTROL_COORDINATES,
             stage
         );
-        copilotUseKaffeeControlGroup = guiConstructionMethods.createUseKaffeeButtons(
+        copilotUseCoffeeControlGroup = guiConstructionMethods.createUseCoffeeButtons(
             ActionControlGroup.COPILOT_USE_COFFEE_CONTROL_GROUP,
-            UILayout.KAFFEE_CONTROL_COORDINATES,
+            UILayout.COFFEE_CONTROL_COORDINATES,
             stage
         );
 
-        controlGroups.add(pilotUseKaffeeControlGroup);
-        controlGroups.add(copilotUseKaffeeControlGroup);
+        controlGroups.add(pilotUseCoffeeControlGroup);
+        controlGroups.add(copilotUseCoffeeControlGroup);
 
 
-        this.neuWurf = guiConstructionMethods.createNeuWurfButton(stage);
+        this.reroll = guiConstructionMethods.createRerollButton(stage);
 
 
         initMirrors();
@@ -295,18 +295,18 @@ public class GameGUI implements GameStateObserver {
      *
      * @param current Der aktuelle Player, dessen Kaffeeaktionen aktiviert werden.
      */
-    public void setKaffeeGroupsActive(Player current) {
+    public void setCoffeeGroupsActive(Player current) {
         boolean isPilot = current instanceof Pilot;
-        for (ControlField cf : pilotKaffeeControlGroup.getAllFields()) {
+        for (ControlField cf : pilotCoffeeControlGroup.getAllFields()) {
             cf.getButton().setTouchable(isPilot ? Touchable.enabled : Touchable.disabled);
         }
-        for (ControlField cf : pilotUseKaffeeControlGroup.getAllFields()) {
+        for (ControlField cf : pilotUseCoffeeControlGroup.getAllFields()) {
             cf.getButton().setTouchable(isPilot ? Touchable.enabled : Touchable.disabled);
         }
-        for (ControlField cf : copilotKaffeeControlGroup.getAllFields()) {
+        for (ControlField cf : copilotCoffeeControlGroup.getAllFields()) {
             cf.getButton().setTouchable(isPilot ? Touchable.disabled : Touchable.enabled);
         }
-        for (ControlField cf : copilotUseKaffeeControlGroup.getAllFields()) {
+        for (ControlField cf : copilotUseCoffeeControlGroup.getAllFields()) {
             cf.getButton().setTouchable(isPilot ? Touchable.disabled : Touchable.enabled);
         }
     }
@@ -362,20 +362,20 @@ public class GameGUI implements GameStateObserver {
             : getControlGroupByName(ActionControlGroup.COPILOT_CONTROLS);
     }
 
-    private ControlGroup getPilotKaffeeControlGroup() {
-        return pilotKaffeeControlGroup;
+    private ControlGroup getPilotCoffeeControlGroup() {
+        return pilotCoffeeControlGroup;
     }
 
-    private ControlGroup getCopilotKaffeeControlGroup() {
-        return copilotKaffeeControlGroup;
+    private ControlGroup getCopilotCoffeeControlGroup() {
+        return copilotCoffeeControlGroup;
     }
 
-    private ControlGroup getPilotUseKaffeeControlGroup() {
-        return pilotUseKaffeeControlGroup;
+    private ControlGroup getPilotUseCoffeeControlGroup() {
+        return pilotUseCoffeeControlGroup;
     }
 
-    private ControlGroup getCopilotUseKaffeeControlGroup() {
-        return copilotUseKaffeeControlGroup;
+    private ControlGroup getCopilotUseCoffeeControlGroup() {
+        return copilotUseCoffeeControlGroup;
     }
 
     /**
@@ -384,8 +384,8 @@ public class GameGUI implements GameStateObserver {
      * @param player Der Player, dessen Kaffee-Kontrollgruppe abgerufen werden soll.
      * @return Die entsprechende Kaffee-Kontrollgruppe.
      */
-    private ControlGroup getKaffeeControlGroup(Player player) {
-        return (player instanceof Pilot) ? getPilotKaffeeControlGroup() : getCopilotKaffeeControlGroup();
+    private ControlGroup getCoffeeControlGroup(Player player) {
+        return (player instanceof Pilot) ? getPilotCoffeeControlGroup() : getCopilotCoffeeControlGroup();
     }
 
     /**
@@ -394,8 +394,8 @@ public class GameGUI implements GameStateObserver {
      * @param player Der Player, dessen Kaffee-Verwendungsgruppe abgerufen werden soll.
      * @return Die entsprechende Kontrollgruppe für die Verwendung von Kaffee.
      */
-    private ControlGroup getUseKaffeeControlGroup(Player player) {
-        return (player instanceof Pilot) ? getPilotUseKaffeeControlGroup() : getCopilotUseKaffeeControlGroup();
+    private ControlGroup getUseCoffeeControlGroup(Player player) {
+        return (player instanceof Pilot) ? getPilotUseCoffeeControlGroup() : getCopilotUseCoffeeControlGroup();
     }
 
     /**
@@ -421,7 +421,7 @@ public class GameGUI implements GameStateObserver {
     public void addFieldListenersForPlacement(Player player) {
         ControlGroup mainGroup = getMainControlGroup(player);
         addListenersToGroupFields(mainGroup, player);
-        addKaffeeListeners(player);
+        addCoffeeListeners(player);
     }
 
     /**
@@ -429,14 +429,14 @@ public class GameGUI implements GameStateObserver {
      *
      * @param player Der Player, dessen Kaffee-Kontrollfelder aktiviert werden sollen.
      */
-    private void addKaffeeListeners(Player player) {
-        ControlGroup kaffeeGroup = getKaffeeControlGroup(player);
+    private void addCoffeeListeners(Player player) {
+        ControlGroup kaffeeGroup = getCoffeeControlGroup(player);
         highlightAvailableFields(kaffeeGroup);
         for (ControlField field : kaffeeGroup.getAvailableFields()) {
             field.getButton().addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    handleKaffeeFieldClick(field, player);
+                    handleCoffeeFieldClick(field, player);
                 }
             });
         }
@@ -451,20 +451,20 @@ public class GameGUI implements GameStateObserver {
      * von Pilot und Copilot, sodass deren Zustände synchronisiert werden können.
      */
     public void initMirrors() {
-        ControlField pilotK1 = pilotKaffeeControlGroup.getFieldByAction(ActionName.PILOT_COFFEE_1);
-        ControlField copilotK1 = copilotKaffeeControlGroup.getFieldByAction(ActionName.COPILOT_COFFEE_1);
+        ControlField pilotK1 = pilotCoffeeControlGroup.getFieldByAction(ActionName.PILOT_COFFEE_1);
+        ControlField copilotK1 = copilotCoffeeControlGroup.getFieldByAction(ActionName.COPILOT_COFFEE_1);
 
         mirroredFields.put(pilotK1, copilotK1);
         mirroredFields.put(copilotK1, pilotK1);
 
-        ControlField pilotK2 = pilotKaffeeControlGroup.getFieldByAction(ActionName.PILOT_COFFEE_2);
-        ControlField copilotK2 = copilotKaffeeControlGroup.getFieldByAction(ActionName.COPILOT_COFFEE_2);
+        ControlField pilotK2 = pilotCoffeeControlGroup.getFieldByAction(ActionName.PILOT_COFFEE_2);
+        ControlField copilotK2 = copilotCoffeeControlGroup.getFieldByAction(ActionName.COPILOT_COFFEE_2);
 
         mirroredFields.put(pilotK2, copilotK2);
         mirroredFields.put(copilotK2, pilotK2);
 
-        ControlField pilotK3 = pilotKaffeeControlGroup.getFieldByAction(ActionName.PILOT_COFFEE_3);
-        ControlField copilotK3 = copilotKaffeeControlGroup.getFieldByAction(ActionName.COPILOT_COFFEE_3);
+        ControlField pilotK3 = pilotCoffeeControlGroup.getFieldByAction(ActionName.PILOT_COFFEE_3);
+        ControlField copilotK3 = copilotCoffeeControlGroup.getFieldByAction(ActionName.COPILOT_COFFEE_3);
 
         mirroredFields.put(pilotK3, copilotK3);
         mirroredFields.put(copilotK3, pilotK3);
@@ -484,29 +484,29 @@ public class GameGUI implements GameStateObserver {
      * @param field Das angeklickte Kontrollfeld.
      * @param player Der Player, der die Aktion ausführt.
      */
-    private void handleKaffeeFieldClick(ControlField field, Player player) {
-        if (selectedWuerfelData == null || field.isOccupied()) {
+    private void handleCoffeeFieldClick(ControlField field, Player player) {
+        if (selectedDiceData == null || field.isOccupied()) {
             return;
         }
 
-        Dice w = selectedWuerfelData.getWuerfel();
-        boolean result = executeStep(field, player, w);
+        Dice d = selectedDiceData.getDice();
+        boolean result = executeStep(field, player, d);
 
         if (!result) {
             return;
         }
 
-        SelectedWuerfelData data = selectedWuerfelData;
+        SelectedDiceData data = selectedDiceData;
 
         ControlField mirroredField = mirroredFields.get(field);
         blockFieldForBoth(field, mirroredField, data);
-        removeWuerfelButtonFromHand(data);
+        removeDiceButtonFromHand(data);
 
         field.setOccupied(true);
         if (mirroredField != null) {
             mirroredField.setOccupied(true);
         }
-        selectedWuerfelData = null;
+        selectedDiceData = null;
         if (callback != null) {
             callback.onPlayerActionCompleted(player);
         }
@@ -538,7 +538,7 @@ public class GameGUI implements GameStateObserver {
      * @param fieldCopilot Das entsprechende Kontrollfeld des Copiloten.
      * @param data Die Daten des ausgewählten Würfels.
      */
-    private void blockFieldForBoth(ControlField fieldPilot, ControlField fieldCopilot, SelectedWuerfelData data) {
+    private void blockFieldForBoth(ControlField fieldPilot, ControlField fieldCopilot, SelectedDiceData data) {
         String texture = data.getDiceTexturePath();
 
         switchTexture(fieldPilot.getButton(), texture);
@@ -557,11 +557,11 @@ public class GameGUI implements GameStateObserver {
      * @param player Der Player, der die Aktion ausführt.
      */
     private void handleMainFieldClick(ControlField field, Player player) {
-        if (selectedWuerfelData == null || field.isOccupied()) {
+        if (selectedDiceData == null || field.isOccupied()) {
             return;
         }
         boolean isPilot = player instanceof Pilot;
-        Dice w = selectedWuerfelData.getWuerfel();
+        Dice w = selectedDiceData.getDice();
 
         boolean result = executeStep(field, player, w);
         if (!result) {
@@ -569,12 +569,12 @@ public class GameGUI implements GameStateObserver {
         }
 
         String texturePath = isPilot
-            ? TexturePaths.WUERFEL_PATH_PILOT + w.getValue() + TexturePaths.IMG_FORMAT
-            : TexturePaths.WUERFEL_PATH_COPILOT + w.getValue() + TexturePaths.IMG_FORMAT;
-        removeWuerfelButtonFromHand(selectedWuerfelData);
+            ? TexturePaths.DICE_PATH_PILOT + w.getValue() + TexturePaths.IMG_FORMAT
+            : TexturePaths.DICE_PATH_COPILOT + w.getValue() + TexturePaths.IMG_FORMAT;
+        removeDiceButtonFromHand(selectedDiceData);
         switchTexture(field.getButton(), texturePath);
         field.setOccupied(true);
-        selectedWuerfelData = null;
+        selectedDiceData = null;
         if (callback != null) {
             callback.onPlayerActionCompleted(player);
         }
@@ -583,16 +583,16 @@ public class GameGUI implements GameStateObserver {
     /**
      * Entfernt den Button des Würfels aus der Hand eines Spielers.
      *
-     * @param wuerfelData Die Daten des Würfels, der entfernt werden soll.
+     * @param diceData Die Daten des Würfels, der entfernt werden soll.
      */
-    private void removeWuerfelButtonFromHand(SelectedWuerfelData wuerfelData) {
-        Player owner = wuerfelData.getSpieler();
-        int wuerfelIndex = wuerfelData.getWuerfelIndex();
-        List<ImageButton> wuerfelActors = (owner instanceof Pilot) ? pilotWuerfelActors : copilotWuerfelActors;
-        if (wuerfelIndex >= 0 && wuerfelIndex < wuerfelActors.size()) {
-            ImageButton wuerfelButton = wuerfelActors.get(wuerfelIndex);
-            wuerfelButton.remove();
-            wuerfelActors.remove(wuerfelIndex);
+    private void removeDiceButtonFromHand(SelectedDiceData diceData) {
+        Player owner = diceData.getPlayer();
+        int diceIndex = diceData.getDiceIndex();
+        List<ImageButton> diceActors = (owner instanceof Pilot) ? pilotDiceActors : copilotDiceActors;
+        if (diceIndex >= 0 && diceIndex < diceActors.size()) {
+            ImageButton diceButton = diceActors.get(diceIndex);
+            diceButton.remove();
+            diceActors.remove(diceIndex);
         }
     }
 
@@ -601,27 +601,27 @@ public class GameGUI implements GameStateObserver {
      *
      * @param player Der Player, dessen Feldsituation überprüft wird.
      */
-    public void checkFeldSituation(Player player) {
-        Field fieldNeigung;
+    public void checkFieldSituation(Player player) {
+        Field fieldTilt;
         Field fieldSpeed;
-        int anzahlWuerfels;
+        int diceAmount;
         if (player instanceof Pilot) {
-            fieldNeigung = game.getFieldPilot(FieldName.TILT);
+            fieldTilt = game.getFieldPilot(FieldName.TILT);
             fieldSpeed = game.getFieldPilot(FieldName.SPEED);
-            anzahlWuerfels = game.getPilot().getAllDiceCount();
+            diceAmount = game.getPilot().getAllDiceCount();
             player = game.getPilot();
         } else {
-            fieldNeigung = game.getFieldCopilot(FieldName.TILT);
+            fieldTilt = game.getFieldCopilot(FieldName.TILT);
             fieldSpeed = game.getFieldCopilot(FieldName.SPEED);
-            anzahlWuerfels = game.getCopilot().getAllDiceCount();
+            diceAmount = game.getCopilot().getAllDiceCount();
             player = game.getCopilot();
         }
-        if (!fieldNeigung.isOccupied() && !fieldSpeed.isOccupied() && anzahlWuerfels == 2) {
-            verpflicteteAktion(player);
-        } else if (!fieldNeigung.isOccupied() && anzahlWuerfels == 1) {
-            verpflicteteAktion(player);
-        } else if (!fieldSpeed.isOccupied() && anzahlWuerfels == 1) {
-            verpflicteteAktion(player);
+        if (!fieldTilt.isOccupied() && !fieldSpeed.isOccupied() && diceAmount == 2) {
+            requiredAction(player);
+        } else if (!fieldTilt.isOccupied() && diceAmount == 1) {
+            requiredAction(player);
+        } else if (!fieldSpeed.isOccupied() && diceAmount == 1) {
+            requiredAction(player);
         }
     }
 
@@ -630,58 +630,58 @@ public class GameGUI implements GameStateObserver {
      *
      * @param player Der Player, der die Pflichtaktion ausführen muss.
      */
-    void verpflicteteAktion(Player player) {
-        Field fieldNeigung;
+    void requiredAction(Player player) {
+        Field fieldTilt;
         Field fieldSpeed;
-        ControlField neigungField;
+        ControlField tiltField;
         ControlField speedField;
-        ControlGroup verpflichteteGroup;
+        ControlGroup requiredActionsGroup;
         ControlGroup allFields;
-        ControlGroup kaffeeFields;
+        ControlGroup coffeeFields;
         if (player instanceof Pilot) {
-            fieldNeigung = game.getFieldPilot(FieldName.TILT);
+            fieldTilt = game.getFieldPilot(FieldName.TILT);
             fieldSpeed = game.getFieldPilot(FieldName.SPEED);
-            neigungField = getControlGroupByName(ActionControlGroup.PILOT_CONTROLS).getFieldByAction(ActionName.PILOT_TILT);
+            tiltField = getControlGroupByName(ActionControlGroup.PILOT_CONTROLS).getFieldByAction(ActionName.PILOT_TILT);
             speedField = getControlGroupByName(ActionControlGroup.PILOT_CONTROLS).getFieldByAction(ActionName.PILOT_SPEED);
             allFields = getControlGroupByName(ActionControlGroup.PILOT_CONTROLS);
-            kaffeeFields = pilotKaffeeControlGroup;
+            coffeeFields = pilotCoffeeControlGroup;
             player = game.getPilot();
         } else {
-            fieldNeigung = game.getFieldCopilot(FieldName.TILT);
+            fieldTilt = game.getFieldCopilot(FieldName.TILT);
             fieldSpeed = game.getFieldCopilot(FieldName.SPEED);
-            neigungField = getControlGroupByName(ActionControlGroup.COPILOT_CONTROLS).getFieldByAction(ActionName.COPILOT_TILT);
+            tiltField = getControlGroupByName(ActionControlGroup.COPILOT_CONTROLS).getFieldByAction(ActionName.COPILOT_TILT);
             speedField = getControlGroupByName(ActionControlGroup.COPILOT_CONTROLS).getFieldByAction(ActionName.COPILOT_SPEED);
             allFields = getControlGroupByName(ActionControlGroup.COPILOT_CONTROLS);
-            kaffeeFields = copilotKaffeeControlGroup;
+            coffeeFields = copilotCoffeeControlGroup;
             player = game.getCopilot();
         }
-        if (!fieldSpeed.isOccupied() && !fieldNeigung.isOccupied()) {
+        if (!fieldSpeed.isOccupied() && !fieldTilt.isOccupied()) {
             createMessage("Achtung!", "Bitte setzen Sie die Würfel auf die Pflichtfelder");
-            verpflichteteGroup = new ControlGroup(ActionControlGroup.REQUIRED_CONTROLS, List.of(neigungField, speedField));
+            requiredActionsGroup = new ControlGroup(ActionControlGroup.REQUIRED_CONTROLS, List.of(tiltField, speedField));
             removeHighlight(allFields);
-            removeHighlight(getPilotKaffeeControlGroup());
-            removeHighlight(getCopilotKaffeeControlGroup());
-            disableFields(allFields, verpflichteteGroup);
-            disableFields(kaffeeFields, verpflichteteGroup);
-            addListenersToGroupFields(verpflichteteGroup, player);
+            removeHighlight(getPilotCoffeeControlGroup());
+            removeHighlight(getCopilotCoffeeControlGroup());
+            disableFields(allFields, requiredActionsGroup);
+            disableFields(coffeeFields, requiredActionsGroup);
+            addListenersToGroupFields(requiredActionsGroup, player);
         } else if (!fieldSpeed.isOccupied()) {
             createMessage("Achtung!", "Bitte setzen Sie den Würfel auf das Pflichtfeld");
-            verpflichteteGroup = new ControlGroup(ActionControlGroup.REQUIRED_CONTROLS, List.of(speedField));
+            requiredActionsGroup = new ControlGroup(ActionControlGroup.REQUIRED_CONTROLS, List.of(speedField));
             removeHighlight(allFields);
-            removeHighlight(getPilotKaffeeControlGroup());
-            removeHighlight(getCopilotKaffeeControlGroup());
-            addListenersToGroupFields(verpflichteteGroup, player);
+            removeHighlight(getPilotCoffeeControlGroup());
+            removeHighlight(getCopilotCoffeeControlGroup());
+            addListenersToGroupFields(requiredActionsGroup, player);
         } else {
             createMessage("Achtung!", "Bitte setzen Sie den Würfel auf das Pflichtfeld");
-            verpflichteteGroup = new ControlGroup(ActionControlGroup.REQUIRED_CONTROLS, List.of(neigungField));
+            requiredActionsGroup = new ControlGroup(ActionControlGroup.REQUIRED_CONTROLS, List.of(tiltField));
             removeHighlight(allFields);
-            removeHighlight(getPilotKaffeeControlGroup());
-            removeHighlight(getCopilotKaffeeControlGroup());
-            addListenersToGroupFields(verpflichteteGroup, player);
+            removeHighlight(getPilotCoffeeControlGroup());
+            removeHighlight(getCopilotCoffeeControlGroup());
+            addListenersToGroupFields(requiredActionsGroup, player);
         }
     }
 
-    public SwitchGUI getSchalterGUI() {
+    public SwitchGUI getSwitchGUI() {
         return switchGUI;
     }
 
@@ -700,8 +700,8 @@ public class GameGUI implements GameStateObserver {
      * @param player Der Player, dessen Listener entfernt werden sollen.
      */
     public void clearPlayerListeners(Player player) {
-        ArrayList<ImageButton> wuerfelActors = (player instanceof Pilot) ? pilotWuerfelActors : copilotWuerfelActors;
-        for (ImageButton button : wuerfelActors) {
+        ArrayList<ImageButton> diceActors = (player instanceof Pilot) ? pilotDiceActors : copilotDiceActors;
+        for (ImageButton button : diceActors) {
             button.clearListeners();
         }
 
@@ -715,18 +715,18 @@ public class GameGUI implements GameStateObserver {
 
 
         if (player instanceof Pilot) {
-            for (ControlField field : getPilotKaffeeControlGroup().getAllFields()) {
+            for (ControlField field : getPilotCoffeeControlGroup().getAllFields()) {
                 field.getButton().clearListeners();
             }
-            for (ControlField field : getPilotUseKaffeeControlGroup().getAllFields()) {
+            for (ControlField field : getPilotUseCoffeeControlGroup().getAllFields()) {
                 field.getButton().clearListeners();
                 switchTexture(field.getButton(), TexturePaths.WITHOUT_HIGHLIGHT_PATH);
             }
         } else {
-            for (ControlField field : getCopilotKaffeeControlGroup().getAllFields()) {
+            for (ControlField field : getCopilotCoffeeControlGroup().getAllFields()) {
                 field.getButton().clearListeners();
             }
-            for (ControlField field : getCopilotUseKaffeeControlGroup().getAllFields()) {
+            for (ControlField field : getCopilotUseCoffeeControlGroup().getAllFields()) {
                 field.getButton().clearListeners();
                 switchTexture(field.getButton(), TexturePaths.WITHOUT_HIGHLIGHT_PATH);
             }
@@ -751,8 +751,8 @@ public class GameGUI implements GameStateObserver {
             switchTexture(button, TexturePaths.WITHOUT_HIGHLIGHT_PATH);
             copilotGroup.getFieldByAction(s).setOccupied(false);
         }
-        showNeuWurf(false);
-        showKaffee(false, false);
+        showReroll(false);
+        showCoffee(false, false);
     }
 
 
@@ -762,9 +762,9 @@ public class GameGUI implements GameStateObserver {
      * @param pilotAvailable Gibt an, ob die Kaffeegruppen des Piloten aktiv sein sollen.
      * @param copilotAvailable Gibt an, ob die Kaffeegruppen des Copiloten aktiv sein sollen.
      */
-    public void showKaffee(Boolean pilotAvailable, Boolean copilotAvailable) {
+    public void showCoffee(Boolean pilotAvailable, Boolean copilotAvailable) {
         int kaffeeCount = game.getCoffeeTokenCount();
-        ControlGroup pilotUseGroup = getPilotUseKaffeeControlGroup();
+        ControlGroup pilotUseGroup = getPilotUseCoffeeControlGroup();
         if (!pilotAvailable) {
             for (ControlField field : pilotUseGroup.getAllFields()) {
                 switchTexture(field.getButton(), TexturePaths.WITHOUT_HIGHLIGHT_PATH);
@@ -780,7 +780,7 @@ public class GameGUI implements GameStateObserver {
                     if (i <= kaffeeCount) {
                         field.setOccupied(true);
                         field.getButton().setTouchable(Touchable.enabled);
-                        switchTexture(field.getButton(), TexturePaths.KAFFEE_PATH);
+                        switchTexture(field.getButton(), TexturePaths.COFFEE_PATH);
                     } else {
                         field.setOccupied(false);
                         switchTexture(field.getButton(), TexturePaths.WITHOUT_HIGHLIGHT_PATH);
@@ -790,7 +790,7 @@ public class GameGUI implements GameStateObserver {
             }
         }
 
-        ControlGroup copilotUseGroup = getCopilotUseKaffeeControlGroup();
+        ControlGroup copilotUseGroup = getCopilotUseCoffeeControlGroup();
         if (!copilotAvailable) {
             for (ControlField field : copilotUseGroup.getAllFields()) {
                 switchTexture(field.getButton(), TexturePaths.WITHOUT_HIGHLIGHT_PATH);
@@ -806,7 +806,7 @@ public class GameGUI implements GameStateObserver {
                     if (i <= kaffeeCount) {
                         field.setOccupied(true);
                         field.getButton().setTouchable(Touchable.enabled);
-                        switchTexture(field.getButton(), TexturePaths.KAFFEE_PATH);
+                        switchTexture(field.getButton(), TexturePaths.COFFEE_PATH);
                     } else {
                         field.setOccupied(false);
                         switchTexture(field.getButton(), TexturePaths.WITHOUT_HIGHLIGHT_PATH);
@@ -823,22 +823,22 @@ public class GameGUI implements GameStateObserver {
      *
      * @param s Der Player, der ein Kaffee-Token verwenden möchte.
      */
-    public void useKaffee(Player s) {
-        int kaffeeCount = game.getCoffeeTokenCount();
-        ControlGroup useGroup = getUseKaffeeControlGroup(s);
+    public void useCoffee(Player s) {
+        int coffeeTokenCount = game.getCoffeeTokenCount();
+        ControlGroup useGroup = getUseCoffeeControlGroup(s);
 
-        if (kaffeeCount > 0) {
+        if (coffeeTokenCount > 0) {
             ControlField field = useGroup.getFieldByAction(
-                ActionName.useCoffee(kaffeeCount)
+                ActionName.useCoffee(coffeeTokenCount)
             );
             if (field != null && field.isOccupied()) {
                 field.getButton().clearListeners();
                 field.getButton().setTouchable(Touchable.enabled);
-                switchTexture(field.getButton(), TexturePaths.KAFFEE_AVAILABLE_PATH);
+                switchTexture(field.getButton(), TexturePaths.COFFEE_AVAILABLE_PATH);
                 field.getButton().addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        switchTexture(field.getButton(), TexturePaths.KAFFEE_SELECTED_PATH);
+                        switchTexture(field.getButton(), TexturePaths.COFFEE_SELECTED_PATH);
                         createMessage("Kaffee-Token verwenden", "Bitte wählen Sie einen Würfel aus, dessen Wert Sie ändern möchten!");
                         waitForDiceSelection(s, field.getAction());
                     }
@@ -860,16 +860,16 @@ public class GameGUI implements GameStateObserver {
      * @param name Der Name des Kaffee-Kontrollfeldes.
      */
     private void waitForDiceSelection(Player player, ActionName name) {
-        ArrayList<ImageButton> wuerfelActors = (player instanceof Pilot)
-            ? pilotWuerfelActors
-            : copilotWuerfelActors;
+        ArrayList<ImageButton> diceActors = (player instanceof Pilot)
+            ? pilotDiceActors
+            : copilotDiceActors;
         ArrayList<Dice> dices = player.getAllDice();
         String path = (player instanceof Pilot)
-            ? TexturePaths.WUERFEL_PATH_PILOT
-            : TexturePaths.WUERFEL_PATH_COPILOT;
+            ? TexturePaths.DICE_PATH_PILOT
+            : TexturePaths.DICE_PATH_COPILOT;
 
-        for (int i = 0; i < wuerfelActors.size(); i++) {
-            final ImageButton wuerfelButton = wuerfelActors.get(i);
+        for (int i = 0; i < diceActors.size(); i++) {
+            final ImageButton wuerfelButton = diceActors.get(i);
             final Dice dice = dices.get(i);
             final int index = i;
             final int wert = dice.getValue();
@@ -877,17 +877,17 @@ public class GameGUI implements GameStateObserver {
             wuerfelButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    switchTexture(wuerfelButton, path + wert + TexturePaths.WUERFEL_PATH_SELECTED);
+                    switchTexture(wuerfelButton, path + wert + TexturePaths.DICE_PATH_SELECTED);
                     clearDiceListeners(player);
                     createKaffeeTokenWindow(dice, player, index, (neuerWert) -> {
                         switchTexture(wuerfelButton, path + neuerWert + TexturePaths.IMG_FORMAT);
-                        removeKaffeeTokenByName(name, player);
-                        kaffeeFieldClearLastUsed(player);
-                        checkFeldSituation(player);
-                        addWuerfelListenersForSpieler(player);
+                        removeCoffeeTokenByName(name, player);
+                        coffeeFieldClearLastUsed(player);
+                        checkFieldSituation(player);
+                        addDiceListenersForSpieler(player);
 
                         if (game.getCoffeeTokenCount() > 0) {
-                            useKaffee(player);
+                            useCoffee(player);
                         }
                     });
                 }
@@ -900,18 +900,18 @@ public class GameGUI implements GameStateObserver {
      *
      * @param s Der Player, dessen Kontrollfelder zurückgesetzt werden sollen.
      */
-    private void kaffeeFieldClearLastUsed(Player s) {
-        List<ControlField> pilotFields = pilotKaffeeControlGroup.getAllFields();
-        List<ControlField> copilotFields = copilotKaffeeControlGroup.getAllFields();
+    private void coffeeFieldClearLastUsed(Player s) {
+        List<ControlField> pilotFields = pilotCoffeeControlGroup.getAllFields();
+        List<ControlField> copilotFields = copilotCoffeeControlGroup.getAllFields();
 
-        List<ControlField> allKaffeeFields = new ArrayList<>();
-        allKaffeeFields.addAll(pilotFields);
-        allKaffeeFields.addAll(copilotFields);
+        List<ControlField> allCoffeeFields = new ArrayList<>();
+        allCoffeeFields.addAll(pilotFields);
+        allCoffeeFields.addAll(copilotFields);
 
-        for (int i = allKaffeeFields.size() - 1; i >= 0; i--) {
-            ControlField field = allKaffeeFields.get(i);
+        for (int i = allCoffeeFields.size() - 1; i >= 0; i--) {
+            ControlField field = allCoffeeFields.get(i);
             if (field.isOccupied()) {
-                freeKaffeeFieldForBoth(field, s);
+                freeCoffeeFieldForBoth(field, s);
                 break;
             }
         }
@@ -923,7 +923,7 @@ public class GameGUI implements GameStateObserver {
      * @param field Das Kaffee-Kontrollfeld, das freigegeben werden soll.
      * @param s Der Player, für den das Kontrollfeld freigegeben wird.
      */
-    private void freeKaffeeFieldForBoth(ControlField field, Player s) {
+    private void freeCoffeeFieldForBoth(ControlField field, Player s) {
         ControlField mirrored = mirroredFields.get(field);
 
         if (s instanceof Pilot) {
@@ -932,7 +932,7 @@ public class GameGUI implements GameStateObserver {
             mirrored.setOccupied(false);
             switchTexture(mirrored.getButton(), TexturePaths.AVAILABLE_FIELD_PATH);
             mirrored.getButton().setTouchable(Touchable.enabled);
-            addKaffeeListeners(s);
+            addCoffeeListeners(s);
 
         } else {
             field.setOccupied(false);
@@ -940,7 +940,7 @@ public class GameGUI implements GameStateObserver {
             mirrored.setOccupied(false);
             switchTexture(mirrored.getButton(), TexturePaths.AVAILABLE_FIELD_PATH);
             field.getButton().setTouchable(Touchable.enabled);
-            addKaffeeListeners(s);
+            addCoffeeListeners(s);
         }
     }
 
@@ -950,7 +950,7 @@ public class GameGUI implements GameStateObserver {
      * @param player Der Player, dessen Würfel zurückgesetzt werden sollen.
      */
     private void clearDiceListeners(Player player) {
-        ArrayList<ImageButton> wuerfelActors = (player instanceof Pilot) ? pilotWuerfelActors : copilotWuerfelActors;
+        ArrayList<ImageButton> wuerfelActors = (player instanceof Pilot) ? pilotDiceActors : copilotDiceActors;
         for (ImageButton ib : wuerfelActors) {
             ib.clearListeners();
         }
@@ -962,8 +962,8 @@ public class GameGUI implements GameStateObserver {
      * @param name Der Name des verwendeten Kaffee-Kontrollfeldes.
      * @param player Der Player, dessen Kaffee-Token entfernt werden soll.
      */
-    private void removeKaffeeTokenByName(ActionName name, Player player) {
-        ControlGroup useGroup = getUseKaffeeControlGroup(player);
+    private void removeCoffeeTokenByName(ActionName name, Player player) {
+        ControlGroup useGroup = getUseCoffeeControlGroup(player);
         ControlField usedField = useGroup.getFieldByAction(name);
         if (usedField != null) {
             usedField.setOccupied(false);
@@ -977,18 +977,18 @@ public class GameGUI implements GameStateObserver {
      *
      * @param available Gibt an, ob der Button aktiv oder deaktiviert sein soll.
      */
-    public void showNeuWurf(Boolean available) {
-        int anzahlTokens = game.getRerollTokenCount();
-        ImageButton button = neuWurf.getButton();
-        if (anzahlTokens == 0) {
+    public void showReroll(Boolean available) {
+        int rerollTokenCount = game.getRerollTokenCount();
+        ImageButton button = reroll.getButton();
+        if (rerollTokenCount == 0) {
             switchTexture(button, TexturePaths.WITHOUT_HIGHLIGHT_PATH);
             button.setTouchable(Touchable.disabled);
         } else {
             if (available) {
                 button.setTouchable(Touchable.enabled);
-                switchTexture(button, TexturePaths.NEUWURF_AVAILABLE_PATH);
+                switchTexture(button, TexturePaths.REROLL_AVAILABLE_PATH);
             } else {
-                switchTexture(button, TexturePaths.NEUWURF_PATH);
+                switchTexture(button, TexturePaths.REROLL_PATH);
             }
         }
     }
@@ -998,35 +998,35 @@ public class GameGUI implements GameStateObserver {
      *
      * @param player Der Player, der ein "Neu Wurf"-Token verwenden möchte.
      */
-    public void useNeuWurf(Player player) {
-        ImageButton button = neuWurf.getButton();
+    public void useReroll(Player player) {
+        ImageButton button = reroll.getButton();
         button.clearListeners();
         if (game.getRerollTokenCount() > 0) {
             button.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    switchTexture(button, TexturePaths.NEUWURF_SELECTED_PATH);
+                    switchTexture(button, TexturePaths.REROLL_SELECTED_PATH);
                     createNeuWurfTokenWindow(player, (p1, p2) -> {
                         if (p1 != null) {
-                            createWuerfelForSpieler(p1);
-                            addWuerfelListenersForSpieler(p1);
+                            createDiceForPlayer(p1);
+                            addDiceListenersForSpieler(p1);
                         }
                         if (p2 != null) {
-                            createWuerfelForSpieler(p2);
-                            addWuerfelListenersForSpieler(p2);
+                            createDiceForPlayer(p2);
+                            addDiceListenersForSpieler(p2);
                         }
                         if (game.getRerollTokenCount() == 0) {
                             switchTexture(button, TexturePaths.WITHOUT_HIGHLIGHT_PATH);
                             button.setTouchable(Touchable.disabled);
                         } else {
                             button.setTouchable(Touchable.enabled);
-                            switchTexture(button, TexturePaths.NEUWURF_AVAILABLE_PATH);
+                            switchTexture(button, TexturePaths.REROLL_AVAILABLE_PATH);
                         }
                         removeAllHideImages();
                         if( (player instanceof Pilot) ){
-                            hideWuerfel(player);
+                            hideDice(player);
                         } else {
-                            hideWuerfel(game.getCopilot());
+                            hideDice(game.getCopilot());
                         }
                     });
                 }
@@ -1039,9 +1039,9 @@ public class GameGUI implements GameStateObserver {
      * Gibt alle verwendeten Ressourcen frei und entfernt alle GUI-Elemente.
      */
     public void dispose() {
-        if (ruder != null && ruder.getDrawable() instanceof TextureRegionDrawable) {
-            ruder.remove();
-            ruder = null;
+        if (rudder != null && rudder.getDrawable() instanceof TextureRegionDrawable) {
+            rudder.remove();
+            rudder = null;
         }
 
         if (guiConstructionMethods != null) {
@@ -1054,37 +1054,37 @@ public class GameGUI implements GameStateObserver {
             switchGUI = null;
         }
 
-        if (neuWurf != null && neuWurf.getButton() != null) {
-            ImageButton button = neuWurf.getButton();
+        if (reroll != null && reroll.getButton() != null) {
+            ImageButton button = reroll.getButton();
             button.remove();
-            neuWurf = null;
+            reroll = null;
         }
 
-        for (ImageButton button : pilotWuerfelActors) {
+        for (ImageButton button : pilotDiceActors) {
             button.remove();
         }
-        pilotWuerfelActors.clear();
+        pilotDiceActors.clear();
 
-        for (ImageButton button : copilotWuerfelActors) {
+        for (ImageButton button : copilotDiceActors) {
             button.remove();
         }
-        copilotWuerfelActors.clear();
+        copilotDiceActors.clear();
 
-        if (pilotKaffeeControlGroup != null) {
-            pilotKaffeeControlGroup.dispose();
-            pilotKaffeeControlGroup = null;
+        if (pilotCoffeeControlGroup != null) {
+            pilotCoffeeControlGroup.dispose();
+            pilotCoffeeControlGroup = null;
         }
-        if (copilotKaffeeControlGroup != null) {
-            copilotKaffeeControlGroup.dispose();
-            copilotKaffeeControlGroup = null;
+        if (copilotCoffeeControlGroup != null) {
+            copilotCoffeeControlGroup.dispose();
+            copilotCoffeeControlGroup = null;
         }
-        if (pilotUseKaffeeControlGroup != null) {
-            pilotUseKaffeeControlGroup.dispose();
-            pilotUseKaffeeControlGroup = null;
+        if (pilotUseCoffeeControlGroup != null) {
+            pilotUseCoffeeControlGroup.dispose();
+            pilotUseCoffeeControlGroup = null;
         }
-        if (copilotUseKaffeeControlGroup != null) {
-            copilotUseKaffeeControlGroup.dispose();
-            copilotUseKaffeeControlGroup = null;
+        if (copilotUseCoffeeControlGroup != null) {
+            copilotUseCoffeeControlGroup.dispose();
+            copilotUseCoffeeControlGroup = null;
         }
         for (ControlGroup group : controlGroups) {
             group.dispose();
@@ -1093,7 +1093,7 @@ public class GameGUI implements GameStateObserver {
         controlGroups.clear();
 
         mirroredFields.clear();
-        selectedWuerfelData = null;
+        selectedDiceData = null;
 
 
         gameService = null;
@@ -1107,7 +1107,7 @@ public class GameGUI implements GameStateObserver {
      *
      * @param player Der aktuelle Player, dessen Würfel sichtbar bleiben sollen.
      */
-    public void hideWuerfel(Player player) {
+    public void hideDice(Player player) {
         if (player instanceof Pilot) {
             renderHideImage(UILayout.COPILOT_HIDING_SCREEN_COORDINATES[0], UILayout.COPILOT_HIDING_SCREEN_COORDINATES[1]);
             removeHideImage(UILayout.PILOT_HIDING_SCREEN_COORDINATES[0], UILayout.PILOT_HIDING_SCREEN_COORDINATES[1]);
@@ -1376,30 +1376,30 @@ public class GameGUI implements GameStateObserver {
 
     @Override
     public void onBrakesActivated(int switchIndex, int indicatorValue) {
-        switchGUI.activateBremsenSchalter(switchIndex);
-        switchGUI.moveBremsenIndicator(indicatorValue);
+        switchGUI.activateBrakesSwitch(switchIndex);
+        switchGUI.moveBrakesIndicator(indicatorValue);
     }
 
     @Override
     public void onLandingGearActivated(int switchIndex, int count) {
-        switchGUI.activateFahrgestellSchalter(switchIndex);
-        switchGUI.moveFahrgestellIndicator(count);
+        switchGUI.activateLandingGearSwitch(switchIndex);
+        switchGUI.moveLandingGearIndicator(count);
     }
 
     @Override
     public void onFlapsActivated(int switchIndex, int state) {
         switchGUI.activateKlappenSchalter(switchIndex);
-        switchGUI.moveKlappenIndicator(state);
+        switchGUI.moveFlapsIndicator(state);
     }
 
     @Override
     public void onTiltChanged(float targetRotation) {
-        ruder.addAction(Actions.rotateTo(targetRotation, 1f));
+        rudder.addAction(Actions.rotateTo(targetRotation, 1f));
     }
 
     @Override
     public void onSpeedChanged(int steps) {
-        campaignAltitudeManager.updateScenario(steps);
+        campaignAltitudeManager.updateCampaign(steps);
     }
 
 

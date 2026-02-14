@@ -13,7 +13,7 @@ import com.teama.skyteam.drop.domain.action.type.ActionName;
 public class ControlField {
     private ActionName action;
     private ImageButton button;
-    private boolean occupied;
+    private boolean isOccupied;
 
     /**
      * Konstruktor zur Erstellung eines GUI-Spielfelds.
@@ -24,7 +24,7 @@ public class ControlField {
     public ControlField(ActionName action, ImageButton button) {
         this.action = action;
         this.button = button;
-        this.occupied = false;
+        this.isOccupied = false;
     }
 
     public ActionName getAction() {
@@ -36,10 +36,10 @@ public class ControlField {
     }
 
     public boolean isOccupied() {
-        return occupied;
+        return isOccupied;
     }
 
     public void setOccupied(boolean occupied) {
-        this.occupied = occupied;
+        this.isOccupied = occupied;
     }
 }

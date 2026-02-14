@@ -95,7 +95,7 @@ class ScenarioSelectionScreen implements Screen {
 
         batch = new SpriteBatch();
         logo = new Texture(TexturePaths.LOGO_PATH);
-        planeBackground = new Texture(TexturePaths.BACKGROUND_SZENARIO_SELECTION_PATH);
+        planeBackground = new Texture(TexturePaths.BACKGROUND_CAMPAIGN_SELECTION_PATH);
     }
 
     /**

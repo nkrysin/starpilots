@@ -109,7 +109,7 @@ public class StandardGameStateManager implements GameStateManager{
             }
             game.setPosition(newPosition);
             game.updateCurrentField();
-            // szenarioHoeheManager.updateScenario(steps);
+            // szenarioHoeheManager.updateCampaign(steps);
         }
         return ActionResult.success();
     }
