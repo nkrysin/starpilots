@@ -105,7 +105,7 @@ public class SwitchGUI {
      *
      * @param index Der Index des Schalters.
      */
-    public void activateKlappenSchalter(int index) {
+    public void aktivateFlapsSwitch(int index) {
         Image fSwitch = flapsSwitch[index];
         float currentX = fSwitch.getX();
         newX = currentX - UILayout.SWITCH_STEP;

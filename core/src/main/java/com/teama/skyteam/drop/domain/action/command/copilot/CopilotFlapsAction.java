@@ -31,13 +31,13 @@ public class CopilotFlapsAction implements PlayerAction {
 
 
 //        if (gewaehlterWuerfel.getWert() <= 2) {
-//            schalterGUI.activateKlappenSchalter(0);
+//            schalterGUI.aktivateFlapsSwitch(0);
 //        } else if (gewaehlterWuerfel.getWert() <= 3) {
-//            schalterGUI.activateKlappenSchalter(1);
+//            schalterGUI.aktivateFlapsSwitch(1);
 //        } else if (gewaehlterWuerfel.getWert() <= 5) {
-//            schalterGUI.activateKlappenSchalter(2);
+//            schalterGUI.aktivateFlapsSwitch(2);
 //        } else {
-//            schalterGUI.activateKlappenSchalter(3);
+//            schalterGUI.aktivateFlapsSwitch(3);
 //        }
 //        schalterGUI.moveFlapsIndicator(game.getPlane().getFlapsState().getValue());
     }

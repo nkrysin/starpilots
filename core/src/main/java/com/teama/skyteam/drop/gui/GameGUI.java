@@ -1388,7 +1388,7 @@ public class GameGUI implements GameStateObserver {
 
     @Override
     public void onFlapsActivated(int switchIndex, int state) {
-        switchGUI.activateKlappenSchalter(switchIndex);
+        switchGUI.aktivateFlapsSwitch(switchIndex);
         switchGUI.moveFlapsIndicator(state);
     }
 
