@@ -1,11 +1,11 @@
 /**
  * Stellt Methoden zur Konstruktion von GUI-Elementen bereit.
  *
- * Die Klasse `GUIConstructionMethods` bietet Hilfsmethoden, um GUI-Elemente wie Buttons und Kontrollgruppen
+ * Die Klasse `GameControlFactory` bietet Hilfsmethoden, um GUI-Elemente wie Buttons und Kontrollgruppen
  * zu erstellen. Diese Elemente können auf einer `Stage` hinzugefügt werden, um sie im Game darzustellen.
  * Außerdem wird eine Methode bereitgestellt, um die erstellten Ressourcen freizugeben.
  */
-package com.teama.skyteam.drop.ui;
+package com.teama.skyteam.drop.ui.factory;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -21,7 +21,7 @@ import com.teama.skyteam.drop.ui.constants.UILayout;
 
 import java.util.ArrayList;
 
-public class GUIConstructionMethods {
+public class GameControlFactory {
 
     private final ArrayList<ImageButton> createdButtons = new ArrayList<>(); // Liste der erstellten Buttons.
 
@@ -98,7 +98,7 @@ public class GUIConstructionMethods {
      * @param stage die `Stage`, auf der der Button hinzugefügt wird.
      * @return das erstellte `ControlField`, das den Button enthält.
      */
-    ControlField createRerollButton(Stage stage) {
+    public ControlField createRerollButton(Stage stage) {
         ImageButton button = createButton(
             TexturePaths.WITHOUT_HIGHLIGHT_PATH,
             UILayout.REROLL_BUTTON_COORDINATES[0],

@@ -7,6 +7,7 @@ import com.teama.skyteam.drop.application.gameservice.GameService;
 import com.teama.skyteam.drop.domain.model.field.Field;
 import com.teama.skyteam.drop.domain.model.game.Game;
 import com.teama.skyteam.drop.domain.model.player.Player;
+import com.teama.skyteam.drop.ui.input.DiceInputHandler;
 import com.teama.skyteam.drop.ui.utilities.PlayerActionCallback;
 import com.teama.skyteam.drop.domain.action.factory.ActionFactory;
 import com.teama.skyteam.drop.domain.action.validator.ActionValidator;
@@ -104,8 +105,8 @@ public class GameControllerGUI {
         gameStateManager.setNewDices(firstPlayer);
         gameStateManager.setNewDices(secondPlayer);
 
-        gameGUI.createDiceForPlayer(firstPlayer);
-        gameGUI.createDiceForPlayer(secondPlayer);
+        gameGUI.getDiceInputHandler().createDiceForPlayer(firstPlayer);
+        gameGUI.getDiceInputHandler().createDiceForPlayer(secondPlayer);
     }
 
     /**
@@ -121,7 +122,7 @@ public class GameControllerGUI {
         game.setRound(game.getRound() + 1);
         gameStateManager.reduceAltitude();
         game.setEndCondition(gameService.checkFailCondition());
-        gameGUI.removeAllHideImages();
+        gameGUI.getDiceInputHandler().removeAllHideImages();
     }
 
     /**
@@ -195,9 +196,9 @@ public class GameControllerGUI {
 
                 case PLAY_TURN_FIRST:
                     if (firstPlayer.getAllDiceCount() > 0 && !gameService.checkFailCondition() && nowMustBeFirst) {
-                        gameGUI.removeAllHideImages();
-                        gameGUI.hideDice(firstPlayer);
-                        gameGUI.addDiceListenersForSpieler(firstPlayer);
+                        gameGUI.getDiceInputHandler().removeAllHideImages();
+                        gameGUI.getDiceInputHandler().hideDice(firstPlayer);
+                        gameGUI.getDiceInputHandler().addDiceListenersForSpieler(firstPlayer);
                         gameGUI.addFieldListenersForPlacement(firstPlayer);
                         gameGUI.checkFieldSituation(firstPlayer);
                         gameGUI.setCoffeeGroupsActive(firstPlayer);
@@ -239,9 +240,9 @@ public class GameControllerGUI {
 
                 case PLAY_TURN_SECOND:
                     if (secondPlayer.getAllDiceCount() > 0 && !gameService.checkFailCondition() && nowMustBeSecond) {
-                        gameGUI.removeAllHideImages();
-                        gameGUI.hideDice(secondPlayer);
-                        gameGUI.addDiceListenersForSpieler(secondPlayer);
+                        gameGUI.getDiceInputHandler().removeAllHideImages();
+                        gameGUI.getDiceInputHandler().hideDice(secondPlayer);
+                        gameGUI.getDiceInputHandler().addDiceListenersForSpieler(secondPlayer);
                         gameGUI.addFieldListenersForPlacement(secondPlayer);
                         gameGUI.checkFieldSituation(secondPlayer);
                         gameGUI.setCoffeeGroupsActive(secondPlayer);
