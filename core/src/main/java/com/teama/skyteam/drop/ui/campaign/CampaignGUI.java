@@ -5,14 +5,14 @@
  * basierend auf dem aktuellen Spielzustand. Sie ermöglicht auch die Bewegung der Ansicht
  * durch Schritte entlang der Route.
  */
-package com.teama.skyteam.drop.gui.campaign;
+package com.teama.skyteam.drop.ui.campaign;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.teama.skyteam.drop.domain.model.campaign.RouteField;
 import com.teama.skyteam.drop.domain.model.game.Game;
-import com.teama.skyteam.drop.gui.TexturePaths;
-import com.teama.skyteam.drop.gui.UILayout;
+import com.teama.skyteam.drop.ui.constants.TexturePaths;
+import com.teama.skyteam.drop.ui.constants.UILayout;
 
 import java.util.TreeMap;
 

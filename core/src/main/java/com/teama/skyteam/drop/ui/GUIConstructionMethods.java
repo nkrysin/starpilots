@@ -5,17 +5,19 @@
  * zu erstellen. Diese Elemente können auf einer `Stage` hinzugefügt werden, um sie im Game darzustellen.
  * Außerdem wird eine Methode bereitgestellt, um die erstellten Ressourcen freizugeben.
  */
-package com.teama.skyteam.drop.gui;
+package com.teama.skyteam.drop.ui;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.teama.skyteam.drop.gui.buttons.ControlField;
-import com.teama.skyteam.drop.gui.buttons.ControlGroup;
+import com.teama.skyteam.drop.ui.buttons.ControlField;
+import com.teama.skyteam.drop.ui.buttons.ControlGroup;
 import com.teama.skyteam.drop.domain.action.type.ActionControlGroup;
 import com.teama.skyteam.drop.domain.action.type.ActionName;
+import com.teama.skyteam.drop.ui.constants.TexturePaths;
+import com.teama.skyteam.drop.ui.constants.UILayout;
 
 import java.util.ArrayList;
 

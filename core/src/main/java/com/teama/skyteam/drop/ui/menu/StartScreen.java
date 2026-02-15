@@ -8,15 +8,15 @@
  * Nach einer festgelegten Zeit wechselt der Bildschirm automatisch zum Hauptmenü.
  * Der Startbildschirm dient als Einführung, bevor der Player in das Menü gelangt.
  */
-package com.teama.skyteam.drop.gui.menu;
+package com.teama.skyteam.drop.ui.menu;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Timer;
 import com.teama.skyteam.drop.MainBk;
-import com.teama.skyteam.drop.gui.TexturePaths;
-import com.teama.skyteam.drop.gui.UILayout;
+import com.teama.skyteam.drop.ui.constants.TexturePaths;
+import com.teama.skyteam.drop.ui.constants.UILayout;
 
 public class StartScreen implements Screen {
     private final MainBk main;

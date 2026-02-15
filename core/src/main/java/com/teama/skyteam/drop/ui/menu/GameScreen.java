@@ -5,7 +5,7 @@
  * einschließlich der Spielfelder, Interaktionen und Kameraansicht.
  * Sie integriert verschiedene Controller und Manager, um das Spielerlebnis zu steuern.
  */
-package com.teama.skyteam.drop.gui.menu;
+package com.teama.skyteam.drop.ui.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -19,12 +19,12 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.teama.skyteam.drop.MainBk;
 import com.teama.skyteam.drop.domain.model.game.Game;
-import com.teama.skyteam.drop.gui.CampaignAltitudeManager;
-import com.teama.skyteam.drop.gui.GameControllerGUI;
-import com.teama.skyteam.drop.gui.TexturePaths;
-import com.teama.skyteam.drop.gui.UILayout;
-import com.teama.skyteam.drop.gui.utilities.InputController;
-import com.teama.skyteam.drop.gui.utilities.TextureCache;
+import com.teama.skyteam.drop.ui.view.CampaignAltitudeView;
+import com.teama.skyteam.drop.ui.GameControllerGUI;
+import com.teama.skyteam.drop.ui.constants.TexturePaths;
+import com.teama.skyteam.drop.ui.constants.UILayout;
+import com.teama.skyteam.drop.ui.utilities.InputController;
+import com.teama.skyteam.drop.ui.utilities.TextureCache;
 
 public class GameScreen implements Screen {
     private final MainBk main;
@@ -34,7 +34,7 @@ public class GameScreen implements Screen {
     private Texture boardTexture;
     private OrthographicCamera camera;
     private Viewport viewport;
-    private CampaignAltitudeManager campaignAltitudeManager;
+    private CampaignAltitudeView campaignAltitudeView;
     private GameControllerGUI gameControllerGUI;
     private Stage stage;
     private InputController inputController;
@@ -56,7 +56,7 @@ public class GameScreen implements Screen {
         tableTexture = TextureCache.get(TexturePaths.TABLE_PATH);
         boardTexture = TextureCache.get(TexturePaths.BOARD_PATH);
 
-        campaignAltitudeManager = new CampaignAltitudeManager(game);
+        campaignAltitudeView = new CampaignAltitudeView(game);
 
         camera = new OrthographicCamera();
         viewport = new FitViewport(UILayout.SCREEN_SIZE[0], UILayout.SCREEN_SIZE[1], camera);
@@ -67,7 +67,7 @@ public class GameScreen implements Screen {
         inputController = new InputController(camera, UILayout.TABLE_SIZE[1], stage, main);
         Gdx.input.setInputProcessor(stage);
 
-        gameControllerGUI = new GameControllerGUI(game, campaignAltitudeManager, stage, skin);
+        gameControllerGUI = new GameControllerGUI(game, campaignAltitudeView, stage, skin);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class GameScreen implements Screen {
 
         batch.begin();
         batch.draw(tableTexture, 0, 0, UILayout.TABLE_SIZE[0], UILayout.TABLE_SIZE[1]);
-        campaignAltitudeManager.render(batch);
+        campaignAltitudeView.render(batch);
         batch.draw(boardTexture, 656, 115);
         batch.end();
 
@@ -113,9 +113,9 @@ public class GameScreen implements Screen {
             batch = null;
         }
 
-        if (campaignAltitudeManager != null) {
-            campaignAltitudeManager.dispose();
-            campaignAltitudeManager = null;
+        if (campaignAltitudeView != null) {
+            campaignAltitudeView.dispose();
+            campaignAltitudeView = null;
         }
 
         if (gameControllerGUI != null) {

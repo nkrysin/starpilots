@@ -5,7 +5,7 @@
  * die im GUI zusammengehören. Jede Gruppe hat einen Namen, eine Liste von Spielfeldern und
  * Methoden zur Verwaltung der Felder, wie das Abrufen verfügbarer Felder oder das Freigeben von Ressourcen.
  */
-package com.teama.skyteam.drop.gui.buttons;
+package com.teama.skyteam.drop.ui.buttons;
 
 import com.teama.skyteam.drop.domain.action.type.ActionControlGroup;
 import com.teama.skyteam.drop.domain.action.type.ActionName;

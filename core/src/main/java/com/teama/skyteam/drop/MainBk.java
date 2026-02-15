@@ -5,8 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
-import com.teama.skyteam.drop.gui.menu.StartScreen;
-import com.teama.skyteam.drop.gui.utilities.TextureCache;
+import com.teama.skyteam.drop.ui.menu.StartScreen;
+import com.teama.skyteam.drop.ui.utilities.TextureCache;
 
 public class MainBk extends ApplicationAdapter {
 

@@ -1,19 +1,21 @@
 /**
  * Stellt die GUI-Komponente für die Schalter und Indikatoren im Game bereit.
  *
- * Die Klasse `SwitchGUI` verwaltet die Schalter für LandingGear, Brakes und Flaps sowie
+ * Die Klasse `SwitchPanelView` verwaltet die Schalter für LandingGear, Brakes und Flaps sowie
  * deren visuelle Indikatoren. Schalter können aktiviert und Indikatoren basierend auf den Spielwerten
  * bewegt werden. Alle GUI-Elemente werden auf der Bühne (`Stage`) dargestellt.
  */
-package com.teama.skyteam.drop.gui;
+package com.teama.skyteam.drop.ui.view;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.teama.skyteam.drop.gui.utilities.TextureCache;
+import com.teama.skyteam.drop.ui.constants.TexturePaths;
+import com.teama.skyteam.drop.ui.constants.UILayout;
+import com.teama.skyteam.drop.ui.utilities.TextureCache;
 
-public class SwitchGUI {
+public class SwitchPanelView {
     Image[] landingGearSwitch = new Image[3];
     Image[] brakesSwitch = new Image[3];
     Image[] flapsSwitch = new Image[4];
@@ -24,7 +26,7 @@ public class SwitchGUI {
     float newX, newY;
     private Stage stage;
 
-    public SwitchGUI(Stage stage) {
+    public SwitchPanelView(Stage stage) {
         this.stage = stage;
         brakesIndicator = new Image(TextureCache.get(TexturePaths.RED_MARKER));
         landingGearIndicator = new Image(TextureCache.get(TexturePaths.BLUE_MARKER));

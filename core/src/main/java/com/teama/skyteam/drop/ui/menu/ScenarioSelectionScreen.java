@@ -9,7 +9,7 @@
  * **Wichtig:** Beim Hinzufügen eines neuen Szenarios muss eine entsprechende Taste
  * mit einer Zuordnung zu diesem Campaign in diese Klasse aufgenommen werden.
  */
-package com.teama.skyteam.drop.gui.menu;
+package com.teama.skyteam.drop.ui.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -23,8 +23,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.teama.skyteam.drop.MainBk;
 import com.teama.skyteam.drop.domain.model.game.Game;
-import com.teama.skyteam.drop.gui.TexturePaths;
-import com.teama.skyteam.drop.gui.UILayout;
+import com.teama.skyteam.drop.ui.constants.TexturePaths;
+import com.teama.skyteam.drop.ui.constants.UILayout;
 import com.teama.skyteam.drop.domain.model.game.GameConstructor;
 import com.teama.skyteam.drop.domain.model.campaign.Route;
 

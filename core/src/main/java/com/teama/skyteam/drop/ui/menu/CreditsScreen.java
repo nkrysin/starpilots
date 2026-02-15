@@ -5,7 +5,7 @@
  * oder weitere Informationen zum Game angezeigt werden. Der Bildschirm enthält
  * einen Hintergrund und einen Button, um zum Hauptmenü zurückzukehren.
  */
-package com.teama.skyteam.drop.gui.menu;
+package com.teama.skyteam.drop.ui.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -18,7 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.teama.skyteam.drop.MainBk;
-import com.teama.skyteam.drop.gui.TexturePaths;
+import com.teama.skyteam.drop.ui.constants.TexturePaths;
 
 class CreditsScreen implements Screen {
     private final MainBk main;

@@ -1,18 +1,18 @@
 /**
  * Verwalter für das Campaign- und Höhenmanagement in der Game-GUI.
  *
- * Die Klasse `CampaignAltitudeManager` koordiniert die Aktualisierung und Darstellung der
+ * Die Klasse `CampaignAltitudeView` koordiniert die Aktualisierung und Darstellung der
  * grafischen Campaign- und Höhenkomponenten basierend auf der aktuellen Spielzustand.
  */
-package com.teama.skyteam.drop.gui;
+package com.teama.skyteam.drop.ui.view;
 
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.teama.skyteam.drop.domain.model.game.Game;
-import com.teama.skyteam.drop.gui.campaign.AltitudeGUI;
-import com.teama.skyteam.drop.gui.campaign.CampaignGUI;
+import com.teama.skyteam.drop.ui.campaign.AltitudeGUI;
+import com.teama.skyteam.drop.ui.campaign.CampaignGUI;
 
-public class CampaignAltitudeManager {
+public class CampaignAltitudeView {
     private CampaignGUI campaignGUI;
     private AltitudeGUI altitudeGUI;
 
@@ -21,7 +21,7 @@ public class CampaignAltitudeManager {
      *
      * @param game Die aktuelle Game-Instanz, aus der die Szenarien und Höheninformationen abgerufen werden.
      */
-    public CampaignAltitudeManager(Game game) {
+    public CampaignAltitudeView(Game game) {
         this.campaignGUI = new CampaignGUI(game);
         this.altitudeGUI = new AltitudeGUI(game);
     }

@@ -5,7 +5,7 @@
  * auf denen Player ihre Würfel ablegen können. Jedes Spielfeld hat einen einzigartigen Namen,
  * einen zugehörigen Button zur Interaktion und einen Status, der angibt, ob das Field bereits belegt ist.
  */
-package com.teama.skyteam.drop.gui.buttons;
+package com.teama.skyteam.drop.ui.buttons;
 
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.teama.skyteam.drop.domain.action.type.ActionName;

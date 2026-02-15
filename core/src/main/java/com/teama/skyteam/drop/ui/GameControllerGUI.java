@@ -1,4 +1,4 @@
-package com.teama.skyteam.drop.gui;
+package com.teama.skyteam.drop.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -7,7 +7,7 @@ import com.teama.skyteam.drop.application.gameservice.GameService;
 import com.teama.skyteam.drop.domain.model.field.Field;
 import com.teama.skyteam.drop.domain.model.game.Game;
 import com.teama.skyteam.drop.domain.model.player.Player;
-import com.teama.skyteam.drop.gui.utilities.PlayerActionCallback;
+import com.teama.skyteam.drop.ui.utilities.PlayerActionCallback;
 import com.teama.skyteam.drop.domain.action.factory.ActionFactory;
 import com.teama.skyteam.drop.domain.action.validator.ActionValidator;
 import com.teama.skyteam.drop.domain.action.validator.StandardActionValidator;
@@ -18,6 +18,7 @@ import com.teama.skyteam.drop.application.logic.fields.StandardFieldManager;
 import com.teama.skyteam.drop.domain.rules.GameRules;
 import com.teama.skyteam.drop.domain.rules.StandartGameRules;
 import com.teama.skyteam.drop.domain.model.player.Pilot;
+import com.teama.skyteam.drop.ui.view.CampaignAltitudeView;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ public class GameControllerGUI {
 
     private final Game game;
     private final GameService gameService;
-    private final CampaignAltitudeManager campaignAltitudeManager;
+    private final CampaignAltitudeView campaignAltitudeView;
     private final GameGUI gameGUI;
     boolean nowMustBeFirst = true;
     boolean nowMustBeSecond = false;
@@ -43,9 +44,9 @@ public class GameControllerGUI {
     private final GameStateManager gameStateManager;
     private final FieldManager fieldManager;
 
-    public GameControllerGUI(Game game, CampaignAltitudeManager campaignAltitudeManager, Stage stage, Skin skin) {
+    public GameControllerGUI(Game game, CampaignAltitudeView campaignAltitudeView, Stage stage, Skin skin) {
         this.game = game;
-        this.campaignAltitudeManager = campaignAltitudeManager;
+        this.campaignAltitudeView = campaignAltitudeView;
         this.fieldManager = new StandardFieldManager();
 
         this.gameStateManager = new StandardGameStateManager(game);
@@ -55,7 +56,7 @@ public class GameControllerGUI {
 
         gameService = new GameService(game, gameRules, validator, actionFactory, gameStateManager);
 
-        this.gameGUI = new GameGUI(game, stage, skin, campaignAltitudeManager, gameService, gameStateManager, fieldManager);
+        this.gameGUI = new GameGUI(game, stage, skin, campaignAltitudeView, gameService, gameStateManager, fieldManager);
 
 
         // Setzt die Callback-Funktion für Spieleraktionen.
@@ -115,7 +116,7 @@ public class GameControllerGUI {
         fieldManager.removeDiceFromOneUseFields(oneUseFields);
         fieldManager.clearManyUseFields(game);
         gameGUI.clearManyUseFields();
-        campaignAltitudeManager.updateAltitude();
+        campaignAltitudeView.updateAltitude();
 
         game.setRound(game.getRound() + 1);
         gameStateManager.reduceAltitude();
@@ -285,7 +286,7 @@ public class GameControllerGUI {
                     finishRound();
                     if (gameService.checkFailCondition()) {
                         endgame = true;
-                        gameGUI.createFinalWindow(false);
+                        gameGUI.getDialogManager().createFinalWindow(false);
                         state = State.ENDGAME;
                     } else if (lastRound) {
                         state = State.FINAL_CHECK;
@@ -296,16 +297,16 @@ public class GameControllerGUI {
 
                 case FINAL_CHECK:
                     if (gameService.checkWinCondition()) {
-                        gameGUI.createFinalWindow(true);
+                        gameGUI.getDialogManager().createFinalWindow(true);
                     } else {
-                        gameGUI.createFinalWindow(false);
+                        gameGUI.getDialogManager().createFinalWindow(false);
                     }
                     endgame = true;
                     state = State.ENDGAME;
                     break;
 
                 case ENDGAME:
-                    gameGUI.createFinalWindow(false);
+                    gameGUI.getDialogManager().createFinalWindow(false);
                     endgame = true;
                     break;
             }

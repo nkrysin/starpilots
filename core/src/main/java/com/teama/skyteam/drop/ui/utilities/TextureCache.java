@@ -5,7 +5,7 @@
  * wiederverwendet werden, um Speicher- und Performanceprobleme zu minimieren.
  * Sie stellt Methoden bereit, um Texturen zu erhalten und den gesamten Cache freizugeben.
  */
-package com.teama.skyteam.drop.gui.utilities;
+package com.teama.skyteam.drop.ui.utilities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

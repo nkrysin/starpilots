@@ -6,7 +6,7 @@
  * Sie ermöglicht eine lose Kopplung zwischen Komponenten, die Spieleraktionen ausführen,
  * und denjenigen, die auf den Abschluss dieser Aktionen reagieren müssen.
  */
-package com.teama.skyteam.drop.gui.utilities;
+package com.teama.skyteam.drop.ui.utilities;
 import com.teama.skyteam.drop.domain.model.player.Player;
 
 public interface PlayerActionCallback {

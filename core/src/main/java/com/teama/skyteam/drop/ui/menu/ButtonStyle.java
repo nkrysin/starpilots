@@ -5,13 +5,13 @@
  * im GUI sicherzustellen. Der Stil basiert auf einer Skin-Datei und definiert Farben und Zustände
  * (normal, gedrückt, hover) für die Buttons.
  */
-package com.teama.skyteam.drop.gui.menu;
+package com.teama.skyteam.drop.ui.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.teama.skyteam.drop.gui.TexturePaths;
+import com.teama.skyteam.drop.ui.constants.TexturePaths;
 
 
 public class ButtonStyle {

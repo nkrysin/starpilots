@@ -5,10 +5,10 @@
  * den Index des Würfels und die zugehörige Würfelinstanz. Außerdem wird der Pfad zur Textur des Würfels
  * basierend auf dem Würfelwert und dem Spielertyp (Pilot oder Copilot) generiert.
  */
-package com.teama.skyteam.drop.gui.utilities;
+package com.teama.skyteam.drop.ui.utilities;
 
 import com.teama.skyteam.drop.domain.model.player.Player;
-import com.teama.skyteam.drop.gui.TexturePaths;
+import com.teama.skyteam.drop.ui.constants.TexturePaths;
 import com.teama.skyteam.drop.domain.model.player.Pilot;
 import com.teama.skyteam.drop.domain.model.tokens.Dice;
 

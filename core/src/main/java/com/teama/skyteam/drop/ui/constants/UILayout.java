@@ -1,4 +1,4 @@
-package com.teama.skyteam.drop.gui;
+package com.teama.skyteam.drop.ui.constants;
 
 public class UILayout {
 

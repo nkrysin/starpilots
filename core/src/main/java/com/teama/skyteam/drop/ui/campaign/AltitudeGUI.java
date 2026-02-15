@@ -5,13 +5,13 @@
  * und bietet die Möglichkeit, die Karte schrittweise zu verschieben (z. B. nach unten).
  * Sie nutzt die Höhe des Szenarios aus dem Game, um die entsprechende Karte auszuwählen.
  */
-package com.teama.skyteam.drop.gui.campaign;
+package com.teama.skyteam.drop.ui.campaign;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.teama.skyteam.drop.domain.model.game.Game;
-import com.teama.skyteam.drop.gui.TexturePaths;
-import com.teama.skyteam.drop.gui.UILayout;
+import com.teama.skyteam.drop.ui.constants.TexturePaths;
+import com.teama.skyteam.drop.ui.constants.UILayout;
 import com.teama.skyteam.drop.domain.model.campaign.AltitudeCampaignTypes;
 
 public class AltitudeGUI {

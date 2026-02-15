@@ -6,7 +6,7 @@
  * Zurückkehren ins Hauptmenü oder Beenden des Spiels. Außerdem steuert sie die Kamerabewegung
  * innerhalb der Grenzen des Spielfelds.
  */
-package com.teama.skyteam.drop.gui.utilities;
+package com.teama.skyteam.drop.ui.utilities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -19,10 +19,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.teama.skyteam.drop.MainBk;
-import com.teama.skyteam.drop.gui.TexturePaths;
-import com.teama.skyteam.drop.gui.UILayout;
-import com.teama.skyteam.drop.gui.menu.ButtonStyle;
-import com.teama.skyteam.drop.gui.menu.MainMenuScreen;
+import com.teama.skyteam.drop.ui.constants.TexturePaths;
+import com.teama.skyteam.drop.ui.constants.UILayout;
+import com.teama.skyteam.drop.ui.menu.ButtonStyle;
+import com.teama.skyteam.drop.ui.menu.MainMenuScreen;
 
 public class InputController {
 
