@@ -47,7 +47,7 @@ public class StandardGameStateManager implements GameStateManager{
         boolean neigenFeldCopilotBelegt = game.getFieldCopilot(FieldName.TILT).isOccupied();
 
         if (!neigenFeldPilotBelegt || !neigenFeldCopilotBelegt) {
-            return ActionResult.success();
+            return ActionResult.fail("One of two felds are not occupied");
         }
 
         Dice w1 = game.getFieldPilot(FieldName.TILT).getDice();
@@ -166,7 +166,7 @@ public class StandardGameStateManager implements GameStateManager{
         boolean speedFeldCopilotBelegt = game.getFieldCopilot(FieldName.SPEED).isOccupied();
 
         if (!speedFeldPilotBelegt || !speedFeldCopilotBelegt) {
-            return ActionResult.success();
+            return ActionResult.fail("One of the fields are not occupied");
         }
 
         int pilotSpeed = game.getFieldPilot(FieldName.SPEED).getDice().getValue();

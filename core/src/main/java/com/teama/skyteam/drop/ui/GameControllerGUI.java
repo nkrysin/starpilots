@@ -223,18 +223,16 @@ public class GameControllerGUI {
                     break;
 
                 case CHECK_TILT:
-                    if (!isTiltCompleted && gameStateManager.updateTilt().isSuccess()) {
+                    if (!isTiltCompleted && gameService.checkTilt().isSuccess()) {
                         isTiltCompleted = true;
                     }
-
                     state = State.CHECK_ROUTE_FIELD;
                     break;
 
                 case CHECK_ROUTE_FIELD:
-                    if (!isRouteFieldUpdated && gameStateManager.updateTravelFieldState().isSuccess()) {
+                    if (!isRouteFieldUpdated && gameService.checkSpeed().isSuccess()) {
                         isRouteFieldUpdated = true;
                     }
-
                     state = State.PLAY_TURN_SECOND;
                     break;
 
@@ -265,14 +263,14 @@ public class GameControllerGUI {
                     break;
 
                 case CHECK_TILT_AGAIN:
-                    if (!isTiltCompleted && gameStateManager.updateTilt().isSuccess()) {
+                    if (!isTiltCompleted && gameService.checkTilt().isSuccess()) {
                         isTiltCompleted = true;
                     }
                     state = State.CHECK_ROUTE_FIELD_AGAIN;
                     break;
 
                 case CHECK_ROUTE_FIELD_AGAIN:
-                    if (!isRouteFieldUpdated && gameStateManager.updateTravelFieldState().isSuccess()) {
+                    if (!isRouteFieldUpdated && gameService.checkSpeed().isSuccess()) {
                         isRouteFieldUpdated = true;
                     }
                     if (!gameService.checkFailCondition() &&

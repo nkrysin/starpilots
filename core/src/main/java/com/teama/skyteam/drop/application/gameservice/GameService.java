@@ -93,8 +93,6 @@ public class GameService {
         for (GameEvent event : result.getEvents()) {
             handleEvent(event);
         }
-        checkSpeed();
-        checkTilt();
 
         return result;
     }
@@ -110,8 +108,6 @@ public class GameService {
         for (GameEvent event : result.getEvents()) {
             handleEvent(event);
         }
-        checkSpeed();
-        checkTilt();
 
         return result;
     }

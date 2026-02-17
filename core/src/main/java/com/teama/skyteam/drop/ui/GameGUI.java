@@ -539,5 +539,4 @@ public class GameGUI implements GameStateObserver {
         campaignAltitudeView.updateCampaign(steps);
     }
 
-
 }
