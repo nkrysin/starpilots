@@ -28,6 +28,7 @@ import com.teama.skyteam.drop.ui.dialog.DialogManager;
 import com.teama.skyteam.drop.ui.factory.GameControlFactory;
 import com.teama.skyteam.drop.ui.input.DiceInputHandler;
 import com.teama.skyteam.drop.ui.token.CoffeeTokenHandler;
+import com.teama.skyteam.drop.ui.token.RerollTokenHandler;
 import com.teama.skyteam.drop.ui.utilities.PlayerActionCallback;
 import com.teama.skyteam.drop.domain.action.command.ActionResult;
 import com.teama.skyteam.drop.domain.action.type.ActionControlGroup;
@@ -61,11 +62,10 @@ public class GameGUI implements GameStateObserver {
     private PlayerActionCallback callback;
     private CampaignAltitudeView campaignAltitudeView;
     private ControlField reroll;
-    private GameStateManager gameStateManager;
-    private FieldManager fieldManager;
     private DialogManager dialogManager;
     private DiceInputHandler diceInputHandler;
     private CoffeeTokenHandler coffeeTokenHandler;
+    private RerollTokenHandler rerollTokenHandler;
 
     /**
      * Konstruktor zur Initialisierung der Game-GUI.
@@ -87,8 +87,6 @@ public class GameGUI implements GameStateObserver {
         this.gameService = gameService;
         gameService.addObserver(this);
         createFieldActors();
-        this.gameStateManager = gameStateManager;
-        this.fieldManager = fieldManager;
         this.dialogManager = new DialogManager(skin, stage, game);
         this.diceInputHandler = new DiceInputHandler(stage, gameControlFactory);
         this.coffeeTokenHandler = new CoffeeTokenHandler(
@@ -96,6 +94,7 @@ public class GameGUI implements GameStateObserver {
             pilotUseCoffeeControlGroup, copilotUseCoffeeControlGroup,
             diceInputHandler, dialogManager, game, gameService, gameStateManager, fieldManager);
         this.coffeeTokenHandler.setOnFieldSituationCheck(this::checkFieldSituation);
+        this.rerollTokenHandler = new RerollTokenHandler(reroll, game, dialogManager, diceInputHandler, gameStateManager);
     }
 
     public DialogManager getDialogManager() {
@@ -461,70 +460,16 @@ public class GameGUI implements GameStateObserver {
             TextureUtils.switchTexture(button, TexturePaths.WITHOUT_HIGHLIGHT_PATH);
             copilotGroup.getFieldByAction(s).setOccupied(false);
         }
-        showReroll(false);
+        rerollTokenHandler.showReroll(false);
         coffeeTokenHandler.showCoffee(false, false);
     }
 
-    /**
-     * Zeigt oder versteckt den Button für den "Neu Wurf"-Token.
-     *
-     * @param available Gibt an, ob der Button aktiv oder deaktiviert sein soll.
-     */
     public void showReroll(Boolean available) {
-        int rerollTokenCount = game.getRerollTokenCount();
-        ImageButton button = reroll.getButton();
-        if (rerollTokenCount == 0) {
-            TextureUtils.switchTexture(button, TexturePaths.WITHOUT_HIGHLIGHT_PATH);
-            button.setTouchable(Touchable.disabled);
-        } else {
-            if (available) {
-                button.setTouchable(Touchable.enabled);
-                TextureUtils.switchTexture(button, TexturePaths.REROLL_AVAILABLE_PATH);
-            } else {
-                TextureUtils.switchTexture(button, TexturePaths.REROLL_PATH);
-            }
-        }
+        rerollTokenHandler.showReroll(available);
     }
 
-    /**
-     * Aktiviert die Verwendung eines "Neu Wurf"-Tokens für den Player.
-     *
-     * @param player Der Player, der ein "Neu Wurf"-Token verwenden möchte.
-     */
     public void useReroll(Player player) {
-        ImageButton button = reroll.getButton();
-        button.clearListeners();
-        if (game.getRerollTokenCount() > 0) {
-            button.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    TextureUtils.switchTexture(button, TexturePaths.REROLL_SELECTED_PATH);
-                    dialogManager.createRerollTokenWindow(player, gameStateManager, (p1, p2) -> {
-                        if (p1 != null) {
-                            diceInputHandler.createDiceForPlayer(p1);
-                            diceInputHandler.addDiceListenersForSpieler(p1);
-                        }
-                        if (p2 != null) {
-                            diceInputHandler.createDiceForPlayer(p2);
-                            diceInputHandler.addDiceListenersForSpieler(p2);
-                        }
-                        if (game.getRerollTokenCount() == 0) {
-                            TextureUtils.switchTexture(button, TexturePaths.WITHOUT_HIGHLIGHT_PATH);
-                            button.setTouchable(Touchable.disabled);
-                        } else {
-                            button.setTouchable(Touchable.enabled);
-                            TextureUtils.switchTexture(button, TexturePaths.REROLL_AVAILABLE_PATH);
-                        }
-                        diceInputHandler.removeAllHideImages();
-                        if( (player instanceof Pilot) ){
-                            diceInputHandler.hideDice(player);
-                        } else {
-                            diceInputHandler.hideDice(game.getCopilot());
-                        }
-                    });
-                }
-            });
-        }
+        rerollTokenHandler.useReroll(player);
     }
 
 
@@ -547,12 +492,7 @@ public class GameGUI implements GameStateObserver {
             switchPanelView = null;
         }
 
-        if (reroll != null && reroll.getButton() != null) {
-            ImageButton button = reroll.getButton();
-            button.remove();
-            reroll = null;
-        }
-
+        rerollTokenHandler.dispose();
         diceInputHandler.dispose();
         coffeeTokenHandler.dispose();
 
