@@ -212,4 +212,41 @@ public class DiceInputHandler {
             removeHideImage(UILayout.COPILOT_HIDING_SCREEN_COORDINATES[0], UILayout.COPILOT_HIDING_SCREEN_COORDINATES[1]);
         }
     }
+
+    @FunctionalInterface
+    public interface DiceSelectionListener {
+        void onDiceSelected(ImageButton button, Dice dice, int index);
+    }
+
+    public void addDiceSelectionListeners(Player player, DiceSelectionListener listener) {
+        ArrayList<ImageButton> diceActors = (player instanceof Pilot) ? pilotDiceActors : copilotDiceActors;
+        ArrayList<Dice> dices = player.getAllDice();
+        for (int i = 0; i < diceActors.size(); i++) {
+            final ImageButton button = diceActors.get(i);
+            final Dice dice = dices.get(i);
+            final int index = i;
+            button.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    listener.onDiceSelected(button, dice, index);
+                }
+            });
+        }
+    }
+
+    public void dispose() {
+        for (ImageButton button : pilotDiceActors) {
+            button.remove();
+        }
+        pilotDiceActors.clear();
+
+        for (ImageButton button : copilotDiceActors) {
+            button.remove();
+        }
+        copilotDiceActors.clear();
+
+        removeAllHideImages();
+        selectedDiceData = null;
+    }
+
 }
