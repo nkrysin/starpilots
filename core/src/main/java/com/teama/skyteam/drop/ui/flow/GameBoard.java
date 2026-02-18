@@ -396,10 +396,6 @@ public class GameBoard implements GameStateObserver {
         }
     }
 
-    public SwitchPanelView getSwitchGUI() {
-        return switchPanelView;
-    }
-
     /**
      * Setzt den Callback für Spieleraktionen.
      *

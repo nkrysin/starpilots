@@ -1,6 +1,5 @@
 /**
  * Repräsentiert den Hauptbildschirm des Spiels, auf dem das Gameplay stattfindet.
- *
  * Die Klasse `GameScreen` kümmert sich um das Rendern und die Verwaltung der Spieloberfläche,
  * einschließlich der Spielfelder, Interaktionen und Kameraansicht.
  * Sie integriert verschiedene Controller und Manager, um das Spielerlebnis zu steuern.
