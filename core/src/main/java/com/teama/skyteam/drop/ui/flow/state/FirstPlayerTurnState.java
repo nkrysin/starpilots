@@ -31,11 +31,8 @@ public class FirstPlayerTurnState implements GameFlowState {
             gameBoard.useCoffee(firstPlayer);
             gameBoard.useReroll(firstPlayer);
 
-            // Pre-set next state — triggered when player places a die via callback
             context.setState(afterTurn);
-            // Do NOT call executeCurrentState() — wait for player input
         } else {
-            // No dice — skip turn, go directly to next
             context.setState(afterTurn);
             context.executeCurrentState();
         }
