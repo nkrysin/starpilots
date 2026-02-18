@@ -1,12 +1,11 @@
 /**
  * Repräsentiert die grafische Benutzeroberfläche (GUI) des Spiels.
- *
- * Die Klasse `GameGUI` verwaltet die Erstellung und Steuerung aller visuellen Elemente,
+ * Die Klasse `GameBoard` verwaltet die Erstellung und Steuerung aller visuellen Elemente,
  * wie z. B. Würfel, Schalter und Steuergruppen, sowie die Interaktion zwischen Spielern
  * und der Game-Logik. Sie integriert verschiedene GUI-Komponenten wie Schalter, Kaffeegruppen
  * und Würfel und sorgt für die Synchronisation mit der Spielmechanik.
  */
-package com.teama.skyteam.drop.ui;
+package com.teama.skyteam.drop.ui.flow;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -45,7 +44,7 @@ import com.teama.skyteam.drop.ui.view.SwitchPanelView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameGUI implements GameStateObserver {
+public class GameBoard implements GameStateObserver {
 
     public final Stage stage;
     private final Game game;
@@ -75,7 +74,7 @@ public class GameGUI implements GameStateObserver {
      * @param skin Das Skin-Objekt für die Gestaltung der GUI-Elemente.
      * @param campaignAltitudeView Der Manager zur Verwaltung der Szenariohöhe.
      */
-    public GameGUI(Game game, Stage stage, Skin skin, CampaignAltitudeView campaignAltitudeView, GameService gameService, GameStateManager gameStateManager, FieldManager fieldManager) {
+    public GameBoard(Game game, Stage stage, Skin skin, CampaignAltitudeView campaignAltitudeView, GameService gameService, GameStateManager gameStateManager, FieldManager fieldManager) {
         this.game = game;
         this.stage = stage;
         this.skin = skin;

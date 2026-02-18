@@ -19,8 +19,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.teama.skyteam.drop.MainBk;
 import com.teama.skyteam.drop.domain.model.game.Game;
+import com.teama.skyteam.drop.ui.flow.GameFlowController;
 import com.teama.skyteam.drop.ui.view.CampaignAltitudeView;
-import com.teama.skyteam.drop.ui.GameControllerGUI;
 import com.teama.skyteam.drop.ui.constants.TexturePaths;
 import com.teama.skyteam.drop.ui.constants.UILayout;
 import com.teama.skyteam.drop.ui.utilities.InputController;
@@ -35,7 +35,7 @@ public class GameScreen implements Screen {
     private OrthographicCamera camera;
     private Viewport viewport;
     private CampaignAltitudeView campaignAltitudeView;
-    private GameControllerGUI gameControllerGUI;
+    private GameFlowController gameFlowController;
     private Stage stage;
     private InputController inputController;
     private Skin skin;
@@ -67,7 +67,7 @@ public class GameScreen implements Screen {
         inputController = new InputController(camera, UILayout.TABLE_SIZE[1], stage, main);
         Gdx.input.setInputProcessor(stage);
 
-        gameControllerGUI = new GameControllerGUI(game, campaignAltitudeView, stage, skin);
+        gameFlowController = new GameFlowController(game, campaignAltitudeView, stage, skin);
     }
 
     @Override
@@ -84,14 +84,14 @@ public class GameScreen implements Screen {
         batch.draw(boardTexture, 656, 115);
         batch.end();
 
-        gameControllerGUI.render();
+        gameFlowController.render();
         inputController.updateAndRender(delta);
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-        gameControllerGUI.resize(width, height);
+        gameFlowController.resize(width, height);
     }
 
     @Override
@@ -118,9 +118,9 @@ public class GameScreen implements Screen {
             campaignAltitudeView = null;
         }
 
-        if (gameControllerGUI != null) {
-            gameControllerGUI.dispose();
-            gameControllerGUI = null;
+        if (gameFlowController != null) {
+            gameFlowController.dispose();
+            gameFlowController = null;
         }
 
         if (skin != null) {
