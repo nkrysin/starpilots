@@ -8,7 +8,7 @@ import com.teama.skyteam.drop.domain.action.command.ActionResult;
 import com.teama.skyteam.drop.application.logic.events.SpeedChangedEvent;
 import com.teama.skyteam.drop.application.logic.events.TiltChangedEvent;
 import com.teama.skyteam.drop.domain.model.player.Player;
-import com.teama.skyteam.drop.domain.model.campaign.altitude.Altitude;
+import com.teama.skyteam.drop.domain.model.campaign.Altitude;
 import com.teama.skyteam.drop.domain.model.tokens.CoffeeToken;
 import com.teama.skyteam.drop.domain.model.tokens.Dice;
 import com.teama.skyteam.drop.domain.model.tokens.RerollToken;

@@ -30,7 +30,6 @@ import com.teama.skyteam.drop.domain.model.game.Game;
 import com.teama.skyteam.drop.ui.constants.TexturePaths;
 import com.teama.skyteam.drop.ui.constants.UILayout;
 import com.teama.skyteam.drop.domain.model.game.GameConstructor;
-import com.teama.skyteam.drop.domain.model.campaign.Route;
 
 class ScenarioSelectionScreen implements Screen {
     private final MainBk main;

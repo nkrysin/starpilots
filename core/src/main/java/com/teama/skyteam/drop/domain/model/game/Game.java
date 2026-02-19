@@ -10,7 +10,7 @@ package com.teama.skyteam.drop.domain.model.game;
 
 import com.teama.skyteam.drop.domain.model.campaign.Campaign;
 import com.teama.skyteam.drop.domain.model.campaign.RouteField;
-import com.teama.skyteam.drop.domain.model.campaign.altitude.Altitude;
+import com.teama.skyteam.drop.domain.model.campaign.Altitude;
 import com.teama.skyteam.drop.domain.model.field.FieldName;
 import com.teama.skyteam.drop.domain.model.field.Field;
 import com.teama.skyteam.drop.domain.model.plane.Plane;

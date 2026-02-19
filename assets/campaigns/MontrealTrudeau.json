@@ -2,5 +2,14 @@
   "name": "Montreal Trudeau",
   "assetId": "MontrealTrudeau",
   "altitudeType": "GREEN",
-  "fields": [0, 0, 1, 2, 1, 3, 2]
+  "fields": [0, 0, 1, 2, 1, 3, 2],
+  "altitudes": [
+    {"altitude": 6000, "rerollToken": true},
+    {"altitude": 5000, "rerollToken": false},
+    {"altitude": 4000, "rerollToken": false},
+    {"altitude": 3000, "rerollToken": false},
+    {"altitude": 2000, "rerollToken": true},
+    {"altitude": 1000, "rerollToken": false},
+    {"altitude": 0,    "rerollToken": false}
+  ]
 }

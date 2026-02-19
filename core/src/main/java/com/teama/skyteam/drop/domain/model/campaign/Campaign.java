@@ -3,9 +3,9 @@ package com.teama.skyteam.drop.domain.model.campaign;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.teama.skyteam.drop.domain.model.campaign.altitude.Altitude;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 /**
@@ -27,7 +27,7 @@ public class Campaign {
         this.campaignAssetId = json.getString("assetId");
         this.altitudeCampaignType = AltitudeCampaignTypes.valueOf(json.getString("altitudeType").toUpperCase());
         this.currentRoute = parseRoute(json.get("fields"));
-        this.altitudeCampaign = adjustAltitudeRoute(Altitude.createAltitudeCampaign(altitudeCampaignType.name()), currentRoute.size());
+        this.altitudeCampaign = parseAltitudes(json.get("altitudes"));
     }
 
     private static TreeMap<Integer, RouteField> parseRoute(JsonValue fields) {
@@ -38,6 +38,15 @@ public class Campaign {
         }
         return route;
     }
+
+    private static List<Altitude> parseAltitudes(JsonValue altitudes) {
+        List<Altitude> list = new ArrayList<>();
+        for (JsonValue entry : altitudes) {
+            list.add(Altitude.of(entry.getInt("altitude"), entry.getBoolean("rerollToken")));
+        }
+        return list;
+    }
+
 
     public String getCampaignName() {
         return campaignName;
@@ -88,23 +97,6 @@ public class Campaign {
         return altitudeCampaign.getFirst();
     }
 
-    /**
-     * Passt die Liste der Flughöhen an die Länge der Campaign-Route an.
-     *
-     * @param altitudeRoute Die Liste der Flughöhen.
-     * @param campaignRouteLength Die Länge der Route.
-     * @return Die angepasste Liste der Flughöhen.
-     */
-    List<Altitude> adjustAltitudeRoute(List<Altitude> altitudeRoute, int campaignRouteLength) {
-        int l = altitudeRoute.size();
-        if (campaignRouteLength < l) {
-            int difference = l - campaignRouteLength;
-            for (int i = 0; i < difference; i++) {
-                altitudeRoute.removeFirst();
-            }
-        }
-        return altitudeRoute;
-    }
 
 }
 
