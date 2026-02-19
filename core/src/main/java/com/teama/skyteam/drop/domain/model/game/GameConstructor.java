@@ -7,10 +7,10 @@
  */
 package com.teama.skyteam.drop.domain.model.game;
 
+import com.teama.skyteam.drop.domain.model.campaign.Campaign;
 import com.teama.skyteam.drop.domain.model.plane.Plane;
 import com.teama.skyteam.drop.domain.model.player.Copilot;
 import com.teama.skyteam.drop.domain.model.player.Pilot;
-import com.teama.skyteam.drop.domain.model.campaign.Route;
 
 
 public class GameConstructor {
@@ -20,13 +20,8 @@ public class GameConstructor {
     private GameConstructor() {
     }
 
-    /**
-     * Erstellt ein neues Spielobjekt, falls noch keines existiert, oder setzt ein bestehendes zurück.
-     *
-     * @param route Die Route, die als Campaign für das neue Game verwendet wird.
-     * @return Die einzige Instanz des Spiels.
-     */
-    public static Game getInstance(Route route) {
+
+    public static Game getInstance(Campaign campaign) {
         // Setzt das Game zurück, falls bereits eine Instanz existiert.
         if (instance != null) {
             instance = null;
@@ -49,7 +44,7 @@ public class GameConstructor {
             instance.setCopilotFields();
 
             // Festlegen des Szenarios basierend auf der gegebenen Route.
-            instance.setCampaign(route);
+            instance.setCampaign(campaign);
 
             // Aktualisierung des aktuellen Feldes und der Flughöhe.
             instance.updateCurrentField();

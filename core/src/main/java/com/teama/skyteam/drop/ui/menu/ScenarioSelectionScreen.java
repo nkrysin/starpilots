@@ -13,6 +13,7 @@ package com.teama.skyteam.drop.ui.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -21,7 +22,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import com.teama.skyteam.drop.MainBk;
+import com.teama.skyteam.drop.domain.model.campaign.Campaign;
 import com.teama.skyteam.drop.domain.model.game.Game;
 import com.teama.skyteam.drop.ui.constants.TexturePaths;
 import com.teama.skyteam.drop.ui.constants.UILayout;
@@ -55,29 +59,7 @@ class ScenarioSelectionScreen implements Screen {
 
         TextButton.TextButtonStyle blueButtonStyle = ButtonStyle.style();
 
-        TextButton montrealButton = new TextButton("Montreal Trudeau", blueButtonStyle);
-        montrealButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                startGameWithScenario(Route.MONTREAL_TRUDEAU);
-            }
-        });
-
-        TextButton hanedaButton = new TextButton("Haneda", blueButtonStyle);
-        hanedaButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                startGameWithScenario(Route.HANEDA);
-            }
-        });
-
-        TextButton kualaButton = new TextButton("Kuala Lumpur", blueButtonStyle);
-        kualaButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                startGameWithScenario(Route.KUALA_LUMPUR);
-            }
-        });
+        loadCampaigns(table, blueButtonStyle);
 
         TextButton goBackButton = new TextButton("Go back", blueButtonStyle);
         goBackButton.addListener(new ClickListener() {
@@ -88,9 +70,6 @@ class ScenarioSelectionScreen implements Screen {
         });
 
         float buttonWidth = 350f;
-        table.add(montrealButton).width(buttonWidth).pad(20).row();
-        table.add(hanedaButton).width(buttonWidth).pad(20).row();
-        table.add(kualaButton).width(buttonWidth).pad(20).row();
         table.add(goBackButton).width(buttonWidth).pad(20).row();
 
         batch = new SpriteBatch();
@@ -98,13 +77,28 @@ class ScenarioSelectionScreen implements Screen {
         planeBackground = new Texture(TexturePaths.BACKGROUND_CAMPAIGN_SELECTION_PATH);
     }
 
-    /**
-     * Startet das Game mit dem ausgewählten Campaign.
-     *
-     * @param scenario Das Campaign, mit dem das Game initialisiert werden soll.
-     */
-    private void startGameWithScenario(Route scenario) {
-        Game game = GameConstructor.getInstance(scenario);
+    private void loadCampaigns(Table table, TextButton.TextButtonStyle style) {
+        JsonValue manifest = new JsonReader().parse(
+            Gdx.files.internal("campaigns/campaigns.json")
+        );
+        for (JsonValue entry : manifest) {
+            FileHandle file = Gdx.files.internal("campaigns/" + entry.asString() + ".json");
+            Campaign campaign = new Campaign(file);
+            TextButton btn = new TextButton(campaign.getCampaignName(), style);
+            btn.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    startGameWithCampaign(campaign);
+                }
+            });
+            table.add(btn).width(350f).pad(20).row();
+
+        }
+    }
+
+
+    private void startGameWithCampaign(Campaign campaign) {
+        Game game = GameConstructor.getInstance(campaign);
         main.setScreen(new GameScreen(main, game));
     }
 

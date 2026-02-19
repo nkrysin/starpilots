@@ -16,11 +16,9 @@ import com.teama.skyteam.drop.domain.model.field.Field;
 import com.teama.skyteam.drop.domain.model.plane.Plane;
 import com.teama.skyteam.drop.domain.model.player.Copilot;
 import com.teama.skyteam.drop.domain.model.player.Pilot;
-import com.teama.skyteam.drop.domain.model.campaign.Route;
 import com.teama.skyteam.drop.domain.model.tokens.CoffeeToken;
 import com.teama.skyteam.drop.domain.model.tokens.RerollToken;
 
-import java.io.IOException;
 import java.util.*;
 
 public class Game {
@@ -286,23 +284,10 @@ public class Game {
         return campaign;
     }
 
-    /**
-     * Setzt das Campaign basierend auf einer bestimmten Route.
-     *
-     * @param route Die Route, die für das Campaign verwendet werden soll.
-     */
-    void setCampaign(Route route) {
-        try {
-            switch (route) {
-                case HANEDA -> this.campaign = new Campaign(Route.HANEDA);
-                case MONTREAL_TRUDEAU -> this.campaign = new Campaign(Route.MONTREAL_TRUDEAU);
-                case KUALA_LUMPUR -> this.campaign = new Campaign(Route.KUALA_LUMPUR);
-            }
 
-        } catch (IOException e) {
-            System.err.println("Fehler beim Erstellen des Szenarios: " + e.getMessage());
-            e.printStackTrace();
-        }
+    void setCampaign(Campaign campaign) {
+        this.campaign = campaign;
+
     }
 
     /**

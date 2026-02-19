@@ -31,7 +31,7 @@ public class CampaignGUI {
         this.game = game;
         planeTexture = new Texture(TexturePaths.PLANE_PATH);
         emptyTexture = new Texture(TexturePaths.WITHOUT_HIGHLIGHT_PATH);
-        campaignName = game.getCampaign().getCampaignName();
+        campaignName = game.getCampaign().getCampaignAssetId();
         campaignTexture = new Texture(TexturePaths.ASSETS_CAMPAIGN_PATH + campaignName + TexturePaths.IMG_FORMAT);
         currentPosititon = game.getCurrentPosition();
 
