@@ -63,13 +63,6 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-        TextButton creditsButton = new TextButton("Credits", blueButtonStyle);
-        creditsButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                main.setScreen(new CreditsScreen(main));
-            }
-        });
 
         TextButton exitButton = new TextButton("Exit", blueButtonStyle);
         exitButton.addListener(new ClickListener() {
@@ -82,7 +75,6 @@ public class MainMenuScreen implements Screen {
         float buttonWidth = 350f;
         table.add(startButton).width(buttonWidth).pad(20).row();
         table.add(settingsButton).width(buttonWidth).pad(20).row();
-        table.add(creditsButton).width(buttonWidth).pad(20).row();
         table.add(exitButton).width(buttonWidth).pad(20).row();
 
         batch = new SpriteBatch();

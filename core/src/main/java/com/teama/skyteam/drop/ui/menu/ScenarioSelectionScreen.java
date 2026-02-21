@@ -29,7 +29,6 @@ import com.teama.skyteam.drop.MainBk;
 import com.teama.skyteam.drop.domain.model.campaign.Campaign;
 import com.teama.skyteam.drop.domain.model.game.Game;
 import com.teama.skyteam.drop.ui.constants.TexturePaths;
-import com.teama.skyteam.drop.ui.constants.UILayout;
 import com.teama.skyteam.drop.domain.model.game.GameConstructor;
 
 class ScenarioSelectionScreen implements Screen {
@@ -106,7 +105,8 @@ class ScenarioSelectionScreen implements Screen {
     @Override
     public void render(float delta) {
         batch.begin();
-        batch.draw(planeBackground, 0, 0, UILayout.SCREEN_SIZE[0], UILayout.SCREEN_SIZE[1]);
+        batch.setProjectionMatrix(stage.getViewport().getCamera().combined);
+        batch.draw(planeBackground, 0, 0, 1920, 1080);
         batch.draw(logo, 519, 720, 883, 220);
         batch.end();
 
