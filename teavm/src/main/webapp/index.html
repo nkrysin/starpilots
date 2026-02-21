@@ -20,10 +20,7 @@
 <body oncontextmenu="return false">
     <canvas id="canvas"></canvas>
     <script>
-        async function start() {
-            main();
-        }
-        window.addEventListener('load', start);
+        window.addEventListener('load', function() { main(); });
     </script>
     <script type="text/javascript" charset="utf-8" src="app.js"></script>
 </body>
