@@ -13,6 +13,8 @@ public class MainBk extends ApplicationAdapter {
 
     public Music menuMusic;
     private Screen currentScreen;
+    private int lastWidth = 0;
+    private int lastHeight = 0;
 
     // Diese Methode setzt einen neuen Bildschirm (Screen) und verwaltet den Wechsel
     // zwischen den Bildschirmen. Der aktuelle Bildschirm wird versteckt und entsorgt.
@@ -24,6 +26,9 @@ public class MainBk extends ApplicationAdapter {
         currentScreen = newScreen;
         if (currentScreen != null) {
             currentScreen.show();
+            if (lastWidth > 0 && lastHeight > 0) {
+                currentScreen.resize(lastWidth, lastHeight);
+            }
         }
     }
 
@@ -52,6 +57,8 @@ public class MainBk extends ApplicationAdapter {
     // Diese Methode wird aufgerufen, wenn das Fenster oder der Bildschirm die Größe ändert.
     @Override
     public void resize(int width, int height) {
+        lastWidth = width;
+        lastHeight = height;
         if (currentScreen != null) {
             currentScreen.resize(width, height);
         }

@@ -1,0 +1,18 @@
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+eclipse.project.name = appName + '-teavm'
+
+dependencies {
+    implementation project(':core')
+    implementation "com.github.xpenatan.gdx-teavm:backend-web:1.5.1"
+}
+
+// Compiles the game to JavaScript via TeaVM.
+// Output goes to teavm/build/dist — ready to be served by Nginx.
+tasks.register('buildWeb', JavaExec) {
+    group = 'web'
+    description = 'Compile Java → JavaScript via TeaVM'
+    dependsOn compileJava
+    mainClass.set('com.teama.skyteam.drop.teavm.BuildSkyTeam')
+    classpath = sourceSets.main.runtimeClasspath
+    workingDir = project.projectDir
+}

@@ -1,11 +1,3 @@
-/**
- * Steuert die Eingaben des Spielers und verwaltet die Kamera- sowie Pausenfunktionalitäten.
- *
- * Die Klasse `InputController` verarbeitet die Benutzereingaben wie Tastatursteuerung und ESC-Taste
- * für das Pausieren des Spiels. Sie bietet eine Pause-Ansicht mit Optionen zum Fortsetzen,
- * Zurückkehren ins Hauptmenü oder Beenden des Spiels. Außerdem steuert sie die Kamerabewegung
- * innerhalb der Grenzen des Spielfelds.
- */
 package com.teama.skyteam.drop.ui.utilities;
 
 import com.badlogic.gdx.Gdx;
@@ -15,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.teama.skyteam.drop.MainBk;
@@ -26,27 +18,19 @@ import com.teama.skyteam.drop.ui.menu.MainMenuScreen;
 
 public class InputController {
 
-    private OrthographicCamera camera;
-    private float tableHeight;
-    private Stage stage;
+    private final OrthographicCamera camera;
+    private final float tableHeight;
+    private final Stage stage;
     private Stage pauseStage;
 
     private boolean limitCamera = true;
     private boolean isPaused = false;
 
-    private MainBk main;
+    private final MainBk main;
 
     private Image pauseBackground;
 
-    /**
-     * Konstruktor zur Initialisierung des Input-Controllers.
-     *
-     * @param camera Die Kamera, die das Spielfeld anzeigt.
-     * @param tableHeight Die Höhe des Spielfelds.
-     * @param stage Die Bühne für das Game.
-     * @param main Die Hauptinstanz des Spiels.
-     */
-    public InputController(OrthographicCamera camera, float tableHeight, Stage stage, MainBk main){
+    public InputController(OrthographicCamera camera, float tableHeight, Stage stage, MainBk main) {
         this.camera = camera;
         this.tableHeight = tableHeight;
         this.stage = stage;
@@ -56,11 +40,8 @@ public class InputController {
         createPauseStage();
     }
 
-    /**
-     * Erstellt die Pausenansicht mit den Optionen.
-     */
-    private void createPauseStage(){
-        pauseStage = new Stage(new ScreenViewport());
+    private void createPauseStage() {
+        pauseStage = new Stage(new FitViewport(1920, 1080));
 
         Texture backgroundTexture = new Texture(TexturePaths.BACKGROUND_PATH);
         pauseBackground = new Image(backgroundTexture);
@@ -77,23 +58,23 @@ public class InputController {
         TextButton returnButton = new TextButton("Return to menu", blueButtonStyle);
         TextButton exitButton = new TextButton("Exit", blueButtonStyle);
 
-        resumeButton.addListener(new ClickListener(){
+        resumeButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y){
+            public void clicked(InputEvent event, float x, float y) {
                 resumeGame();
             }
         });
 
-        returnButton.addListener(new ClickListener(){
+        returnButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y){
+            public void clicked(InputEvent event, float x, float y) {
                 returnToMenu();
             }
         });
 
-        exitButton.addListener(new ClickListener(){
+        exitButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y){
+            public void clicked(InputEvent event, float x, float y) {
                 exitGame();
             }
         });
@@ -106,26 +87,7 @@ public class InputController {
         pauseStage.addActor(table);
     }
 
-    /**
-     * Aktualisiert die Eingabeverarbeitung und rendert die entsprechende Ansicht.
-     *
-     * @param delta Die Zeit seit dem letzten Frame.
-     */
-    public void updateAndRender(float delta){
-        if(!isPaused){
-            handleKeyboard();
-            stage.act(delta);
-            stage.draw();
-        } else {
-            pauseStage.act(delta);
-            pauseStage.draw();
-        }
-    }
-
-    /**
-     * Verarbeitet die Tastatureingaben für die Kamerabewegung und Pause.
-     */
-    private void handleKeyboard(){
+    public void handleInput() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             togglePause();
         }
@@ -147,47 +109,49 @@ public class InputController {
                     camera.position.y = tableHeight - halfViewHeight;
                 }
             }
-            camera.update();
         }
     }
 
-    /**
-     * Schaltet den Pausenmodus um.
-     */
-    private void togglePause(){
+    public void renderPauseIfNeeded(float delta) {
+        if (isPaused) {
+            pauseStage.act(delta);
+            pauseStage.draw();
+        }
+    }
+
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    public void resize(int width, int height) {
+        pauseStage.getViewport().update(width, height, true);
+    }
+
+    private void togglePause() {
         isPaused = !isPaused;
-        if(isPaused){
+        if (isPaused) {
             Gdx.input.setInputProcessor(pauseStage);
         } else {
             Gdx.input.setInputProcessor(stage);
         }
     }
 
-    /**
-     * Beendet den Pausenmodus und setzt das Game fort.
-     */
-    private void resumeGame(){
+    private void resumeGame() {
         isPaused = false;
         Gdx.input.setInputProcessor(stage);
     }
 
-    /**
-     * Wechselt ins Hauptmenü.
-     */
-    private void returnToMenu(){
+    private void returnToMenu() {
         isPaused = false;
         Gdx.input.setInputProcessor(stage);
         main.setScreen(new MainMenuScreen(main));
     }
 
-    /**
-     * Beendet das Game.
-     */
-    private void exitGame(){
+    private void exitGame() {
         Gdx.app.exit();
     }
 
-    public void dispose(){
+    public void dispose() {
         if (pauseBackground.getDrawable() instanceof TextureRegionDrawable) {
             Texture texture = ((TextureRegionDrawable) pauseBackground.getDrawable()).getRegion().getTexture();
             texture.dispose();

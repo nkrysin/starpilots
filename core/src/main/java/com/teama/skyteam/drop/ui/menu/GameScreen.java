@@ -57,9 +57,9 @@ public class GameScreen implements Screen {
 
         campaignAltitudeView = new CampaignAltitudeView(game);
 
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(UILayout.SCREEN_SIZE[0], UILayout.SCREEN_SIZE[1], camera);
+        viewport = new FitViewport(1920, 1080);
         stage = new Stage(viewport);
+        camera = (OrthographicCamera) viewport.getCamera();
 
         skin = new Skin(Gdx.files.internal(TexturePaths.SKIN_PATH));
 
@@ -67,6 +67,8 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         gameFlowController = new GameFlowController(game, campaignAltitudeView, stage, skin);
+
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     @Override
@@ -74,23 +76,26 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        inputController.handleInput();
         camera.update();
-        batch.setProjectionMatrix(camera.combined);
 
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(tableTexture, 0, 0, UILayout.TABLE_SIZE[0], UILayout.TABLE_SIZE[1]);
         campaignAltitudeView.render(batch);
         batch.draw(boardTexture, 656, 115);
         batch.end();
 
-        gameFlowController.render();
-        inputController.updateAndRender(delta);
+        stage.act(delta);
+        stage.draw();
+
+        inputController.renderPauseIfNeeded(delta);
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-        gameFlowController.resize(width, height);
+        inputController.resize(width, height);
     }
 
     @Override

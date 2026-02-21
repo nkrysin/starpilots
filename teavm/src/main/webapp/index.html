@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sky Team</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #000;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #canvas { display: block; }
+    </style>
+</head>
+<body oncontextmenu="return false">
+    <canvas id="canvas"></canvas>
+    <script>
+        async function start() {
+            main();
+        }
+        window.addEventListener('load', start);
+    </script>
+    <script type="text/javascript" charset="utf-8" src="app.js"></script>
+</body>
+</html>

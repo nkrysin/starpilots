@@ -1,6 +1,5 @@
 package com.teama.skyteam.drop.ui.flow;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.teama.skyteam.drop.application.gameservice.GameService;
@@ -168,16 +167,6 @@ public class GameFlowController implements GameFlowContext {
         this.speedCompleted = false;
     }
 
-
-    // Render
-    public void render() {
-        gameBoard.stage.act(Gdx.graphics.getDeltaTime());
-        gameBoard.stage.draw();
-    }
-
-    public void resize(int width, int height) {
-        gameBoard.stage.getViewport().update(width, height, true);
-    }
 
     public void dispose() {
         if (gameBoard != null) {
