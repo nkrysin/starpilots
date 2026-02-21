@@ -16,9 +16,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.teama.skyteam.drop.MainBk;
 import com.teama.skyteam.drop.ui.constants.TexturePaths;
-import com.teama.skyteam.drop.ui.constants.UILayout;
+import com.teama.skyteam.drop.ui.settings.SettingsManager;
 
 public class MainMenuScreen implements Screen {
     private final MainBk main;
@@ -33,10 +34,11 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-        if (!main.menuMusic.isPlaying()) {
+        if (SettingsManager.isMusicEnabled() && !main.menuMusic.isPlaying()) {
             main.menuMusic.play();
         }
-        stage = new Stage();
+        FitViewport viewport = new FitViewport(1920, 1080);
+        this.stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
         Table table = new Table();
@@ -50,6 +52,14 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 main.setScreen(new ScenarioSelectionScreen(main));
+            }
+        });
+
+        TextButton settingsButton = new TextButton("Settings", blueButtonStyle);
+        settingsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                main.setScreen(new SettingsScreen(main));
             }
         });
 
@@ -71,6 +81,7 @@ public class MainMenuScreen implements Screen {
 
         float buttonWidth = 350f;
         table.add(startButton).width(buttonWidth).pad(20).row();
+        table.add(settingsButton).width(buttonWidth).pad(20).row();
         table.add(creditsButton).width(buttonWidth).pad(20).row();
         table.add(exitButton).width(buttonWidth).pad(20).row();
 
@@ -82,7 +93,8 @@ public class MainMenuScreen implements Screen {
     @Override
     public void render(float delta) {
         batch.begin();
-        batch.draw(planeBackground, 0, 0, UILayout.SCREEN_SIZE[0], UILayout.SCREEN_SIZE[1]);
+        batch.setProjectionMatrix(stage.getViewport().getCamera().combined);
+        batch.draw(planeBackground, 0, 0, 1920, 1080);
         batch.draw(logo, 519, 720, 883, 220);
         batch.end();
 
@@ -92,6 +104,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
     }
 
     @Override

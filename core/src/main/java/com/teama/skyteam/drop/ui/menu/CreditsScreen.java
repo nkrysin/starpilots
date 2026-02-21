@@ -17,13 +17,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.teama.skyteam.drop.MainBk;
 import com.teama.skyteam.drop.ui.constants.TexturePaths;
 
 class CreditsScreen implements Screen {
     private final MainBk main;
     private Stage stage;
-    private Skin skin;
     private SpriteBatch batch;
     private Texture credits;
 
@@ -36,7 +36,8 @@ class CreditsScreen implements Screen {
         if (!main.menuMusic.isPlaying()) {
             main.menuMusic.play();
         }
-        stage = new Stage();
+        FitViewport viewport = new FitViewport(1920, 1080);
+        this.stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
         batch = new SpriteBatch();
@@ -78,6 +79,7 @@ class CreditsScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
     }
 
     @Override

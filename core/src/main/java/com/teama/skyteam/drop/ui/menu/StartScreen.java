@@ -1,29 +1,19 @@
-/**
- * Repräsentiert den Startbildschirm des Spiels.
- *
- * Die Klasse `StartScreen` zeigt nacheinander zwei Bilder an:
- * 1. Ein Team-A-Logo.
- * 2. Ein Startbildschirm-Logo.
- *
- * Nach einer festgelegten Zeit wechselt der Bildschirm automatisch zum Hauptmenü.
- * Der Startbildschirm dient als Einführung, bevor der Player in das Menü gelangt.
- */
 package com.teama.skyteam.drop.ui.menu;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.teama.skyteam.drop.MainBk;
 import com.teama.skyteam.drop.ui.constants.TexturePaths;
-import com.teama.skyteam.drop.ui.constants.UILayout;
+import com.teama.skyteam.drop.ui.settings.SettingsManager;
 
 public class StartScreen implements Screen {
     private final MainBk main;
     private SpriteBatch batch;
-    private Texture teamATexture;
+    private FitViewport viewport;
     private Texture startScreenLogoTexture;
-    private boolean showSecondImage = false;
 
     public StartScreen(MainBk main) {
         this.main = main;
@@ -31,41 +21,32 @@ public class StartScreen implements Screen {
 
     @Override
     public void show() {
-        if (!main.menuMusic.isPlaying()) {
+        if (SettingsManager.isMusicEnabled() && !main.menuMusic.isPlaying()) {
             main.menuMusic.play();
         }
+        viewport = new FitViewport(1920, 1080);
         batch = new SpriteBatch();
-        teamATexture = new Texture(TexturePaths.TEAM_A_LOGO);
         startScreenLogoTexture = new Texture(TexturePaths.START_SCREEN_LOGO);
-
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                showSecondImage = true;
-            }
-        }, 3f);
 
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
                 main.setScreen(new MainMenuScreen(main));
             }
-        }, 6.6f);
+        }, 3.6f);
     }
 
     @Override
     public void render(float delta) {
+        batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
-        if (!showSecondImage) {
-            batch.draw(teamATexture, 0, 0, UILayout.SCREEN_SIZE[0], UILayout.SCREEN_SIZE[1]);
-        } else {
-            batch.draw(startScreenLogoTexture, 0, 0);
-        }
+        batch.draw(startScreenLogoTexture, 0, 0, 1920, 1080);
         batch.end();
     }
 
     @Override
     public void resize(int width, int height) {
+        viewport.update(width, height, true);
     }
 
     @Override
@@ -83,7 +64,6 @@ public class StartScreen implements Screen {
 
     @Override
     public void dispose() {
-        teamATexture.dispose();
         startScreenLogoTexture.dispose();
     }
 }

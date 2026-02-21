@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.teama.skyteam.drop.ui.menu.StartScreen;
+import com.teama.skyteam.drop.ui.settings.SettingsManager;
 import com.teama.skyteam.drop.ui.utilities.TextureCache;
 
 public class MainBk extends ApplicationAdapter {
@@ -32,7 +33,8 @@ public class MainBk extends ApplicationAdapter {
     public void create() {
         menuMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/main_menu.mp3"));
         menuMusic.setLooping(true);
-        menuMusic.setVolume(0.05f);
+        menuMusic.setVolume(SettingsManager.getMusicVolume());
+        SettingsManager.applySettings();
         setScreen(new StartScreen(this));
     }
 
