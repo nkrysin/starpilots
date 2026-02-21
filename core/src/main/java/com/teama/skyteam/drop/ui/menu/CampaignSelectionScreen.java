@@ -1,7 +1,7 @@
 /**
  * Repräsentiert den Szenarioauswahl-Bildschirm im Game.
  *
- * Die Klasse `ScenarioSelectionScreen` ermöglicht es dem Player, ein Campaign auszuwählen,
+ * Die Klasse `CampaignSelectionScreen` ermöglicht es dem Player, ein Campaign auszuwählen,
  * mit dem das Game gestartet wird. Jedes Campaign wird durch eine Tastet dargestellt,
  * und es wird eine spezifische Route initialisiert. Der Bildschirm enthält außerdem eine Option,
  * zum Hauptmenü zurückzukehren.
@@ -31,7 +31,7 @@ import com.teama.skyteam.drop.domain.model.game.Game;
 import com.teama.skyteam.drop.ui.constants.TexturePaths;
 import com.teama.skyteam.drop.domain.model.game.GameConstructor;
 
-class ScenarioSelectionScreen implements Screen {
+class CampaignSelectionScreen implements Screen {
     private final MainBk main;
     private Stage stage;
     private Skin skin;
@@ -39,7 +39,7 @@ class ScenarioSelectionScreen implements Screen {
     private SpriteBatch batch;
     private Texture planeBackground;
 
-    public ScenarioSelectionScreen(MainBk main) {
+    public CampaignSelectionScreen(MainBk main) {
         this.main = main;
     }
 
