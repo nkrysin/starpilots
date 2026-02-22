@@ -1,4 +1,4 @@
-# ✈️ SkyTeam by Team-A
+# ✈️ Star Pilots by Team-A
 
 ## ⚠️ Anleitung zum Starten des Projekts ⚠️
 Früher musste das Programm wie unten beschrieben gestartet werden, da ein Bug in `ButtonStyle` vorhanden war.  
@@ -7,7 +7,7 @@ Falls dabei ein **JSON-Formatierungsfehler** auftritt, kann der folgende Startvo
 
 1. Öffnen Sie das Projekt in **IntelliJ IDEA**.
 2. Suchen Sie die Datei `Lwjgl3Launcher`:
-    - Pfad: `java/com/teama/skyteam/drop/lwjgl3/Lwjgl3Launcher.java`.
+    - Pfad: `java/com/teama/starpilots/drop/lwjgl3/Lwjgl3Launcher.java`.
 3. Klicken Sie mit der rechten Maustaste auf die Datei `Lwjgl3Launcher`.
 4. Wählen Sie **Run 'Lwjgl3Launcher.main()'**.
 
@@ -46,7 +46,7 @@ Hier können Sie das Spiel fortsetzen **Resume**, ins Hauptmenü zurückkehren *
 Die Dokumentation, einschließlich **Diagrammen**, **Anwendungsfalldefinition** und **Spezifikation**, befindet sich im Projektverzeichnis im Verzeichnis  **`documentation`** im Hauptverzeichnis.
 
 ## ✨ Kurze Beschreibung des Projekts
-Im Rahmen des Kurses **Software System Entwicklung** wurde in diesem Projekt eine Implementierung der beliebten Brettspiel-Adaption **Sky Team** als Desktop-Spiel für den PC entwickelt. Das Originalspiel wurde von **Luc Rémond** entworfen und 2023 von **Le Scorpion Masqué** veröffentlicht. Zudem erhielt es den Preis **Spiel des Jahres 2024**. Das Hauptziel des Projekts war es, ein funktionierendes, optimiertes und ästhetisch ansprechendes Spiel zu schaffen.
+Im Rahmen des Kurses **Software System Entwicklung** wurde in diesem Projekt eine Implementierung der beliebten Brettspiel-Adaption **Star Pilots** als Desktop-Spiel für den PC entwickelt. Das Originalspiel wurde von **Luc Rémond** entworfen und 2023 von **Le Scorpion Masqué** veröffentlicht. Zudem erhielt es den Preis **Spiel des Jahres 2024**. Das Hauptziel des Projekts war es, ein funktionierendes, optimiertes und ästhetisch ansprechendes Spiel zu schaffen.
 
 ## 💻 Verwendete Technologien:
 - **Java 21** – für die Implementierung der internen Spiellogik.
@@ -87,9 +87,9 @@ Sobald ein Spieler eine Aktion abgeschlossen hat (das Platzieren eines Würfels)
 Dieser Ansatz vereinfacht die Ereignisverarbeitung, hält GUI und Spiellogik lose gekoppelt und sorgt für eine klare Trennung der Verantwortlichkeiten.
 
 
-# 📜 Sky Team – Spielregeln
+# 📜 Star Pilots – Spielregeln
 
-**Sky Team** ist ein kooperatives Brettspiel für zwei Spieler, bei dem Sie gemeinsam ein Flugzeug steuern, um es sicher zu landen.
+**Star Pilots** ist ein kooperatives Brettspiel für zwei Spieler, bei dem Sie gemeinsam ein Flugzeug steuern, um es sicher zu landen.
 
 ## 🎯 Ziel des Spiels:
 Das Ziel ist es, das Flugzeug erfolgreich zu landen, indem Sie alle Phasen des Sinkflugs und der Landung meistern. Dabei müssen Sie die Kontrolle über Höhe, Geschwindigkeit, Fahrgestell, Klappen und andere Systeme behalten, Kollisionen mit anderen Flugzeugen vermeiden und den Flughafen im richtigen Moment erreichen.

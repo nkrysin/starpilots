@@ -1,0 +1,105 @@
+package com.teama.starpilots.drop.ui.constants;
+
+public class UILayout {
+
+    private UILayout() {}
+
+    public static final float CAMERA_SPEED = 10f;
+    public static final int[] TABLE_SIZE = {1920, 1700};
+    public static final int[] SCREEN_SIZE = {1920, 1080};
+
+    // Koordinaten der Schalter und Indikatoren. Diese gelten nur für FUllHD-Bildschirme
+    public static final int[][] LANDING_GEAR_COORDINATES = {
+        {705, 545},
+        {705, 410},
+        {705, 275}
+    };
+
+    public static final int[][] BRAKES_COORDINATES = {
+        {867, 242},
+        {960, 242},
+        {1051, 242}
+    };
+
+    public static final int[][] FLAPS_COORDINATES = {
+        {1213, 545},
+        {1213, 410},
+        {1213, 275},
+        {1213, 139}
+    };
+
+    public static final int[][] BRAKES_INDICATOR_COORDINATES = {
+        {823, 403},
+        {866, 373},
+        {970, 355},
+        {1067, 394}
+    };
+
+    public static final int[][] LANDING_GEAR_INDICATOR_COORDINATES = {
+        {822, 570},
+        {865, 539},
+        {916, 522},
+        {970, 520}
+    };
+
+    public static final int[][] FLAPS_INDICATOR_COORDINATES = {
+        {1020, 532},
+        {1067, 560},
+        {1103, 599},
+        {1127, 644},
+        {1137, 699}
+    };
+
+    public static final int SWITCH_STEP = 30;
+
+    public static final float BRAKES_INDICATOR_ANGLE = -40f;
+    public static final float LANDING_GEAR_INDICATOR_ANGLE = -40f;
+    public static final float FLAPS_INDICATOR_ANGLE = 25f;
+
+    public static final float MOVE_DURATION = 0.3f;
+
+    public static final float BRAKES_ROTATION_CASE_2 = -25f;
+    public static final float BRAKES_ROTATION_CASE_4 = 10f;
+    public static final float BRAKES_ROTATION_CASE_6 = 40f;
+
+    public static final float LANDING_GEAR_ROTATION_CASE_1 = -25f;
+    public static final float LANDING_GEAR_ROTATION_CASE_2 = -10f;
+    public static final float LANDING_GEAR_ROTATION_CASE_3 = 10f;
+
+    public static final float FLAPS_ROTATION_CASE_9 = 45f;
+    public static final float FLAPS_ROTATION_CASE_10 = 60f;
+    public static final float FLAPS_ROTATION_CASE_11 = 75f;
+    public static final float FLAPS_ROTATION_CASE_12 = 90f;
+
+    public static final int MOVE_STEP = 96; // Die Schrittgröße für die Bewegung der Ansicht. Gilt für FUllHD-Bildschirme
+    public static final float[][] PLANE_POSITIONS = {  // Positionen der Flugzeuge auf der Karte.  Das gilt nur für FUllHD-Bildschirme
+        {792, 886},
+        {834, 886},
+        {876, 886}
+    };
+
+    public static final int HEIGHT_FULL_HD_X_SIZE = 989;
+    public static final int HEIGHT_FULL_HD_Y_SIZE = 841;
+
+
+    // Koordinaten von Wuerfeln. Diese gelten nur für FUllHD-Bildschirme
+    public static final int[][] PILOT_DICE_COORDINATES = {{411, 553}, {491, 553}, {411, 473}, {491, 473}};
+    public static final int[][] COPILOT_DICE_COORDINATES = {{1367, 553}, {1448, 553}, {1367, 473}, {1448, 473}};
+    public static final int[] RUDDER_COORDINATES = {868, 630};
+    public static final int[][] PILOT_ACTOR_COORDINATES = {{679, 791}, {773, 777}, {838, 475}, {679, 598}, {679, 464}, {679, 327}, {842, 293}, {933, 293}, {1025, 293}};
+    public static final int[][] COPILOT_ACTOR_COORDINATES = {{1091, 777}, {1027, 475}, {1185, 791}, {1185, 883}, {1185, 598}, {1185, 464}, {1185, 327}, {1185, 191}};
+    public static final int[] DICE_SIZE = {55,55};
+    public static final int[][] COFFEE_COORDINATES = {{842, 142}, {933, 142}, {1025, 142}};
+    public static final int[][] COFFEE_CONTROL_COORDINATES = {{711, 201}, {711, 143}, {772, 143}};
+    public static final int[] COFFEE_BUTTON_SIZE = {39,39};
+    public static final int[] PILOT_HIDING_SCREEN_COORDINATES = {330, 390};
+    public static final int[] COPILOT_HIDING_SCREEN_COORDINATES = {1290, 390};
+    public static final int[] REROLL_BUTTON_SIZE = {60,60};
+    public static final int[] REROLL_BUTTON_COORDINATES = {681,873};
+
+    // Koordinaten von Campaign
+    public static final int[] CAMPAIGN_COORDINATES = {758,845};
+    public static final int[] CAMPAIGN_PLANE_SIZE = {39,39};
+    public static final int CAMPAIGN_PLANE_Y_COORDINATE = 886;
+    public static final float CAMPAIGN_PLANE_Y_OFFSET = 0f;
+}

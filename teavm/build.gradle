@@ -11,7 +11,7 @@ tasks.register('buildWeb', JavaExec) {
     group = 'web'
     description = 'Compile Java → JavaScript via TeaVM'
     dependsOn compileJava
-    mainClass.set('com.teama.skyteam.drop.teavm.BuildSkyTeam')
+    mainClass.set('com.teama.starpilots.drop.teavm.BuildStarPilots')
     classpath = sourceSets.main.runtimeClasspath
     workingDir = project.projectDir
 }
