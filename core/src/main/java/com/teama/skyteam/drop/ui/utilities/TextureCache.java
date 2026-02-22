@@ -27,7 +27,9 @@ public class TextureCache {
         if (!cache.containsKey(path)) {
             cache.put(path, new Texture(Gdx.files.internal(path)));
         }
-        return cache.get(path);
+        Texture t = cache.get(path);
+        t.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        return t;
     }
 
     public static void dispose() {
