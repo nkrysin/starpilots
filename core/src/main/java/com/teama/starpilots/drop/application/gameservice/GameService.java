@@ -40,10 +40,6 @@ public class GameService {
         this.game = game;
         this.gameRules = gameRules;
 
-//        this.validator = new StandardActionValidator(); // TODO: Check this? Move to constr?
-//        this.gameStateManager = new StandardGameStateManager(game);
-//        this.actionFactory = new ActionFactory(game, gameStateManager);
-
         this.validator = validator;
         this.gameStateManager = gameStateManager;
         this.actionFactory = actionFactory;

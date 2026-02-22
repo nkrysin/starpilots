@@ -30,6 +30,7 @@ import com.teama.starpilots.drop.domain.model.campaign.Campaign;
 import com.teama.starpilots.drop.domain.model.game.Game;
 import com.teama.starpilots.drop.ui.constants.TexturePaths;
 import com.teama.starpilots.drop.domain.model.game.GameConstructor;
+import com.teama.starpilots.drop.ui.settings.SettingsManager;
 
 class CampaignSelectionScreen implements Screen {
     private final MainBk main;
@@ -45,7 +46,7 @@ class CampaignSelectionScreen implements Screen {
 
     @Override
     public void show() {
-        if (!main.menuMusic.isPlaying()) {
+        if (SettingsManager.isMusicEnabled() && !main.menuMusic.isPlaying()) {
             main.menuMusic.play();
         }
         FitViewport viewport = new FitViewport(1920, 1080);

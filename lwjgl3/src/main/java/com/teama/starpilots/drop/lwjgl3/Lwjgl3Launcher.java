@@ -23,8 +23,8 @@ public class Lwjgl3Launcher {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
         configuration.setTitle("Star Pilots");
 
-        // Enable logging to console //TODO: remove button line
-        System.setProperty("org.lwjgl.util.Debug", "true");
+        // Enable logging to console
+        // System.setProperty("org.lwjgl.util.Debug", "true");
         //// Vsync limits the frames per second to what your hardware can display, and helps eliminate
         //// screen tearing. This setting doesn't always work on Linux, so the line after is a safeguard.
         configuration.useVsync(true);
