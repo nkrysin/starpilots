@@ -29,6 +29,7 @@ public class TextureCache {
         }
         Texture t = cache.get(path);
         t.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        t.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
         return t;
     }
 
