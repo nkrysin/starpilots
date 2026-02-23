@@ -24,6 +24,8 @@
 
 ### Main Menu
 - After launching the game you will see the main menu where you can start the game by clicking **Start Game**.
+- You can also adjust resolution and audio settings in **Settings**.
+- You can also leave the game by clicking **Exit**.
 
 ### Campaign Selection
 - Choose a campaign scenario by clicking on it.
@@ -37,6 +39,20 @@
 ### Pause Menu
 - **Resume** — continue the game.
 - **Return to menu** — go back to the main menu.
+- **Exit** — close the application completely.
+
+## About
+
+This is an improved and refactored version of the original [Sky Teams](https://github.com/nkrysin/sky-teams) project, which was developed earlier for educational purposes. All improvements and refactoring were done by **Nikolai Krysin**.
+
+### Improvements Over the Original
+
+- **Layered architecture** — the project was restructured into clear `domain`, `application`, and `ui` layers instead of monolithic classes. Domain models, game rules, and UI are now properly separated.
+- **Design patterns** — introduced Command pattern for player actions (`PlayerAction` + concrete implementations), State Machine for game flow (`GameFlowState` with 9 states), Observer for UI-game synchronization, and Factory for action creation.
+- **Centralized resource management** — added `TextureCache` with static caching and centralized `dispose()`, preventing memory leaks from undisposed textures and batches.
+- **Structured constants** — UI positions are organized in dedicated constants classes (`UILayout`, `TexturePaths`, `GameConstants`) instead of being scattered across the codebase.
+- **JSON-driven campaigns** — campaign data is loaded from JSON files, making scenarios configurable without code changes.
+- **Web deployment** — added TeaVM compilation to JavaScript and Docker + Nginx containerized hosting for browser play.
 
 ## Project Description
 
@@ -47,7 +63,7 @@
 - **Docker + Nginx** — containerized web hosting.
 
 ### Team
-The project was developed by **Team A**: **Nataliia Shcherba** and **Nikolai Krysin**.
+The original project was developed by **Team A**: **Nataliia Shcherba** and **Nikolai Krysin**. This version was improved and refactored by myself.
 
 ## Game Rules
 
