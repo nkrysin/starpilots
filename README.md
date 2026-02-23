@@ -43,7 +43,7 @@
 
 ## About
 
-This is an improved and refactored version of the original [Sky Teams](https://github.com/nkrysin/sky-teams) project, which was developed earlier for educational purposes. All improvements and refactoring were done by **Nikolai Krysin**.
+This is an improved and refactored version of the original [Sky Team](https://github.com/nkrysin/sky-team) project, which was developed earlier for educational purposes. All improvements and refactoring were done by **Nikolai Krysin**.
 
 ### Improvements Over the Original
 
