@@ -3,7 +3,6 @@ package com.teama.starpilots.drop.ui.menu;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -27,7 +26,6 @@ public class SettingsScreen implements Screen {
     private SpriteBatch batch;
     private Texture background;
     private Skin skin;
-    private TextButton.TextButtonStyle buttonStyle;
     private Table table;
 
     private static final int[][] RESOLUTIONS = {
@@ -45,12 +43,6 @@ public class SettingsScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         skin = new Skin(Gdx.files.internal(TexturePaths.SKIN_PATH));
-        buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.up = skin.newDrawable("button-c", Color.SLATE);
-        buttonStyle.down = skin.newDrawable("button-p", Color.SLATE);
-        buttonStyle.over = skin.newDrawable("button-h", Color.SKY);
-        buttonStyle.font = skin.getFont("button");
-        buttonStyle.fontColor = Color.WHITE;
 
         table = new Table();
         table.setFillParent(true);
@@ -65,7 +57,9 @@ public class SettingsScreen implements Screen {
     private void showMain() {
         table.clear();
 
-        TextButton resolutionBtn = new TextButton("Resolution", buttonStyle);
+        TextButton.TextButtonStyle style = ButtonStyle.style();
+
+        TextButton resolutionBtn = new TextButton("Resolution", style);
         resolutionBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -73,7 +67,7 @@ public class SettingsScreen implements Screen {
             }
         });
 
-        TextButton audioBtn = new TextButton("Audio", buttonStyle);
+        TextButton audioBtn = new TextButton("Audio", style);
         audioBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -81,7 +75,7 @@ public class SettingsScreen implements Screen {
             }
         });
 
-        TextButton backBtn = new TextButton("Back", buttonStyle);
+        TextButton backBtn = new TextButton("Back", style);
         backBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -97,10 +91,12 @@ public class SettingsScreen implements Screen {
     private void showResolution() {
         table.clear();
 
+        TextButton.TextButtonStyle style = ButtonStyle.style();
+
         if (Gdx.app.getType() != Application.ApplicationType.WebGL) {
             for (int[] res : RESOLUTIONS) {
                 int w = res[0], h = res[1];
-                TextButton btn = new TextButton(w + "x" + h, buttonStyle);
+                TextButton btn = new TextButton(w + "x" + h, style);
                 btn.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
@@ -112,7 +108,7 @@ public class SettingsScreen implements Screen {
         }
 
         TextButton fullscreenBtn = new TextButton(
-            SettingsManager.isFullscreen() ? "Windowed" : "Fullscreen", buttonStyle
+            SettingsManager.isFullscreen() ? "Windowed" : "Fullscreen", style
         );
         fullscreenBtn.addListener(new ClickListener() {
             @Override
@@ -126,7 +122,7 @@ public class SettingsScreen implements Screen {
         });
         table.add(fullscreenBtn).width(350f).pad(10).row();
 
-        TextButton backBtn = new TextButton("Back", buttonStyle);
+        TextButton backBtn = new TextButton("Back", style);
         backBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -139,8 +135,10 @@ public class SettingsScreen implements Screen {
     private void showAudio() {
         table.clear();
 
+        TextButton.TextButtonStyle style = ButtonStyle.style();
+
         TextButton musicToggleBtn = new TextButton(
-            SettingsManager.isMusicEnabled() ? "Music: ON" : "Music: OFF", buttonStyle
+            SettingsManager.isMusicEnabled() ? "Music: ON" : "Music: OFF", style
         );
         musicToggleBtn.addListener(new ClickListener() {
             @Override
@@ -171,7 +169,7 @@ public class SettingsScreen implements Screen {
             }
         });
 
-        TextButton backBtn = new TextButton("Back", buttonStyle);
+        TextButton backBtn = new TextButton("Back", style);
         backBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

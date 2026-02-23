@@ -22,15 +22,15 @@ public class SwitchPanelView {
     Image brakesIndicator;
     Image landingGearIndicator;
     Image flapsIndicator;
-    Texture texture = new Texture(TexturePaths.PLANE_SWITCH_PATH);
+    Texture texture = new Texture(TexturePaths.STARSHIP_SWITCH_PATH);
     float newX, newY;
     private Stage stage;
 
     public SwitchPanelView(Stage stage) {
         this.stage = stage;
         brakesIndicator = new Image(TextureCache.get(TexturePaths.RED_MARKER));
-        landingGearIndicator = new Image(TextureCache.get(TexturePaths.BLUE_MARKER));
-        flapsIndicator = new Image(TextureCache.get(TexturePaths.ORANGE_MARKER));
+        landingGearIndicator = new Image(TextureCache.get(TexturePaths.PURPLE_MARKER));
+        flapsIndicator = new Image(TextureCache.get(TexturePaths.PINK_MARKER));
     }
 
     /**

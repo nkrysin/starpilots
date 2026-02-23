@@ -21,7 +21,7 @@ public class ButtonStyle {
         // Setzt die Hintergründe für verschiedene Zustände (normal, gedrückt, hover).
         style.up = skin.newDrawable("button-c", Color.SLATE); // Normalzustand
         style.down = skin.newDrawable("button-p", Color.SLATE); // Gedrückt
-        style.over = skin.newDrawable("button-h", Color.SKY); // Hover
+        style.over = skin.newDrawable("button-h", Color.SALMON); // Hover
         style.font = skin.getFont("button");
         style.fontColor = Color.WHITE;
         return style;

@@ -29,7 +29,7 @@ public class CampaignGUI {
 
     public CampaignGUI(Game game) {
         this.game = game;
-        planeTexture = new Texture(TexturePaths.PLANE_PATH);
+        planeTexture = new Texture(TexturePaths.ASTEROID_PATH);
         emptyTexture = new Texture(TexturePaths.WITHOUT_HIGHLIGHT_PATH);
         campaignName = game.getCampaign().getCampaignAssetId();
         campaignTexture = new Texture(TexturePaths.ASSETS_CAMPAIGN_PATH + campaignName + TexturePaths.IMG_FORMAT);

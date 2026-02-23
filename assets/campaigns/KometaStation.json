@@ -1,0 +1,16 @@
+{
+  "name": "Kometa Station",
+  "assetId": "KometaStation",
+  "altitudeType": "GREEN",
+  "fields": [0, 0, 1, 1, 0, 1, 1, 1],
+  "altitudes": [
+    {"altitude": 6000, "rerollToken": true},
+    {"altitude": 5000, "rerollToken": false},
+    {"altitude": 4000, "rerollToken": false},
+    {"altitude": 3000, "rerollToken": false},
+    {"altitude": 2000, "rerollToken": true},
+    {"altitude": 1000, "rerollToken": false},
+    {"altitude": 0,    "rerollToken": false}
+  ]
+
+}

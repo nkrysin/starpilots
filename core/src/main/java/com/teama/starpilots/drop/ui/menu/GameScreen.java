@@ -83,7 +83,11 @@ public class GameScreen implements Screen {
         batch.begin();
         batch.draw(tableTexture, 0, 0, UILayout.TABLE_SIZE[0], UILayout.TABLE_SIZE[1]);
         campaignAltitudeView.render(batch);
-        batch.draw(boardTexture, 656, 115);
+
+        float drawWidth = boardTexture.getWidth() * 0.24f;
+        float drawHeight = boardTexture.getHeight() * 0.24f;
+
+        batch.draw(boardTexture, 656, 115, drawWidth, drawHeight);
         batch.end();
 
         stage.act(delta);

@@ -98,7 +98,7 @@ public class UILayout {
     public static final int[] REROLL_BUTTON_COORDINATES = {681,873};
 
     // Koordinaten von Campaign
-    public static final int[] CAMPAIGN_COORDINATES = {758,845};
+    public static final int[] CAMPAIGN_COORDINATES = {760,845};
     public static final int[] CAMPAIGN_PLANE_SIZE = {39,39};
     public static final int CAMPAIGN_PLANE_Y_COORDINATE = 886;
     public static final float CAMPAIGN_PLANE_Y_OFFSET = 0f;
