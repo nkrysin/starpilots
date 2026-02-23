@@ -1,172 +1,102 @@
-# ✈️ Star Pilots by Team-A
+# Star Pilots by Team-A
 
-## ⚠️ Anleitung zum Starten des Projekts ⚠️
-Früher musste das Programm wie unten beschrieben gestartet werden, da ein Bug in `ButtonStyle` vorhanden war.  
-Jetzt kann das Programm direkt über das **Gradle-Menü** auf der rechten Seite gestartet werden.  
-Falls dabei ein **JSON-Formatierungsfehler** auftritt, kann der folgende Startvorgang zuverlässig genutzt werden:
+## How to Start the Project
 
-1. Öffnen Sie das Projekt in **IntelliJ IDEA**.
-2. Suchen Sie die Datei `Lwjgl3Launcher`:
-    - Pfad: `java/com/teama/starpilots/drop/lwjgl3/Lwjgl3Launcher.java`.
-3. Klicken Sie mit der rechten Maustaste auf die Datei `Lwjgl3Launcher`.
-4. Wählen Sie **Run 'Lwjgl3Launcher.main()'**.
+### Desktop
+1. Open the project in **IntelliJ IDEA**.
+2. Find the file `Lwjgl3Launcher`:
+    - Path: `lwjgl3/src/main/java/com/teama/starpilots/drop/lwjgl3/Lwjgl3Launcher.java`
+3. Right-click on `Lwjgl3Launcher` and select **Run 'Lwjgl3Launcher.main()'**.
 
+### Web (Docker)
+1. Build the TeaVM web module:
+   ```
+   ./gradlew :teavm:buildWeb
+   ```
+2. Build and run the Docker container:
+   ```
+   docker build -t star-pilots .
+   docker run -d --name star-pilots -p 8080:80 star-pilots
+   ```
+3. Open `http://localhost:8080` in a browser.
 
-## ❓ Wie kann ich das Spiel spielen?
-### 👑 Hauptmenü
-- Nach dem Start des Spiels landen Sie im Hauptmenü, wo Sie das Spiel beginnen **Start Game**, sich die Credits ansehen **Credits** oder das Spiel verlassen **Exit** können.
-- Die Navigation zwischen den Menüelementen erfolgt durch Klicken mit der Maus.
+## How to Play
 
-### 👥 Credits
-- Dies ist der Bildschirm mit den Titeln, den Sie verlassen können, indem Sie mit der Maus auf die Schaltfläche **Go back** klicken.
+### Main Menu
+- After launching the game you will see the main menu where you can start the game by clicking **Start Game**.
 
-### 🚩 Start Game
-- Hier können Sie mit einem Mausklick das gewünschte Spielszenario auswählen (derzeit gibt es drei Optionen).
-- Sie können das Menü auch verlassen, indem Sie mit der Maus auf die Schaltfläche **Go back** klicken.
+### Campaign Selection
+- Choose a campaign scenario by clicking on it.
+- Click **Go back** to return to the main menu.
 
+### Game Screen
+- Camera movement is controlled with the **Up** and **Down** arrow keys.
+- Select a die by left-clicking on it. Place it on a field by left-clicking the corresponding slot.
+- Press **ESC** to open the pause menu.
 
-### 💻 Spielbildschirm:
-- Die Kamerabewegung wird mit den Tasten **↑** und **↓** auf der Tastatur gesteuert.
-- Die Auswahl von Würfeln erfolgt durch einen Klick mit der linken Maustaste auf den Würfel. Die Auswahl eines Feldes für die Platzierung erfolgt ebenfalls mit einem Klick mit der linken Maustaste auf das entsprechende Feld.
-- Das Pausenmenü wird durch Drücken der ESC-Taste aufgerufen.
+### Pause Menu
+- **Resume** — continue the game.
+- **Return to menu** — go back to the main menu.
 
-### ⏸️ Pausenmenü
-Hier können Sie das Spiel fortsetzen **Resume**, ins Hauptmenü zurückkehren **Return to menu** oder das Spiel verlassen 
-**Exit**. Die Auswahl erfolgt durch einen Klick mit der linken Maustaste auf das entsprechende Feld.
+## Project Description
 
+### Technologies
+- **Java 21** — game logic implementation.
+- **LibGDX** — graphics and UI framework.
+- **TeaVM (gdx-teavm)** — compiles the game to JavaScript for browser deployment.
+- **Docker + Nginx** — containerized web hosting.
 
+### Team
+The project was developed by **Team A**: **Nataliia Shcherba** and **Nikolai Krysin**.
 
-# 📝 Projektbeschreibung
+## Game Rules
 
-## 🗂️ Link zum alten Repository ohne LibGDX
+**Star Pilots** is a cooperative board game for two players where you work together to pilot a spaceship and land it safely.
 
-🔗 **Alter Repository:** [https://gitlab.hof-university.de/nkrysin/team-a-sse](https://gitlab.hof-university.de/nkrysin/team-a-sse)
+### Goal
+The goal is to successfully land the spaceship by managing all descent and landing phases. You must maintain control over altitude, speed, landing gear, flaps and other systems, avoid collisions with asteroids, and reach the landing zone at the right moment.
 
-## 💾 Dokumentation
-Die Dokumentation, einschließlich **Diagrammen**, **Anwendungsfalldefinition** und **Spezifikation**, befindet sich im Projektverzeichnis im Verzeichnis  **`documentation`** im Hauptverzeichnis.
+### Gameplay
 
-## ✨ Kurze Beschreibung des Projekts
-Im Rahmen des Kurses **Software System Entwicklung** wurde in diesem Projekt eine Implementierung der beliebten Brettspiel-Adaption **Star Pilots** als Desktop-Spiel für den PC entwickelt. Das Originalspiel wurde von **Luc Rémond** entworfen und 2023 von **Le Scorpion Masqué** veröffentlicht. Zudem erhielt es den Preis **Spiel des Jahres 2024**. Das Hauptziel des Projekts war es, ein funktionierendes, optimiertes und ästhetisch ansprechendes Spiel zu schaffen.
+#### 1. Round Preparation
+Before each round you may discuss plans and strategies. During the round, communication is forbidden — each player acts independently.
 
-## 💻 Verwendete Technologien:
-- **Java 21** – für die Implementierung der internen Spiellogik.
-- **LibGDX** – für die Umsetzung der grafischen Komponenten.
+#### 2. Placing Dice
+- **Pilot** may only place dice on **blue fields**, **Co-Pilot** only on **orange fields**.
+- Both players may place dice on **coffee fields**.
+- Dice are placed in turns. You cannot see the other player's dice.
 
-## 👥 Wer hat das Projekt erstellt?
-Das Projekt wurde von **Team A** entwickelt.
+#### 3. Coffee and Reroll Tokens
+- Use a **coffee token** to change a die value by **+1 or -1**.
+- Use a **reroll token** to re-roll one of your dice.
 
-Das Team bestand aus zwei Personen: **Nataliia Shcherba** und **Nikolai Krysin**. Alle notwendigen Aufgaben wurden gleichmäßig zwischen den Mitgliedern aufgeteilt. Jeder übernahm in jedem Moment die Aufgaben, die entweder am dringendsten waren oder für die mehr Interesse bestand: von der Entwicklung der Architektur, Implementierung und Tests bis hin zur finalen Verfeinerung der Dokumentation.
+#### 4. Activating Systems
+- **Landing gear:** Can be activated in any order.
+- **Brakes:** Must be activated strictly in order **2 → 4 → 6**.
+- **Flaps:** Must also be activated in the required order.
 
-## ⚙️ Herausforderungen im Projekt
+#### 5. Challenges
+- **Altitude:** The spaceship descends by **1000 meters (1 unit)** each round.
+- **Tilt:** The spaceship must not deviate more than **2 units** left or right.
+- **Speed:** Keep the speed under control and brake in time.
+- **Collisions:** Clear the path using rockets to avoid asteroids.
 
-1. **Großer Arbeitsumfang:** Der Umfang des Projekts stellte an sich bereits eine Herausforderung dar.
+### Win Conditions
+The final round begins when:
+- The **landing zone icon** appears at your **current position**.
+- The **spaceship icon** appears at your **current altitude**.
 
-2. **Notwendigkeit, alle Aspekte zu testen:** Insbesondere die Logik des Spiels erforderte umfangreiche Tests. Da zu Beginn kein GUI vorhanden war, wurde die Spiel-Logik über Konsolenausgaben getestet. Obwohl diese Methode praktikabel erschien, war es jedes Mal frustrierend, nach vielen Versuchen immer wieder neue Bugs zu entdecken.
+You win if at the end of the final round:
+1. **No asteroids remain on the approach track**
+2. **Landing gear and flaps show green**
+3. **The spaceship is perfectly level**
+4. **Speed is lower than braking power**
 
-3. **LibGDX:** Der Framework bietet viele Möglichkeiten, aber etwas optisch ansprechend zu gestalten, ist eine ganz andere Herausforderung. Die Fehlersuche nach der Implementierung des GUI war eine besonders "spannende" Abendbeschäftigung.
+- `lwjgl3`: Desktop platform using LWJGL3.
+- `teavm`: Web platform compiled to JavaScript via TeaVM.
 
-## 💡 Interessante Lösungen im Projekt
-
-- **🛠️ Modularität:** Die Idee bestand darin, relativ unabhängige Komponenten wie Spieler, Flugzeug oder Szenarien zu erstellen und sie anschließend über eine separate Klasse **"Spiel"** zu verbinden. Dadurch können neue Funktionen, wie z. B. die Eingabe eines Spielernamens, problemlos in das Projekt integriert werden. Die Modularität zeigt sich auch in der Möglichkeit, neue Spielszenarien hinzuzufügen. Um ein neues Szenario zu integrieren, sind nur vier einfache Schritte erforderlich:
-    1. Das neue Szenario in die Datei `routes.txt` hinzufügen.
-    2. Das Szenario in die ENUM-Klasse `Route` eintragen.
-    3. Den neuen Fall im `setSzenario`-Methodenblock der Klasse `Spiel` einfügen.
-    4. Eine neue Taste im `ScenarioSelectionScreen` hinzufügen und das passende Bild in den Ordner `images/szenario/` legen.
-
-  Diese Schritte ermöglichen die Auswahl eines neuen Szenarios, ohne den Pfad zur Datei manuell angeben zu müssen!
-
-- **🚀 Optimierung:** Das Spiel wurde für Monitore mit einer Auflösung von **1920x1080** optimiert, was dem Industriestandard entspricht und in den meisten Haushalten vorhanden sein dürfte.
-
-  Außerdem wurde auf eine effiziente Nutzung der PC-Ressourcen geachtet: Während der ersten Tests wurde festgestellt, dass der häufige Aufruf kleiner Texturen (85x85 Pixel, 8KB) selbst auf einem System mit **Ryzen 7** und **16 GB RAM** FPS-Drops verursachen konnte, was in der modernen Welt inakzeptabel ist. Zur Lösung dieses Problems wurde die Klasse **TextureCache** implementiert, die eine **HashMap** verwendet. Dabei dient der Pfad der Textur als Schlüssel und die Textur selbst als Wert. Diese Implementierung ist ein hervorragendes Beispiel für die Nutzung der Vorteile einer HashMap: konstante Suchzeiten und garantierte Eindeutigkeit.
-
-  In der Klasse **SpielGUI** wurde der `switchTexture`-Methodenblock eingeführt, der die Textur einer Schaltfläche durch eine andere ersetzt, indem er sie aus dem Cache abruft. Das Ergebnis: Das Spiel kann stundenlang ohne FPS-Einbrüche oder Abstürze gespielt werden.
-
-- **👂 SpielGUI Listener Integration:** SpielGUI fungiert als eine zentrale Komponente, der Spieleraktionen erkennt und den registrierten Listener benachrichtigt.
-Ein einzelner Listener wird über die Methode `setPlayerActionCallback` registriert, wobei SpielControllerGUI seine Implementierung des Interfaces `PlayerActionCallback` bereitstellt.
-Sobald ein Spieler eine Aktion abgeschlossen hat (das Platzieren eines Würfels), ruft SpielGUI die Methode `onPlayerActionCompleted` in SpielControllerGUI auf, wodurch die Spiellogik (der Übergang zum nächsten Spielschritt durch `spielenSchritt`) ausgeführt wird.
-Dieser Ansatz vereinfacht die Ereignisverarbeitung, hält GUI und Spiellogik lose gekoppelt und sorgt für eine klare Trennung der Verantwortlichkeiten.
-
-
-# 📜 Star Pilots – Spielregeln
-
-**Star Pilots** ist ein kooperatives Brettspiel für zwei Spieler, bei dem Sie gemeinsam ein Flugzeug steuern, um es sicher zu landen.
-
-## 🎯 Ziel des Spiels:
-Das Ziel ist es, das Flugzeug erfolgreich zu landen, indem Sie alle Phasen des Sinkflugs und der Landung meistern. Dabei müssen Sie die Kontrolle über Höhe, Geschwindigkeit, Fahrgestell, Klappen und andere Systeme behalten, Kollisionen mit anderen Flugzeugen vermeiden und den Flughafen im richtigen Moment erreichen.
-
-## 📖 Vollständige Regeln:
-Das Buch mit dem vollständigen Regeln kann hier gefunden werden:
-- 🇬🇧 **[Englische Regeln](https://www.scorpionmasque.com/sites/scorpionmasque.com/files/st_rules01_en_06jun2023.pdf)**
-- 🇩🇪 **[Deutsche Regeln](https://cms.kosmos.de/Downloads/4002051684044%20_Sky%20Team_Manual_01_DE_web.pdf)**
-
-## 🎮 Spielablauf:
-
-### 1. Vorbereitung einer Runde:
-Vor Beginn jeder Runde können Sie Ihre Pläne und Strategien besprechen. Während der Runde ist jedoch jegliche Kommunikation verboten, und jeder Spieler handelt eigenständig.
-
-### 2. Platzieren der Würfel:
-- **Pilot** darf Würfel nur auf **blaue Felder** legen, **Kopilot** nur auf **orange Felder**.
-- Auf **Kaffeefelder** dürfen beide Spieler Würfel legen.
-- Würfel werden abwechselnd platziert, und es ist nicht erlaubt, die Würfel des anderen Spielers zu sehen.
-
-### 3. Verwendung von Kaffee und Neuwurf:
-- Sie können jederzeit ein **Kaffeetoken** verwenden, um den Wert eines Würfels um **+1 oder -1** zu verändern.
-- Mit einem **Neuwurf-Token** kann ein Spieler einen seiner Würfel erneut würfeln.
-
-### 4. Aktivierung von Systemen:
-- **Fahrgestell:** Kann in beliebiger Reihenfolge aktiviert werden.
-- **Bremsen:** Müssen streng in der Reihenfolge **2 → 4 → 6** aktiviert werden.
-- **Klappen:** Müssen ebenfalls in der vorgegebenen Reihenfolge aktiviert werden.
-
-### 5. Besondere Herausforderungen:
-- **Höhe:** Die Höhe des Flugzeugs sinkt in jeder Runde automatisch um **1000 Meter (1 Einheit)**.
-- **Fluglage:** Das Flugzeug darf nicht mehr als **2 Einheiten** nach links oder rechts abweichen.
-- **Geschwindigkeit:** Achten Sie darauf, dass die Geschwindigkeit kontrolliert bleibt und rechtzeitig gebremst wird.
-- **Kollisionen:** Räumen Sie den Weg über das Funkgerät frei, um Kollisionen mit anderen Flugzeugen zu vermeiden.
-
-## 🏆 Gewinnbedingungen:
-Die letzte Runde beginnt, sobald:
-- Das **Flughafen-Bild** auf Ihrer **Aktuellen Position** ist.
-- Das **Flugzeug-Bild** auf Ihrer **Aktuellen Höhe** ist.
-
-Sie gewinnen das Spiel, wenn am Ende der letzten Runde folgende Bedingungen erfüllt sind:
-1. **Kein Flugzeug verbleibt auf der Entfernungsliste**
-2. **Fahrgestell und Klappen grünes Licht zeigen**
-3. **Das Flugzeug ist genau waagerecht ausgerichtet**
-4. **Die Geschwindigkeit ist geringer als die Stärke der Bremsen**
-
-**Glückwunsch!** Wenn alle Kriterien erfüllt sind, applaudieren die Passagiere begeistert, und Sie haben das Spiel gewonnen! 🎉
-
-# LibGDX default README
-
-A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
-
-This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.
-
-## Platforms
-
-- `core`: Main module with the application logic shared by all platforms.
-- `lwjgl3`: Primary desktop platform using LWJGL3; was called 'desktop' in older docs.
-
-## Gradle
-
-This project uses [Gradle](https://gradle.org/) to manage dependencies.
-The Gradle wrapper was included, so you can run Gradle tasks using `gradlew.bat` or `./gradlew` commands.
-Useful Gradle tasks and flags:
-
-- `--continue`: when using this flag, errors will not stop the tasks from running.
-- `--daemon`: thanks to this flag, Gradle daemon will be used to run chosen tasks.
-- `--offline`: when using this flag, cached dependency archives will be used.
-- `--refresh-dependencies`: this flag forces validation of all dependencies. Useful for snapshot versions.
-- `build`: builds sources and archives of every project.
-- `cleanEclipse`: removes Eclipse project data.
-- `cleanIdea`: removes IntelliJ project data.
-- `clean`: removes `build` folders, which store compiled classes and built archives.
-- `eclipse`: generates Eclipse project data.
-- `idea`: generates IntelliJ project data.
-- `lwjgl3:jar`: builds application's runnable jar, which can be found at `lwjgl3/build/libs`.
-- `lwjgl3:run`: starts the application.
-- `test`: runs unit tests (if any).
-
-Note that most tasks that are not specific to a single project can be run with `name:` prefix, where the `name` should be replaced with the ID of a specific project.
-For example, `core:clean` removes `build` folder only from the `core` project.
+Useful commands:
+- `lwjgl3:run` — start the desktop application.
+- `teavm:buildWeb` — compile the game to JavaScript for web deployment.
+- `lwjgl3:jar` — build a runnable jar at `lwjgl3/build/libs`.
+- `test` — run unit tests.
