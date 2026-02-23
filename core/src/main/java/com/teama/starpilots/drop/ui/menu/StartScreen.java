@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.teama.starpilots.drop.MainBk;
 import com.teama.starpilots.drop.ui.constants.TexturePaths;
-import com.teama.starpilots.drop.ui.settings.SettingsManager;
 
 public class StartScreen implements Screen {
     private final MainBk main;
@@ -21,9 +20,6 @@ public class StartScreen implements Screen {
 
     @Override
     public void show() {
-        if (SettingsManager.isMusicEnabled() && !main.menuMusic.isPlaying()) {
-            main.menuMusic.play();
-        }
         viewport = new FitViewport(1920, 1080);
         batch = new SpriteBatch();
         startScreenLogoTexture = new Texture(TexturePaths.START_SCREEN_LOGO);

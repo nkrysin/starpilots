@@ -3,15 +3,12 @@ package com.teama.starpilots.drop;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.teama.starpilots.drop.ui.menu.StartScreen;
-import com.teama.starpilots.drop.ui.settings.SettingsManager;
 import com.teama.starpilots.drop.ui.utilities.TextureCache;
 
 public class MainBk extends ApplicationAdapter {
 
-    public Music menuMusic;
     private Screen currentScreen;
     private int lastWidth = 0;
     private int lastHeight = 0;
@@ -36,10 +33,6 @@ public class MainBk extends ApplicationAdapter {
     // Initialisiert die Hintergrundmusik des Hauptmenüs.
     @Override
     public void create() {
-        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/main_menu.mp3"));
-        menuMusic.setLooping(true);
-        menuMusic.setVolume(SettingsManager.getMusicVolume());
-        SettingsManager.applySettings();
         setScreen(new StartScreen(this));
     }
 
@@ -85,6 +78,5 @@ public class MainBk extends ApplicationAdapter {
     public void dispose() {
         super.dispose();
         TextureCache.dispose();
-        menuMusic.dispose();
     }
 }

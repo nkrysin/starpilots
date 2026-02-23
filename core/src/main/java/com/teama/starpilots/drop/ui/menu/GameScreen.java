@@ -18,12 +18,12 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.teama.starpilots.drop.MainBk;
 import com.teama.starpilots.drop.domain.model.game.Game;
-import com.teama.starpilots.drop.ui.flow.GameFlowController;
-import com.teama.starpilots.drop.ui.view.CampaignAltitudeView;
 import com.teama.starpilots.drop.ui.constants.TexturePaths;
 import com.teama.starpilots.drop.ui.constants.UILayout;
+import com.teama.starpilots.drop.ui.flow.GameFlowController;
 import com.teama.starpilots.drop.ui.utilities.InputController;
 import com.teama.starpilots.drop.ui.utilities.TextureCache;
+import com.teama.starpilots.drop.ui.view.CampaignAltitudeView;
 
 public class GameScreen implements Screen {
     private final MainBk main;
@@ -46,10 +46,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        if (main.menuMusic.isPlaying()) {
-            main.menuMusic.stop();
-        }
-
         batch = new SpriteBatch();
 
         tableTexture = TextureCache.get(TexturePaths.TABLE_PATH);

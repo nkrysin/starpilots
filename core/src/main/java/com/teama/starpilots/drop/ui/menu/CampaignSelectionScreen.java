@@ -28,9 +28,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.teama.starpilots.drop.MainBk;
 import com.teama.starpilots.drop.domain.model.campaign.Campaign;
 import com.teama.starpilots.drop.domain.model.game.Game;
-import com.teama.starpilots.drop.ui.constants.TexturePaths;
 import com.teama.starpilots.drop.domain.model.game.GameConstructor;
-import com.teama.starpilots.drop.ui.settings.SettingsManager;
+import com.teama.starpilots.drop.ui.constants.TexturePaths;
 
 class CampaignSelectionScreen implements Screen {
     private final MainBk main;
@@ -46,9 +45,6 @@ class CampaignSelectionScreen implements Screen {
 
     @Override
     public void show() {
-        if (SettingsManager.isMusicEnabled() && !main.menuMusic.isPlaying()) {
-            main.menuMusic.play();
-        }
         FitViewport viewport = new FitViewport(1920, 1080);
         this.stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);

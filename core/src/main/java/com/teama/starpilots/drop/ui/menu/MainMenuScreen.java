@@ -19,7 +19,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.teama.starpilots.drop.MainBk;
 import com.teama.starpilots.drop.ui.constants.TexturePaths;
-import com.teama.starpilots.drop.ui.settings.SettingsManager;
 
 public class MainMenuScreen implements Screen {
     private final MainBk main;
@@ -34,9 +33,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-        if (SettingsManager.isMusicEnabled() && !main.menuMusic.isPlaying()) {
-            main.menuMusic.play();
-        }
         FitViewport viewport = new FitViewport(1920, 1080);
         this.stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
@@ -55,27 +51,8 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-        TextButton settingsButton = new TextButton("Settings", blueButtonStyle);
-        settingsButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                main.setScreen(new SettingsScreen(main));
-            }
-        });
-
-
-        TextButton exitButton = new TextButton("Exit", blueButtonStyle);
-        exitButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
-            }
-        });
-
         float buttonWidth = 350f;
         table.add(startButton).width(buttonWidth).pad(20).row();
-        table.add(settingsButton).width(buttonWidth).pad(20).row();
-        table.add(exitButton).width(buttonWidth).pad(20).row();
 
         batch = new SpriteBatch();
         logo = new Texture(TexturePaths.LOGO_PATH);

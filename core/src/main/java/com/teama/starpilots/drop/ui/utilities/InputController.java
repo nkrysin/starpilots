@@ -4,12 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.teama.starpilots.drop.MainBk;
 import com.teama.starpilots.drop.ui.constants.TexturePaths;
 import com.teama.starpilots.drop.ui.constants.UILayout;
@@ -56,7 +58,6 @@ public class InputController {
 
         TextButton resumeButton = new TextButton("Resume", blueButtonStyle);
         TextButton returnButton = new TextButton("Return to menu", blueButtonStyle);
-        TextButton exitButton = new TextButton("Exit", blueButtonStyle);
 
         resumeButton.addListener(new ClickListener() {
             @Override
@@ -72,17 +73,9 @@ public class InputController {
             }
         });
 
-        exitButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                exitGame();
-            }
-        });
-
         float buttonWidth = 350f;
         table.add(resumeButton).width(buttonWidth).pad(20).row();
         table.add(returnButton).width(buttonWidth).pad(20).row();
-        table.add(exitButton).width(buttonWidth).pad(20).row();
 
         pauseStage.addActor(table);
     }
@@ -145,10 +138,6 @@ public class InputController {
         isPaused = false;
         Gdx.input.setInputProcessor(stage);
         main.setScreen(new MainMenuScreen(main));
-    }
-
-    private void exitGame() {
-        Gdx.app.exit();
     }
 
     public void dispose() {
