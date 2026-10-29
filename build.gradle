@@ -1,16 +1,11 @@
-buildscript {
-  repositories {
-    mavenCentral()
-    maven { url 'https://s01.oss.sonatype.org' }
-    gradlePluginPortal()
-    mavenLocal()
-    google()
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
-  }
-  dependencies {
-
-
+tasks.register('generateAssetList') {
+  def assets = fileTree('assets') { exclude 'assets.txt' }
+  inputs.files(assets)
+  outputs.file('assets/assets.txt')
+  doLast {
+    file('assets/assets.txt').text = assets.collect {
+      file('assets').toPath().relativize(it.toPath()).toString().replace('\\', '/')
+    }.sort().join('\n') + '\n'
   }
 }
 
@@ -31,25 +26,7 @@ configure(subprojects) {
   apply plugin: 'java-library'
   sourceCompatibility = 21
 
-  // From https://lyze.dev/2021/04/29/libGDX-Internal-Assets-List/
-  // The article can be helpful when using assets.txt in your project.
-  tasks.register('generateAssetList') {
-    inputs.dir("${project.rootDir}/assets/")
-    // projectFolder/assets
-    File assetsFolder = new File("${project.rootDir}/assets/")
-    // projectFolder/assets/assets.txt
-    File assetsFile = new File(assetsFolder, "assets.txt")
-    // delete that file in case we've already created it
-    assetsFile.delete()
-
-    // iterate through all files inside that folder
-    // convert it to a relative path
-    // and append it to the file assets.txt
-    fileTree(assetsFolder).collect { assetsFolder.relativePath(it) }.sort().each {
-      assetsFile.append(it + "\n")
-    }
-  }
-  processResources.dependsOn 'generateAssetList'
+  processResources.dependsOn rootProject.tasks.named('generateAssetList')
 
   compileJava {
     options.incremental = true
@@ -57,17 +34,22 @@ configure(subprojects) {
 }
 
 subprojects {
-  version = '$projectVersion'
+  version = projectVersion
   ext.appName = 'StarPilots'
   repositories {
     mavenCentral()
-    maven { url 'https://s01.oss.sonatype.org' }
-    // You may want to remove the following line if you have errors downloading dependencies.
-    mavenLocal()
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
-    maven { url 'https://jitpack.io' }
   }
 }
 
 eclipse.project.name = 'StarPilots' + '-parent'
+
+// Scan resolved jars rather than guessing dependencies from Gradle source files.
+tasks.register('copyAuditDependencies', Sync) {
+  into layout.buildDirectory.dir('audit-dependencies')
+  from { subprojects.collect { project ->
+    project.configurations.runtimeClasspath.resolvedConfiguration.resolvedArtifacts.findAll {
+      it.id.componentIdentifier instanceof org.gradle.api.artifacts.component.ModuleComponentIdentifier
+    }.collect { it.file }
+  } }
+  from { subprojects.collect { it.buildscript.configurations.classpath } }
+}

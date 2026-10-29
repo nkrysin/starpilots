@@ -1,5 +1,17 @@
 # Star Pilots by Team-A
 
+This checkout uses the `docker-version` deployment branch: no music playback, Settings screen or Exit buttons. Keep this branch as the source of the website game.
+
+Java 21 is required for compilation. Build and validate web output before building the static runtime image:
+
+```sh
+./gradlew :teavm:buildWeb :lwjgl3:classes copyAuditDependencies --no-daemon --max-workers=2
+node scripts/check-web.mjs
+docker build -t star-pilots .
+```
+
+Run builds on a development machine or CI runner. The production container only serves static files; restarting it does not run Gradle. GitHub Checks validates PR/push/manual runs but does not publish or deploy images yet. See [SECURITY-AUDIT.md](SECURITY-AUDIT.md), including the remaining Jetty build-tool findings and default-branch automation requirements.
+
 ## How to Start the Project
 
 ### Desktop

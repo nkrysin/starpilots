@@ -1,8 +1,9 @@
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 dependencies {
+    implementation platform('org.eclipse.jetty:jetty-bom:11.0.26')
     implementation project(':core')
-    implementation "com.github.xpenatan.gdx-teavm:backend-web:1.5.1"
+    implementation "com.github.xpenatan.gdx-teavm:backend-web:1.6.2"
 }
 
 // Compiles the game to JavaScript via TeaVM.

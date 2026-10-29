@@ -1,0 +1,10 @@
+.git
+.gradle
+.idea
+build
+core
+lwjgl3
+assets
+gradle
+gradlew*
+*.md

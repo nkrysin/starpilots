@@ -1,0 +1,24 @@
+version: 2
+updates:
+  - package-ecosystem: gradle
+    directory: /
+    target-branch: docker-version
+    schedule:
+      interval: daily
+    cooldown:
+      default-days: 2
+    open-pull-requests-limit: 5
+  - package-ecosystem: docker
+    directory: /
+    target-branch: docker-version
+    schedule:
+      interval: daily
+    cooldown:
+      default-days: 2
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: docker-version
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 2

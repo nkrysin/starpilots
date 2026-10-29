@@ -1,7 +1,7 @@
 package com.teama.starpilots.drop.teavm;
 
 import com.github.xpenatan.gdx.teavm.backends.shared.config.AssetFileHandle;
-import com.github.xpenatan.gdx.teavm.backends.shared.config.compiler.TeaCompiler;
+import com.github.xpenatan.gdx.teavm.backends.shared.config.builder.TeaBuilder;
 import com.github.xpenatan.gdx.teavm.backends.web.config.backend.WebBackend;
 import org.teavm.vm.TeaVMOptimizationLevel;
 
@@ -17,7 +17,7 @@ public class BuildStarPilots {
     public static void main(String[] args) throws Exception {
         AssetFileHandle assetsPath = new AssetFileHandle("../assets");
 
-        new TeaCompiler(new WebBackend())
+        new TeaBuilder(new WebBackend().setStartJettyAfterBuild(false))
             .addAssets(assetsPath)
             .setOptimizationLevel(TeaVMOptimizationLevel.SIMPLE)
             .setMainClass(StarPilotsWebLauncher.class.getName())
