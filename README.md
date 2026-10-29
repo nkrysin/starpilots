@@ -10,7 +10,9 @@ node scripts/check-web.mjs
 docker build -t star-pilots .
 ```
 
-Run builds on a development machine or CI runner. The production container only serves static files; restarting it does not run Gradle. GitHub Checks validates PR/push/manual runs but does not publish or deploy images yet. See [SECURITY-AUDIT.md](SECURITY-AUDIT.md), including the remaining Jetty build-tool findings and default-branch automation requirements.
+Run builds on a development machine or CI runner. The production container only serves static files; restarting it does not run Gradle. The static JavaScript builder uses the backend's lifecycle hook without constructing its optional Jetty preview server. Jetty dependencies are removed, and buildWeb rejects a classpath that brings them back. Serve the output through Docker/Nginx rather than the removed preview server.
+
+GitHub Checks validates PR/push/manual runs but does not publish or deploy images yet. See [SECURITY-AUDIT.md](SECURITY-AUDIT.md) for current scan results and default-branch automation requirements.
 
 ## How to Start the Project
 

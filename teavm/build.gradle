@@ -1,9 +1,12 @@
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 dependencies {
-    implementation platform('org.eclipse.jetty:jetty-bom:11.0.26')
     implementation project(':core')
-    implementation "com.github.xpenatan.gdx-teavm:backend-web:1.6.2"
+    implementation("com.github.xpenatan.gdx-teavm:backend-web:1.6.2") {
+        // The static builder never starts the backend's Jetty preview server.
+        exclude group: 'org.eclipse.jetty'
+        exclude group: 'org.eclipse.jetty.toolchain'
+    }
 }
 
 // Compiles the game to JavaScript via TeaVM.
@@ -15,4 +18,10 @@ tasks.register('buildWeb', JavaExec) {
     mainClass.set('com.teama.starpilots.drop.teavm.BuildStarPilots')
     classpath = sourceSets.main.runtimeClasspath
     workingDir = project.projectDir
+    doFirst {
+        def jetty = configurations.runtimeClasspath.resolvedConfiguration.resolvedArtifacts.findAll {
+            it.moduleVersion.id.group.startsWith('org.eclipse.jetty')
+        }
+        if (!jetty.empty) throw new GradleException("Static web build must not depend on Jetty: ${jetty*.name}")
+    }
 }
